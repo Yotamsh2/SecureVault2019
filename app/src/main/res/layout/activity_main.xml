@@ -1,18 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".securevault2019.MainActivity">
+    android:orientation="vertical"
+    android:background="@drawable/sign_in_background"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/logo"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="90dp" />
+
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/edit_text_style"
+            android:hint="@string/user_name"
+            android:textAlignment="center"
+            android:id="@+id/userName"/>
+
+
+        <EditText
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_text_style"
+            android:hint="@string/password"
+            android:textAlignment="center"
+            android:id="@+id/password" />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_style"
+            android:text="@string/sign_in"
+            android:textColor="@color/editText"
+            android:onClick="signIn"
+            android:id="@+id/signIn"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@null"
+            android:textColor="@color/editText"
+            android:textColorHighlight="@color/btn_firstColor"
+            android:text="@string/create_vault"
+            android:onClick="signUp"/>
+
+</LinearLayout>
