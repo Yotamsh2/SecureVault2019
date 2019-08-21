@@ -5,7 +5,7 @@ import androidx.room.Entity;
 
 @Entity
 public class BankAccount extends Record {
-    // test
+
 
     @PrimaryKey(autoGenerate = true)
     public int recordID;
