@@ -11,30 +11,45 @@ public class CreditCard extends Record {
 
     //exclusive variables
     private int cardNumber;
+    private int CVV;
+    private int expireYear;
+    private int expireMonth;
 
-    /* ------------------------------------
-     A DILEMA:
-    make a new object that will return the card-expiring-date?
-    for example:
 
-    private ValidThru VT.year
-    private ValidThru VT.month
+    // Constructor
+    public CreditCard() {
+        setCardNumber(cardNumber);
+        setCVV(CVV);
+        setTitle(title);
+        // Card expiring date
+        setExpireMonth(expireMonth);
+        setExpireYear(expireYear);
 
-    or
+        setDateCreated(dateCreated);
+        setLastModified(lastModified);
 
-    private int expireYear
-    private int expireMonth
 
-    or
-
-    private String expiringDate
-    ---------------------------------------*/
-
-    public CreditCard(int cardNumber) { //more components to be added
-        //setters
     }
 
-    //setters
+
+    // Setters
+
+
+    public void setCardNumber(int cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setCVV(int CVV) {
+        this.CVV = CVV;
+    }
+
+    public void setExpireYear(int expireYear) {
+        this.expireYear = expireYear;
+    }
+
+    public void setExpireMonth(int expireMonth) {
+        this.expireMonth = expireMonth;
+    }
 
     //override setters
     @Override
@@ -82,7 +97,24 @@ public class CreditCard extends Record {
 
     }
 
-    //getters
+    // Getters
+
+
+    public int getCardNumber() {
+        return cardNumber;
+    }
+
+    public int getCVV() {
+        return CVV;
+    }
+
+    public int getExpireYear() {
+        return expireYear;
+    }
+
+    public int getExpireMonth() {
+        return expireMonth;
+    }
 
     //override getters
     @Override

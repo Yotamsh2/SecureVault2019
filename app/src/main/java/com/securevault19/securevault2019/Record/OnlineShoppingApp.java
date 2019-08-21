@@ -4,144 +4,138 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class Email extends Record {
+public class OnlineShoppingApp extends Record {
+
 
     @PrimaryKey(autoGenerate = true)
-    private int recordID;
+    public int recordID;
 
-    //exclusive variables
+
+    // Exclusive variables
     private String userName;
-    private String serviceName;
 
-    public Email() {
+
+    // Constructor
+
+    public OnlineShoppingApp() {
         setUserName(userName);
-        setWebsite(website);
+        setPassword(password);
         setTitle(title);
+        setWebsite(website);
         setDateCreated(dateCreated);
         setLastModified(lastModified);
         setExpiringDate(expiringDate);
+
+
     }
 
-    //setters
+    // Setters
+
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
+    // Override Setters
 
-
-    public void setServiceName(String serviceName) {
-        this.serviceName = serviceName;
-    }
-
-    //override setters
     @Override
     public void setRecordID(int recordID) {
-        this.recordID = recordID;
+
     }
 
     @Override
     public void setTitle(String title) {
-        this.title = title;
+
     }
 
     @Override
     public void setPassword(String password) {
-        //sends to complicated functions(Cryptographic module)
-        this.password = password;
+
     }
 
     @Override
     public void setWebsite(String website) {
-        //invokes String from suitable text field
-        this.website = website;
+
     }
 
     @Override
     public void setEmail(String email) {
-        //invokes String from suitable text field
-        this.email = email;
 
     }
 
     @Override
     public void setExpiringDate(String expiringDate) {
-        //by whatever way we choose
-        this.expiringDate = expiringDate;
+
     }
 
     @Override
     public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+
     }
 
     @Override
     public void setLastModified(String lastModified) {
-        this.lastModified = lastModified;
+
     }
 
     @Override
-    public void setCategory(String category) { //NO NEED
+    public void setCategory(String category) {
 
     }
 
-    //getters
+
+    // Getters
+
+
     public String getUserName() {
         return userName;
     }
 
+    // Override Getters
 
-
-
-    public String getServiceName() {
-        return serviceName;
-    }
-
-    //override getters
     @Override
     public int getRecord_ID() {
-        return recordID;
+        return 0;
     }
 
     @Override
     public String getTitle() {
-        return title;
+        return null;
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return null;
     }
 
     @Override
     public String getWebsite() {
-        return website;
+        return null;
     }
 
     @Override
     public String getEmail() {
-        return email;
+        return null;
     }
 
     @Override
     public String getExpiringDate() {
-        return expiringDate;
+        return null;
     }
 
     @Override
     public String getDateCreated() {
-        return dateCreated;
+        return null;
     }
 
     @Override
     public String getLastModified() {
-        return lastModified;
+        return null;
     }
 
     @Override
     public String getCategory() {
-        return category;
+        return null;
     }
-
 
     @Override
     public void addCategory() {

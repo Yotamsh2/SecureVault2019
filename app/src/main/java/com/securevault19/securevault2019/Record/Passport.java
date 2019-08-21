@@ -9,7 +9,8 @@ public class Passport extends Record {
 
     //exclusive variables
     private int passportNumber;
-    private String issuanceDate; //will be an object like drivingLicence and creditCard?
+    private String issuanceDate;
+    //to add expiring date
     private String issuancePlace;
 
     public Passport() {

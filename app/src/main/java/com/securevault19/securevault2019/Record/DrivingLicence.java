@@ -9,34 +9,49 @@ public class DrivingLicence extends Record {
 
     //exclusive variables
     private int licenceNumber;
+    private int expireYear;
+    private int expireMonth;
+    private int expireDay;
 
 
-    /* ---For valid-thru date and issuance-date-------
-     A DILEMA:
-    make a new object that will return the date?
-    for example:
 
-    private ValidThru;   (that includes: VT.year , VT.month , VT.day)
 
-    or
-
-    private int expireYear
-    private int expireMonth
-    private int expireDay
-
-    or
-
-    private String expiringDate
-    ---------------------------------------*/
+// Constructor
 
     public DrivingLicence(){
-        //setters
+        setLicenceNumber(licenceNumber);
+        setExpireDay(expireDay);
+        setExpireMonth(expireMonth);
+        setExpireYear(expireYear);
+        setTitle(title);
+        setWebsite(website);        // website of goverment of driving licence gov.co.il?
+        setExpiringDate(expiringDate);
+        setLastModified(lastModified);
+
 
     }
 
-    //setters
+    // Setters
 
-    //override setters
+
+    public void setLicenceNumber(int licenceNumber) {
+        this.licenceNumber = licenceNumber;
+    }
+
+    public void setExpireYear(int expireYear) {
+        this.expireYear = expireYear;
+    }
+
+    public void setExpireMonth(int expireMonth) {
+        this.expireMonth = expireMonth;
+    }
+
+    public void setExpireDay(int expireDay) {
+        this.expireDay = expireDay;
+    }
+
+    // Override setters
+
     @Override
     public void setRecordID(int recordID) {
 
@@ -82,9 +97,27 @@ public class DrivingLicence extends Record {
 
     }
 
-    //getters
+    // Getters
 
-    //override getters
+
+    public int getLicenceNumber() {
+        return licenceNumber;
+    }
+
+    public int getExpireYear() {
+        return expireYear;
+    }
+
+    public int getExpireMonth() {
+        return expireMonth;
+    }
+
+    public int getExpireDay() {
+        return expireDay;
+    }
+
+    // Override getters
+
     @Override
     public int getRecord_ID() {
         return 0;

@@ -6,6 +6,7 @@ import androidx.room.Entity;
 @Entity
 public class BankAccount extends Record {
 
+
     @PrimaryKey(autoGenerate = true)
     public int recordID;
 
@@ -25,6 +26,7 @@ public class BankAccount extends Record {
         setBankNumber(bankNumber);
         setAddress(address);
         setExpiringDate(expiringDate);
+        setLastModified(lastModified);
     }
 
     //setters
@@ -81,6 +83,7 @@ public class BankAccount extends Record {
     @Override
     public void setExpiringDate(String expiringDate) {
         //by whatever way we choose
+        //timer for example
     }
 
     public void setDateCreated(String dateCreated){}
