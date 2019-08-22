@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Secure Vault 2019</string>
+    <string name="sign_in">Sign In</string>
+    <string name="user_name">User Name</string>
+    <string name="password">Password</string>
+    <string name="create_vault">Sign Up and Create Your Own Vault</string>
+    <string name="add_record">+ Create Record</string>
 </resources>
