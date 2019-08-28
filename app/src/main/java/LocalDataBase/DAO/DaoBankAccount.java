@@ -30,5 +30,4 @@ public interface DaoBankAccount {
     LiveData<List<BankAccount>> getAllRecords();
 
 
-
 }
