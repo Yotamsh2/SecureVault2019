@@ -74,16 +74,16 @@
             android:layout_weight="10"
             android:useDefaultMargins="true">
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="fill"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight=""
-                android:background="@drawable/category_btn_style"
-                >
-            </Button>
+            <!--<Button-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_gravity="fill"-->
+                <!--android:layout_rowWeight="1"-->
+                <!--android:layout_columnWeight=""-->
+                <!--android:background="@drawable/category_btn_style"-->
+                <!--&gt;-->
+            <!--</Button>-->
 
 
             <Button

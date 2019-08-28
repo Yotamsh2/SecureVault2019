@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--<shape xmlns:android="http://schemas.android.com/apk/res/android">-->
+        <!--<gradient android:startColor="@color/back_firstColor"-->
+            <!--android:centerColor="@color/back_secondColor"-->
+            <!--android:endColor="@color/back_lastColor"> </gradient>-->
+    <!--</shape>-->
+
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:drawable="@drawable/sign_in_background"
+            android:gravity="fill">
+        </item>
+</layer-list>
