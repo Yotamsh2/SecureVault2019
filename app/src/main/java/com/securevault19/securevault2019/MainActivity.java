@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
 
          final EditText userName = findViewById(R.id.userName);
          final EditText password = findViewById(R.id.password);
-         final Button buttontnsignIn = findViewById(R.id.signIn);
+         final Button buttontnSignIn = findViewById(R.id.signIn);
         counter = 3;
 
-        buttontnsignIn.setOnClickListener(new View.OnClickListener(){
+        buttontnSignIn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
                     if (counter==0){
                         Toast.makeText(getApplicationContext(), "Application Login Blocked", Toast.LENGTH_LONG).show();
-                        buttontnsignIn.setClickable(false);
+                        buttontnSignIn.setClickable(false);
 
-                        buttontnsignIn.setBackground(Drawable.createFromPath("btn_not_clickable_style"));
+                        buttontnSignIn.setBackground(Drawable.createFromPath("btn_not_clickable_style"));
                     }
                     //wrong password
                 }
