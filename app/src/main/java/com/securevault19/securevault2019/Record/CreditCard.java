@@ -3,7 +3,7 @@ package com.securevault19.securevault2019.Record;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity (tableName = "creditCard_table")
 public class CreditCard extends Record {
 
     @PrimaryKey(autoGenerate = true)

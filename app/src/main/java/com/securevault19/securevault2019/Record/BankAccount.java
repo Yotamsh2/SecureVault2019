@@ -3,7 +3,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.Entity;
 
 
-@Entity
+@Entity (tableName = "bankAccount_table")
 public class BankAccount extends Record {
 
 
@@ -12,12 +12,12 @@ public class BankAccount extends Record {
 
     //exclusive variables
     private String userName;
-    private long IBAN;
     private int accountNumber;
+    private long IBAN;
     private int bankNumber;
     private String address;
 
-    public BankAccount(){
+    public BankAccount(){ //Why the constructor does't receive the fields???
         setTitle(title);
         setUserName(userName);
         setPassword(password);
