@@ -1,7 +1,8 @@
 package com.securevault19.securevault2019.Record;
 
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
+@Entity(tableName = "password_table")
 public class Passport extends Record {
 
     @PrimaryKey(autoGenerate = true)

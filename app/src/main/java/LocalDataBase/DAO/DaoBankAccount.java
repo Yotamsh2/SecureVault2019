@@ -24,11 +24,10 @@ public interface DaoBankAccount {
     void delete(BankAccount bankAccount);
 
     @Query("DELETE FROM bankAccount_table")
-    void deleteAllRecords();
+    void deleteAllBankAccountRecords();
 
     @Query("SELECT * FROM bankAccount_table ORDER BY priority DESC")
-    LiveData<List<BankAccount>> getAllRecords();
-
+    LiveData<List<BankAccount>> getAllBankAccountRecords();
 
 
 }

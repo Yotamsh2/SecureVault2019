@@ -18,6 +18,7 @@ public interface DaoCreditCard {
     @Insert
     void insert(CreditCard creditCard);
 
+
     @Update
     void update(CreditCard creditCard);
 
@@ -25,10 +26,10 @@ public interface DaoCreditCard {
     void delete(CreditCard creditCard);
 
     @Query("DELETE FROM creditCard_table")
-    void deleteAllRecords();
+    void deleteAllCreditCardRecords();
 
     @Query("SELECT * FROM creditCard_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<CreditCard>> getAllCreditCardRecords();
 
 
 }

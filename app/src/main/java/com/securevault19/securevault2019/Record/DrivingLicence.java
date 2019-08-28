@@ -1,7 +1,9 @@
 package com.securevault19.securevault2019.Record;
 
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+@Entity(tableName = "drivingLicence_table")
 public class DrivingLicence extends Record {
 
     @PrimaryKey(autoGenerate = true)

@@ -3,7 +3,7 @@ package com.securevault19.securevault2019.User;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "user_table")
 public class User {
 
     //    private int ID;   // no need ? because there is only one user to the app.

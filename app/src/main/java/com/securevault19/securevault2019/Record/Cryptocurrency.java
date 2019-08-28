@@ -4,7 +4,7 @@ package com.securevault19.securevault2019.Record;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "cryptocurrency_table")
 public class Cryptocurrency extends Record {
 
     @PrimaryKey(autoGenerate = true)
