@@ -14,15 +14,20 @@ import android.widget.Toast;
 @SuppressLint("Registered")
 public class MainActivity extends AppCompatActivity {
 
-    private EditText userName = findViewById(R.id.userName);
-    private EditText password = findViewById(R.id.password);
-    private Button signIn = findViewById(R.id.signIn);
-    private int counter = 3;
+    private EditText userName;
+    private EditText password;
+    private Button signIn ;
+    private int counter ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         EditText userName = findViewById(R.id.userName);
+         EditText password = findViewById(R.id.password);
+         Button signIn = findViewById(R.id.signIn);
+         counter = 3;
+
     }
 
     public void signUp(View view) {
