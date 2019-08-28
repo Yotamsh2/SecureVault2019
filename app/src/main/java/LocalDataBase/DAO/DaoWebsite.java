@@ -27,9 +27,9 @@ public interface DaoWebsite {
     void delete(Website website);
 
     @Query("DELETE FROM  website_table")
-    void deleteAllRecords();
+    void deleteAllWebsiteRecords();
 
     @Query("SELECT * FROM website_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<CreditCard>> getAllWebsiteRecords();
 
 }

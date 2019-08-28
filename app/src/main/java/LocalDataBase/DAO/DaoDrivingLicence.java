@@ -27,10 +27,10 @@ public interface DaoDrivingLicence {
     void delete(DrivingLicence drivingLicence);
 
     @Query("DELETE FROM drivingLicence_table")
-    void deleteAllRecords();
+    void deleteAllDrivingLicenceRecords();
 
     @Query("SELECT * FROM drivingLicence_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<DrivingLicence>> getAllDrivingLicenceRecords();
 
 
 }

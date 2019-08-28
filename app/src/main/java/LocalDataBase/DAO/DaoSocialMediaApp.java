@@ -26,9 +26,9 @@ public interface DaoSocialMediaApp {
     void delete(SocialMediaApp socialMediaApp);
 
     @Query("DELETE FROM  socialMediaApp_table")
-    void deleteAllRecords();
+    void deleteAllSocialMediaAppRecords();
 
     @Query("SELECT * FROM socialMediaApp_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<SocialMediaApp>> getAllSocialMediaAppRecords();
 
 }

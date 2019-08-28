@@ -24,9 +24,9 @@ public interface DaoOnlineShoppingApp {
     void delete(OnlineShoppingApp onlineShoppingApp);
 
     @Query("DELETE FROM  onlineShoppingApp_table")
-    void deleteAllRecords();
+    void deleteAllOnlineShoppingAppRecords();
 
     @Query("SELECT * FROM onlineShoppingApp_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<OnlineShoppingApp>> getAllOnlineShoppingAppRecords();
 
 }

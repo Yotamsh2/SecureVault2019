@@ -25,9 +25,9 @@ public interface DaoPassport {
     void delete(Passport passport);
 
     @Query("DELETE FROM  password_table")
-    void deleteAllRecords();
+    void deleteAllPassportRecords();
 
     @Query("SELECT * FROM password_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<Passport>> getAllPassportRecords();
 
 }

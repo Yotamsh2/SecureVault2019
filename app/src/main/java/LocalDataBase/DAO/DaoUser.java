@@ -23,9 +23,9 @@ public interface DaoUser {
     void delete(User user);
 
     @Query("DELETE FROM user_table")
-    void deleteAllRecords();
+    void deleteAllUserRecords();
 
     @Query("SELECT * FROM user_table ORDER BY priority DESC")
-    LiveData<List<BankAccount>> getAllRecords();
+    LiveData<List<User>> getAllUserRecords();
 
 }

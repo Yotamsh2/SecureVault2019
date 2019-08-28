@@ -25,9 +25,9 @@ public interface DaoEmail {
     void delete(Email email);
 
     @Query("DELETE FROM email_table")
-    void deleteAllRecords();
+    void deleteAllEmailRecords();
 
     @Query("SELECT * FROM email_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllRecords();
+    LiveData<List<Email>> getAllEmailRecords();
 
 }
