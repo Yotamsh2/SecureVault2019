@@ -18,6 +18,7 @@ public interface DaoCreditCard {
     @Insert
     void insert(CreditCard creditCard);
 
+
     @Update
     void update(CreditCard creditCard);
 
