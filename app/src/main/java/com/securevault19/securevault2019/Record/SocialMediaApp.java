@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 
 import java.net.SocketAddress;
 
-@Entity
 
+@Entity(tableName = "socialMediaApp_table")
 public class SocialMediaApp extends Record {
 
     @PrimaryKey(autoGenerate = true)

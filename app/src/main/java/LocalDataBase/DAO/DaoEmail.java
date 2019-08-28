@@ -1,36 +1,33 @@
 package LocalDataBase.DAO;
 
 import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.securevault19.securevault2019.Record.CreditCard;
-import com.securevault19.securevault2019.Record.Cryptocurrency;
 import com.securevault19.securevault2019.Record.DrivingLicence;
+import com.securevault19.securevault2019.Record.Email;
 
 import java.util.List;
 
-@Dao
-public interface DaoDrivingLicence {
+public interface DaoEmail {
 
     @Insert
-    void insert(DrivingLicence drivingLicence);
+    void insert(Email email);
 
 
     @Update
-    void update(DrivingLicence drivingLicence);
+    void update(Email email);
 
     @Delete
-    void delete(DrivingLicence drivingLicence);
+    void delete(Email email);
 
-    @Query("DELETE FROM drivingLicence_table")
+    @Query("DELETE FROM email_table")
     void deleteAllRecords();
 
-    @Query("SELECT * FROM drivingLicence_table ORDER BY priority DESC")
+    @Query("SELECT * FROM email_table ORDER BY priority DESC")
     LiveData<List<CreditCard>> getAllRecords();
-
 
 }

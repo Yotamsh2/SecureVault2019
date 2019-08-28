@@ -3,7 +3,7 @@ package com.securevault19.securevault2019.Record;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "email_table")
 public class Email extends Record {
 
     @PrimaryKey(autoGenerate = true)
@@ -12,6 +12,7 @@ public class Email extends Record {
     //exclusive variables
     private String userName;
     private String serviceName;
+
 
     public Email() {
         setUserName(userName);
