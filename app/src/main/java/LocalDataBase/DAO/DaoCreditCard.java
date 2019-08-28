@@ -8,7 +8,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.securevault19.securevault2019.Record.BankAccount;
 import com.securevault19.securevault2019.Record.CreditCard;
 
 import java.util.List;
