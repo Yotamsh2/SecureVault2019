@@ -17,7 +17,7 @@ public class CreditCard extends Record {
 
 
     // Constructor
-    public CreditCard() {
+    public CreditCard(String title, int cardNumber) {
         setCardNumber(cardNumber);
         setCVV(CVV);
         setTitle(title);
