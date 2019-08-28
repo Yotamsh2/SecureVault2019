@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import View.Explorer.ExplorerMain_Activity;
 
 
 @SuppressLint("Registered")
@@ -41,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void signIn(EditText userName, EditText password, Button buttontnSignIn) {
-        if (userName.getText().toString().equals("admin") && password.getText().toString().equals("1234")) {
+        if (userName.getText().toString().equals("A") && password.getText().toString().equals("1")) {
             Toast.makeText(getApplicationContext(), "UserName & Password Correct", Toast.LENGTH_LONG).show();
-            //correct password
+            Intent intent = new Intent(this, ExplorerMain_Activity.class);
+            this.startActivity(intent);
+
         } else {
             counter--;
             Toast.makeText(getApplicationContext(), "UserName & Password Incorrect", Toast.LENGTH_LONG).show();
