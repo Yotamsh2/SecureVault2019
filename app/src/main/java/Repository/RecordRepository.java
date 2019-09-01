@@ -12,6 +12,7 @@ import com.securevault19.securevault2019.Record.DrivingLicence;
 import com.securevault19.securevault2019.Record.Email;
 import com.securevault19.securevault2019.Record.OnlineShoppingApp;
 import com.securevault19.securevault2019.Record.Passport;
+import com.securevault19.securevault2019.Record.Record;
 import com.securevault19.securevault2019.Record.SocialMediaApp;
 import com.securevault19.securevault2019.Record.Website;
 import com.securevault19.securevault2019.User.User;
@@ -29,8 +30,9 @@ import LocalDataBase.DAO.DaoSocialMediaApp;
 import LocalDataBase.DAO.DaoUser;
 import LocalDataBase.DAO.DaoWebsite;
 import LocalDataBase.NoteDataBase;
+import LocalDataBase.RecordDataBase;
 
-public class NoteRepository {
+public class RecordRepository {
 
     private DaoUser daoUser;
     private LiveData<List<User>> allUserNotes;
@@ -51,10 +53,10 @@ public class NoteRepository {
     private DaoSocialMediaApp daoSocialMediaApp;
     private LiveData<List<SocialMediaApp>> allSocialMediaAppNotes;
     private DaoWebsite daoWebsite;
-    private LiveData<List<CreditCard>> allWebsiteNotes;
+    private LiveData<List<Website>> allWebsiteNotes;
 
-    public NoteRepository(Application application) {
-        NoteDataBase dataBase = NoteDataBase.getInstance(application);      // getting the single ton database
+    public RecordRepository(Application application) {
+        RecordDataBase dataBase = RecordDataBase.getInstance(application);      // getting the single ton database
         daoBankAccount = dataBase.daoBankAccount();
         allBankAccountNotes = daoBankAccount.getAllBankAccountRecords();
         daoCreditCard = dataBase.daoCreditCard();
