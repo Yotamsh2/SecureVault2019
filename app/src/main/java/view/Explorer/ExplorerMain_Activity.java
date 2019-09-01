@@ -1,4 +1,4 @@
-package View.Explorer;
+package view.Explorer;
 
 import android.os.Bundle;
 import android.view.View;

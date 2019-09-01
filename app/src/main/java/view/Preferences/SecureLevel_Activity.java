@@ -1,4 +1,4 @@
-package View.Preferences;
+package view.Preferences;
 
 public class SecureLevel_Activity {
 }

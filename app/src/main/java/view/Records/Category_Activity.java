@@ -1,4 +1,4 @@
-package View.Records;
+package view.Records;
 
 public class Category_Activity {
 }

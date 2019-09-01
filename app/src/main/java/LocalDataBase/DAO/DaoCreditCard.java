@@ -28,7 +28,7 @@ public interface DaoCreditCard {
     @Query("DELETE FROM creditCard_table")
     void deleteAllCreditCardRecords();
 
-    @Query("SELECT * FROM creditCard_table ORDER BY priority DESC")
+    @Query("SELECT * FROM creditCard_table")
     LiveData<List<CreditCard>> getAllCreditCardRecords();
 
 

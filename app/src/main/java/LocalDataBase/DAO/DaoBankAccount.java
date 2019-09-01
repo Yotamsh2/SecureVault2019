@@ -26,7 +26,7 @@ public interface DaoBankAccount {
     @Query("DELETE FROM bankAccount_table")
     void deleteAllBankAccountRecords();
 
-    @Query("SELECT * FROM bankAccount_table ORDER BY priority DESC")
+    @Query("SELECT * FROM bankAccount_table")
     LiveData<List<BankAccount>> getAllBankAccountRecords();
 
 

@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="View.Explorer.ExplorerMain_Activity"
+        <activity android:name="view.Explorer.ExplorerMain_Activity"
             android:parentActivityName=".MainActivity"></activity>
     </application>
 

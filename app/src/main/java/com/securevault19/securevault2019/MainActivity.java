@@ -3,7 +3,6 @@ package com.securevault19.securevault2019;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import View.Explorer.ExplorerMain_Activity;
+import view.Explorer.ExplorerMain_Activity;
 
 
 @SuppressLint("Registered")
