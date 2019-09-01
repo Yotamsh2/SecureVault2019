@@ -29,54 +29,72 @@ import LocalDataBase.DAO.DaoPassport;
 import LocalDataBase.DAO.DaoSocialMediaApp;
 import LocalDataBase.DAO.DaoUser;
 import LocalDataBase.DAO.DaoWebsite;
-import LocalDataBase.NoteDataBase;
 import LocalDataBase.RecordDataBase;
 
 public class RecordRepository {
 
     private DaoUser daoUser;
-    private LiveData<List<User>> allUserNotes;
+    private LiveData<List<User>> allUserRecords;
+
     private DaoBankAccount daoBankAccount;
-    private LiveData<List<BankAccount>> allBankAccountNotes;
+    private LiveData<List<BankAccount>> allBankAccountRecords;
+
     private DaoCreditCard daoCreditCard;
-    private LiveData<List<CreditCard>> allCreditCardNotes;
+    private LiveData<List<CreditCard>> allCreditCardRecords;
+
     private DaoCryptocurrency daoCryptocurrency;
-    private LiveData<List<Cryptocurrency>> allCryptocurrencyNotes;
+    private LiveData<List<Cryptocurrency>> allCryptocurrencyRecords;
+
     private DaoDrivingLicence daoDrivingLicence;
-    private LiveData<List<DrivingLicence>> allDrivingLicenceNotes;
+    private LiveData<List<DrivingLicence>> allDrivingLicenceRecords;
+
     private DaoEmail daoEmail;
-    private LiveData<List<Email>> allEmailNotes;
+    private LiveData<List<Email>> allEmailRecords;
+
     private DaoOnlineShoppingApp daoOnlineShoppingApp;
-    private LiveData<List<OnlineShoppingApp>> allOnlineShoppingAppNotes;
+    private LiveData<List<OnlineShoppingApp>> allOnlineShoppingAppRecords;
+
     private DaoPassport daoPassport;
-    private LiveData<List<Passport>> allPassportNotes;
+    private LiveData<List<Passport>> allPassportRecords;
+
     private DaoSocialMediaApp daoSocialMediaApp;
-    private LiveData<List<SocialMediaApp>> allSocialMediaAppNotes;
+    private LiveData<List<SocialMediaApp>> allSocialMediaAppRecords;
+
     private DaoWebsite daoWebsite;
-    private LiveData<List<Website>> allWebsiteNotes;
+    private LiveData<List<Website>> allWebsiteRecords;
+
 
     public RecordRepository(Application application) {
         RecordDataBase dataBase = RecordDataBase.getInstance(application);      // getting the single ton database
         daoBankAccount = dataBase.daoBankAccount();
-        allBankAccountNotes = daoBankAccount.getAllBankAccountRecords();
+        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
+
         daoCreditCard = dataBase.daoCreditCard();
-        allCreditCardNotes = daoCreditCard.getAllCreditCardRecords();
+        allCreditCardRecords = daoCreditCard.getAllCreditCardRecords();
+
         daoCryptocurrency = dataBase.daoCryptocurrency();
-        allCryptocurrencyNotes = daoCryptocurrency.getAllCryptocurrencyRecords();
+        allCryptocurrencyRecords = daoCryptocurrency.getAllCryptocurrencyRecords();
+
         daoDrivingLicence = dataBase.daoDrivingLicence();
-        allDrivingLicenceNotes = daoDrivingLicence.getAllDrivingLicenceRecords();
+        allDrivingLicenceRecords = daoDrivingLicence.getAllDrivingLicenceRecords();
+
         daoEmail = dataBase.daoEmail();
-        allEmailNotes = daoEmail.getAllEmailRecords();
+        allEmailRecords = daoEmail.getAllEmailRecords();
+
         daoOnlineShoppingApp = dataBase.daoOnlineShoppingApp();
-        allOnlineShoppingAppNotes = daoOnlineShoppingApp.getAllOnlineShoppingAppRecords();
+        allOnlineShoppingAppRecords = daoOnlineShoppingApp.getAllOnlineShoppingAppRecords();
+
         daoPassport = dataBase.daoPassport();
-        allPassportNotes = daoPassport.getAllPassportRecords();
+        allPassportRecords = daoPassport.getAllPassportRecords();
+
         daoSocialMediaApp = dataBase.daoSocialMediaApp();
-        allSocialMediaAppNotes = daoSocialMediaApp.getAllSocialMediaAppRecords();
+        allSocialMediaAppRecords = daoSocialMediaApp.getAllSocialMediaAppRecords();
+
         daoUser = dataBase.daoUser();
-        allUserNotes = daoUser.getAllUserRecords();
+        allUserRecords = daoUser.getAllUserRecords();
+
         daoWebsite = dataBase.daoWebsite();
-        allWebsiteNotes = daoWebsite.getAllWebsiteRecords();
+        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
 
     }
 
