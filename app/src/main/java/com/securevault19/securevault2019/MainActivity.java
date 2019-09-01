@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText userName = findViewById(R.id.userName);
         final EditText password = findViewById(R.id.password);
-        final Button buttontnSignIn = findViewById(R.id.signIn);
+        final Button buttonSignIn = findViewById(R.id.signIn);
         counter = 3;
 
-        buttontnSignIn.setOnClickListener(new View.OnClickListener() {
+        buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(userName, password, buttontnSignIn);
+                signIn(userName, password, buttonSignIn);
             }
         });
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void signIn(EditText userName, EditText password, Button buttontnSignIn) {
+    public void signIn(EditText userName, EditText password, Button buttonSignIn) {
         if (userName.getText().toString().equals("A") && password.getText().toString().equals("1")) {
             Toast.makeText(getApplicationContext(), "UserName & Password Correct", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, ExplorerMain_Activity.class);
@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (counter == 0) {
                 Toast.makeText(getApplicationContext(), "Application Login Blocked", Toast.LENGTH_LONG).show();
-                buttontnSignIn.setClickable(false);
+                buttonSignIn.setClickable(false);
 
-                buttontnSignIn.setBackground(Drawable.createFromPath("btn_not_clickable_style"));
+                buttonSignIn.setBackground(Drawable.createFromPath("btn_not_clickable_style"));
             }
             //wrong password
         }

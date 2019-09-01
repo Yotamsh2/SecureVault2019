@@ -1,60 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/background_style">
+
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="400dp"-->
+        <!--android:scaleX="1.5"-->
+        <!--android:scaleY="1.5"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:background="@drawable/background_circles"/>-->
+
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background_style"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!--xmlns:tools="http://schemas.android.com/tools"-->
 
         <ImageView
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/logo"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="90dp" />
+            android:layout_marginTop="70dp" />
 
 
         <EditText
+            android:id="@+id/userName"
             android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/edit_text_style"
             android:hint="@string/user_name"
-            android:textAlignment="center"
-            android:id="@+id/userName"/>
+            android:textColorHint="#80FFFFFF"
+            android:textColor="#fff"
+            android:textAlignment="center" />
 
 
         <EditText
+            android:id="@+id/password"
             android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:background="@drawable/edit_text_style"
             android:hint="@string/password"
+            android:textColorHint="#80FFFFFF"
+            android:textColor="#fff"
             android:textAlignment="center"
-            android:id="@+id/password" />
+            android:inputType="textPassword" />
 
         <Button
-            android:layout_width="250dp"
+            android:id="@+id/signIn"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/btn_style"
             android:text="@string/sign_in"
-            android:textColor="@color/editText"
-            android:onClick="signIn"
-            android:id="@+id/signIn"/>
+            android:textColor="#fff"
+            android:onClick="signIn" />
 
         <Button
+            android:onClick="signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:background="@null"
-            android:textColor="@color/editText"
+            android:textColor="#fff"
             android:textColorHighlight="@color/btn_firstColor"
-            android:text="@string/create_vault"
-            android:onClick="signUp"/>
+            android:text="@string/forgot_pass"
+            android:textSize="12sp" />
+
+    <Button
+        android:onClick="signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@null"
+        android:textColor="#fff"
+        android:textColorHighlight="@color/btn_firstColor"
+        android:text="@string/create_vault"
+        android:layout_marginTop="-20dp"
+        android:textSize="12sp" />
 
 </LinearLayout>
+</RelativeLayout>
