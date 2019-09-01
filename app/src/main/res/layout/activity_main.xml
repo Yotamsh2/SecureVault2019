@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/background_style">
+
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="400dp"-->
+        <!--android:scaleX="1.5"-->
+        <!--android:scaleY="1.5"-->
+        <!--android:scaleType="centerCrop"-->
+        <!--android:background="@drawable/background_circles"/>-->
+
 <LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/background_style"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!--xmlns:tools="http://schemas.android.com/tools"-->
 
@@ -41,7 +54,7 @@
             android:id="@+id/password" />
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="110dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
@@ -55,11 +68,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="@null"
             android:textColor="#fff"
             android:textColorHighlight="@color/btn_firstColor"
-            android:text="@string/create_vault"
+            android:text="@string/forgot_pass"
+            android:textSize="10sp"
             android:onClick="signUp"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@null"
+        android:textColor="#fff"
+        android:textColorHighlight="@color/btn_firstColor"
+        android:text="@string/create_vault"
+        android:layout_marginTop="-20dp"
+        android:textSize="10sp"
+        android:onClick="signUp"/>
+
 </LinearLayout>
+</RelativeLayout>

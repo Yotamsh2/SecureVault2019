@@ -5,4 +5,5 @@
     <string name="password">Password</string>
     <string name="create_vault">Sign Up and Create Your Own Vault</string>
     <string name="add_record">+ Create Record</string>
+    <string name="forgot_pass">Forgot Password</string>
 </resources>
