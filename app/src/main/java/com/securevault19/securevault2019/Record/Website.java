@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 public class Website extends Record {
 
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    public int recordID;
 
 
     // Exclusive variables

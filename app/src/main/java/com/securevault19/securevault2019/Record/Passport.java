@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "password_table")
 public class Passport extends Record {
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    public int recordID;
 
     //exclusive variables
     private int passportNumber;

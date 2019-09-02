@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "drivingLicence_table")
 public class DrivingLicence extends Record {
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    public int recordID;
 
     //exclusive variables
     private int licenceNumber;

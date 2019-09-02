@@ -66,35 +66,35 @@ public class RecordRepository {
 
     public RecordRepository(Application application) {
         RecordDataBase dataBase = RecordDataBase.getInstance(application);      // getting the single ton database
-        daoBankAccount = dataBase.daoBankAccount();
-        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
+//        daoBankAccount = dataBase.daoBankAccount();
+//        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
 
         daoCreditCard = dataBase.daoCreditCard();
         allCreditCardRecords = daoCreditCard.getAllCreditCardRecords();
 
-        daoCryptocurrency = dataBase.daoCryptocurrency();
-        allCryptocurrencyRecords = daoCryptocurrency.getAllCryptocurrencyRecords();
-
-        daoDrivingLicence = dataBase.daoDrivingLicence();
-        allDrivingLicenceRecords = daoDrivingLicence.getAllDrivingLicenceRecords();
-
-        daoEmail = dataBase.daoEmail();
-        allEmailRecords = daoEmail.getAllEmailRecords();
-
-        daoOnlineShoppingApp = dataBase.daoOnlineShoppingApp();
-        allOnlineShoppingAppRecords = daoOnlineShoppingApp.getAllOnlineShoppingAppRecords();
-
-        daoPassport = dataBase.daoPassport();
-        allPassportRecords = daoPassport.getAllPassportRecords();
-
-        daoSocialMediaApp = dataBase.daoSocialMediaApp();
-        allSocialMediaAppRecords = daoSocialMediaApp.getAllSocialMediaAppRecords();
-
-        daoUser = dataBase.daoUser();
-        allUserRecords = daoUser.getAllUserRecords();
-
-        daoWebsite = dataBase.daoWebsite();
-        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
+//        daoCryptocurrency = dataBase.daoCryptocurrency();
+//        allCryptocurrencyRecords = daoCryptocurrency.getAllCryptocurrencyRecords();
+//
+//        daoDrivingLicence = dataBase.daoDrivingLicence();
+//        allDrivingLicenceRecords = daoDrivingLicence.getAllDrivingLicenceRecords();
+//
+//        daoEmail = dataBase.daoEmail();
+//        allEmailRecords = daoEmail.getAllEmailRecords();
+//
+//        daoOnlineShoppingApp = dataBase.daoOnlineShoppingApp();
+//        allOnlineShoppingAppRecords = daoOnlineShoppingApp.getAllOnlineShoppingAppRecords();
+//
+//        daoPassport = dataBase.daoPassport();
+//        allPassportRecords = daoPassport.getAllPassportRecords();
+//
+//        daoSocialMediaApp = dataBase.daoSocialMediaApp();
+//        allSocialMediaAppRecords = daoSocialMediaApp.getAllSocialMediaAppRecords();
+//
+//        daoUser = dataBase.daoUser();
+//        allUserRecords = daoUser.getAllUserRecords();
+//
+//        daoWebsite = dataBase.daoWebsite();
+//        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
 
     }
 

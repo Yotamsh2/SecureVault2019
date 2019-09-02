@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import view.Explorer.ExplorerMain_Activity;
+import View.Explorer.ExplorerMain_Activity;
 
 
 @SuppressLint("Registered")

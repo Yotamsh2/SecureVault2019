@@ -1,4 +1,4 @@
-package view.Explorer;
+package View.Explorer;
 
 public class SideMenu_Activity {
 }

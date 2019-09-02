@@ -18,6 +18,7 @@ import com.securevault19.securevault2019.Record.OnlineShoppingApp;
 import com.securevault19.securevault2019.Record.Passport;
 import com.securevault19.securevault2019.Record.SocialMediaApp;
 import com.securevault19.securevault2019.Record.Website;
+import com.securevault19.securevault2019.User.User;
 
 import LocalDataBase.DAO.DaoBankAccount;
 import LocalDataBase.DAO.DaoCreditCard;
@@ -30,7 +31,7 @@ import LocalDataBase.DAO.DaoSocialMediaApp;
 import LocalDataBase.DAO.DaoUser;
 import LocalDataBase.DAO.DaoWebsite;
 
-@Database(entities = {BankAccount.class, CreditCard.class, Cryptocurrency.class, DrivingLicence.class, Email.class,
+@Database(entities = {User.class, BankAccount.class, CreditCard.class, Cryptocurrency.class, DrivingLicence.class, Email.class,
         OnlineShoppingApp.class, Passport.class, SocialMediaApp.class, Website.class},version = 1)
 public abstract class RecordDataBase extends RoomDatabase {
 
@@ -97,7 +98,20 @@ public abstract class RecordDataBase extends RoomDatabase {
         protected Void doInBackground(Void... voids){
             // noteDao.insert(new Note("Title 1", "Description 1", 1));
             // etc.
-            return null;
+                daoUser.insert(new User("A", "BB", "14/10/90", "ori@gmail.com",
+                        "what?", "yes", "1",
+                        "3"));
+                daoCreditCard.insert(new CreditCard("primaryCard", 4580 ));
+//                daoBankAccount.insert(new BankAccount());
+//                daoCryptocurrency.insert(new Note("Title 1", "Description 1", 1));
+//                daoDrivingLicence.insert(new Note("Title 1", "Description 1", 1));
+//                daoEmail.insert(new Note("Title 1", "Description 1", 1));
+//                daoOnlineShoppingApp.insert(new Note("Title 1", "Description 1", 1));
+//                daoPassport.insert(new Note("Title 1", "Description 1", 1));
+//                daoSocialMediaApp.insert(new Note("Title 1", "Description 1", 1));
+//                daoWebsite.insert(new Note("Title 1", "Description 1", 1));
+
+                return null;
         }
     }
 

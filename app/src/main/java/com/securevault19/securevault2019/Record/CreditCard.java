@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 @Entity (tableName = "creditCard_table")
 public class CreditCard extends Record {
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    //public int recordID;
 
     //exclusive variables
     private int cardNumber;

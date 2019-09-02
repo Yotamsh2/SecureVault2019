@@ -1,5 +1,6 @@
 package com.securevault19.securevault2019.User;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,7 +10,7 @@ public class User {
     //    private int ID;   // no need ? because there is only one user to the app.
 
     @PrimaryKey         // no need?
-    private String firstName;
+    @NonNull private String firstName;
 
     private String lastName;
     private String DateOfBirth;
@@ -19,7 +20,16 @@ public class User {
     private String masterPassword;
     private String secureLevel;
 
-    public User() {
+    public User(String firstName, String lastName, String DateOfBirth, String email, String optionalQuestion, String optionalAnswer, String masterPassword, String secureLevel) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.DateOfBirth = DateOfBirth;
+        this.email = email;
+        this.optionalQuestion= optionalQuestion;
+        this.optionalAnswer = optionalAnswer;
+        this.masterPassword = masterPassword;
+        this.secureLevel = secureLevel;
+
     }
 
     //Setters

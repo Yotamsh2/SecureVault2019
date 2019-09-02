@@ -1,4 +1,4 @@
-package view.Entrance;
+package View.Entrance;
 
 public class SignUp_Activity {
 }

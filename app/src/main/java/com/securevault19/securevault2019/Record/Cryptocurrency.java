@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "cryptocurrency_table")
 public class Cryptocurrency extends Record {
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//   // public int recordID;
 
     // Exclusive variables
     private String publicKey;
