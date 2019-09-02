@@ -101,7 +101,7 @@ public abstract class RecordDataBase extends RoomDatabase {
                 daoUser.insert(new User("A", "BB", "14/10/90", "ori@gmail.com",
                         "what?", "yes", "1",
                         "3"));
-                daoCreditCard.insert(new CreditCard("primaryCard", 4580 ));
+               // daoCreditCard.insert(new CreditCard("primaryCard", 4580 ));
 //                daoBankAccount.insert(new BankAccount());
 //                daoCryptocurrency.insert(new Note("Title 1", "Description 1", 1));
 //                daoDrivingLicence.insert(new Note("Title 1", "Description 1", 1));

@@ -1,12 +1,15 @@
 package com.securevault19.securevault2019.Record;
 
 
+import android.widget.EditText;
+
 import androidx.room.PrimaryKey;
 
 public abstract class Record {
 
     @PrimaryKey(autoGenerate = true)
-    public int recordID = 0;
+    public int recordID;
+
 
     public String title = null;
     public String category = null;

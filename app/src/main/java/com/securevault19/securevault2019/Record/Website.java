@@ -1,7 +1,15 @@
 package com.securevault19.securevault2019.Record;
 
+import android.util.Log;
+import android.widget.EditText;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import com.securevault19.securevault2019.R;
+import java.util.Date;
+import java.sql.Timestamp;
+
 
 @Entity(tableName = "website_table")
 public class Website extends Record {
@@ -18,15 +26,18 @@ public class Website extends Record {
 
 
     // Constructor
-    public Website() {
+    public Website(String title, String email, String userName,
+                   String password, String expiringDate, String dateCreated,
+                   String lastModified, String other) {
+
         setUserName(userName);
         setTitle(title);
-        setOther(other);
         setPassword(password);
         setEmail(email);
-        setDateCreated(dateCreated);
         setExpiringDate(expiringDate);
+        setDateCreated(dateCreated);
         setLastModified(lastModified);
+        setOther(other);
 
 
     }
@@ -35,7 +46,8 @@ public class Website extends Record {
     // Setters
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        editText = editText.findViewById(R.id.userName);
+        this.userName = editText.getText().toString().trim();
     }
 
     public void setOther(String other) {
@@ -52,42 +64,65 @@ public class Website extends Record {
 
     @Override
     public void setTitle(String title) {
-
+        editText = editText.findViewById(R.id.title);
+        this.title = editText.getText().toString().trim();
     }
 
     @Override
     public void setPassword(String password) {
-
+        editText = editText.findViewById(R.id.password);
+        this.password = editText.getText().toString().trim();
     }
 
     @Override
     public void setWebsite(String website) {
-
+        editText = editText.findViewById(R.id.website);
+        this.website = editText.getText().toString().trim();
     }
 
     @Override
     public void setEmail(String email) {
-
+        editText = editText.findViewById(R.id.email);
+        this.email = editText.getText().toString().trim();
     }
 
     @Override
     public void setExpiringDate(String expiringDate) {
+        String[] expireDate = {null, null, null}; //array to include day, month, year
 
+        for (int i = 0; i < 3; i++) {
+            if (i == 0)
+                editText = editText.findViewById(R.id.expiringDate_day); // Initialize editText to expiring day
+            if (i == 1)
+                editText = editText.findViewById(R.id.expiringDate_month); // Initialize editText to expiring month
+            if (i == 2)
+                editText = editText.findViewById(R.id.expiringDate_year); // Initialize editText to expiring year
+
+            expireDate[i] = editText.getText().toString();
+        }
+        this.expiringDate = expireDate.toString();
     }
 
     @Override
     public void setDateCreated(String dateCreated) {
+        Date date = new Date();
+
+        Timestamp timeStamp = new Timestamp(date.getTime());
+
+        this.dateCreated = timeStamp.toString();
+        Log.d(" ", dateCreated);
 
     }
 
     @Override
     public void setLastModified(String lastModified) {
-
+        editText = editText.findViewById(R.id.userName);
+        this.userName = editText.getText().toString().trim();
     }
 
     @Override
     public void setCategory(String category) {
-
+        this.category = "Website";
     }
 
 

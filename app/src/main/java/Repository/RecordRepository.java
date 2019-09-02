@@ -69,8 +69,8 @@ public class RecordRepository {
 //        daoBankAccount = dataBase.daoBankAccount();
 //        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
 
-        daoCreditCard = dataBase.daoCreditCard();
-        allCreditCardRecords = daoCreditCard.getAllCreditCardRecords();
+//        daoCreditCard = dataBase.daoCreditCard();
+//        allCreditCardRecords = daoCreditCard.getAllCreditCardRecords();
 
 //        daoCryptocurrency = dataBase.daoCryptocurrency();
 //        allCryptocurrencyRecords = daoCryptocurrency.getAllCryptocurrencyRecords();
@@ -93,8 +93,8 @@ public class RecordRepository {
 //        daoUser = dataBase.daoUser();
 //        allUserRecords = daoUser.getAllUserRecords();
 //
-//        daoWebsite = dataBase.daoWebsite();
-//        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
+        daoWebsite = dataBase.daoWebsite();
+        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
 
     }
 
