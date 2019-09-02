@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "email_table")
 public class Email extends Record {
 
-    @PrimaryKey(autoGenerate = true)
-    private int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    private int recordID;
 
     //exclusive variables
     private String userName;

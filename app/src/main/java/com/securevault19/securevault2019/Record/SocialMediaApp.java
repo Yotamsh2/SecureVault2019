@@ -10,8 +10,8 @@ import java.net.SocketAddress;
 @Entity(tableName = "socialMediaApp_table")
 public class SocialMediaApp extends Record {
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    public int recordID;
 
 
 

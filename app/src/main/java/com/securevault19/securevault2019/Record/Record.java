@@ -1,9 +1,13 @@
 package com.securevault19.securevault2019.Record;
 
 
+import androidx.room.PrimaryKey;
+
 public abstract class Record {
 
+    @PrimaryKey(autoGenerate = true)
     public int recordID = 0;
+
     public String title = null;
     public String category = null;
     public String dateCreated = null; //create dateCreated class and make a toString method.

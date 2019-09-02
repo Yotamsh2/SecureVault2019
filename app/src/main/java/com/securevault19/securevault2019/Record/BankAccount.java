@@ -1,4 +1,5 @@
 package com.securevault19.securevault2019.Record;
+import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 import androidx.room.Entity;
 
@@ -7,8 +8,8 @@ import androidx.room.Entity;
 public class BankAccount extends Record {
 
 
-    @PrimaryKey(autoGenerate = true)
-    public int recordID;
+//    @PrimaryKey(autoGenerate = true)
+//    public int recordID;
 
     //exclusive variables
     private String userName;

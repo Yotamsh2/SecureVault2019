@@ -28,7 +28,7 @@ public interface DaoCryptocurrency {
     @Query("DELETE FROM cryptocurrency_table")
     void deleteAllCryptocurrencyRecords();
 
-    @Query("SELECT * FROM cryptocurrency_table ORDER BY priority DESC")
+    @Query("SELECT * FROM cryptocurrency_table")
     LiveData<List<Cryptocurrency>> getAllCryptocurrencyRecords();
 
 }

@@ -1,6 +1,7 @@
 package LocalDataBase.DAO;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -12,6 +13,7 @@ import com.securevault19.securevault2019.Record.Website;
 
 import java.util.List;
 
+@Dao
 public interface DaoWebsite {
 
 
@@ -29,7 +31,7 @@ public interface DaoWebsite {
     @Query("DELETE FROM  website_table")
     void deleteAllWebsiteRecords();
 
-    @Query("SELECT * FROM website_table ORDER BY priority DESC")
-    LiveData<List<CreditCard>> getAllWebsiteRecords();
+    @Query("SELECT * FROM website_table")
+    LiveData<List<Website>> getAllWebsiteRecords();
 
 }
