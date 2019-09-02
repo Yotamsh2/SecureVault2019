@@ -7,4 +7,23 @@
     <string name="user_name">שם משתמש</string>
     <string name="add_record">+ צור רשומה חדשה</string>
     <string name="forgot_pass">שחזור סיסמה</string>
+    <string name="category">קטגוריה</string>
+    <string name="email">אימייל</string>
+    <string name="other">אחר</string>
+    <string name="title">כותרת</string>
+    <string name="website">אתר אינטרנט</string>
+    <string name="description">תיאור</string>
+    <string name="save">שמור</string>
+    <string name="update">עדכן</string>
+    <string name="add">הוסף</string>
+    <string name="ok">אישור</string>
+    <string name="date_created">נוצר בתאריך</string>
+    <string name="expiringDate">תאריך פג תוקף</string>
+    <string name="lastModified">שונה לאחרונה</string>
+    <string name="note">הערה</string>
+    <string name="custom1">מותאם אישית 1</string>
+    <string name="custom2">מותאם אישית 2</string>
+    <string name="custom3">מותאם אישית 3</string>
+    <string name="addFields">הוסף שדות מותאמים אישית</string>
+    <string name="new_website">חשבון אתר חדש</string>
 </resources>

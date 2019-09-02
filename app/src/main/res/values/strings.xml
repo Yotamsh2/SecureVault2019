@@ -4,6 +4,25 @@
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
     <string name="create_vault">Signup and Create Your Own Vault</string>
-    <string name="add_record">+ Create Record</string>
+    <string name="add_record">+ Add Record</string>
     <string name="forgot_pass">Forgot Password</string>
+    <string name="category">Category</string>
+    <string name="title">Title</string>
+    <string name="email">Email</string>
+    <string name="other">Other</string>
+    <string name="website">Website</string>
+    <string name="description">Description</string>
+    <string name="save">Save</string>
+    <string name="update">Update</string>
+    <string name="add">Add</string>
+    <string name="ok">OK</string>
+    <string name="expiringDate">Expiring Date</string>
+    <string name="lastModified">Last Modified</string>
+    <string name="date_created">Date Created</string>
+    <string name="note">Note</string>
+    <string name="custom1">Custom1</string>
+    <string name="custom2">Custom2</string>
+    <string name="custom3">Custom3</string>
+    <string name="addFields">Add Customized Fileds</string>
+    <string name="new_website">New Website Acount</string>
 </resources>

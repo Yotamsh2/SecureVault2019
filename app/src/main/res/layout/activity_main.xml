@@ -84,7 +84,6 @@
         android:layout_gravity="center_horizontal"
         android:background="@null"
         android:textColor="#fff"
-        android:textColorHighlight="@color/btn_firstColor"
         android:text="@string/create_vault"
         android:layout_marginTop="-20dp"
         android:textSize="12sp" />
