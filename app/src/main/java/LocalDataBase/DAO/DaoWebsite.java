@@ -17,7 +17,6 @@ import java.util.List;
 public interface DaoWebsite {
 
 
-
     @Insert
     void insert(Website website);
 

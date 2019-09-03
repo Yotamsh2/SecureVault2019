@@ -43,6 +43,9 @@ public abstract class Record {
 
     public abstract void addCategory(); //void instead of 'int'
     public abstract void addTextInbox(); //void instead of 'int'
+
+//    public abstract void insert(Website website);
+
     // (because we are not using the notifications list for the returning
 }
 

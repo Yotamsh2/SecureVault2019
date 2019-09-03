@@ -1,7 +1,7 @@
 package Repository;
 
 import android.app.Application;
-import android.provider.ContactsContract;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
@@ -12,7 +12,6 @@ import com.securevault19.securevault2019.Record.DrivingLicence;
 import com.securevault19.securevault2019.Record.Email;
 import com.securevault19.securevault2019.Record.OnlineShoppingApp;
 import com.securevault19.securevault2019.Record.Passport;
-import com.securevault19.securevault2019.Record.Record;
 import com.securevault19.securevault2019.Record.SocialMediaApp;
 import com.securevault19.securevault2019.Record.Website;
 import com.securevault19.securevault2019.User.User;
@@ -97,5 +96,29 @@ public class RecordRepository {
         allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
 
     }
+
+    public void insert(Website website){
+        new InsertWebsiteAsyncTask(daoWebsite).execute(website);
+    }
+
+    public LiveData<List<Website>> getAllWebsiteRecords(){
+        return allWebsiteRecords;
+    }
+
+    private static class InsertWebsiteAsyncTask extends AsyncTask<Website, Void, Void> {
+        private DaoWebsite daoWebsite;
+
+        private InsertWebsiteAsyncTask(DaoWebsite daoWebsite){
+            this.daoWebsite = daoWebsite;
+        }
+
+        @Override
+        protected Void doInBackground(Website... websites) {
+            daoWebsite.insert(websites[0]);
+            return null;
+        }
+    }
+
+
 
 }
