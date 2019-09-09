@@ -28,7 +28,8 @@ import LocalDataBase.DAO.DaoPassport;
 import LocalDataBase.DAO.DaoSocialMediaApp;
 import LocalDataBase.DAO.DaoUser;
 import LocalDataBase.DAO.DaoWebsite;
-import LocalDataBase.RecordDataBase;
+import LocalDataBase.DatabaseClient;
+import LocalDataBase.RecordDatabase2;
 
 public class RecordRepository {
 
@@ -64,7 +65,7 @@ public class RecordRepository {
 
 
     public RecordRepository(Application application) {
-        RecordDataBase dataBase = RecordDataBase.getInstance(application);      // getting the single ton database
+        //RecordDatabase2 dataBase = DatabaseClient.getInstance(application);      // getting the single ton database
 //        daoBankAccount = dataBase.daoBankAccount();
 //        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
 
@@ -92,8 +93,8 @@ public class RecordRepository {
 //        daoUser = dataBase.daoUser();
 //        allUserRecords = daoUser.getAllUserRecords();
 //
-        daoWebsite = dataBase.daoWebsite();
-        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
+//        daoWebsite = RecordDatabase2.daoWebsite();
+//        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
 
     }
 
@@ -110,7 +111,8 @@ public class RecordRepository {
 
         private InsertWebsiteAsyncTask(DaoWebsite daoWebsite){
             this.daoWebsite = daoWebsite;
-        }
+        } //Constructor because we cannot access the dao of the repository direcly.
+          // (because here it's a class by itself)
 
         @Override
         protected Void doInBackground(Website... websites) {

@@ -1,22 +1,26 @@
 package com.securevault19.securevault2019;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.securevault19.securevault2019.Record.Website;
+
+import ViewModel.Records.Record_ViewModel;
 import view.Explorer.ExplorerMain_Activity;
 
 
 @SuppressLint("Registered")
 public class MainActivity extends AppCompatActivity {
-
     private int counter;
 
     @Override
@@ -24,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final EditText userName = findViewById(R.id.userName);
-        final EditText password = findViewById(R.id.password);
-        final Button buttonSignIn = findViewById(R.id.signIn);
+        final EditText userName = (EditText) findViewById(R.id.userName);
+        final EditText password = (EditText) findViewById(R.id.password);
+        final Button buttonSignIn = (Button) findViewById(R.id.signIn);
         counter = 3;
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "UserName & Password Correct", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, ExplorerMain_Activity.class);
             this.startActivity(intent);
-
         } else {
             counter--;
             Toast.makeText(getApplicationContext(), "UserName & Password Incorrect", Toast.LENGTH_LONG).show();
@@ -61,4 +64,5 @@ public class MainActivity extends AppCompatActivity {
             //wrong password
         }
     }
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.securevault19.securevault2019">
 
     <application
@@ -9,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="View.Records.AddNewBankAccount"></activity>
+        <activity android:name="view.Records.AddNewBankAccount"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,10 +19,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="View.Explorer.ExplorerMain_Activity"
+            android:name="view.Explorer.ExplorerMain_Activity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name="view.Explorer.ExplorerMain_Activity"
-            android:parentActivityName=".MainActivity"></activity>
+
     </application>
 
 </manifest>

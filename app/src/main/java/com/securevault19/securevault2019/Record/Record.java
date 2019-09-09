@@ -44,29 +44,5 @@ public abstract class Record {
     public abstract void addCategory(); //void instead of 'int'
     public abstract void addTextInbox(); //void instead of 'int'
 
-//    public abstract void insert(Website website);
-
-    // (because we are not using the notifications list for the returning
 }
 
- /*   MOVE TO RecordDAO
-    //@Query(*to cpmplete*)
-    void readFromRecord(); //void instead of 'string'
-    @Insert
-    void createRecord();
-    @Update
-    void updateRecord();
-    @Delete
-    void deleteRecord();
-
-    //@Query(*to cpmplete*)
-     String checkWhenDataCreated(); //for example: 18/12/2019
-    //@Query(*to cpmplete*)
-    String checkWhenLastModified(); //for example: 18/12/2019
-    //@Query(*to cpmplete*)
-     String checkModifiedFrom(); //returns which device made the modification
-
-    @Update void changePassword(); //void instead of 'int'
-    @Update void changeEmail(); //void instead of 'int'
-
-    */

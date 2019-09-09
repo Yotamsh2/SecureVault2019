@@ -26,22 +26,24 @@ public class Website extends Record {
 
 
     // Constructor
-    public Website(String title, String email, String userName,
-                   String password, String website, String expiringDate, String dateCreated,
-                   String lastModified, String other) {
-
-        setUserName(userName);
-        setTitle(title);
-        setPassword(password);
-        setWebsite(website);
-        setEmail(email);
-        setExpiringDate(expiringDate);
-        setDateCreated(dateCreated);
-        setLastModified(lastModified);
-        setOther(other);
-
-
-    }
+//    public Website(String title, String email, String userName,
+//                   String password, String website, String expiringDate, String dateCreated,
+//                   String lastModified, String other) {
+//
+//        Log.d("Website Constructor", "before Setters");
+//        setUserName(userName);
+//        setTitle(title);
+//        setPassword(password);
+//        setWebsite(website);
+//        setEmail(email);
+//        setExpiringDate(expiringDate);
+//        setDateCreated(dateCreated);
+//        setLastModified(lastModified);
+//        setOther(other);
+//
+//
+//
+//    }
 
 
     // Setters
@@ -107,7 +109,7 @@ public class Website extends Record {
 //            expireDate[i] = editText.getText().toString();
 //        }
 //        this.expiringDate = expireDate.toString();
-
+        this.expiringDate = "1.1.1";
     }
 
 
@@ -131,7 +133,7 @@ public class Website extends Record {
         Timestamp timeStamp = new Timestamp(date.getTime());
 
         this.lastModified = timeStamp.toString();
-        Log.d(" ", lastModified);
+        Log.d("Website Constructor", "last modified setter");
     }
 
     @Override

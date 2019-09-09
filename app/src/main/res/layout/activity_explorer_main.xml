@@ -8,6 +8,7 @@
     android:orientation="vertical">
     <!--xmlns:tools="http://schemas.android.com/tools"-->
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -238,7 +239,6 @@
                     android:background="@drawable/btn_style"
                     android:text="@string/save"
                     android:layout_marginBottom="10dp"
-                    android:onClick="openNewRecord"
                     android:id="@+id/Save"/>
 
             </LinearLayout>
