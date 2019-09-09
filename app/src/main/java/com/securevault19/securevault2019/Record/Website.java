@@ -7,13 +7,18 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.securevault19.securevault2019.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Locale;
 
 
 @Entity(tableName = "website_table")
 public class Website extends Record {
 
+//Using a default Constructor.
 
 //    @PrimaryKey(autoGenerate = true)
 //    public int recordID;
@@ -23,27 +28,11 @@ public class Website extends Record {
     private String userName;
     private String other;          // for additional signing details such as asved authentications question\answers
 
-
-
-    // Constructor
-//    public Website(String title, String email, String userName,
-//                   String password, String website, String expiringDate, String dateCreated,
-//                   String lastModified, String other) {
-//
-//        Log.d("Website Constructor", "before Setters");
-//        setUserName(userName);
-//        setTitle(title);
-//        setPassword(password);
-//        setWebsite(website);
-//        setEmail(email);
-//        setExpiringDate(expiringDate);
-//        setDateCreated(dateCreated);
-//        setLastModified(lastModified);
-//        setOther(other);
-//
-//
-//
-//    }
+    public Website() {
+        setDateCreated(dateCreated);
+        setLastModified(lastModified);
+        setCategory(category);
+    }
 
 
     // Setters
@@ -96,21 +85,18 @@ public class Website extends Record {
 
     @Override
     public void setExpiringDate(String expiringDate) {
-//        String[] expireDate = {null, null, null}; //array to include day, month, year
+        //if user didn't insert Expiring Date.
+//        if (expiringDate == null) {
 //
-//        for (int i = 0; i < 3; i++) {
-//            if (i == 0)
-//                editText = editText.findViewById(R.id.expiringDate_day); // Initialize editText to expiring day
-//            if (i == 1)
-//                editText = editText.findViewById(R.id.expiringDate_month); // Initialize editText to expiring month
-//            if (i == 2)
-//                editText = editText.findViewById(R.id.expiringDate_year); // Initialize editText to expiring year
+//            Calendar cal = Calendar.getInstance();
+//            cal.add(Calendar.MONTH, 4);
 //
-//            expireDate[i] = editText.getText().toString();
-//        }
-//        this.expiringDate = expireDate.toString();
-        this.expiringDate = "1.1.1";
-    }
+//            this.expiringDate = cal.toString();
+//
+//        } else {
+            this.expiringDate = expiringDate;
+        }
+
 
 
     @Override
@@ -120,7 +106,6 @@ public class Website extends Record {
         Timestamp timeStamp = new Timestamp(date.getTime());
 
         this.dateCreated = timeStamp.toString();
-        Log.d(" ", dateCreated);
 
     }
 
@@ -133,7 +118,6 @@ public class Website extends Record {
         Timestamp timeStamp = new Timestamp(date.getTime());
 
         this.lastModified = timeStamp.toString();
-        Log.d("Website Constructor", "last modified setter");
     }
 
     @Override

@@ -82,6 +82,9 @@ public class ExplorerMain_Activity extends AppCompatActivity {
         final String other = editTextOther.getText().toString();
 
 
+
+
+
         //Check if all the needed details are typed.
         //NEED TO UPGRADE A LITTLE
         if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
@@ -92,6 +95,10 @@ public class ExplorerMain_Activity extends AppCompatActivity {
 
         class SaveNewWebsiteRecord extends AsyncTask<Void, Void, Void> {
 
+            //expiring-date fields are seperated so we concat them into one string.
+            String expiringDate_arr[] = {expiringDateDay, expiringDateMonth, expiringDateYear};
+            final String expiringDate = expiringDate_arr.toString();
+
             @Override
             protected Void doInBackground(Void... voids) {
                 Website website_record = new Website();
@@ -100,9 +107,7 @@ public class ExplorerMain_Activity extends AppCompatActivity {
                 website_record.setPassword(password);
                 website_record.setWebsite(website);
                 website_record.setEmail(email);
-                website_record.setExpiringDate(expiringDateDay);
-//                website_record.set(expiringDateMonth);
-//                website_record.set(expiringDateYear);
+                website_record.setExpiringDate(expiringDate);
                 website_record.setOther(other);
 
 
