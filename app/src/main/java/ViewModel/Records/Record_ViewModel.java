@@ -17,7 +17,13 @@ import Repository.RecordRepository;
 public class Record_ViewModel extends AndroidViewModel {
     private RecordRepository repository;
     private LiveData<List<Website>> allWebsiteRecords;
-   // private Website website;
+//    private LiveData<List<Website>> allWebsiteRecords;
+//    private LiveData<List<Website>> allWebsiteRecords;
+//    private LiveData<List<Website>> allWebsiteRecords;
+//    private LiveData<List<Website>> allWebsiteRecords;
+//    private LiveData<List<Website>> allWebsiteRecords;
+//    private LiveData<List<Website>> allWebsiteRecords;
+//    private LiveData<List<Website>> allWebsiteRecords;
 
 
     public Record_ViewModel(@NonNull Application application) {
@@ -26,10 +32,10 @@ public class Record_ViewModel extends AndroidViewModel {
         allWebsiteRecords = repository.getAllWebsiteRecords();
 
     }
-    public void insert(Website website){
-        Log.d("insert(ViewModel)", "called." );
-        repository.insert(website);
-    }
+//    public void insert(Website website){
+//        Log.d("insert(ViewModel)", "called." );
+//        repository.insert(website);
+//    }
 
     public LiveData<List<Website>> getAllWebsiteRecords()    {
         return allWebsiteRecords;

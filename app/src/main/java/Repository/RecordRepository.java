@@ -65,62 +65,100 @@ public class RecordRepository {
 
 
     public RecordRepository(Application application) {
-        //RecordDatabase2 dataBase = DatabaseClient.getInstance(application);      // getting the single ton database
-//        daoBankAccount = dataBase.daoBankAccount();
-//        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
+        RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the single ton database
 
-//        daoCreditCard = dataBase.daoCreditCard();
-//        allCreditCardRecords = daoCreditCard.getAllCreditCardRecords();
+        daoBankAccount = database2.daoBankAccount();
+        allBankAccountRecords = daoBankAccount.getAllBankAccountRecords();
 
-//        daoCryptocurrency = dataBase.daoCryptocurrency();
-//        allCryptocurrencyRecords = daoCryptocurrency.getAllCryptocurrencyRecords();
-//
-//        daoDrivingLicence = dataBase.daoDrivingLicence();
-//        allDrivingLicenceRecords = daoDrivingLicence.getAllDrivingLicenceRecords();
-//
-//        daoEmail = dataBase.daoEmail();
-//        allEmailRecords = daoEmail.getAllEmailRecords();
-//
-//        daoOnlineShoppingApp = dataBase.daoOnlineShoppingApp();
-//        allOnlineShoppingAppRecords = daoOnlineShoppingApp.getAllOnlineShoppingAppRecords();
-//
-//        daoPassport = dataBase.daoPassport();
-//        allPassportRecords = daoPassport.getAllPassportRecords();
-//
-//        daoSocialMediaApp = dataBase.daoSocialMediaApp();
-//        allSocialMediaAppRecords = daoSocialMediaApp.getAllSocialMediaAppRecords();
-//
-//        daoUser = dataBase.daoUser();
-//        allUserRecords = daoUser.getAllUserRecords();
-//
-//        daoWebsite = RecordDatabase2.daoWebsite();
-//        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
+        daoCreditCard = database2.daoCreditCard();
+        allCreditCardRecords = daoCreditCard.getAllCreditCardRecords();
+
+        daoCryptocurrency = database2.daoCryptocurrency();
+        allCryptocurrencyRecords = daoCryptocurrency.getAllCryptocurrencyRecords();
+
+        daoDrivingLicence = database2.daoDrivingLicence();
+        allDrivingLicenceRecords = daoDrivingLicence.getAllDrivingLicenceRecords();
+
+        daoEmail = database2.daoEmail();
+        allEmailRecords = daoEmail.getAllEmailRecords();
+
+        daoOnlineShoppingApp = database2.daoOnlineShoppingApp();
+        allOnlineShoppingAppRecords = daoOnlineShoppingApp.getAllOnlineShoppingAppRecords();
+
+        daoPassport = database2.daoPassport();
+        allPassportRecords = daoPassport.getAllPassportRecords();
+
+        daoSocialMediaApp = database2.daoSocialMediaApp();
+        allSocialMediaAppRecords = daoSocialMediaApp.getAllSocialMediaAppRecords();
+
+        daoUser = database2.daoUser();
+        allUserRecords = daoUser.getAllUserRecords();
+
+        daoWebsite = database2.daoWebsite();
+        allWebsiteRecords = daoWebsite.getAllWebsiteRecords();
 
     }
 
-    public void insert(Website website){
-        new InsertWebsiteAsyncTask(daoWebsite).execute(website);
+//    public void insert(Website website){
+//        new InsertWebsiteAsyncTask(daoWebsite).execute(website);
+//    }
+
+    public LiveData<List<User>> getAllUserRecords() {
+        return allUserRecords;
     }
 
-    public LiveData<List<Website>> getAllWebsiteRecords(){
+    public LiveData<List<Website>> getAllWebsiteRecords() {
         return allWebsiteRecords;
     }
 
-    private static class InsertWebsiteAsyncTask extends AsyncTask<Website, Void, Void> {
-        private DaoWebsite daoWebsite;
+    public LiveData<List<BankAccount>> getAllBankAccountRecordsRecords() {
+        return allBankAccountRecords;
+    }
 
-        private InsertWebsiteAsyncTask(DaoWebsite daoWebsite){
-            this.daoWebsite = daoWebsite;
-        } //Constructor because we cannot access the dao of the repository direcly.
-          // (because here it's a class by itself)
+    public LiveData<List<CreditCard>> getAllCreditCardRecords() {
+        return allCreditCardRecords;
+    }
 
-        @Override
-        protected Void doInBackground(Website... websites) {
-            daoWebsite.insert(websites[0]);
-            return null;
-        }
+    public LiveData<List<Cryptocurrency>> getAllCryptocurrencyRecords() {
+        return allCryptocurrencyRecords;
+    }
+
+    public LiveData<List<DrivingLicence>> getAllDrivingLicenceRecords() {
+        return allDrivingLicenceRecords;
+    }
+
+    public LiveData<List<Email>> getAllEmailRecords() {
+        return allEmailRecords;
+    }
+
+    public LiveData<List<OnlineShoppingApp>> getAllOnlineShoppingAppRecords() {
+        return allOnlineShoppingAppRecords;
+    }
+
+    public LiveData<List<SocialMediaApp>> getAllSocialMediaAppRecords() {
+        return allSocialMediaAppRecords;
+    }
+
+    public LiveData<List<Passport>> getAllPassportRecords() {
+        return allPassportRecords;
     }
 
 
-
+//    private static class InsertWebsiteAsyncTask extends AsyncTask<Website, Void, Void> {
+//        private DaoWebsite daoWebsite;
+//
+//        private InsertWebsiteAsyncTask(DaoWebsite daoWebsite){
+//            this.daoWebsite = daoWebsite;
+//        } //Constructor because we cannot access the dao of the repository direcly.
+//          // (because here it's a class by itself)
+//
+//        @Override
+//        protected Void doInBackground(Website... websites) {
+//            daoWebsite.insert(websites[0]);
+//            return null;
+//        }
 }
+
+
+
+

@@ -5,6 +5,8 @@ import android.widget.EditText;
 
 import androidx.room.PrimaryKey;
 
+import java.sql.Date;
+
 public abstract class Record {
 
     @PrimaryKey(autoGenerate = true)
@@ -20,12 +22,14 @@ public abstract class Record {
     public String website = null;
     public String expiringDate = null; //addition to the class diagram
 
+
     public abstract void setRecordID(int recordID);
     public abstract void setTitle(String title); //void instead of 'int'
     public abstract void setPassword(String password); ////void instead of 'int'
     public abstract void setWebsite(String website); //void instead of 'int'
     public abstract void setEmail(String email); //void instead of 'int'
     public abstract void setExpiringDate(String expiringDate); //addition to the class diagram
+
     public abstract void setDateCreated(String dateCreated);
     public abstract void setLastModified(String lastModified);
     public abstract void setCategory(String category);
