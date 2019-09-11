@@ -38,7 +38,17 @@ public class Record_ViewModel extends AndroidViewModel {
     public Record_ViewModel(@NonNull Application application) {
         super(application);
         repository = new RecordRepository(application);
+        allUserRecords = repository.getAllUserRecords();
+        allBankAccountRecords = repository.getAllBankAccountRecordsRecords();
+        allCreditCardRecords = repository.getAllCreditCardRecords();
+        allCryptocurrencyRecords = repository.getAllCryptocurrencyRecords();
         allWebsiteRecords = repository.getAllWebsiteRecords();
+        allDrivingLicenceRecords = repository.getAllDrivingLicenceRecords();
+        allEmailRecords = repository.getAllEmailRecords();
+        allOnlineShoppingAppRecords = repository.getAllOnlineShoppingAppRecords();
+        allPassportRecords = repository.getAllPassportRecords();
+        allSocialMediaAppRecords = repository.getAllSocialMediaAppRecords();
+
 
     }
 //    public void insert(Website website){
