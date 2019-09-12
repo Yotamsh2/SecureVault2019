@@ -107,6 +107,9 @@ public class RecordRepository {
         return allUserRecords;
     }
 
+public void show(Website website) {
+        new ShowWebsiteRecordAsyncTask(daoWebsite).execute(website);
+}
     public LiveData<List<Website>> getAllWebsiteRecords() {
         return allWebsiteRecords;
     }
@@ -142,6 +145,22 @@ public class RecordRepository {
     public LiveData<List<Passport>> getAllPassportRecords() {
         return allPassportRecords;
     }
+
+    private static class ShowWebsiteRecordAsyncTask extends AsyncTask<Website, Void, Void> {
+        private DaoWebsite daoWebsite;
+
+        private ShowWebsiteRecordAsyncTask(DaoWebsite daoWebsite) {
+            this.daoWebsite = daoWebsite;
+        }
+
+        @Override
+        protected Void doInBackground(Website... websites) {
+            daoWebsite.delete(websites[0]);
+            return null;
+        }
+
+    }
+
 
 
 //    private static class InsertWebsiteAsyncTask extends AsyncTask<Website, Void, Void> {

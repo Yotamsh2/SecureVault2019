@@ -2,6 +2,8 @@ package com.securevault19.securevault2019;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -14,9 +16,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.securevault19.securevault2019.Record.Website;
+import com.securevault19.securevault2019.Record.WebsiteAdapter;
 
 import ViewModel.Records.Record_ViewModel;
 import view.Explorer.ExplorerMain_Activity;
+import view.Records.WebsiteRecycler_Activity;
 
 
 @SuppressLint("Registered")
@@ -51,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "UserName & Password Correct", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, ExplorerMain_Activity.class);
             this.startActivity(intent);
+//            Intent intent = new Intent(this, WebsiteRecycler_Activity.class);
+//            this.startActivity(intent);
+
         } else {
             counter--;
             Toast.makeText(getApplicationContext(), "UserName & Password Incorrect", Toast.LENGTH_LONG).show();

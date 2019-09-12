@@ -60,6 +60,9 @@ public class Record_ViewModel extends AndroidViewModel {
         return allUserRecords;
     }
 
+public void show(Website website){
+    repository.show(website);
+}
     public LiveData<List<Website>> getAllWebsiteRecords() {
         return allWebsiteRecords;
     }

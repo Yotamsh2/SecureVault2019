@@ -16,6 +16,8 @@ import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.Record.Website;
 
 import LocalDataBase.DatabaseClient;
+import view.Records.ShowWebsite_Activity;
+import view.Records.WebsiteRecycler_Activity;
 
 public class ExplorerMain_Activity extends AppCompatActivity {
 
@@ -53,6 +55,7 @@ public class ExplorerMain_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(ExplorerMain_Activity.this, "button pressed", Toast.LENGTH_SHORT).show();
                 openNewRecord(v);
+                openNextActivity();
 
             }
         });
@@ -80,9 +83,6 @@ public class ExplorerMain_Activity extends AppCompatActivity {
         final String expiringDateMonth = editTextExpiringDateMonth.getText().toString().trim();
         final String expiringDateYear = editTextExpiringDateYear.getText().toString().trim();
         final String other = editTextOther.getText().toString();
-
-
-
 
 
         //Check if all the needed details are typed.
@@ -140,6 +140,9 @@ public class ExplorerMain_Activity extends AppCompatActivity {
         TextView c3 = findViewById(R.id.c3);
 
     }
-
+    public void openNextActivity(){
+        Intent intent = new Intent(this, ShowWebsite_Activity.class);
+        startActivity(intent);
+    }
 
 }
