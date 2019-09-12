@@ -53,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(EditText userName, EditText password, Button buttonSignIn) {
         if (userName.getText().toString().equals("A") && password.getText().toString().equals("1")) {
             Toast.makeText(getApplicationContext(), "UserName & Password Correct", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(this, ExplorerMain_Activity.class);
-            this.startActivity(intent);
-//            Intent intent = new Intent(this, WebsiteRecycler_Activity.class);
+//            Intent intent = new Intent(this, ExplorerMain_Activity.class);
 //            this.startActivity(intent);
+            Intent intent = new Intent(this, WebsiteRecycler_Activity.class);
+            this.startActivity(intent);
 
         } else {
             counter--;

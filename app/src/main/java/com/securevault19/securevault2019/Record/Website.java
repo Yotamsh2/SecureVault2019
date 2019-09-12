@@ -140,12 +140,12 @@ public class Website extends Record {
 
     @Override
     public int getRecord_ID() {
-        return 0;
+        return recordID;
     }
 
     @Override
     public String getTitle() {
-        return null;
+        return "titlww";
     }
 
     @Override
@@ -192,6 +192,8 @@ public class Website extends Record {
     public void addTextInbox() {
 
     }
+public void show(){
 
+}
 
 }

@@ -16,10 +16,28 @@ import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.Record.Website;
 
 import LocalDataBase.DatabaseClient;
-import view.Records.ShowWebsite_Activity;
-import view.Records.WebsiteRecycler_Activity;
+
 
 public class ExplorerMain_Activity extends AppCompatActivity {
+    public static final String EXTRA_TITLE =                   //will be used for the RecyclerView
+            "com.example.architectureexample.EXTRA_TITLE";
+    public static final String EXTRA_USERNAME =
+            "com.example.architectureexample.EXTRA_USERNAME";
+    public static final String EXTRA_PASSWORD =
+            "com.example.architectureexample.EXTRA_PASSWORD";
+    public static final String EXTRA_WEBSITE =
+            "com.example.architectureexample.EXTRA_WEBSITE";
+    public static final String EXTRA_EMAIL =
+            "com.example.architectureexample.EXTRA_EMAIL";
+    public static final String EXTRA_EXPIRING_DATE_DAY =
+            "com.example.architectureexample.EXTRA_EXPIRING_DATE_DAY";
+    public static final String EXTRA_EXPIRING_DATE_MONTH =
+            "com.example.architectureexample.EXTRA_EXPIRING_DATE_MONTH";
+    public static final String EXTRA_EXPIRING_DATE_YEAR =
+            "com.example.architectureexample.EXTRA_EXPIRING_DATE_YEAR";
+    public static final String EXTRA_OTHER =
+            "com.example.architectureexample.EXTRA_OTHER";
+
 
     private EditText editTextUserName;
     private EditText editTextTitle;
@@ -55,7 +73,7 @@ public class ExplorerMain_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast.makeText(ExplorerMain_Activity.this, "button pressed", Toast.LENGTH_SHORT).show();
                 openNewRecord(v);
-                openNextActivity();
+
 
             }
         });
@@ -93,6 +111,17 @@ public class ExplorerMain_Activity extends AppCompatActivity {
             return;
         }
 
+//        Intent data = new Intent();
+//        data.putExtra(EXTRA_TITLE, title);
+//        data.putExtra(EXTRA_USERNAME, userName);
+//        data.putExtra(EXTRA_PASSWORD, password);
+//        data.putExtra(EXTRA_EMAIL, email);
+//        data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDateDay);
+//        data.putExtra(EXTRA_EXPIRING_DATE_MONTH, expiringDateMonth);
+//        data.putExtra(EXTRA_EXPIRING_DATE_YEAR, expiringDateYear);
+//        data.putExtra(EXTRA_OTHER, other);
+
+
         class SaveNewWebsiteRecord extends AsyncTask<Void, Void, Void> {
 
             //expiring-date fields are seperated so we concat them into one string.
@@ -110,10 +139,23 @@ public class ExplorerMain_Activity extends AppCompatActivity {
                 website_record.setExpiringDate(expiringDate);
                 website_record.setOther(other);
 
-
                 DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
                         .daoWebsite()
                         .insert(website_record);
+
+                //to deliver to RecyclerView
+                Intent data = new Intent();
+                data.putExtra(EXTRA_TITLE, title);
+                data.putExtra(EXTRA_USERNAME, userName);
+                data.putExtra(EXTRA_PASSWORD, password);
+                data.putExtra(EXTRA_EMAIL, email);
+                data.putExtra(EXTRA_WEBSITE, email);
+                data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDateDay);
+                data.putExtra(EXTRA_EXPIRING_DATE_MONTH, expiringDateMonth);
+                data.putExtra(EXTRA_EXPIRING_DATE_YEAR, expiringDateYear);
+                data.putExtra(EXTRA_OTHER, other);
+
+                setResult(RESULT_OK, data);
                 return null;
             }
 
@@ -128,6 +170,8 @@ public class ExplorerMain_Activity extends AppCompatActivity {
         SaveNewWebsiteRecord saveNewWebsiteRecord = new SaveNewWebsiteRecord();
         saveNewWebsiteRecord.execute();
 
+
+
     }
 
 
@@ -139,10 +183,6 @@ public class ExplorerMain_Activity extends AppCompatActivity {
         TextView c2 = findViewById(R.id.c2);
         TextView c3 = findViewById(R.id.c3);
 
-    }
-    public void openNextActivity(){
-        Intent intent = new Intent(this, ShowWebsite_Activity.class);
-        startActivity(intent);
     }
 
 }

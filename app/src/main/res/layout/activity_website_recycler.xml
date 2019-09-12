@@ -14,4 +14,16 @@
         tools:listitem="@layout/record_item">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_add_website_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal"
+        app:backgroundTint="@color/back_secondColor"/>
+<!--        android:onClick="editForm"-->
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

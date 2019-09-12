@@ -21,7 +21,6 @@
         <activity
             android:name="view.Explorer.ExplorerMain_Activity"
             android:parentActivityName=".MainActivity" />
-        <activity android:name="view.Records.ShowWebsite_Activity" />
     </application>
 
 </manifest>
