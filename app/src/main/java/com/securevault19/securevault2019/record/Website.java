@@ -137,7 +137,7 @@ public class Website extends Record {
 
     @Override
     public String getTitle() {
-        return "titlww";
+        return title;
     }
 
     @Override

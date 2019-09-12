@@ -24,6 +24,6 @@
         android:src="@drawable/ic_add"
         app:fabSize="normal"
         app:backgroundTint="@color/back_secondColor"/>
-<!--        android:onClick="editForm"-->
+    <!--        android:onClick="editForm"-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
