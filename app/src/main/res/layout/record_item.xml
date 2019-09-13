@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:textColor="#000000"
-                android:text="www.website.com"
+                android:text="@string/user_name"
                 android:ellipsize="end"/>
         </LinearLayout>
 
@@ -60,7 +60,8 @@
             android:clickable="true"
             android:src="@drawable/ic_arrow_right_black"
             android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
