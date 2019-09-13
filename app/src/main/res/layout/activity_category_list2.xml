@@ -125,7 +125,8 @@
                 android:layout_height="wrap_content"
                 android:columnCount="2"
                 android:orientation="horizontal"
-                android:padding="6dp">
+                android:padding="6dp"
+                >
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/bankAccount"

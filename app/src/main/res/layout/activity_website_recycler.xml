@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
+        android:background="@drawable/new_back"
         android:orientation="vertical">
 
     <RelativeLayout
@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:background="@drawable/sign_in_background"
         android:orientation="vertical">
 
         <RelativeLayout
