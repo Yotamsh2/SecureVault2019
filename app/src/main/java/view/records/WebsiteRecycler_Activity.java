@@ -20,8 +20,9 @@ import com.securevault19.securevault2019.record.WebsiteAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
-import view.explorer.ExplorerMain_Activity;
+import view.records.AddNewWebsite_Activity;
 
 public class WebsiteRecycler_Activity extends AppCompatActivity implements WebsiteAdapter.OnWebsiteListener {
     public static final int ADD_NOTE_REQUEST = 1;
@@ -59,7 +60,7 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ExplorerMain_Activity.class);
+                Intent intent = new Intent(getApplicationContext(), AddNewWebsite_Activity.class);
                 startActivityForResult(intent, ADD_NOTE_REQUEST);
 
 
@@ -72,15 +73,15 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(ExplorerMain_Activity.EXTRA_TITLE);
-            String userName = data.getStringExtra(ExplorerMain_Activity.EXTRA_USERNAME);
-            String password = data.getStringExtra(ExplorerMain_Activity.EXTRA_PASSWORD);
-            String email = data.getStringExtra(ExplorerMain_Activity.EXTRA_EMAIL);
-            String website = data.getStringExtra(ExplorerMain_Activity.EXTRA_WEBSITE);
-            String expiringDateDay = data.getStringExtra(ExplorerMain_Activity.EXTRA_EXPIRING_DATE_DAY);
-            String expiringDateMonth = data.getStringExtra(ExplorerMain_Activity.EXTRA_EXPIRING_DATE_MONTH);
-            String expiringDateyear = data.getStringExtra(ExplorerMain_Activity.EXTRA_EXPIRING_DATE_YEAR);
-            String other = data.getStringExtra(ExplorerMain_Activity.EXTRA_OTHER);
+            String title = data.getStringExtra(AddNewWebsite_Activity.EXTRA_TITLE);
+            String userName = data.getStringExtra(AddNewWebsite_Activity.EXTRA_USERNAME);
+            String password = data.getStringExtra(AddNewWebsite_Activity.EXTRA_PASSWORD);
+            String email = data.getStringExtra(AddNewWebsite_Activity.EXTRA_EMAIL);
+            String website = data.getStringExtra(AddNewWebsite_Activity.EXTRA_WEBSITE);
+            String expiringDateDay = data.getStringExtra(AddNewWebsite_Activity.EXTRA_EXPIRING_DATE_DAY);
+            String expiringDateMonth = data.getStringExtra(AddNewWebsite_Activity.EXTRA_EXPIRING_DATE_MONTH);
+            String expiringDateyear = data.getStringExtra(AddNewWebsite_Activity.EXTRA_EXPIRING_DATE_YEAR);
+            String other = data.getStringExtra(AddNewWebsite_Activity.EXTRA_OTHER);
 
 
         }
@@ -91,5 +92,14 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
         Log.d("onwebsiteclick", "clicked. " + position);
 //        websites.get(position);
 
+    }
+
+    public void openOptions(View view) {
+    }
+
+
+    public void back(View view) {
+        Intent intent = new Intent(this, CategoryList_Activity.class);
+        this.startActivity(intent);
     }
 }

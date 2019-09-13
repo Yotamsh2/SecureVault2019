@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Secure Vault 2019</string>
-    <string name="create_vault">הירשם וצור כספת חדשה</string>
+    <string name="create_vault">צור משתמש חדש ופתח כספת משלך</string>
     <string name="password">סיסמה</string>
     <string name="sign_in">כניסה</string>
     <string name="user_name">שם משתמש</string>
@@ -24,6 +24,29 @@
     <string name="custom1">מותאם אישית 1</string>
     <string name="custom2">מותאם אישית 2</string>
     <string name="custom3">מותאם אישית 3</string>
-    <string name="addFields">הוסף שדות מותאמים אישית</string>
-    <string name="new_website">חשבון אתר חדש</string>
+    <string name="addFields">+ הוסף שדה</string>
+    <string name="newRecord">רשומה חדשה</string>
+    <string name="cancel">ביטול</string>
+    <string name="delete">מחיקה</string>
+    <string name="later">אחר כך</string>
+    <string name="no">לא</string>
+    <string name="yes">כן</string>
+    <string name="cancelation_message">ישנם נתונים שלא נשמרו. האם להמשיך מבלי לשמור?</string>
+    <string name="cancelation_request">ביטול</string>
+    <string name="bankAccounts">חשבונות בנק</string>
+    <string name="creditCards">כרטיסי אשראי</string>
+    <string name="cryptocurrency">מטבעות קריפטוגרפיים</string>
+    <string name="customized">רשומות מותאמות אישית</string>
+    <string name="drivingLicence">רשיונות נהיגה</string>
+    <string name="notes">פתקים</string>
+    <string name="onlineShopping">קניות ברשת</string>
+    <string name="passports">תעודות זהות</string>
+    <string name="socialMedia">רשתות חברתיות</string>
+    <string name="webAccounts">חשבונות באינטרנט</string>
+    <string name="mmddyyyy">שנה/יום/חודש</string>
+    <string name="addNote">+ הוסף הערה</string>
+    <string name="addExpiringDate">+ הוסף תאריך פג תוקף</string>
+    <string name="search">חיפוש</string>
+    <string name="logo">לוגו</string>
+    <string name="go">חפש</string>
 </resources>

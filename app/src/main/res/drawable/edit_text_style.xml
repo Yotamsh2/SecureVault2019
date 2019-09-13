@@ -7,6 +7,6 @@
     <stroke android:color="#fff"
         android:width="2dp"/>
     <corners android:radius="20sp"/>
-    <solid android:color="@color/editText" />
+    <solid android:color="@color/transparent" />
 
 </shape>

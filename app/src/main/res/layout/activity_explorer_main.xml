@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:gravity="center"
-                android:text="@string/new_website"
+                android:text="@string/newRecord"
                 android:textColor="#fff"
                 android:textSize="20sp" />
 

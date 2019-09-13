@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/editForm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_edit"
+        app:fabSize="normal"
+        app:backgroundTint="@color/back_secondColor"
+        android:onClick="editForm"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@drawable/sign_in_background"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/menu_icon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/icon_back"
+                    android:onClick="back" />
+
+                <Button
+                    android:id="@+id/search_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="14dp"
+                    android:background="@drawable/icon_threedots"
+                    android:onClick="openOptions" />
+            </RelativeLayout>
+            <!--menu and search buttons-->
+
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_above="@id/activityTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/logo"
+                android:contentDescription="@string/logo"/>
+
+            <TextView
+                android:id="@+id/activityTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:text="@string/newRecord"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+
+        </RelativeLayout>
+        <!--Header-->
+
+        <ScrollView
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="6"
+            android:background="#fff">
+
+
+            <LinearLayout
+                android:id="@+id/form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:labelFor="@id/category_EditText"
+                    android:text="@string/category" />
+
+                <EditText
+                    android:id="@+id/category_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title"
+                    android:labelFor="@id/title_EditText"/>
+
+                <EditText
+                    android:id="@+id/title_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_name"
+                    android:labelFor="@id/username_EditText"/>
+
+                <EditText
+                    android:id="@+id/username_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password"
+                    android:labelFor="@id/password_EditText"/>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/password_EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="start"
+                        android:inputType="textPassword"
+                        android:paddingEnd="50dp"
+                        android:enabled="true"/>
+
+                    <ImageButton
+                        android:id="@+id/showPass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/ic_show_pass"
+                        android:onClick="showPass" />
+
+                    <ImageButton
+                        android:id="@+id/hidePass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/ic_hide_pass"
+                        android:onClick="showPass"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/website"
+                    android:labelFor="@id/website_EditText"/>
+
+                <EditText
+                    android:id="@+id/website_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/email"
+                    android:labelFor="@id/email_EditText"/>
+
+                <EditText
+                    android:id="@+id/email_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1" />
+
+                <TextView
+                    android:id="@+id/expiringDate_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/expiringDate"
+                    android:labelFor="@id/expiringDate_EditText"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/expiringDate_EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/mmddyyyy"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        android:visibility="gone" />
+
+                    <ImageButton
+                        android:id="@+id/calendarBtn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/ic_date_range_black_24dp"
+                        android:onClick="openCalendar"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/addExpiringDateBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@null"
+                    android:onClick="addExpiringDate"
+                    android:text="@string/addExpiringDate" />
+
+                <TextView
+                    android:id="@+id/c1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom1"
+                    android:labelFor="@id/custom1_EditText"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/custom1_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/c2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom2"
+                    android:labelFor="@id/custom2_EditText"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/custom2_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/c3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/custom3"
+                    android:labelFor="@id/custom3_EditText"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/custom3_EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/addFieldsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@null"
+                    android:onClick="addFields"
+                    android:text="@string/addFields" />
+
+                <Button
+                    android:id="@+id/addNoteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:background="@null"
+                    android:onClick="addNote"
+                    android:text="@string/addNote" />
+
+
+                <TextView
+                    android:id="@+id/note_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/note"
+                    android:labelFor="@id/note_editText"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/note_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/yellowNote"
+                    android:gravity="top"
+                    android:visibility="gone" />
+
+
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@null"
+                    android:onClick="cancelWarningMessage"
+                    android:text="@string/cancel"
+                    android:textColor="@color/cancelBtn"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/btn_style"
+                    android:onClick="openNewRecord"
+                    android:text="@string/save"
+                    android:textColor="@color/btn_textColor"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+        <!--Form-->
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

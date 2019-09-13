@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.securevault19.securevault2019">
 
     <application
@@ -10,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="view.records.WebsiteRecycler_Activity"></activity>
+        <activity android:name="view.records.WebsiteRecycler_Activity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,8 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="view.explorer.ExplorerMain_Activity"
-            android:parentActivityName=".MainActivity" />
+            android:name="view.records.AddNewWebsite_Activity"
+            android:parentActivityName="view.explorer.CategoryList_Activity" />
+        <activity
+        android:name="view.explorer.CategoryList_Activity"
+        android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
