@@ -35,7 +35,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
-        setContentView(R.layout.activity_category_list);
+        setContentView(R.layout.activity_category_list2);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         bankAccounts =  findViewById(R.id.bankAccount);

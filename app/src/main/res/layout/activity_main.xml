@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@drawable/background_style"
+    android:background="@drawable/new_back"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
@@ -72,7 +72,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_style"
             android:text="@string/sign_in"
-            android:textColor="@color/btn_textColor" />
+            android:textColor="#fff" />
 
 
     <Button
