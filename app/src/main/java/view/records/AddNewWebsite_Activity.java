@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,6 +69,10 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     private Animation animation1, animation2, animation3;
     private ScrollView scrollView;
     private FloatingActionButton editForm;
+    private TextView activityTitle;
+    private Typeface myFont;
+
+
 
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
 
@@ -106,15 +111,19 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         website_EditText =  findViewById(R.id.website_EditText);
         email_EditText =  findViewById(R.id.email_EditText);
         editForm =  findViewById(R.id.editForm);
+        activityTitle = findViewById(R.id.activityTitle);
 
 
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.zoomin);
-        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.lefttoright);
+        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.bottomtotop);
         animation3 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
 
+        //        Set logo's font to category's text
+        myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
+        activityTitle.setTypeface(myFont);
     }
 
 

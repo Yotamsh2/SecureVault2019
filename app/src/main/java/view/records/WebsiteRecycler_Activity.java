@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
@@ -30,6 +32,8 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
 
     private Record_ViewModel viewModel;
     private List<Website> websites = new ArrayList<>();
+    private TextView activityTitle;
+    private Typeface myFont;
 
 
     @Override
@@ -66,6 +70,14 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
 
             }
         });
+
+
+
+        activityTitle = findViewById(R.id.activityTitle);
+        //        Set logo's font to category's text
+        myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
+        activityTitle.setTypeface(myFont);
+
     }
 
     @Override

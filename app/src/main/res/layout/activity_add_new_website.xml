@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#fff"
+    android:background="@drawable/new_back"
     android:orientation="vertical">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,7 +24,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fff"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -32,7 +31,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:background="@drawable/sign_in_background"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -97,7 +95,11 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="6"
-            android:background="#fff">
+            android:background="@drawable/form_style"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="4dp"
+            android:scrollbarSize="0dp">
 
 
             <LinearLayout
@@ -337,28 +339,37 @@
                     android:visibility="gone" />
 
 
-                <Button
-                    android:id="@+id/cancelBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@null"
-                    android:onClick="cancelWarningMessage"
-                    android:text="@string/cancel"
-                    android:textColor="@color/cancelBtn"
-                    android:textSize="12sp" />
-
-                <Button
-                    android:id="@+id/saveBtn"
+                <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_width="0dp"
                     android:layout_height="44dp"
-                    android:layout_marginBottom="10dp"
+                        android:layout_weight="8"
+                    android:layout_marginBottom="4dp"
                     android:background="@drawable/btn_style"
                     android:onClick="openNewRecord"
                     android:text="@string/save"
                     android:textColor="@color/btn_textColor"
                     android:textSize="20sp" />
 
+                    <Button
+                        android:id="@+id/cancelBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="@drawable/btn_cancel_style"
+                        android:onClick="cancelWarningMessage"
+                        android:text="@string/cancel"
+                        android:textColor="#fff"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
 

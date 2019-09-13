@@ -30,6 +30,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     Button search_icon;
     Button search_btn;
     EditText search_bar;
+    TextView activityTitle;
 
 
     @Override
@@ -52,6 +53,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         search_btn =  findViewById(R.id.search_btn);
         search_bar =  findViewById(R.id.search_bar);
         search_icon =  findViewById(R.id.search_icon);
+        activityTitle = findViewById(R.id.activityTitle);
 
 
         mainGrid =  findViewById(R.id.mainGrid);
@@ -64,7 +66,8 @@ public class CategoryList_Activity extends AppCompatActivity {
 
 
 //        Set logo's font to category's text
-        //myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
+        myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
+        activityTitle.setTypeface(myFont);
         category1 =  findViewById(R.id.category1);
         category2 =  findViewById(R.id.category2);
         category3 =  findViewById(R.id.category3);
