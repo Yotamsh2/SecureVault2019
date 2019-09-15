@@ -12,7 +12,7 @@ import com.securevault19.securevault2019.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//
 public class WebsiteAdapter extends RecyclerView.Adapter<WebsiteAdapter.WebsiteHolder> {
 
     private List<Website> websites = new ArrayList<>();
