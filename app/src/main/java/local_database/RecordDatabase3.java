@@ -7,11 +7,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.securevault19.securevault2019.record.Record;
+import com.securevault19.securevault2019.user.User;
 
 import local_database.dao.RecordDao;
 import local_database.dao.UserDao;
 
-@Database(entities = {Record.class},version = 1)
+@Database(entities = {Record.class, User.class},version = 1)
 public abstract class RecordDatabase3 extends RoomDatabase {
 
     private static RecordDatabase3 instace;      // =null?
