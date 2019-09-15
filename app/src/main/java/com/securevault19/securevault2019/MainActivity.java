@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
         final Button buttonSignIn = findViewById(R.id.signIn);
         counter = 3;
 
+
+    // for testing //
+    userName.setText("A");
+    password.setText("1");
+    //------------//
+
+
         //Animation Sets
         Animation animation1 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.zoomin);
         final Animation animation2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.bottomtotop);
