@@ -4,7 +4,7 @@
 //
 //@Entity (tableName = "bankAccount_table")
 //public class BankAccount extends Record {
-//
+// //
 //
 ////    @PrimaryKey(autoGenerate = true)
 ////    public int recordID;
