@@ -116,7 +116,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.zoomin);
-        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.bottomtotop_fast);
+        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.zoomin_fast);
         animation3 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
@@ -135,6 +135,9 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
     @SuppressLint("RestrictedApi")
     public void openNewRecord(View view) {
+        mediaPlayer.start();
+        saveBtn.startAnimation(animation3);
+
         //Setting the details from the Activity to send to the Website constructor
         final String title = title_EditText.getText().toString();
         final String userName = username_EditText.getText().toString().trim();
@@ -147,8 +150,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
         //Check if all the needed details are typed.
         //NEED TO UPGRADE A LITTLE
-        if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
-                || website.isEmpty() || email.isEmpty()) {
+        if (title.isEmpty()) {
             Toast.makeText(this, "Please insert all the requested fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -261,7 +263,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
     public void openCalendar(View view) {
         mediaPlayer.start();
-        cancelBtn.startAnimation(animation3);
+        calendarBtn.startAnimation(animation3);
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 this,
