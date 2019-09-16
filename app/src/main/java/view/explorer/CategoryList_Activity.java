@@ -13,11 +13,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.securevault19.securevault2019.R;
+
+import view.records.RecordRecycler_Activity;
 
 public class CategoryList_Activity extends AppCompatActivity {
     Typeface myFont;
@@ -94,70 +95,70 @@ public class CategoryList_Activity extends AppCompatActivity {
     public void goToBankAccounts(View view) {
         mediaPlayer.start();
         bankAccounts.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToCreditCard(View view) {
         mediaPlayer.start();
         creditCard.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToSocialMedia(View view) {
         mediaPlayer.start();
         socialMedia.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToWebAccounts(View view) {
         mediaPlayer.start();
         webAccounts.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToOnlineShopping(View view) {
         mediaPlayer.start();
         onlineShopping.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToCryptocurrency(View view) {
         mediaPlayer.start();
         cryptocurrency.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToDrivingLicence(View view) {
         mediaPlayer.start();
         drivingLicence.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToPassports(View view) {
         mediaPlayer.start();
         passports.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToCustomized(View view) {
         mediaPlayer.start();
         customized.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
     public void goToNotes(View view) {
         mediaPlayer.start();
         notes.startAnimation(animation3);
-        Intent intent = new Intent(this, view.records.WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 

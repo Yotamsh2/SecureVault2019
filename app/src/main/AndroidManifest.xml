@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="view.records.WebsiteRecycler_Activity"/>
+        <activity android:name="view.records.RecordRecycler_Activity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="view.records.AddNewWebsite_Activity"
+            android:name="view.records.AddNewRecord_Activity"
             android:parentActivityName="view.explorer.CategoryList_Activity" />
         <activity
-        android:name="view.explorer.CategoryList_Activity"
-        android:parentActivityName=".MainActivity" />
+            android:name="view.explorer.CategoryList_Activity"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
