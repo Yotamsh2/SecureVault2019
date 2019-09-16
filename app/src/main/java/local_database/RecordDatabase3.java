@@ -22,7 +22,11 @@ public abstract class RecordDatabase3 extends RoomDatabase {
 
     public static synchronized RecordDatabase3 getInstance(Context context){
         if (instace == null){
-            instace = Room.databaseBuilder(context.getApplicationContext(),RecordDatabase3.class, "RecordDatabase3.db").fallbackToDestructiveMigration().build();
+            instace = Room.databaseBuilder(context.getApplicationContext()
+                    ,RecordDatabase3.class
+                    , "RecordDatabase3.db")
+                    .fallbackToDestructiveMigration()
+                    .build();
             // consider to remove fallBackToMigration func
         }
         return instace;

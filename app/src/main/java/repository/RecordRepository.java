@@ -65,13 +65,13 @@ public class RecordRepository {
     private LiveData<List<User>> allUsers;
 
 
-    public RecordRepository(Application application){
+    public RecordRepository(Application application) {
         RecordDatabase3 recordDatabase3 = RecordDatabase3.getInstance(application);
         recordDao = recordDatabase3.recordDao();
         RecordDatabase3 recordDatabase3User = RecordDatabase3.getInstance(application);
         userDao = recordDatabase3User.userDao();
 
-        allBankAccounts =recordDao.getAllBankAccounts(bankAccountString);
+        allBankAccounts = recordDao.getAllBankAccounts(bankAccountString);
         allCreditCards = recordDao.getAllCreditCard(crediCardString);
         allCryptocurrencys = recordDao.getAllCryptoCurrencys(cryptocurrencyString);
         allDrivingLicences = recordDao.getAllDrivingLicence(drivingLicenceString);
@@ -87,9 +87,7 @@ public class RecordRepository {
     }
 
 
-
-
-     // ----------------------------------- Bank Account --------------------------------------- //
+    // ----------------------------------- Bank Account --------------------------------------- //
 
     public void insertBankAccount(Record record){
         new InsertBankAccountRecordAsyncTask(recordDao).execute(record);
@@ -163,6 +161,7 @@ public class RecordRepository {
         }
     }
     // ------------------------------------------------------------------------------------------ //
+
 
 
     // ----------------------------------- Credit Card --------------------------------------- //
@@ -239,6 +238,7 @@ public class RecordRepository {
         }
     }
     // ------------------------------------------------------------------------------------------ //
+
 
 
     // ----------------------------------- CryptoCurrency --------------------------------------- //
@@ -394,7 +394,6 @@ public class RecordRepository {
     // ------------------------------------------------------------------------------------------ //
 
 
-
     // --------------------------------------- Email -------------------------------------------- //
 
     public void insertEmail(Record record){
@@ -546,6 +545,7 @@ public class RecordRepository {
         }
     }
     // ------------------------------------------------------------------------------------------ //
+
 
 
 
@@ -855,7 +855,8 @@ public class RecordRepository {
     // ------------------------------------------------------------------------------------------ //
 
 
-//
+
+
 //    private DaoUser daoUser;
 //    private LiveData<List<User>> allUserRecords;
 //
