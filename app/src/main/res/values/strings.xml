@@ -23,7 +23,7 @@
     <string name="custom1">custom1</string>
     <string name="custom2">custom2</string>
     <string name="custom3">custom3</string>
-    <string name="addFields">+ Add Filed</string>
+    <string name="addFields">+ Add Field</string>
     <string name="newRecord">New Record</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
@@ -31,7 +31,7 @@
     <string name="later">Later</string>
     <string name="delete">Delete</string>
     <string name="cancelation_request">Cancelation Request</string>
-    <string name="cancelation_message">You have unsaveBtnd changes. Do you wish to continue?</string>
+    <string name="cancelation_message">You have unsaved changes. Do you wish to continue?</string>
     <string name="bankAccounts">Bank Accounts</string>
     <string name="creditCards">Credit Cards</string>
     <string name="socialMedia">Social Media</string>
@@ -48,4 +48,5 @@
     <string name="search">Search</string>
     <string name="logo">Logo</string>
     <string name="go">GO</string>
+    <string name="chooseIcon">Choose Icon</string>
 </resources>
