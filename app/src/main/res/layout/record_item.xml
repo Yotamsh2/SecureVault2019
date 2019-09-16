@@ -34,7 +34,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Web Title"
+                android:text="Record Title"
                 android:layout_alignParentEnd="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="24sp"
@@ -43,7 +43,7 @@
                 android:ellipsize="end"/>
 
             <TextView
-                android:id="@+id/website"
+                android:id="@+id/record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
