@@ -158,7 +158,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             String encryptedPassword;
             String decryptedPassword;
 
-            //encryption methods: the first argument will be the Data(the encryption uses the data to generate the Key whichgit  has to be unique and unguessable
+            //encryption methods: the first argument will be the Data(the encryption uses the data to generate the Key) which has to be unique and unguessable
             // and the second argument will be the field which we want to save the encrypted message to
 
             private String encryptPassword(String username, String password) throws Exception {
