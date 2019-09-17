@@ -49,4 +49,5 @@
     <string name="search">חיפוש</string>
     <string name="logo">לוגו</string>
     <string name="go">חפש</string>
+    <string name="chooseIcon">בחירת סמל</string>
 </resources>

@@ -57,13 +57,14 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
             "com.example.architectureexample.EXTRA_OTHER";
 	//////////////////////////////////////////////////////////////////////////////////
 	
-    private EditText custom1_EditText, custom2_EditText, custom3_EditText, password, note;
+    private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView expiringDate_EditText;
     private TextView expiringDate_title;
     private ImageButton calendarBtn;
     private ImageView logo;
-    private Button addFields, addNote, addExpiringDate, saveBtn, cancelBtn;
+    private Button addFields, addNote, addExpiringDate;
+    private ImageButton saveBtn, cancelBtn;
     private ImageButton showPass, hidePass;
     private MediaPlayer mediaPlayer;
     private Animation animation1, animation2, animation3;
@@ -77,8 +78,8 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
 
     @Override
-    protected void onCreate(Bundle saveBtndInstanceState) {
-        super.onCreate(saveBtndInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_website);
 
 
@@ -90,7 +91,6 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         expiringDate_title =  findViewById(R.id.expiringDate_title);
         calendarBtn =  findViewById(R.id.calendarBtn);
         addExpiringDate =  findViewById(R.id.addExpiringDateBtn);
-        password =  findViewById(R.id.password);
         showPass =  findViewById(R.id.showPass);
         hidePass =  findViewById(R.id.hidePass);
         custom1_EditText =  findViewById(R.id.custom1_EditText);
@@ -116,7 +116,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.zoomin);
-        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.bottomtotop);
+        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.bottomtotop_fast);
         animation3 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
@@ -260,6 +260,8 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void openCalendar(View view) {
+        mediaPlayer.start();
+        cancelBtn.startAnimation(animation3);
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 this,
@@ -276,28 +278,35 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void showPass(View view) {
-//        password.requestFocus();
-//        password.setSelection(password.getText().length());
+        mediaPlayer.start();
+
         if (showPass.getVisibility() == View.VISIBLE) {
-            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             hidePass.setVisibility(View.VISIBLE);
             showPass.setVisibility(View.GONE);
+            showPass.startAnimation(animation3);
         } else {
-            password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             hidePass.setVisibility(View.GONE);
             showPass.setVisibility(View.VISIBLE);
+            hidePass.startAnimation(animation3);
         }
+        password_EditText.requestFocus();
+        password_EditText.setSelection(password_EditText.getText().length());
 
     }
 
     public void cancelWarningMessage(final View view) {
+        mediaPlayer.start();
+        cancelBtn.startAnimation(animation3);
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(R.string.cancelation_request);
         alert.setMessage(R.string.cancelation_message);
         alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Data Not saveBtnd", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Data Not saved", Toast.LENGTH_LONG).show();
                 back(view);
             }
         });
