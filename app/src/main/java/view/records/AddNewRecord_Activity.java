@@ -26,18 +26,17 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.securevault19.securevault2019.MainActivity;
 import com.securevault19.securevault2019.R;
-import com.securevault19.securevault2019.record.Website;
+import com.securevault19.securevault2019.record.Record;
 
 import java.util.Calendar;
 
 import local_database.DatabaseClient;
 
-public class AddNewWebsite_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-	//Used by the RecyclerView ////////////////////////////////////////////////////
-    public static final String EXTRA_TITLE =                   
+    //Used by the RecyclerView ////////////////////////////////////////////////////
+    public static final String EXTRA_TITLE =
             "com.example.architectureexample.EXTRA_TITLE";
     public static final String EXTRA_USERNAME =
             "com.example.architectureexample.EXTRA_USERNAME";
@@ -55,16 +54,15 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
             "com.example.architectureexample.EXTRA_EXPIRING_DATE_YEAR";
     public static final String EXTRA_OTHER =
             "com.example.architectureexample.EXTRA_OTHER";
-	//////////////////////////////////////////////////////////////////////////////////
-	
-    private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
+    //////////////////////////////////////////////////////////////////////////////////
+
+    private EditText custom1_EditText, custom2_EditText, custom3_EditText, password, note;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView expiringDate_EditText;
     private TextView expiringDate_title;
     private ImageButton calendarBtn;
     private ImageView logo;
-    private Button addFields, addNote, addExpiringDate;
-    private ImageButton saveBtn, cancelBtn;
+    private Button addFields, addNote, addExpiringDate, saveBtn, cancelBtn;
     private ImageButton showPass, hidePass;
     private MediaPlayer mediaPlayer;
     private Animation animation1, animation2, animation3;
@@ -78,9 +76,9 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_website);
+    protected void onCreate(Bundle saveBtndInstanceState) {
+        super.onCreate(saveBtndInstanceState);
+        setContentView(R.layout.activity_add_new_record);
 
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
@@ -91,6 +89,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         expiringDate_title =  findViewById(R.id.expiringDate_title);
         calendarBtn =  findViewById(R.id.calendarBtn);
         addExpiringDate =  findViewById(R.id.addExpiringDateBtn);
+        password =  findViewById(R.id.password);
         showPass =  findViewById(R.id.showPass);
         hidePass =  findViewById(R.id.hidePass);
         custom1_EditText =  findViewById(R.id.custom1_EditText);
@@ -115,9 +114,9 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
 
         //Animation Sets
-        animation1 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.zoomin);
-        animation2 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.bottomtotop_fast);
-        animation3 = AnimationUtils.loadAnimation(AddNewWebsite_Activity.this, R.anim.buttonpush_anim);
+        animation1 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin);
+        animation2 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.bottomtotop);
+        animation3 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
 
@@ -142,7 +141,6 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         final String website = website_EditText.getText().toString().trim();
         final String email = email_EditText.getText().toString().trim();
         final String expiringDate = expiringDate_EditText.getText().toString().trim();
-        //final String other = editTextOther.getText().toString();
 
 
         //Check if all the needed details are typed.
@@ -154,7 +152,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         }
 
 
-        class SaveNewWebsiteRecord extends AsyncTask<Void, Void, Void> {
+        class SaveNewRecord extends AsyncTask<Void, Void, Void> {
 
             //expiring-date fields are seperated so we concat them into one string.
             //String expiringDate_arr[] = {expiringDateDay, expiringDateMonth, expiringDateYear};
@@ -162,18 +160,17 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
             @Override
             protected Void doInBackground(Void... voids) {
-                Website website_record = new Website();
-                website_record.setTitle(title);
-                website_record.setUserName(userName);
-                website_record.setPassword(password);
-                website_record.setWebsite(website);
-                website_record.setEmail(email);
-                website_record.setExpiringDate(expiringDate);
-                //website_record.setOther(other);
+                Record record = new Record();
+                record.setTitle(title);
+                record.setUserName(userName);
+                record.setPassword(password);
+                record.setWebsite(website);
+                record.setEmail(email);
+                record.setExpiringDate(expiringDate);
 
                 DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
-                        .daoWebsite()
-                        .insert(website_record);
+                        .daoRecord()
+                        .insert(record);
 
                 //to deliver to RecyclerView
                 Intent data = new Intent();
@@ -193,13 +190,13 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 finish();
-                startActivity(new Intent(getApplicationContext(), WebsiteRecycler_Activity.class));
+                startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }
 
-        SaveNewWebsiteRecord saveNewWebsiteRecord = new SaveNewWebsiteRecord();
-        saveNewWebsiteRecord.execute();
+        SaveNewRecord saveNewRecord = new SaveNewRecord();
+        saveNewRecord.execute();
 
 
 
@@ -260,8 +257,6 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void openCalendar(View view) {
-        mediaPlayer.start();
-        cancelBtn.startAnimation(animation3);
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 this,
@@ -278,35 +273,28 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void showPass(View view) {
-        mediaPlayer.start();
-
+//        password.requestFocus();
+//        password.setSelection(password.getText().length());
         if (showPass.getVisibility() == View.VISIBLE) {
-            password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             hidePass.setVisibility(View.VISIBLE);
             showPass.setVisibility(View.GONE);
-            showPass.startAnimation(animation3);
         } else {
-            password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            password.setTransformationMethod(PasswordTransformationMethod.getInstance());
             hidePass.setVisibility(View.GONE);
             showPass.setVisibility(View.VISIBLE);
-            hidePass.startAnimation(animation3);
         }
-        password_EditText.requestFocus();
-        password_EditText.setSelection(password_EditText.getText().length());
 
     }
 
     public void cancelWarningMessage(final View view) {
-        mediaPlayer.start();
-        cancelBtn.startAnimation(animation3);
-
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(R.string.cancelation_request);
         alert.setMessage(R.string.cancelation_message);
         alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Data Not saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Data Not saveBtnd", Toast.LENGTH_LONG).show();
                 back(view);
             }
         });
@@ -341,7 +329,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void back(View view) {
-        Intent intent = new Intent(this, WebsiteRecycler_Activity.class);
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
         this.startActivity(intent);
     }
 
