@@ -187,6 +187,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
 
