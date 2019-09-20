@@ -136,6 +136,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     @SuppressLint("RestrictedApi")
     public void openNewRecord(View view) {
         //Setting the details from the Activity to send to the Website constructor
+        final String category = category_EditText.getText().toString();
         final String title = title_EditText.getText().toString();
         final String userName = username_EditText.getText().toString().trim();
         final String password = password_EditText.getText().toString().trim();
@@ -146,11 +147,15 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         //Check if all the needed details are typed.
         //NEED TO UPGRADE A LITTLE
-        if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
-                || website.isEmpty() || email.isEmpty()) {
-            Toast.makeText(this, "Please insert all the requested fields", Toast.LENGTH_SHORT).show();
+        if (title.isEmpty()){
+            Toast.makeText(this, "Please fill 'title' field", Toast.LENGTH_SHORT).show();
             return;
         }
+//        if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
+//                || website.isEmpty() || email.isEmpty()) {
+//            Toast.makeText(this, "Please insert all the requested fields", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         class SaveNewRecord extends AsyncTask<Void, Void, Void> {
 
@@ -216,6 +221,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 //outputText.setText( outputString ); - will be used when we will want to display the data
 
                 Record record = new Record();
+                record.setCategory(category);
                 record.setTitle(title);
                 record.setUserName(encryptedUsername);
                 record.setPassword(encryptedPassword);

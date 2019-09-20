@@ -24,11 +24,9 @@ import java.util.List;
 
 import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
-import view.records.AddNewRecord_Activity;
 
 public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener {
-    public static final int ADD_NOTE_REQUEST = 1;
-
+    public static final int ADD_RECORD_REQUEST = 1;
 
     private Record_ViewModel viewModel;
     private List<Record> records = new ArrayList<>();
@@ -45,32 +43,156 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         recyclerView.setHasFixedSize(true);
 
 
-        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records,this);
+        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
         recyclerView.setAdapter(recordAdapter);
 
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
 
-        viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
-            @Override
-            public void onChanged(List<Record> records) {
-                recordAdapter.setRecords(records);
-                recordAdapter.notifyDataSetChanged();
+        //getting the String to know which Category to show
+        Bundle extras = getIntent().getExtras();
+        String category;
 
+        //checking the extras is not null -> to get rid of "null object reference"
+        if (extras != null) {
+            category = extras.getString(CategoryList_Activity.EXTRA_CATEGORY);
+
+            if (category != null) {
+
+                //Switch case for each Category to show
+            switch (category) {
+                case "BankAccounts":
+                    viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "CreditCards":
+                    viewModel.getAllCreditCards().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "SocialMedia":
+                    viewModel.getAllSocialMedia().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "WebAccounts":
+                    viewModel.getAllWebAccounts().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "OnlineShopping":
+                    viewModel.getAllOnlineShopping().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "Cryptocurrency":
+                    viewModel.getAllCryptocurrency().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "DrivingLicence":
+                    viewModel.getAllDrivingLicence().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "Passports":
+                    viewModel.getAllPassports().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "Customized":
+                    viewModel.getAllCustomized().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                case "Notes":
+                    viewModel.getAllNotes().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+
+                        }
+                    });
+                    break;
+                default: //shows all records
+                    viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+                        }
+                    });
+                    break;
             }
-        });
+            }
 
-        FloatingActionButton buttonAddWebsiteRecord = findViewById(R.id.button_add_record);
-        buttonAddWebsiteRecord.setOnClickListener(new View.OnClickListener() {
+        }
 
+//        viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
+//            @Override
+//            public void onChanged(List<Record> records) {
+//                recordAdapter.setRecords(records);
+//                recordAdapter.notifyDataSetChanged();
+//
+//            }
+//        });
+
+        FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
+        buttonAddRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
-                startActivityForResult(intent, ADD_NOTE_REQUEST);
+                startActivityForResult(intent, ADD_RECORD_REQUEST);
 
 
             }
         });
-
 
 
         activityTitle = findViewById(R.id.activityTitle);
@@ -84,7 +206,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_NOTE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == ADD_RECORD_REQUEST && resultCode == RESULT_OK) {
             String title = data.getStringExtra(AddNewRecord_Activity.EXTRA_TITLE);
             String userName = data.getStringExtra(AddNewRecord_Activity.EXTRA_USERNAME);
             String password = data.getStringExtra(AddNewRecord_Activity.EXTRA_PASSWORD);

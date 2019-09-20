@@ -21,6 +21,11 @@ import com.securevault19.securevault2019.R;
 import view.records.RecordRecycler_Activity;
 
 public class CategoryList_Activity extends AppCompatActivity {
+//    public static final int ADD_RECORD_REQUEST = 1;
+
+    public static final String EXTRA_CATEGORY =
+            "com.securevault19.securevault2019.EXTRA_CATEGORY";
+
     Typeface myFont;
     TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
     GridLayout mainGrid;
@@ -96,13 +101,17 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         bankAccounts.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "BankAccounts");
         this.startActivity(intent);
+//        startActivityForResult(intent, ADD_RECORD_REQUEST);
+
     }
 
     public void goToCreditCard(View view) {
         mediaPlayer.start();
         creditCard.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "CreditCards");
         this.startActivity(intent);
     }
 
@@ -110,6 +119,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         socialMedia.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "SocialMedia");
         this.startActivity(intent);
     }
 
@@ -117,6 +127,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         webAccounts.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "WebAccounts");
         this.startActivity(intent);
     }
 
@@ -124,6 +135,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         onlineShopping.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "OnlineShopping");
         this.startActivity(intent);
     }
 
@@ -131,6 +143,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         cryptocurrency.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "Cryptocurrency");
         this.startActivity(intent);
     }
 
@@ -138,6 +151,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         drivingLicence.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "DrivingLicence");
         this.startActivity(intent);
     }
 
@@ -145,6 +159,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         passports.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "Passports");
         this.startActivity(intent);
     }
 
@@ -152,6 +167,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         customized.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "Customized");
         this.startActivity(intent);
     }
 
@@ -159,6 +175,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         notes.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "Notes");
         this.startActivity(intent);
     }
 
