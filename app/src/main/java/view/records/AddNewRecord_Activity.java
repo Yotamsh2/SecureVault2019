@@ -39,7 +39,10 @@ import javax.crypto.spec.SecretKeySpec;
 import local_database.DatabaseClient;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
-
+    // --- test for checking why the recycler view dosent show any thing --- //
+    public static final String EXTRA_CATEGORY =
+            "com.securevault19.securevault2019.EXTRA_CATEGORY";
+    // -------------------------------------------------------------------- //
     //Used by the RecyclerView ////////////////////////////////////////////////////
     public static final String EXTRA_TITLE =
             "com.example.architectureexample.EXTRA_TITLE";
@@ -258,7 +261,18 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 finish();
-                startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
+                // need to send with extra string
+
+                // startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
+
+                // afther the activity is finish it returns the recycler view without any string
+                // it couses the recycler to not know witch Dao to call
+                // so we need to send him string with the category we want.
+                Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+                intent.putExtra(EXTRA_CATEGORY, "website");
+                startActivity(intent);
+
+                //startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
             }
         }
