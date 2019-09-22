@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
@@ -186,7 +187,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+//                finish();
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
 
@@ -225,7 +226,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     @Override
     public void onRecordClick(int position) {
         Log.d("onRecordClick", "clicked. " + position);
-        records.get(position);
+        Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
+       // records.get(position);
 
     }
 

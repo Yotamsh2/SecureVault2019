@@ -25,4 +25,9 @@
     <color name="category_cardView">#FFFFFF</color>
     <color name="category_text">#000000</color>
 
+<!--Pattern locksreen view-->
+    <color name="colorCorrectLine">#008000</color>
+    <color name="colorNormalLine">#FFFF</color>
+    <color name="colorWrongLine">#FF0000</color>
+
 </resources>

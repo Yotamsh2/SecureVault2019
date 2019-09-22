@@ -32,4 +32,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 
+    //Pattern Lock View
+    implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'
+
+
 }

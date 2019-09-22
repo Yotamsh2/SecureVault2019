@@ -85,49 +85,49 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
-        super.onCreate( saveBtndInstanceState );
-        setContentView( R.layout.activity_add_new_record );
+        super.onCreate(saveBtndInstanceState);
+        setContentView(R.layout.activity_add_new_record);
 
-        mediaPlayer = MediaPlayer.create( this, R.raw.button );
-        logo = findViewById( R.id.logo );
-        saveBtn = findViewById( R.id.saveBtn );
-        cancelBtn = findViewById( R.id.cancelBtn );
-        expiringDate_EditText = findViewById( R.id.expiringDate_EditText );
-        expiringDate_title = findViewById( R.id.expiringDate_title );
-        calendarBtn = findViewById( R.id.calendarBtn );
-        addExpiringDate = findViewById( R.id.addExpiringDateBtn );
-        password = findViewById( R.id.password );
-        showPass = findViewById( R.id.showPass );
-        hidePass = findViewById( R.id.hidePass );
-        custom1_EditText = findViewById( R.id.custom1_EditText );
-        custom2_EditText = findViewById( R.id.custom2_EditText );
-        custom3_EditText = findViewById( R.id.custom3_EditText );
-        custom1_EditText_title = findViewById( R.id.c1 );
-        custom2_EditText_title = findViewById( R.id.c2 );
-        custom3_EditText_title = findViewById( R.id.c3 );
-        addFields = findViewById( R.id.addFieldsBtn );
-        scrollView = findViewById( R.id.frame );
-        addNote = findViewById( R.id.addNoteBtn );
-        note = findViewById( R.id.note_editText );
-        note_title = findViewById( R.id.note_title );
-        category_EditText = findViewById( R.id.category_EditText );
-        title_EditText = findViewById( R.id.title_EditText );
-        username_EditText = findViewById( R.id.username_EditText );
-        password_EditText = findViewById( R.id.password_EditText );
-        website_EditText = findViewById( R.id.website_EditText );
-        email_EditText = findViewById( R.id.email_EditText );
-        editForm = findViewById( R.id.editForm );
-        activityTitle = findViewById( R.id.activityTitle );
+        mediaPlayer = MediaPlayer.create(this, R.raw.button);
+        logo = findViewById(R.id.logo);
+        saveBtn = findViewById(R.id.saveBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
+        expiringDate_EditText = findViewById(R.id.expiringDate_EditText);
+        expiringDate_title = findViewById(R.id.expiringDate_title);
+        calendarBtn = findViewById(R.id.calendarBtn);
+        addExpiringDate = findViewById(R.id.addExpiringDateBtn);
+        password = findViewById(R.id.password);
+        showPass = findViewById(R.id.showPass);
+        hidePass = findViewById(R.id.hidePass);
+        custom1_EditText = findViewById(R.id.custom1_EditText);
+        custom2_EditText = findViewById(R.id.custom2_EditText);
+        custom3_EditText = findViewById(R.id.custom3_EditText);
+        custom1_EditText_title = findViewById(R.id.c1);
+        custom2_EditText_title = findViewById(R.id.c2);
+        custom3_EditText_title = findViewById(R.id.c3);
+        addFields = findViewById(R.id.addFieldsBtn);
+        scrollView = findViewById(R.id.frame);
+        addNote = findViewById(R.id.addNoteBtn);
+        note = findViewById(R.id.note_editText);
+        note_title = findViewById(R.id.note_title);
+        category_EditText = findViewById(R.id.category_EditText);
+        title_EditText = findViewById(R.id.title_EditText);
+        username_EditText = findViewById(R.id.username_EditText);
+        password_EditText = findViewById(R.id.password_EditText);
+        website_EditText = findViewById(R.id.website_EditText);
+        email_EditText = findViewById(R.id.email_EditText);
+        editForm = findViewById(R.id.editForm);
+        activityTitle = findViewById(R.id.activityTitle);
 
         //Animation Sets
-        animation1 = AnimationUtils.loadAnimation( AddNewRecord_Activity.this, R.anim.zoomin );
-        animation2 = AnimationUtils.loadAnimation( AddNewRecord_Activity.this, R.anim.bottomtotop );
-        animation3 = AnimationUtils.loadAnimation( AddNewRecord_Activity.this, R.anim.buttonpush_anim );
-        scrollView.startAnimation( animation2 );
+        animation1 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin);
+        animation2 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.bottomtotop);
+        animation3 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.buttonpush_anim);
+        scrollView.startAnimation(animation2);
 
         //        Set logo's font to category's text
-        myFont = Typeface.createFromAsset( this.getAssets(), "fonts/OutlierRail.ttf" );
-        activityTitle.setTypeface( myFont );
+        myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
+        activityTitle.setTypeface(myFont);
     }
 
     public void openSearch(View view) {
@@ -150,9 +150,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         //Check if all the needed details are typed.
         //NEED TO UPGRADE A LITTLE
-        if (title.isEmpty()){
+        if (title.isEmpty()) {
             Toast.makeText(this, "Please fill 'title' field", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        if (password != null) {
+            checkPassword(password);
         }
 //        if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
 //                || website.isEmpty() || email.isEmpty()) {
@@ -172,37 +176,37 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             private String encryptPassword(String username, String password) throws Exception {
                 SecretKeySpec key = generateKey(username);
                 Cipher c = Cipher.getInstance(AES);
-                c.init(Cipher.ENCRYPT_MODE,key);
+                c.init(Cipher.ENCRYPT_MODE, key);
                 byte[] encVal = c.doFinal(password.getBytes());
-                String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
+                String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
                 return encryptedValue;
             }
 
             private String encryptUsername(String username) throws Exception {
                 SecretKeySpec key = generateKey(username);
                 Cipher c = Cipher.getInstance(AES);
-                c.init(Cipher.ENCRYPT_MODE,key);
+                c.init(Cipher.ENCRYPT_MODE, key);
                 byte[] encVal = c.doFinal(username.getBytes());
-                String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
+                String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
                 return encryptedValue;
             }
 
-            private String decrypt (String outputString, String username) throws Exception{
+            private String decrypt(String outputString, String username) throws Exception {
                 SecretKeySpec key = generateKey(username);
                 Cipher c = Cipher.getInstance(AES);
-                c.init( Cipher.DECRYPT_MODE, key);
-                byte[] decodeValue = Base64.decode( outputString, Base64.DEFAULT );
+                c.init(Cipher.DECRYPT_MODE, key);
+                byte[] decodeValue = Base64.decode(outputString, Base64.DEFAULT);
                 byte[] decValue = c.doFinal(decodeValue);
                 String decryptedValue = new String(decValue);
                 return decryptedValue;
             }
 
-            private SecretKeySpec generateKey(String username) throws Exception{
+            private SecretKeySpec generateKey(String username) throws Exception {
                 final MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 byte[] bytes = username.getBytes("UTF-8");
-                digest.update( bytes,0,bytes.length );
+                digest.update(bytes, 0, bytes.length);
                 byte[] key = digest.digest();
-                SecretKeySpec secretKeySpec = new SecretKeySpec( key,"AES" );
+                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
                 return secretKeySpec;
             }
 
@@ -214,8 +218,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             protected Void doInBackground(Void... voids) {
 
                 try {
-                    encryptedUsername = encryptUsername( username_EditText.getText().toString());
-                    encryptedPassword = encryptPassword( username_EditText.getText().toString(), password_EditText.getText().toString() );
+                    encryptedUsername = encryptUsername(userName);
+                    encryptedPassword = encryptPassword(userName, password);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -268,10 +272,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 // afther the activity is finish it returns the recycler view without any string
                 // it couses the recycler to not know witch Dao to call
-                // so we need to send him string with the category we want.
-                Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
-                intent.putExtra(EXTRA_CATEGORY, category);
-                startActivity(intent);
+//                // so we need to send him string with the category we want.
+//                Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+//                intent.putExtra(EXTRA_CATEGORY, category);
+//                startActivity(intent);
 
                 //startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
                 Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
@@ -415,6 +419,22 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void openOptions(View view) {
+    }
+
+    public void checkPassword(String password) {
+        //check if there's minimum 8 characters.
+
+        // check if at least 1 capital letters
+
+        //check if at least 4 numbers
+
+        //check if there's space
+
+        //check if there are "other" characters - like: * , # , < , % ,  etc.
+
+        //calculate "points" and shows current strength level
+
+
     }
 }
 

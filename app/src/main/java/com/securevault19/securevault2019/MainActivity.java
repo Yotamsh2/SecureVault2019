@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,7 +16,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.andrognito.patternlockview.PatternLockView;
+import com.andrognito.patternlockview.listener.PatternLockViewListener;
+import com.andrognito.patternlockview.utils.PatternLockUtils;
+
+import java.util.List;
+
 import view.explorer.CategoryList_Activity;
+import view.explorer.PatternLockView_Activity;
 
 
 @SuppressLint("Registered")
@@ -65,9 +73,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
     public void signUp(View view) {
+
+    }
+    public void forgotPass(View view){
 
     }
 
@@ -88,5 +101,7 @@ public class MainActivity extends AppCompatActivity {
             }
             //wrong password
         }
+        Intent intent = new Intent(this, PatternLockView_Activity.class);
+        this.startActivity(intent);
     }
 }

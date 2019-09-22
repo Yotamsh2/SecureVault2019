@@ -38,6 +38,7 @@ public class Record {
     private String issuancePlace;
     private String secret_question;
 
+    private String folder;
 
     //public void setRecordID(int recordID) {
     //    this.recordID = recordID;
@@ -124,6 +125,10 @@ public class Record {
         this.lastModified = lastModified;
     }
 
+    public void setFolder(String folder) {
+        this.folder = folder;
+    }
+
     public int getRecordID() {
         return recordID;
     }
@@ -207,6 +212,10 @@ public class Record {
     }
     public String getExpiringDate() {
         return expiringDate;
+    }
+
+    public String getFolder() {
+        return folder;
     }
 }
 

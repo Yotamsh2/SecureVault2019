@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-public class    DatabaseClient {
+public class DatabaseClient {
 
     private Context mCtx;
     private static DatabaseClient mInstance;
@@ -16,7 +16,7 @@ public class    DatabaseClient {
         this.mCtx = mCtx;
 
         //creating the app database with Room database builder
-        recordDatabase2 = Room.databaseBuilder(mCtx, RecordDatabase2.class, "RecordsDatabse2.db").build();
+        recordDatabase2 = Room.databaseBuilder(mCtx, RecordDatabase2.class, "RecordsDatabse2.db").fallbackToDestructiveMigration().build();
     }
 
     public static synchronized DatabaseClient getInstance(Context mCtx) {
