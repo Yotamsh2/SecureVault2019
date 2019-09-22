@@ -2,6 +2,7 @@ package view.records;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,15 +11,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,23 +65,26 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 	
     private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
+    private TextView licenceExpiringDate_EditText;
+    private TextView issuanceDate_EditText;
     private TextView expiringDate_EditText;
     private TextView expiringDate_title;
     private ImageButton calendarBtn;
     private ImageView logo;
     private Button addFields, addNote, addExpiringDate;
     private ImageButton saveBtn, cancelBtn;
-    private ImageButton showPass, hidePass;
+    private ImageButton showPass, hidePass, copyPass, showCategory;
     private MediaPlayer mediaPlayer;
     private Animation animation1, animation2, animation3;
     private ScrollView scrollView;
     private FloatingActionButton editForm;
     private TextView activityTitle;
     private Typeface myFont;
+    private Spinner category_Spinner, typeOfRecord_Spinner;
+    private EditText title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
+    private LinearLayout category;
+    private LinearLayout registerDetails;
 
-
-
-    private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,16 +92,22 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         setContentView(R.layout.activity_add_new_website);
 
 
+        Button optionsBtn = findViewById(R.id.options_icon);
+        registerForContextMenu(optionsBtn);
+
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         logo =  findViewById(R.id.logo);
         saveBtn =  findViewById(R.id.saveBtn);
         cancelBtn =  findViewById(R.id.cancelBtn);
+        licenceExpiringDate_EditText =  findViewById(R.id.licenceExpiringDate_EditText);
+        issuanceDate_EditText =  findViewById(R.id.issuanceDate_EditText);
         expiringDate_EditText =  findViewById(R.id.expiringDate_EditText);
         expiringDate_title =  findViewById(R.id.expiringDate_title);
         calendarBtn =  findViewById(R.id.calendarBtn);
         addExpiringDate =  findViewById(R.id.addExpiringDateBtn);
         showPass =  findViewById(R.id.showPass);
         hidePass =  findViewById(R.id.hidePass);
+        copyPass =  findViewById(R.id.copyPass);
         custom1_EditText =  findViewById(R.id.custom1_EditText);
         custom2_EditText =  findViewById(R.id.custom2_EditText);
         custom3_EditText =  findViewById(R.id.custom3_EditText);
@@ -104,7 +119,8 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         addNote =  findViewById(R.id.addNoteBtn);
         note =  findViewById(R.id.note_editText);
         note_title =  findViewById(R.id.note_title);
-        category_EditText =  findViewById(R.id.category_EditText);
+        category_Spinner =  findViewById(R.id.category_Spinner);
+        typeOfRecord_Spinner =  findViewById(R.id.typeOfRecord_Spinner);
         title_EditText =  findViewById(R.id.title_EditText);
         username_EditText =  findViewById(R.id.username_EditText);
         password_EditText =  findViewById(R.id.password_EditText);
@@ -112,6 +128,9 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         email_EditText =  findViewById(R.id.email_EditText);
         editForm =  findViewById(R.id.editForm);
         activityTitle = findViewById(R.id.activityTitle);
+        category = findViewById(R.id.category);
+        showCategory = findViewById(R.id.showCategory);
+        registerDetails = findViewById(R.id.registerDetails);
 
 
         //Animation Sets
@@ -124,8 +143,29 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
+
+
+        typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0 || position==1 || position==2){
+                    registerDetails.setVisibility(View.VISIBLE);
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
+
+
+    @Override
+    public void onBackPressed() {
+        cancelWarningMessage(null);
+    }
 
     public void openSearch(View view) {
     }
@@ -151,7 +191,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         //Check if all the needed details are typed.
         //NEED TO UPGRADE A LITTLE
         if (title.isEmpty()) {
-            Toast.makeText(this, "Please insert all the requested fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please insert a title", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -208,7 +248,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
 
-        category_EditText.setEnabled(false);
+        category_Spinner.setEnabled(false);
         title_EditText.setEnabled(false);
         username_EditText.setEnabled(false);
         password_EditText.setEnabled(false);
@@ -276,8 +316,18 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = month + "/" + dayOfMonth + "/" + year;
-        expiringDate_EditText.setText(date);
+        if (licenceExpiringDate_EditText.isFocused()){
+            licenceExpiringDate_EditText.setText(date);
+        }
+        else if (expiringDate_EditText.isFocused()){
+            expiringDate_EditText.setText(date);
+        }
+        else if (issuanceDate_EditText.isFocused()){
+            issuanceDate_EditText.setText(date);
+        }
+
     }
+
 
     public void showPass(View view) {
         mediaPlayer.start();
@@ -324,7 +374,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     @SuppressLint("RestrictedApi")
     public void editForm(View view) {
         mediaPlayer.start();
-        category_EditText.setEnabled(true);
+        category_Spinner.setEnabled(true);
         title_EditText.setEnabled(true);
         username_EditText.setEnabled(true);
         password_EditText.setEnabled(true);
@@ -343,11 +393,56 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void back(View view) {
-        Intent intent = new Intent(this, WebsiteRecycler_Activity.class);
-        this.startActivity(intent);
+        //Intent intent = new Intent(this, WebsiteRecycler_Activity.class);
+        //this.startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Choose Option:");
+        getMenuInflater().inflate(R.menu.new_record_options_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.discard:
+                //cancelWarningMessage(optionsBtn);
+                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.discard2:
+                //cancelWarningMessage(optionsBtn);
+                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onContextItemSelected(item);
+
+        }
     }
 
     public void openOptions(View view) {
+
+    }
+
+    public void showCategory(View view) {
+        mediaPlayer.start();
+        category.setVisibility(View.VISIBLE);
+        showCategory.setVisibility(View.GONE);
+    }
+
+    public void copyPass(View view) {
+        mediaPlayer.start();
+        copyPass.startAnimation(animation3);
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        clipboardManager.setText(password_EditText.getText().toString());
+        Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void chooseIcon(View view) {
+
     }
 }
 

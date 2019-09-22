@@ -66,6 +66,7 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddNewWebsite_Activity.class);
                 startActivityForResult(intent, ADD_NOTE_REQUEST);
+                
 
 
             }
@@ -111,7 +112,8 @@ public class WebsiteRecycler_Activity extends AppCompatActivity implements Websi
 
 
     public void back(View view) {
-        Intent intent = new Intent(this, CategoryList_Activity.class);
-        this.startActivity(intent);
+        //Intent intent = new Intent(this, CategoryList_Activity.class);
+        //this.startActivity(intent);
+        finish();
     }
 }

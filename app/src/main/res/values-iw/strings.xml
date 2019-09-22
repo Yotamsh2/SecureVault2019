@@ -45,9 +45,22 @@
     <string name="webAccounts">חשבונות באינטרנט</string>
     <string name="mmddyyyy">שנה/יום/חודש</string>
     <string name="addNote">+ הוסף הערה</string>
-    <string name="addExpiringDate">+ הוסף תאריך פג תוקף</string>
+    <string name="addExpiringDate">+ הוסף לרשומה תאריך פג תוקף</string>
     <string name="search">חיפוש</string>
     <string name="logo">לוגו</string>
     <string name="go">חפש</string>
     <string name="chooseIcon">בחירת סמל</string>
+    <string name="tagNames">מילות מפתח</string>
+    <string name="tagNamesHint">עבודה, לימודים, הורים, תחביב...</string>
+    <string name="typeOfRecord">סוג רשומה</string>
+    <string name="accountNumber">מספר חשבון</string>
+    <string name="bankAddress">כתובת סניף בנק</string>
+    <string name="bankNumber">מספר סניף בנק</string>
+    <string name="cardNumber">מספר כרטיס אשראי</string>
+    <string name="cvv">קוד אימות כרטיס (cvv)</string>
+    <string name="expireMonth">חודש</string>
+    <string name="expireYear">שנה</string>
+    <string name="iban">מספר זיהוי בינלאומי של החשבון  (IBAN)</string>
+    <string name="expiryDate">תוקף כרטיס אשראי</string>
+    <string name="discard">ביטול</string>
 </resources>
