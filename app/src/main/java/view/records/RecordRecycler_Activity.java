@@ -47,7 +47,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         recyclerView.setAdapter(recordAdapter);
 
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
-
+//        showCurrentCategory(recordAdapter);
         //getting the String to know which Category to show
         Bundle extras = getIntent().getExtras();
         String category;
@@ -61,6 +61,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 //Switch case for each Category to show
             switch (category) {
                 case "BankAccounts":
+                case "bankAcccount":
                     viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
@@ -161,19 +162,17 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     });
                     break;
                 default: //shows all records
-                    viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
-                        }
-                    });
+//                   Meanwhile, untill we know to show the last category used, we show the category list.
+                    //------>>>>>>>>>>>>>>>>>>>>>THE PROBLEM: after adding new record: allways getting to this default case.<<<<<<<<<<<<<<<<<<---------------------------
+                    Intent intent = new Intent(this, CategoryList_Activity.class);
+                    startActivity(intent);
                     break;
             }
             }
 
         }
 
+        //right now, getting back to bankAccounts. needs to be changed to the Category
 //        viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
 //            @Override
 //            public void onChanged(List<Record> records) {
@@ -202,6 +201,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         activityTitle.setTypeface(myFont);
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -237,4 +237,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         Intent intent = new Intent(this, CategoryList_Activity.class);
         this.startActivity(intent);
     }
+
+
 }

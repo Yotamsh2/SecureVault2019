@@ -244,16 +244,17 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         .insert(record);
 
                 //to deliver to RecyclerView
-                Intent data = new Intent();
-                data.putExtra(EXTRA_TITLE, title);
-                data.putExtra(EXTRA_USERNAME, userName);
-                data.putExtra(EXTRA_PASSWORD, password);
-                data.putExtra(EXTRA_EMAIL, email);
-                data.putExtra(EXTRA_WEBSITE, email);
-                data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDate); //delete "Day"
+//                Intent data = new Intent();
+//                data.putExtra(EXTRA_CATEGORY, category);
+//                data.putExtra(EXTRA_TITLE, title);
+//                data.putExtra(EXTRA_USERNAME, userName);
+//                data.putExtra(EXTRA_PASSWORD, password);
+//                data.putExtra(EXTRA_EMAIL, email);
+//                data.putExtra(EXTRA_WEBSITE, email);
+//                data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDate); //delete "Day"
                 //data.putExtra(EXTRA_OTHER, other);
 
-                setResult(RESULT_OK, data);
+//                setResult(RESULT_OK, data);
                 return null;
             }
 
@@ -269,7 +270,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 // it couses the recycler to not know witch Dao to call
                 // so we need to send him string with the category we want.
                 Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
-                intent.putExtra(EXTRA_CATEGORY, "website");
+                intent.putExtra(EXTRA_CATEGORY, category);
                 startActivity(intent);
 
                 //startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
