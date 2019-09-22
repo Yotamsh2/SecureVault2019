@@ -51,7 +51,7 @@
     <string name="go">חפש</string>
     <string name="chooseIcon">בחירת סמל</string>
     <string name="tagNames">מילות מפתח</string>
-    <string name="tagNamesHint">עבודה, לימודים, הורים, תחביב...</string>
+    <string name="tagNamesHint">תגיות: עבודה, לימודים, הורים, תחביב...</string>
     <string name="typeOfRecord">סוג רשומה</string>
     <string name="accountNumber">מספר חשבון</string>
     <string name="bankAddress">כתובת סניף בנק</string>
@@ -61,6 +61,16 @@
     <string name="expireMonth">חודש</string>
     <string name="expireYear">שנה</string>
     <string name="iban">מספר זיהוי בינלאומי של החשבון  (IBAN)</string>
-    <string name="expiryDate">תוקף כרטיס אשראי</string>
+    <string name="cardExpiringDate">תוקף כרטיס אשראי</string>
     <string name="discard">ביטול</string>
+    <string name="issuanceDate">תאריך הנפקה</string>
+    <string name="issuancePlace">מקום הנפקה</string>
+    <string name="licenceExpiringDate">תאריך פג תוקף הרישיון</string>
+    <string name="licenceNumber">מספר רישיון</string>
+    <string name="passportNumber">מספר זהות</string>
+    <string name="privateKey">מפתח פרטי</string>
+    <string name="publicKey">מפתח ציבורי</string>
+    <string name="walletGenerationSeed">Wallet Generation Seed</string>
+    <string name="webAccountsAndEmail">חשבונות אתרים ואימייל</string>
+    <string name="addChooseIcon">+ בחירת איקון</string>
 </resources>

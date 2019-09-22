@@ -62,7 +62,10 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     public static final String EXTRA_OTHER =
             "com.example.architectureexample.EXTRA_OTHER";
 	//////////////////////////////////////////////////////////////////////////////////
-	
+
+    private Button addChooseIconBtn;
+    private ImageView chooseIcon;
+    private Button starBtn, starFullBtn;
     private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView licenceExpiringDate_EditText;
@@ -73,7 +76,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     private ImageView logo;
     private Button addFields, addNote, addExpiringDate;
     private ImageButton saveBtn, cancelBtn;
-    private ImageButton showPass, hidePass, copyPass, showCategory;
+    private ImageButton showPass, hidePass, copyPass, showCategory, showTypeOfRecord;
     private MediaPlayer mediaPlayer;
     private Animation animation1, animation2, animation3;
     private ScrollView scrollView;
@@ -82,9 +85,8 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     private Typeface myFont;
     private Spinner category_Spinner, typeOfRecord_Spinner;
     private EditText title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
-    private LinearLayout category;
-    private LinearLayout registerDetails;
-
+    private LinearLayout category, typeOfRecord;
+    private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +94,10 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         setContentView(R.layout.activity_add_new_website);
 
 
-        Button optionsBtn = findViewById(R.id.options_icon);
-        registerForContextMenu(optionsBtn);
-
+        addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
+        chooseIcon = findViewById(R.id.chooseIcon);
+        starBtn = findViewById(R.id.star_icon);
+        starFullBtn = findViewById(R.id.starFull_icon);
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         logo =  findViewById(R.id.logo);
         saveBtn =  findViewById(R.id.saveBtn);
@@ -118,7 +121,7 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         scrollView =  findViewById(R.id.frame);
         addNote =  findViewById(R.id.addNoteBtn);
         note =  findViewById(R.id.note_editText);
-        note_title =  findViewById(R.id.note_title);
+        //note_title =  findViewById(R.id.note_title);
         category_Spinner =  findViewById(R.id.category_Spinner);
         typeOfRecord_Spinner =  findViewById(R.id.typeOfRecord_Spinner);
         title_EditText =  findViewById(R.id.title_EditText);
@@ -129,8 +132,18 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         editForm =  findViewById(R.id.editForm);
         activityTitle = findViewById(R.id.activityTitle);
         category = findViewById(R.id.category);
+        typeOfRecord = findViewById(R.id.typeOfRecord);
         showCategory = findViewById(R.id.showCategory);
-        registerDetails = findViewById(R.id.registerDetails);
+        showTypeOfRecord = findViewById(R.id.showTypeOfRecord);
+        userName = findViewById(R.id.userName);
+        password = findViewById(R.id.password);
+        website = findViewById(R.id.website);
+        email = findViewById(R.id.email);
+        bankAccount = findViewById(R.id.bankAccountDetails);
+        creditCard = findViewById(R.id.creditCardDetails);
+        cryptocurrency = findViewById(R.id.cryptocurrencyDetails);
+        drivingLicence = findViewById(R.id.drivingLicenceDetails);
+        passport = findViewById(R.id.passportDetails);
 
 
         //Animation Sets
@@ -144,13 +157,94 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
 
-
+        //Show fields after selecting item in spinner
         typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
                 if(position==0 || position==1 || position==2){
-                    registerDetails.setVisibility(View.VISIBLE);
-
+                    userName.setVisibility(View.VISIBLE);
+                    password.setVisibility(View.VISIBLE);
+                    website.setVisibility(View.VISIBLE);
+                    email.setVisibility(View.VISIBLE);
+                    bankAccount.setVisibility(View.GONE);
+                    creditCard.setVisibility(View.GONE);
+                    cryptocurrency.setVisibility(View.GONE);
+                    drivingLicence.setVisibility(View.GONE);
+                    passport.setVisibility(View.GONE);
+                }
+                //(3)Bank Account
+                if(position==3){
+                    userName.setVisibility(View.VISIBLE);
+                    password.setVisibility(View.VISIBLE);
+                    website.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    bankAccount.setVisibility(View.VISIBLE);
+                    creditCard.setVisibility(View.GONE);
+                    cryptocurrency.setVisibility(View.GONE);
+                    drivingLicence.setVisibility(View.GONE);
+                    passport.setVisibility(View.GONE);
+                }
+                //(4)Credit Card
+                if(position==4){
+                    userName.setVisibility(View.GONE);
+                    password.setVisibility(View.VISIBLE);
+                    website.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    bankAccount.setVisibility(View.GONE);
+                    creditCard.setVisibility(View.VISIBLE);
+                    cryptocurrency.setVisibility(View.GONE);
+                    drivingLicence.setVisibility(View.GONE);
+                    passport.setVisibility(View.GONE);
+                }
+                //(5)Passport
+                if(position==5){
+                    userName.setVisibility(View.GONE);
+                    password.setVisibility(View.GONE);
+                    website.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    bankAccount.setVisibility(View.GONE);
+                    creditCard.setVisibility(View.GONE);
+                    cryptocurrency.setVisibility(View.GONE);
+                    drivingLicence.setVisibility(View.GONE);
+                    passport.setVisibility(View.VISIBLE);
+                }
+                //(6)Cryptocurrency
+                if(position==6){
+                    userName.setVisibility(View.GONE);
+                    password.setVisibility(View.GONE);
+                    website.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    bankAccount.setVisibility(View.GONE);
+                    creditCard.setVisibility(View.GONE);
+                    cryptocurrency.setVisibility(View.VISIBLE);
+                    drivingLicence.setVisibility(View.GONE);
+                    passport.setVisibility(View.GONE);
+                }
+                //(7)Driving Licence
+                if(position==7){
+                    userName.setVisibility(View.GONE);
+                    password.setVisibility(View.GONE);
+                    website.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    bankAccount.setVisibility(View.GONE);
+                    creditCard.setVisibility(View.GONE);
+                    cryptocurrency.setVisibility(View.GONE);
+                    drivingLicence.setVisibility(View.VISIBLE);
+                    passport.setVisibility(View.GONE);
+                }
+                //(8)NOTE
+                if(position==8){
+                    userName.setVisibility(View.GONE);
+                    password.setVisibility(View.GONE);
+                    website.setVisibility(View.GONE);
+                    email.setVisibility(View.GONE);
+                    bankAccount.setVisibility(View.GONE);
+                    creditCard.setVisibility(View.GONE);
+                    cryptocurrency.setVisibility(View.GONE);
+                    drivingLicence.setVisibility(View.GONE);
+                    passport.setVisibility(View.GONE);
+                    addNote(addNote);
                 }
             }
 
@@ -167,8 +261,6 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         cancelWarningMessage(null);
     }
 
-    public void openSearch(View view) {
-    }
 
     public void openMenu(View view) {
     }
@@ -295,10 +387,17 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
     }
 
     public void addNote(View view) {
-        note.setVisibility(View.VISIBLE);
-        note_title.setVisibility(View.VISIBLE);
-        addNote.setVisibility(View.GONE);
-        note.requestFocus();
+        if (note.getVisibility()==View.GONE){
+            note.setVisibility(View.VISIBLE);
+            //note_title.setVisibility(View.VISIBLE);
+            addNote.setVisibility(View.GONE);
+            note.requestFocus();
+        }
+        if (typeOfRecord_Spinner.getSelectedItemPosition()==8){
+            title_EditText.requestFocus();
+            note.setMinHeight(800);
+
+        }
     }
 
     public void openCalendar(View view) {
@@ -398,38 +497,22 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         finish();
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Choose Option:");
-        getMenuInflater().inflate(R.menu.new_record_options_menu, menu);
-    }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.discard:
-                //cancelWarningMessage(optionsBtn);
-                Toast.makeText(this, "1", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.discard2:
-                //cancelWarningMessage(optionsBtn);
-                Toast.makeText(this, "2", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-
-        }
-    }
-
-    public void openOptions(View view) {
-
-    }
 
     public void showCategory(View view) {
         mediaPlayer.start();
-        category.setVisibility(View.VISIBLE);
-        showCategory.setVisibility(View.GONE);
+        if (showCategory.getVisibility()== View.VISIBLE){
+            category.setVisibility(View.VISIBLE);
+            showCategory.setVisibility(View.GONE);
+            typeOfRecord.setVisibility(View.GONE);
+            showTypeOfRecord.setVisibility(View.VISIBLE);
+        }
+        else{
+            category.setVisibility(View.GONE);
+            showCategory.setVisibility(View.VISIBLE);
+            typeOfRecord.setVisibility(View.VISIBLE);
+            showTypeOfRecord.setVisibility(View.GONE);
+        }
     }
 
     public void copyPass(View view) {
@@ -443,6 +526,22 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
 
     public void chooseIcon(View view) {
 
+    }
+
+    public void addToFavorites(View view) {
+        if (starBtn.getVisibility()==View.VISIBLE){
+            starBtn.setVisibility(View.GONE);
+            starFullBtn.setVisibility(View.VISIBLE);
+        }
+        else{
+            starBtn.setVisibility(View.VISIBLE);
+            starFullBtn.setVisibility(View.GONE);
+        }
+    }
+
+    public void addChooseIcon(View view) {
+        addChooseIconBtn.setVisibility(View.GONE);
+        chooseIcon.setVisibility(View.VISIBLE);
     }
 }
 
