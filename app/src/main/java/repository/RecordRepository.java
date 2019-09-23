@@ -11,10 +11,9 @@ import com.securevault19.securevault2019.user.User;
 import java.util.List;
 
 import local_database.dao.DaoRecord;
-import local_database.dao.DaoRecord;
+
 import local_database.DatabaseClient;
 import local_database.RecordDatabase2;
-import local_database.dao.RecordDao;
 
 public class RecordRepository {
 
@@ -37,16 +36,16 @@ public class RecordRepository {
 
         DaoRecord = database2.daoRecord();
         allRecords = DaoRecord.getAllRecords();
-        allBankAccounts = DaoRecord.getAllBankAccounts("bankAccount"); //not BankAccounts because we look where the dao searches category name
-        allCreditCards = DaoRecord.getAllCreditCards("CreditCard");
-        allSocialMedia = DaoRecord.getAllSocialMedia("SocialMedia");
-        allWebAccounts = DaoRecord.getAllWebAccounts("Website");
-        allOnlineShopping = DaoRecord.getAllOnlineShopping("OnlineShopping");
-        allCryptocurrency = DaoRecord.getAllCryptocurrency("Cryptocurrency");
-        allDrivingLicence = DaoRecord.getAllDrivingLicence("DrivingLicence");
-        allPassports = DaoRecord.getAllPassports("Passport");
-        allCustomized = DaoRecord.getAllCustomized("Customized");
-        allNotes = DaoRecord.getAllNotes("Note");
+        allBankAccounts = DaoRecord.getAllBankAccounts(); //not BankAccounts because we look where the dao searches category name
+        allCreditCards = DaoRecord.getAllCreditCards();
+        allSocialMedia = DaoRecord.getAllSocialMedia();
+        allWebAccounts = DaoRecord.getAllWebAccounts();
+        allOnlineShopping = DaoRecord.getAllOnlineShopping();
+        allCryptocurrency = DaoRecord.getAllCryptocurrency();
+        allDrivingLicence = DaoRecord.getAllDrivingLicence();
+        allPassports = DaoRecord.getAllPassports();
+        allCustomized = DaoRecord.getAllCustomized();
+        allNotes = DaoRecord.getAllNotes();
 
 
     }

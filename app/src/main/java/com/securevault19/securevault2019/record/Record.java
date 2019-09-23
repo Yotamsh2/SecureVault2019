@@ -10,7 +10,7 @@ public class Record {
     public int recordID;
 
     public String title = null;
-    public String category = null;
+    public String type = null;
     public String dateCreated = null; //create dateCreated class and make a toString method.
     public String lastModified = null; //create lastModified class and make a toString method.
     public String password = null;
@@ -38,7 +38,7 @@ public class Record {
     private String issuancePlace;
     private String secret_question;
 
-    private String folder;
+    private String folder; //folder = category
 
     //public void setRecordID(int recordID) {
     //    this.recordID = recordID;
@@ -115,8 +115,8 @@ public class Record {
     public void setSecret_question(String secret_question) {
         this.secret_question = secret_question;
     }
-    public void setCategory(String category) {
-        this.category = category;
+    public void setType(String type) {
+        this.type = type;
     }
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
@@ -192,8 +192,8 @@ public class Record {
     public String getTitle() {
         return title;
     }
-    public String getCategory() {
-        return category;
+    public String getType() {
+        return type;
     }
     public String getDateCreated() {
         return dateCreated;

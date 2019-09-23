@@ -8,14 +8,13 @@
         android:id="@+id/patternView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        dotCount= "3"
+        dotCount= "12"
         correctStateColor="@color/colorCorrectLine"
         normalStateColor="@color/colorNormalLine"
         wrongStateColor="@color/colorWrongLine"
 
-
-
-        />
+        layout_height="wrap_content"
+        layout_width="wrap_content" />
 
 
 </LinearLayout>

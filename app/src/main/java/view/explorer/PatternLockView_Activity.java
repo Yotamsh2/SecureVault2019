@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
+import com.andrognito.patternlockview.utils.ResourceUtils;
 import com.securevault19.securevault2019.MainActivity;
 import com.securevault19.securevault2019.R;
 
@@ -26,9 +27,11 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
         final PatternLockView patternLockView;
 
-        patternLockView = findViewById(R.id.patternView);
 
+        patternLockView = findViewById(R.id.patternView);
+patternLockView.setDotCount(3);
         patternLockView.addPatternLockListener(new PatternLockViewListener() {
+
 
             @Override
             public void onStarted() {
@@ -51,18 +54,18 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
 
-            } else {
-                patternLockView.setViewMode(PatternLockView.PatternViewMode.WRONG);
-                Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_LONG).show();
+                } else {
+                    patternLockView.setViewMode(PatternLockView.PatternViewMode.WRONG);
+                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_LONG).show();
+                }
             }
-        }
 
-        @Override
-        public void onCleared () {
+            @Override
+            public void onCleared() {
 
-        }
-    });
+            }
+        });
 
-}
     }
+}
 

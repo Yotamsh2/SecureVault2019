@@ -51,18 +51,17 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 //        showCurrentCategory(recordAdapter);
         //getting the String to know which Category to show
         Bundle extras = getIntent().getExtras();
-        String category;
+        String type;
 
         //checking the extras is not null -> to get rid of "null object reference"
         if (extras != null) {
-            category = extras.getString(CategoryList_Activity.EXTRA_CATEGORY);
+            type = extras.getString(CategoryList_Activity.EXTRA_CATEGORY);
 
-            if (category != null) {
+            if (type != null) {
 
                 //Switch case for each Category to show
-            switch (category) {
+            switch (type) {
                 case "BankAccounts":
-                case "bankAcccount":
                     viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {

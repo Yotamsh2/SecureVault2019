@@ -8,7 +8,7 @@ import com.securevault19.securevault2019.user.User;
 
 import local_database.dao.DaoRecord;
 
-@Database(entities = {Record.class},version = 1)
+@Database(entities = {Record.class, User.class},version = 2)
 public abstract class RecordDatabase2 extends RoomDatabase {
 
     public abstract DaoRecord daoRecord();

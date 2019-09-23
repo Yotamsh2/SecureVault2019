@@ -2,6 +2,7 @@ package view.records;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.Notification;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -76,7 +77,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
     //////////////////////////////////////////////////////////////////////////////////
 
-    private EditText custom1_EditText, custom2_EditText, custom3_EditText, password, note;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView licenceExpiringDate_EditText;
     private TextView issuanceDate_EditText;
@@ -86,7 +86,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private ImageView logo;
     private Button addFields, addNote, addExpiringDate;
     private ImageButton saveBtn, cancelBtn;
-    private ImageButton showPass, hidePass;
+    private ImageButton showPass, hidePass, copyPass, showCategory, showTypeOfRecord;
     private MediaPlayer mediaPlayer;
     private Animation animation1, animation2, animation3;
     private ScrollView scrollView;
@@ -94,19 +94,20 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private TextView activityTitle;
     private Typeface myFont;
 
-
-
+    private Spinner category_Spinner, typeOfRecord_Spinner;
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
+    private LinearLayout category, typeOfRecord;
+    private LinearLayout registerDetails;
+    private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
+
+
 
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
 
-        addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
-        chooseIcon = findViewById(R.id.chooseIcon);
-        starBtn = findViewById(R.id.star_icon);
-        starFullBtn = findViewById(R.id.starFull_icon);
+
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         logo =  findViewById(R.id.logo);
         saveBtn =  findViewById(R.id.saveBtn);
@@ -130,8 +131,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         scrollView =  findViewById(R.id.frame);
         addNote =  findViewById(R.id.addNoteBtn);
         note =  findViewById(R.id.note_editText);
-        //note_title =  findViewById(R.id.note_title);
-        category_Spinner =  findViewById(R.id.category_Spinner);
+//        note_title =  findViewById(R.id.note_title);
+        category_Spinner =  findViewById(R.id.category_Spinner); //Folder
         typeOfRecord_Spinner =  findViewById(R.id.typeOfRecord_Spinner);
         title_EditText =  findViewById(R.id.title_EditText);
         username_EditText =  findViewById(R.id.username_EditText);
@@ -139,39 +140,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         website_EditText =  findViewById(R.id.website_EditText);
         email_EditText =  findViewById(R.id.email_EditText);
         editForm =  findViewById(R.id.editForm);
-        logo = findViewById(R.id.logo);
-        saveBtn = findViewById(R.id.saveBtn);
-        cancelBtn = findViewById(R.id.cancelBtn);
-        expiringDate_EditText = findViewById(R.id.expiringDate_EditText);
-        expiringDate_title = findViewById(R.id.expiringDate_title);
-        calendarBtn = findViewById(R.id.calendarBtn);
-        addExpiringDate = findViewById(R.id.addExpiringDateBtn);
-        password = findViewById(R.id.password);
-        showPass = findViewById(R.id.showPass);
-        hidePass = findViewById(R.id.hidePass);
-        custom1_EditText = findViewById(R.id.custom1_EditText);
-        custom2_EditText = findViewById(R.id.custom2_EditText);
-        custom3_EditText = findViewById(R.id.custom3_EditText);
-        custom1_EditText_title = findViewById(R.id.c1);
-        custom2_EditText_title = findViewById(R.id.c2);
-        custom3_EditText_title = findViewById(R.id.c3);
-        addFields = findViewById(R.id.addFieldsBtn);
-        scrollView = findViewById(R.id.frame);
-        addNote = findViewById(R.id.addNoteBtn);
-        note = findViewById(R.id.note_editText);
-        note_title = findViewById(R.id.note_title);
-        category_EditText = findViewById(R.id.category_EditText);
-        title_EditText = findViewById(R.id.title_EditText);
-        username_EditText = findViewById(R.id.username_EditText);
-        password_EditText = findViewById(R.id.password_EditText);
-        website_EditText = findViewById(R.id.website_EditText);
-        email_EditText = findViewById(R.id.email_EditText);
-        editForm = findViewById(R.id.editForm);
         activityTitle = findViewById(R.id.activityTitle);
         category = findViewById(R.id.category);
         typeOfRecord = findViewById(R.id.typeOfRecord);
         showCategory = findViewById(R.id.showCategory);
         showTypeOfRecord = findViewById(R.id.showTypeOfRecord);
+        registerDetails = findViewById(R.id.registerDetails);
         userName = findViewById(R.id.userName);
         password = findViewById(R.id.password);
         website = findViewById(R.id.website);
@@ -181,7 +155,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         cryptocurrency = findViewById(R.id.cryptocurrencyDetails);
         drivingLicence = findViewById(R.id.drivingLicenceDetails);
         passport = findViewById(R.id.passportDetails);
-
 
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin);
@@ -308,7 +281,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         saveBtn.startAnimation(animation3);
 
         //Setting the details from the Activity to send to the Website constructor
-        final String category = category_EditText.getText().toString();
+//        final String category = category_EditText.getText().toString();
         final String title = title_EditText.getText().toString();
         final String userName = username_EditText.getText().toString().trim();
         final String password = password_EditText.getText().toString().trim();
@@ -345,7 +318,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             private String encryptPassword(String username, String password) throws Exception {
                 SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance(AES);
+                Cipher c = Cipher.getInstance("AES");
                 c.init(Cipher.ENCRYPT_MODE, key);
                 byte[] encVal = c.doFinal(password.getBytes());
                 String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
@@ -354,7 +327,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             private String encryptUsername(String username) throws Exception {
                 SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance(AES);
+                Cipher c = Cipher.getInstance("AES");
                 c.init(Cipher.ENCRYPT_MODE, key);
                 byte[] encVal = c.doFinal(username.getBytes());
                 String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
@@ -363,7 +336,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             private String decrypt(String outputString, String username) throws Exception {
                 SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance(AES);
+                Cipher c = Cipher.getInstance("AES");
                 c.init(Cipher.DECRYPT_MODE, key);
                 byte[] decodeValue = Base64.decode(outputString, Base64.DEFAULT);
                 byte[] decValue = c.doFinal(decodeValue);
@@ -398,7 +371,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 //outputText.setText( outputString ); - will be used when we will want to display the data
 
                 Record record = new Record();
-                record.setCategory(category);
+                record.setType(typeOfRecord_Spinner.getSelectedItem().toString());
+                record.setFolder(category_Spinner.getSelectedItem().toString());
                 record.setTitle(title);
                 record.setUserName(encryptedUsername);
                 record.setPassword(encryptedPassword);
@@ -552,12 +526,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 //        password.requestFocus();
 //        password.setSelection(password.getText().length());
         if (showPass.getVisibility() == View.VISIBLE) {
-            password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
             hidePass.setVisibility(View.VISIBLE);
             showPass.setVisibility(View.GONE);
             showPass.startAnimation(animation3);
         } else {
-            password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
             hidePass.setVisibility(View.GONE);
             showPass.setVisibility(View.VISIBLE);
             hidePass.startAnimation(animation3);

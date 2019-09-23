@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         Button signUp =  findViewById(R.id.signUp);
         LinearLayout signInForm = findViewById(R.id.signInForm);
         final EditText userName = findViewById(R.id.userName);
-        final EditText password_EditText = findViewById(R.id.password_EditText);
+        final EditText password = findViewById(R.id.password_EditText);
         final Button buttonSignIn = findViewById(R.id.signIn);
         counter = 3;
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(userName, password_EditText, buttonSignIn);
+                signIn(userName, password, buttonSignIn);
                 buttonSignIn.startAnimation(animation3);
                 mediaPlayer.start();
             }
