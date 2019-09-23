@@ -396,7 +396,9 @@ public class AddNewWebsite_Activity extends AppCompatActivity implements DatePic
         if (typeOfRecord_Spinner.getSelectedItemPosition()==8){
             title_EditText.requestFocus();
             note.setMinHeight(800);
-
+        }
+        else{
+            note.setMinHeight(200);
         }
     }
 
