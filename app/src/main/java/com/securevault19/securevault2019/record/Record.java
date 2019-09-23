@@ -3,20 +3,26 @@ package com.securevault19.securevault2019.record;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import cryptography.Cryptography;
+
 @Entity(tableName = "record_table")
 public class Record {
+
+
+//    Cryptography cryptography = new Cryptography();
+
 
     @PrimaryKey(autoGenerate = true)
     public int recordID;
 
-    public String title = null;
-    public String category = null;
-    public String dateCreated = null; //create dateCreated class and make a toString method.
-    public String lastModified = null; //create lastModified class and make a toString method.
-    public String password = null;
-    public String email = null;
-    public String website = null;
-    public String expiringDate = null; //addition to the class diagram
+    public String title ;
+    public String category  ;
+    public String dateCreated  ; //create dateCreated class and make a toString method.
+    public String lastModified  ; //create lastModified class and make a toString method.
+    public String password   ;
+    public String email  ;
+    public String website  ;
+    public String expiringDate  ; //addition to the class diagram
     private String userName;
     private int accountNumber;
     private long IBAN;
@@ -38,7 +44,6 @@ public class Record {
     private String issuancePlace;
     private String secret_question;
 
-    private String folder;
 
     //public void setRecordID(int recordID) {
     //    this.recordID = recordID;
@@ -123,10 +128,6 @@ public class Record {
     }
     public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
-    }
-
-    public void setFolder(String folder) {
-        this.folder = folder;
     }
 
     public int getRecordID() {
@@ -214,8 +215,9 @@ public class Record {
         return expiringDate;
     }
 
-    public String getFolder() {
-        return folder;
-    }
+//    public String encrypteTitle(String sa) throws Exception {
+//
+//        return cryptography.encryptUsername(sa);
+//    }
 }
 

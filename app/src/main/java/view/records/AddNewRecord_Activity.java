@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -36,9 +37,15 @@ import java.util.Calendar;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import cryptography.Cryptography;
 import local_database.DatabaseClient;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+    private Cryptography cryptography;
+    private String encryptedUsername;
+    private String encryptedPassword;
+
+
     // --- test for checking why the recycler view dosent show any thing --- //
     public static final String EXTRA_CATEGORY =
             "com.securevault19.securevault2019.EXTRA_CATEGORY";
@@ -81,7 +88,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
     //String outputString;
-    String AES = "AES";
+
 
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -136,8 +143,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void openMenu(View view) {
     }
 
-    @SuppressLint("RestrictedApi")
-    public void openNewRecord(View view) {
+
+    @SuppressLint({"RestrictedApi", "StaticFieldLeak"})
+    public void openNewRecord(View view) {                     // the onClick func (save Button)
+        cryptography = new Cryptography();                      // making argument of Cryptography wich is private!
         //Setting the details from the Activity to send to the Website constructor
         final String category = category_EditText.getText().toString();
         final String title = title_EditText.getText().toString();
@@ -154,136 +163,85 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             Toast.makeText(this, "Please fill 'title' field", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        if (password != null) {
-            checkPassword(password);
-        }
 //        if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
 //                || website.isEmpty() || email.isEmpty()) {
 //            Toast.makeText(this, "Please insert all the requested fields", Toast.LENGTH_SHORT).show();
 //            return;
 //        }
 
-        class SaveNewRecord extends AsyncTask<Void, Void, Void> {
+        else {
+            // If all fields are good, opening AsyncTask
+            // We have to use AsyncTask for RecyclerView
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+                        // encrypthing the password and the username(username for test)
+                        encryptedUsername = cryptography.encryptUsername(username_EditText.getText().toString());
+                        encryptedPassword = cryptography.encryptPassword(username_EditText.getText().toString(), password_EditText.getText().toString());
+                        Log.d("crypto", "" + encryptedUsername);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-            String encryptedUsername;
-            String encryptedPassword;
-            String decryptedPassword;
+                    // opening Record to insert the TextFields and insert to DB
+                    Record record = new Record();
+                    record.setCategory(category);
+                    record.setTitle(title);
+                    record.setUserName(userName);
+                    record.setPassword(encryptedPassword);
+                    record.setWebsite(website);
+                    record.setEmail(email);
+                    record.setExpiringDate(expiringDate);
 
-            //encryption methods: the first argument will be the Data(the encryption uses the data to generate the Key) which has to be unique and unguessable
-            // and the second argument will be the field which we want to save the encrypted message to
 
-            private String encryptPassword(String username, String password) throws Exception {
-                SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance(AES);
-                c.init(Cipher.ENCRYPT_MODE, key);
-                byte[] encVal = c.doFinal(password.getBytes());
-                String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
-                return encryptedValue;
-            }
-
-            private String encryptUsername(String username) throws Exception {
-                SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance(AES);
-                c.init(Cipher.ENCRYPT_MODE, key);
-                byte[] encVal = c.doFinal(username.getBytes());
-                String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
-                return encryptedValue;
-            }
-
-            private String decrypt(String outputString, String username) throws Exception {
-                SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance(AES);
-                c.init(Cipher.DECRYPT_MODE, key);
-                byte[] decodeValue = Base64.decode(outputString, Base64.DEFAULT);
-                byte[] decValue = c.doFinal(decodeValue);
-                String decryptedValue = new String(decValue);
-                return decryptedValue;
-            }
-
-            private SecretKeySpec generateKey(String username) throws Exception {
-                final MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                byte[] bytes = username.getBytes("UTF-8");
-                digest.update(bytes, 0, bytes.length);
-                byte[] key = digest.digest();
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                return secretKeySpec;
-            }
-
-            //expiring-date fields are seperated so we concat them into one string.
-            //String expiringDate_arr[] = {expiringDateDay, expiringDateMonth, expiringDateYear};
-            //final String expiringDate = expiringDate_arr.toString();
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                try {
-                    encryptedUsername = encryptUsername(userName);
-                    encryptedPassword = encryptPassword(userName, password);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    // inserting record to DB
+                    DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
+                            .daoRecord()
+                            .insert(record);
+                    return null;
                 }
 
-                //outputText.setText( outputString ); - will be used when we will want to display the data
-                //outputText.setText( outputString ); - will be used when we will want to display the data
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+// after the save button is clicked and finished all his jobs, before exiting completely,
+// finishing the activity and open 'new' (refreshed ) RecyclerView with Website Category
 
-                Record record = new Record();
-                record.setCategory(category);
-                record.setTitle(title);
-                record.setUserName(encryptedUsername);
-                record.setPassword(encryptedPassword);
-
-                try {
-                    decryptedPassword = decrypt(encryptedPassword, username_EditText.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    finish();
+                    Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+                    intent.putExtra(EXTRA_CATEGORY, "website");
+                    startActivity(intent);
                 }
+            }.execute();                // execute for starting the AsyncTask
 
-                record.setWebsite(website);
-                record.setEmail(email);
-                record.setExpiringDate(expiringDate);
 
-                DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
-                        .daoRecord()
-                        .insert(record);
+            // ------------------------- decypher func --------------------------- //
+            // ---------------- use in case you need to decypher ---------------- //
+//            try {
+//                decryptedPassword = decrypt(encryptedPassword, username_EditText.getText().toString());
+//                Log.d("decript", decryptedPassword);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+            // ------------------------------------------------------------------- //
 
-                //to deliver to RecyclerView
-//                Intent data = new Intent();
-//                data.putExtra(EXTRA_CATEGORY, category);
-//                data.putExtra(EXTRA_TITLE, title);
-//                data.putExtra(EXTRA_USERNAME, userName);
-//                data.putExtra(EXTRA_PASSWORD, password);
-//                data.putExtra(EXTRA_EMAIL, email);
-//                data.putExtra(EXTRA_WEBSITE, email);
-//                data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDate); //delete "Day"
-                //data.putExtra(EXTRA_OTHER, other);
 
-//                setResult(RESULT_OK, data);
-                return null;
-            }
+            //to deliver to RecyclerView
+//            Intent data = new Intent();
+//            data.putExtra(EXTRA_TITLE, title);
+//            data.putExtra(EXTRA_USERNAME, userName);
+//            data.putExtra(EXTRA_PASSWORD, password);
+//            data.putExtra(EXTRA_EMAIL, email);
+//            data.putExtra(EXTRA_WEBSITE, email);
+//            data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDate); //delete "Day"
+//            //data.putExtra(EXTRA_OTHER, other);
+//
+//            setResult(RESULT_OK, data);
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                finish();
-                // need to send with extra string
 
-                // startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
-
-                // afther the activity is finish it returns the recycler view without any string
-                // it couses the recycler to not know witch Dao to call
-//                // so we need to send him string with the category we want.
-//                Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
-//                intent.putExtra(EXTRA_CATEGORY, category);
-//                startActivity(intent);
-
-                //startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-            }
         }
 
-        SaveNewRecord saveNewRecord = new SaveNewRecord();
-        saveNewRecord.execute();
 
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
@@ -304,6 +262,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         cancelBtn.setVisibility(View.GONE);
 
         editForm.setVisibility(View.VISIBLE);
+
 
     }
 
@@ -414,29 +373,17 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void back(View view) {
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        this.startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_CATEGORY, "website");
+        startActivity(intent);
+        // Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        //this.startActivity(intent);
     }
 
     public void openOptions(View view) {
     }
 
-    public void checkPassword(String password) {
-        //check if there's minimum 8 characters.
 
-        // check if at least 1 capital letters
-
-        //check if at least 4 numbers
-
-        //check if there's space
-
-        //check if there are "other" characters - like: * , # , < , % ,  etc.
-
-        //calculate "points" and shows current strength level
-
-
-    }
 }
-
 
 
