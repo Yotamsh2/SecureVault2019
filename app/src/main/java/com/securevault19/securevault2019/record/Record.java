@@ -9,7 +9,7 @@ import cryptography.Cryptography;
 public class Record {
 
 
-//    Cryptography cryptography = new Cryptography();
+
 
 
     @PrimaryKey(autoGenerate = true)
@@ -215,9 +215,5 @@ public class Record {
         return expiringDate;
     }
 
-//    public String encrypteTitle(String sa) throws Exception {
-//
-//        return cryptography.encryptUsername(sa);
-//    }
 }
 
