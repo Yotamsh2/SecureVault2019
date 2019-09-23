@@ -44,9 +44,43 @@
     <string name="notes">Notes</string>
     <string name="mmddyyyy">month/day/year</string>
     <string name="addNote">+ Add Note</string>
-    <string name="addExpiringDate">+ Add Expiring Date</string>
+    <string name="addExpiringDate">+ Record\'s Expiring Date</string>
     <string name="search">Search</string>
     <string name="logo">Logo</string>
     <string name="go">GO</string>
     <string name="chooseIcon">Choose Icon</string>
+    <string name="tagNames">Tags</string>
+    <string name="tagNamesHint">Tag Names: work, school, parents</string>
+    <string name="typeOfRecord">Type of record</string>
+    <string name="accountNumber">Account Number</string>
+    <string name="iban">IBAN (International Bank Account Number)</string>
+    <string name="bankNumber">Bank Number</string>
+    <string name="bankAddress">Bank Address</string>
+    <string name="cardNumber">Card Number</string>
+    <string name="cvv">CVV</string>
+    <string name="expireYear">Year</string>
+    <string name="expireMonth">Month</string>
+    <string name="cardExpiringDate">Credit Card Expiring Date</string>
+    <string-array name="typesOfRecord">
+        <item><![CDATA[Website/Email Account]]></item>
+        <item>Social Media</item>
+        <item>Online Shopping</item>
+        <item>Bank Account</item>
+        <item>Credit Card</item>
+        <item>Passport</item>
+        <item>Cryptocurrency</item>
+        <item>Driving Licence</item>
+        <item>Note</item>
+    </string-array>
+    <string name="discard">Discard</string>
+    <string name="publicKey">Public Key</string>
+    <string name="privateKey">Private Key</string>
+    <string name="walletGenerationSeed">Wallet Generation Seed</string>
+    <string name="licenceNumber">Licence Number</string>
+    <string name="licenceExpiringDate">Licence Expiring Date</string>
+    <string name="webAccountsAndEmail"><![CDATA[Website & Email]]></string>
+    <string name="passportNumber">Passport Number</string>
+    <string name="issuanceDate">Issuance Date</string>
+    <string name="issuancePlace">Issuance Place</string>
+    <string name="addChooseIcon">+ Choose Icon</string>
 </resources>

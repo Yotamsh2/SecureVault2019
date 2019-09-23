@@ -274,7 +274,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:onClick="goToWebAccounts"
-                            android:text="@string/webAccounts"
+                            android:text="@string/webAccountsAndEmail"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
                             android:textSize="16sp" />

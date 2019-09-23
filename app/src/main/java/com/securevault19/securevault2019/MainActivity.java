@@ -14,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.andrognito.patternlockview.PatternLockView;
@@ -40,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView logo = findViewById(R.id.logo);
         Button forgotPass =  findViewById((R.id.forgotPass));
         Button signUp =  findViewById(R.id.signUp);
+        LinearLayout signInForm = findViewById(R.id.signInForm);
         final EditText userName = findViewById(R.id.userName);
-        final EditText password = findViewById(R.id.password);
+        final EditText password_EditText = findViewById(R.id.password_EditText);
         final Button buttonSignIn = findViewById(R.id.signIn);
         counter = 3;
 
@@ -57,17 +59,13 @@ public class MainActivity extends AppCompatActivity {
         final Animation animation2 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.bottomtotop);
         final Animation animation3 = AnimationUtils.loadAnimation(MainActivity.this,R.anim.buttonpush_anim);
         logo.startAnimation(animation1);
-        userName.startAnimation(animation2);
-        password.startAnimation(animation2);
-        buttonSignIn.startAnimation(animation2);
-        signUp.startAnimation(animation2);
-        forgotPass.startAnimation(animation2);
+        signInForm.startAnimation(animation2);
 
 
         buttonSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(userName, password, buttonSignIn);
+                signIn(userName, password_EditText, buttonSignIn);
                 buttonSignIn.startAnimation(animation3);
                 mediaPlayer.start();
             }
@@ -88,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         if (userName.getText().toString().equals("A") && password.getText().toString().equals("1")) {
             Intent intent = new Intent(this, CategoryList_Activity.class);
             this.startActivity(intent);
+            finish();
 
         } else {
             counter--;
