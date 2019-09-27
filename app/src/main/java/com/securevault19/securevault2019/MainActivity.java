@@ -1,13 +1,10 @@
 package com.securevault19.securevault2019;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,11 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.andrognito.patternlockview.PatternLockView;
-import com.andrognito.patternlockview.listener.PatternLockViewListener;
-import com.andrognito.patternlockview.utils.PatternLockUtils;
-
-import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 import view.explorer.CategoryList_Activity;
 import view.explorer.PatternLockView_Activity;
@@ -84,9 +77,18 @@ public class MainActivity extends AppCompatActivity {
 
     public void signIn(EditText userName, EditText password, Button buttonSignIn) {
         if (userName.getText().toString().equals("A") && password.getText().toString().equals("1")) {
-            Intent intent = new Intent(this, CategoryList_Activity.class);
-            this.startActivity(intent);
-            finish();
+            //Checking if the user wants a pattern password:
+            if(true){
+                Intent intent = new Intent(this, PatternLockView_Activity.class);
+                this.startActivity(intent);
+                finish();
+            }
+            else{
+                Intent intent = new Intent(this, CategoryList_Activity.class);
+                this.startActivity(intent);
+                finish();
+            }
+
 
         } else {
             counter--;
@@ -100,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
             }
             //wrong password
         }
-        Intent intent = new Intent(this, PatternLockView_Activity.class);
-        this.startActivity(intent);
+
     }
 }

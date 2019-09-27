@@ -4,10 +4,38 @@
     android:layout_height="match_parent"
     android:background="@drawable/new_back">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:gravity="center_horizontal|bottom">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:layout_gravity="center"
+            android:padding="20dp"
+            android:src="@drawable/logo"
+            android:contentDescription="@string/logo"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please Enter Your Pattern"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
+
     <android:com.andrognito.patternlockview.PatternLockView
         android:id="@+id/patternView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="6"
+        android:layout_gravity="center"
         dotCount= "12"
         correctStateColor="@color/colorCorrectLine"
         normalStateColor="@color/colorNormalLine"

@@ -1,19 +1,22 @@
 package view.records;
 
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
@@ -26,6 +29,7 @@ import java.util.List;
 import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
+import static com.securevault19.securevault2019.R.raw.button;
 import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 
 public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener {
@@ -42,7 +46,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     private TextView activityTitle;
     private Typeface myFont;
     String folder;
-
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,14 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
+
+        mediaPlayer = MediaPlayer.create(this, button);
+
+        //Animation Sets
+        Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.zoomin);
+        final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
+        final Animation animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
+        //button.startAnimation(animation1);
 
 
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
@@ -182,10 +194,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         }
 
 
-        FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
+        final FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayer.start();
+                buttonAddRecord.startAnimation(animation3);
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, folder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
@@ -253,6 +267,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
 
     public void back(View view) {
+        mediaPlayer.start();
         Intent intent = new Intent(this, CategoryList_Activity.class);
         this.startActivity(intent);
     }

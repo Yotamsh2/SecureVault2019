@@ -147,7 +147,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:entries="@array/typesOfRecord"
-                            android:background="@drawable/edit_text_noback_style"                            android:inputType="text"
                             android:maxLines="1" />
 
                     </LinearLayout>
@@ -195,7 +194,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:entries="@array/typesOfRecord"
-                            android:background="@drawable/edit_text_noback_style"
                         android:inputType="text"
                         android:maxLines="1" />
 

@@ -1,18 +1,16 @@
 package view.explorer;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
-import com.andrognito.patternlockview.utils.ResourceUtils;
-import com.securevault19.securevault2019.MainActivity;
 import com.securevault19.securevault2019.R;
 
 import java.util.List;
@@ -25,11 +23,13 @@ public class PatternLockView_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pattern_lockview);
 
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.button);
+
         final PatternLockView patternLockView;
 
 
         patternLockView = findViewById(R.id.patternView);
-patternLockView.setDotCount(3);
+        patternLockView.setDotCount(3);
         patternLockView.addPatternLockListener(new PatternLockViewListener() {
 
 
@@ -52,6 +52,7 @@ patternLockView.setDotCount(3);
                     Toast.makeText(getApplicationContext(), "Welcome back, User_Name", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
                     startActivity(intent);
+                    mediaPlayer.start();
                     finish();
 
                 } else {

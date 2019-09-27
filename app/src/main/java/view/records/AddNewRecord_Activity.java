@@ -41,7 +41,6 @@ import local_database.DatabaseClient;
 import view.explorer.CategoryList_Activity;
 
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
-import static view.records.RecordRecycler_Activity.EXTRA_TYPE;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private Cryptography cryptography;
@@ -114,6 +113,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
 
+
+        addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
+        chooseIcon = findViewById(R.id.chooseIcon);
+        starBtn = findViewById(R.id.star_icon);
+        starFullBtn = findViewById(R.id.starFull_icon);
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         logo = findViewById(R.id.logo);
         saveBtn = findViewById(R.id.saveBtn);
