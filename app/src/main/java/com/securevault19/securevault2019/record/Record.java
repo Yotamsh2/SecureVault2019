@@ -1,7 +1,11 @@
 package com.securevault19.securevault2019.record;
 
+import android.util.Log;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import cryptography.Cryptography;
 
 @Entity(tableName = "record_table")
 public class Record {
@@ -37,8 +41,9 @@ public class Record {
     //to add expiring date
     private String issuancePlace;
     private String secret_question;
-
+//    private String note;
     private String folder; //folder = category
+
 
     //public void setRecordID(int recordID) {
     //    this.recordID = recordID;
@@ -132,9 +137,7 @@ public class Record {
     public int getRecordID() {
         return recordID;
     }
-    public String getUserName() {
-        return userName;
-    }
+    public String getUserName() { return userName;  }
     public int getAccountNumber() {
         return accountNumber;
     }

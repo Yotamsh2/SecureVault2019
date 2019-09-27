@@ -23,8 +23,8 @@ import view.records.RecordRecycler_Activity;
 public class CategoryList_Activity extends AppCompatActivity {
 //    public static final int ADD_RECORD_REQUEST = 1;
 
-    public static final String EXTRA_CATEGORY =
-            "com.securevault19.securevault2019.EXTRA_CATEGORY";
+    public static final String EXTRA_FOLDER =
+            "com.securevault19.securevault2019.EXTRA_FOLDER";
 
     Typeface myFont;
     TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
@@ -101,7 +101,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         bankAccounts.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "BankAccounts");
+        intent.putExtra(EXTRA_FOLDER, "BankAccounts");
         this.startActivity(intent);
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
 
@@ -111,7 +111,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         creditCard.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "CreditCards");
+        intent.putExtra(EXTRA_FOLDER, "CreditCards");
         this.startActivity(intent);
     }
 
@@ -119,7 +119,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         socialMedia.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "SocialMedia");
+        intent.putExtra(EXTRA_FOLDER, "SocialMedia");
         this.startActivity(intent);
     }
 
@@ -127,7 +127,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         webAccounts.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "WebAccounts");
+        intent.putExtra(EXTRA_FOLDER, "WebAccounts");
         this.startActivity(intent);
     }
 
@@ -135,7 +135,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         onlineShopping.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "OnlineShopping");
+        intent.putExtra(EXTRA_FOLDER, "OnlineShopping");
         this.startActivity(intent);
     }
 
@@ -143,7 +143,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         cryptocurrency.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "Cryptocurrency");
+        intent.putExtra(EXTRA_FOLDER, "Cryptocurrency");
         this.startActivity(intent);
     }
 
@@ -151,7 +151,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         drivingLicence.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "DrivingLicence");
+        intent.putExtra(EXTRA_FOLDER, "DrivingLicence");
         this.startActivity(intent);
     }
 
@@ -159,7 +159,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         passports.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "Passports");
+        intent.putExtra(EXTRA_FOLDER, "Passports");
         this.startActivity(intent);
     }
 
@@ -167,7 +167,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         customized.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "Customized");
+        intent.putExtra(EXTRA_FOLDER, "Customized");
         this.startActivity(intent);
     }
 
@@ -175,7 +175,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         notes.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_CATEGORY, "Notes");
+        intent.putExtra(EXTRA_FOLDER, "Notes");
         this.startActivity(intent);
     }
 

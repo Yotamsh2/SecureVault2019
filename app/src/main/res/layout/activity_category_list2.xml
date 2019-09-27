@@ -172,6 +172,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToCreditCard"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -195,7 +196,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToCreditCard"
                             android:text="@string/creditCards"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -211,6 +211,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToSocialMedia"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -234,7 +235,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToSocialMedia"
+
                             android:text="@string/socialMedia"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -250,6 +251,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToWebAccounts"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -273,7 +275,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToWebAccounts"
+
                             android:text="@string/webAccountsAndEmail"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -289,6 +291,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToOnlineShopping"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -312,7 +315,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToOnlineShopping"
                             android:text="@string/onlineShopping"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -328,6 +330,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToCryptocurrency"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -351,7 +354,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToCryptocurrency"
+
                             android:text="@string/cryptocurrency"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -367,6 +370,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToDrivingLicence"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -390,7 +394,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToDrivingLicence"
                             android:text="@string/drivingLicence"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -406,6 +409,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToPassports"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -429,7 +433,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToPassports"
                             android:text="@string/passports"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -445,6 +448,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToCustomized"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -468,7 +472,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToCustomized"
                             android:text="@string/customized"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
@@ -484,6 +487,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
+                    android:onClick="goToNotes"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -507,7 +511,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:onClick="goToNotes"
                             android:text="@string/notes"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"

@@ -2,7 +2,6 @@ package view.records;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Notification;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,9 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,18 +34,26 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 
-import java.security.MessageDigest;
 import java.util.Calendar;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-
+import cryptography.Cryptography;
 import local_database.DatabaseClient;
+import view.explorer.CategoryList_Activity;
+
+import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
+import static view.records.RecordRecycler_Activity.EXTRA_TYPE;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+    private Cryptography cryptography;
+    private String encryptedUsername;
+    private String encryptedPassword;
+
+
     // --- test for checking why the recycler view dosent show any thing --- //
-    public static final String EXTRA_CATEGORY =
-            "com.securevault19.securevault2019.EXTRA_CATEGORY";
+    public static final String EXTRA_FOLDER =
+            "com.securevault19.securevault2019.EXTRA_FOLDER";
+    public static final String EXTRA_TYPE =
+            "com.securevault19.securevault2019.EXTRA_TYPE";
     // -------------------------------------------------------------------- //
     //Used by the RecyclerView ////////////////////////////////////////////////////
     public static final String EXTRA_TITLE =
@@ -69,7 +74,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             "com.example.architectureexample.EXTRA_EXPIRING_DATE_YEAR";
     public static final String EXTRA_OTHER =
             "com.example.architectureexample.EXTRA_OTHER";
-	//////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
 
     private Button addChooseIconBtn;
     private ImageView chooseIcon;
@@ -77,6 +82,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
     //////////////////////////////////////////////////////////////////////////////////
 
+    //    private EditText custom1_EditText, custom2_EditText, custom3_EditText, password, note;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView licenceExpiringDate_EditText;
     private TextView issuanceDate_EditText;
@@ -96,10 +102,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
+    //String outputString;
+
     private LinearLayout category, typeOfRecord;
     private LinearLayout registerDetails;
     private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
-
 
 
     @Override
@@ -107,39 +114,38 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
 
-
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
-        logo =  findViewById(R.id.logo);
-        saveBtn =  findViewById(R.id.saveBtn);
-        cancelBtn =  findViewById(R.id.cancelBtn);
-        licenceExpiringDate_EditText =  findViewById(R.id.licenceExpiringDate_EditText);
-        issuanceDate_EditText =  findViewById(R.id.issuanceDate_EditText);
-        expiringDate_EditText =  findViewById(R.id.expiringDate_EditText);
-        expiringDate_title =  findViewById(R.id.expiringDate_title);
-        calendarBtn =  findViewById(R.id.calendarBtn);
-        addExpiringDate =  findViewById(R.id.addExpiringDateBtn);
-        showPass =  findViewById(R.id.showPass);
-        hidePass =  findViewById(R.id.hidePass);
-        copyPass =  findViewById(R.id.copyPass);
-        custom1_EditText =  findViewById(R.id.custom1_EditText);
-        custom2_EditText =  findViewById(R.id.custom2_EditText);
-        custom3_EditText =  findViewById(R.id.custom3_EditText);
-        custom1_EditText_title =  findViewById(R.id.c1);
-        custom2_EditText_title =  findViewById(R.id.c2);
-        custom3_EditText_title =  findViewById(R.id.c3);
-        addFields =  findViewById(R.id.addFieldsBtn);
-        scrollView =  findViewById(R.id.frame);
-        addNote =  findViewById(R.id.addNoteBtn);
-        note =  findViewById(R.id.note_editText);
+        logo = findViewById(R.id.logo);
+        saveBtn = findViewById(R.id.saveBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
+        licenceExpiringDate_EditText = findViewById(R.id.licenceExpiringDate_EditText);
+        issuanceDate_EditText = findViewById(R.id.issuanceDate_EditText);
+        expiringDate_EditText = findViewById(R.id.expiringDate_EditText);
+        expiringDate_title = findViewById(R.id.expiringDate_title);
+        calendarBtn = findViewById(R.id.calendarBtn);
+        addExpiringDate = findViewById(R.id.addExpiringDateBtn);
+        showPass = findViewById(R.id.showPass);
+        hidePass = findViewById(R.id.hidePass);
+        copyPass = findViewById(R.id.copyPass);
+        custom1_EditText = findViewById(R.id.custom1_EditText);
+        custom2_EditText = findViewById(R.id.custom2_EditText);
+        custom3_EditText = findViewById(R.id.custom3_EditText);
+        custom1_EditText_title = findViewById(R.id.c1);
+        custom2_EditText_title = findViewById(R.id.c2);
+        custom3_EditText_title = findViewById(R.id.c3);
+        addFields = findViewById(R.id.addFieldsBtn);
+        scrollView = findViewById(R.id.frame);
+        addNote = findViewById(R.id.addNoteBtn);
+        note = findViewById(R.id.note_editText);
 //        note_title =  findViewById(R.id.note_title);
-        category_Spinner =  findViewById(R.id.category_Spinner); //Folder
-        typeOfRecord_Spinner =  findViewById(R.id.typeOfRecord_Spinner);
-        title_EditText =  findViewById(R.id.title_EditText);
-        username_EditText =  findViewById(R.id.username_EditText);
-        password_EditText =  findViewById(R.id.password_EditText);
-        website_EditText =  findViewById(R.id.website_EditText);
-        email_EditText =  findViewById(R.id.email_EditText);
-        editForm =  findViewById(R.id.editForm);
+        category_Spinner = findViewById(R.id.category_Spinner); //Folder
+        typeOfRecord_Spinner = findViewById(R.id.typeOfRecord_Spinner);
+        title_EditText = findViewById(R.id.title_EditText);
+        username_EditText = findViewById(R.id.username_EditText);
+        password_EditText = findViewById(R.id.password_EditText);
+        website_EditText = findViewById(R.id.website_EditText);
+        email_EditText = findViewById(R.id.email_EditText);
+        editForm = findViewById(R.id.editForm);
         activityTitle = findViewById(R.id.activityTitle);
         category = findViewById(R.id.category);
         typeOfRecord = findViewById(R.id.typeOfRecord);
@@ -162,272 +168,376 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         animation3 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
-
         //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
 
-        //Show fields after selecting item in spinner
-        typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
-                if(position==0 || position==1 || position==2){
-                    userName.setVisibility(View.VISIBLE);
-                    password.setVisibility(View.VISIBLE);
-                    website.setVisibility(View.VISIBLE);
-                    email.setVisibility(View.VISIBLE);
-                    bankAccount.setVisibility(View.GONE);
-                    creditCard.setVisibility(View.GONE);
-                    cryptocurrency.setVisibility(View.GONE);
-                    drivingLicence.setVisibility(View.GONE);
-                    passport.setVisibility(View.GONE);
-                }
-                //(3)Bank Account
-                if(position==3){
-                    userName.setVisibility(View.VISIBLE);
-                    password.setVisibility(View.VISIBLE);
-                    website.setVisibility(View.GONE);
-                    email.setVisibility(View.GONE);
-                    bankAccount.setVisibility(View.VISIBLE);
-                    creditCard.setVisibility(View.GONE);
-                    cryptocurrency.setVisibility(View.GONE);
-                    drivingLicence.setVisibility(View.GONE);
-                    passport.setVisibility(View.GONE);
-                }
-                //(4)Credit Card
-                if(position==4){
-                    userName.setVisibility(View.GONE);
-                    password.setVisibility(View.VISIBLE);
-                    website.setVisibility(View.GONE);
-                    email.setVisibility(View.GONE);
-                    bankAccount.setVisibility(View.GONE);
-                    creditCard.setVisibility(View.VISIBLE);
-                    cryptocurrency.setVisibility(View.GONE);
-                    drivingLicence.setVisibility(View.GONE);
-                    passport.setVisibility(View.GONE);
-                }
-                //(5)Passport
-                if(position==5){
-                    userName.setVisibility(View.GONE);
-                    password.setVisibility(View.GONE);
-                    website.setVisibility(View.GONE);
-                    email.setVisibility(View.GONE);
-                    bankAccount.setVisibility(View.GONE);
-                    creditCard.setVisibility(View.GONE);
-                    cryptocurrency.setVisibility(View.GONE);
-                    drivingLicence.setVisibility(View.GONE);
-                    passport.setVisibility(View.VISIBLE);
-                }
-                //(6)Cryptocurrency
-                if(position==6){
-                    userName.setVisibility(View.GONE);
-                    password.setVisibility(View.GONE);
-                    website.setVisibility(View.GONE);
-                    email.setVisibility(View.GONE);
-                    bankAccount.setVisibility(View.GONE);
-                    creditCard.setVisibility(View.GONE);
-                    cryptocurrency.setVisibility(View.VISIBLE);
-                    drivingLicence.setVisibility(View.GONE);
-                    passport.setVisibility(View.GONE);
-                }
-                //(7)Driving Licence
-                if(position==7){
-                    userName.setVisibility(View.GONE);
-                    password.setVisibility(View.GONE);
-                    website.setVisibility(View.GONE);
-                    email.setVisibility(View.GONE);
-                    bankAccount.setVisibility(View.GONE);
-                    creditCard.setVisibility(View.GONE);
-                    cryptocurrency.setVisibility(View.GONE);
-                    drivingLicence.setVisibility(View.VISIBLE);
-                    passport.setVisibility(View.GONE);
-                }
-                //(8)NOTE
-                if(position==8){
-                    userName.setVisibility(View.GONE);
-                    password.setVisibility(View.GONE);
-                    website.setVisibility(View.GONE);
-                    email.setVisibility(View.GONE);
-                    bankAccount.setVisibility(View.GONE);
-                    creditCard.setVisibility(View.GONE);
-                    cryptocurrency.setVisibility(View.GONE);
-                    drivingLicence.setVisibility(View.GONE);
-                    passport.setVisibility(View.GONE);
-                    addNote(addNote);
-                }
-            }
+        //Getting all the EXTRAS from all the 'intent.puExtra()'s
+        Bundle extras = getIntent().getExtras();
+        String folder, type, origin;
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+
+        if (extras != null) {
+            //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
+            origin = extras.getString(EXTRA_ORIGIN);
+            Log.d("AddNewRecord", "from onRecordClick: origin: " + origin);
+
+            switch (origin) {
+                case "onRecordClick":
+
+                    folder = extras.getString(EXTRA_FOLDER);
+
+                    if (folder != null) {
+                        type = extras.getString(EXTRA_TYPE);
+                        if (type != null) {
+                            switch (type) {
+                                //NEED TO BE COMPLETED FOR ALL THE RECORD TYPES.
+
+                                case "BankAccounts": //shows the relevant fields of the clicked Record.
+                                    userName.setVisibility(View.VISIBLE);
+                                    password.setVisibility(View.VISIBLE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.VISIBLE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+
+                                default:  //FOR EXAMPLE
+                                    userName.setVisibility(View.GONE);
+                                    password.setVisibility(View.GONE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.VISIBLE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                            }
+                        }
+                    }
+
+                    break; //case: onRecordClick
+
+                //If we came from buttonAddRecord
+                default:
+                    //Show fields after selecting item in spinner
+                    typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
+                            if (position == 0 || position == 1 || position == 2) {
+                                userName.setVisibility(View.VISIBLE);
+                                password.setVisibility(View.VISIBLE);
+                                website.setVisibility(View.VISIBLE);
+                                email.setVisibility(View.VISIBLE);
+                                bankAccount.setVisibility(View.GONE);
+                                creditCard.setVisibility(View.GONE);
+                                cryptocurrency.setVisibility(View.GONE);
+                                drivingLicence.setVisibility(View.GONE);
+                                passport.setVisibility(View.GONE);
+                            }
+                            //(3)Bank Account
+                            if (position == 3) {
+                                userName.setVisibility(View.VISIBLE);
+                                password.setVisibility(View.VISIBLE);
+                                website.setVisibility(View.GONE);
+                                email.setVisibility(View.GONE);
+                                bankAccount.setVisibility(View.VISIBLE);
+                                creditCard.setVisibility(View.GONE);
+                                cryptocurrency.setVisibility(View.GONE);
+                                drivingLicence.setVisibility(View.GONE);
+                                passport.setVisibility(View.GONE);
+                            }
+                            //(4)Credit Card
+                            if (position == 4) {
+                                userName.setVisibility(View.GONE);
+                                password.setVisibility(View.VISIBLE);
+                                website.setVisibility(View.GONE);
+                                email.setVisibility(View.GONE);
+                                bankAccount.setVisibility(View.GONE);
+                                creditCard.setVisibility(View.VISIBLE);
+                                cryptocurrency.setVisibility(View.GONE);
+                                drivingLicence.setVisibility(View.GONE);
+                                passport.setVisibility(View.GONE);
+                            }
+                            //(5)Passport
+                            if (position == 5) {
+                                userName.setVisibility(View.GONE);
+                                password.setVisibility(View.GONE);
+                                website.setVisibility(View.GONE);
+                                email.setVisibility(View.GONE);
+                                bankAccount.setVisibility(View.GONE);
+                                creditCard.setVisibility(View.GONE);
+                                cryptocurrency.setVisibility(View.GONE);
+                                drivingLicence.setVisibility(View.GONE);
+                                passport.setVisibility(View.VISIBLE);
+                            }
+                            //(6)Cryptocurrency
+                            if (position == 6) {
+                                userName.setVisibility(View.GONE);
+                                password.setVisibility(View.GONE);
+                                website.setVisibility(View.GONE);
+                                email.setVisibility(View.GONE);
+                                bankAccount.setVisibility(View.GONE);
+                                creditCard.setVisibility(View.GONE);
+                                cryptocurrency.setVisibility(View.VISIBLE);
+                                drivingLicence.setVisibility(View.GONE);
+                                passport.setVisibility(View.GONE);
+                            }
+                            //(7)Driving Licence
+                            if (position == 7) {
+                                userName.setVisibility(View.GONE);
+                                password.setVisibility(View.GONE);
+                                website.setVisibility(View.GONE);
+                                email.setVisibility(View.GONE);
+                                bankAccount.setVisibility(View.GONE);
+                                creditCard.setVisibility(View.GONE);
+                                cryptocurrency.setVisibility(View.GONE);
+                                drivingLicence.setVisibility(View.VISIBLE);
+                                passport.setVisibility(View.GONE);
+                            }
+                            //(8)NOTE
+                            if (position == 8) {
+                                userName.setVisibility(View.GONE);
+                                password.setVisibility(View.GONE);
+                                website.setVisibility(View.GONE);
+                                email.setVisibility(View.GONE);
+                                bankAccount.setVisibility(View.GONE);
+                                creditCard.setVisibility(View.GONE);
+                                cryptocurrency.setVisibility(View.GONE);
+                                drivingLicence.setVisibility(View.GONE);
+                                passport.setVisibility(View.GONE);
+                                addNote(addNote);
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
             }
-        });
+        }
+
+
+        //position of: 'typeOfRecord_Spinner.setOnItemSelectedListener'   before switch-case
+/*
+//        //Show fields after selecting item in spinner
+//        typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
+//                if (position == 0 || position == 1 || position == 2) {
+//                    userName.setVisibility(View.VISIBLE);
+//                    password.setVisibility(View.VISIBLE);
+//                    website.setVisibility(View.VISIBLE);
+//                    email.setVisibility(View.VISIBLE);
+//                    bankAccount.setVisibility(View.GONE);
+//                    creditCard.setVisibility(View.GONE);
+//                    cryptocurrency.setVisibility(View.GONE);
+//                    drivingLicence.setVisibility(View.GONE);
+//                    passport.setVisibility(View.GONE);
+//                }
+//                //(3)Bank Account
+//                if (position == 3) {
+//                    userName.setVisibility(View.VISIBLE);
+//                    password.setVisibility(View.VISIBLE);
+//                    website.setVisibility(View.GONE);
+//                    email.setVisibility(View.GONE);
+//                    bankAccount.setVisibility(View.VISIBLE);
+//                    creditCard.setVisibility(View.GONE);
+//                    cryptocurrency.setVisibility(View.GONE);
+//                    drivingLicence.setVisibility(View.GONE);
+//                    passport.setVisibility(View.GONE);
+//                }
+//                //(4)Credit Card
+//                if (position == 4) {
+//                    userName.setVisibility(View.GONE);
+//                    password.setVisibility(View.VISIBLE);
+//                    website.setVisibility(View.GONE);
+//                    email.setVisibility(View.GONE);
+//                    bankAccount.setVisibility(View.GONE);
+//                    creditCard.setVisibility(View.VISIBLE);
+//                    cryptocurrency.setVisibility(View.GONE);
+//                    drivingLicence.setVisibility(View.GONE);
+//                    passport.setVisibility(View.GONE);
+//                }
+//                //(5)Passport
+//                if (position == 5) {
+//                    userName.setVisibility(View.GONE);
+//                    password.setVisibility(View.GONE);
+//                    website.setVisibility(View.GONE);
+//                    email.setVisibility(View.GONE);
+//                    bankAccount.setVisibility(View.GONE);
+//                    creditCard.setVisibility(View.GONE);
+//                    cryptocurrency.setVisibility(View.GONE);
+//                    drivingLicence.setVisibility(View.GONE);
+//                    passport.setVisibility(View.VISIBLE);
+//                }
+//                //(6)Cryptocurrency
+//                if (position == 6) {
+//                    userName.setVisibility(View.GONE);
+//                    password.setVisibility(View.GONE);
+//                    website.setVisibility(View.GONE);
+//                    email.setVisibility(View.GONE);
+//                    bankAccount.setVisibility(View.GONE);
+//                    creditCard.setVisibility(View.GONE);
+//                    cryptocurrency.setVisibility(View.VISIBLE);
+//                    drivingLicence.setVisibility(View.GONE);
+//                    passport.setVisibility(View.GONE);
+//                }
+//                //(7)Driving Licence
+//                if (position == 7) {
+//                    userName.setVisibility(View.GONE);
+//                    password.setVisibility(View.GONE);
+//                    website.setVisibility(View.GONE);
+//                    email.setVisibility(View.GONE);
+//                    bankAccount.setVisibility(View.GONE);
+//                    creditCard.setVisibility(View.GONE);
+//                    cryptocurrency.setVisibility(View.GONE);
+//                    drivingLicence.setVisibility(View.VISIBLE);
+//                    passport.setVisibility(View.GONE);
+//                }
+//                //(8)NOTE
+//                if (position == 8) {
+//                    userName.setVisibility(View.GONE);
+//                    password.setVisibility(View.GONE);
+//                    website.setVisibility(View.GONE);
+//                    email.setVisibility(View.GONE);
+//                    bankAccount.setVisibility(View.GONE);
+//                    creditCard.setVisibility(View.GONE);
+//                    cryptocurrency.setVisibility(View.GONE);
+//                    drivingLicence.setVisibility(View.GONE);
+//                    passport.setVisibility(View.GONE);
+//                    addNote(addNote);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
+*/
     }
-
 
 
     @Override
     public void onBackPressed() {
         cancelWarningMessage(null);
+
     }
 
 
     public void openMenu(View view) {
     }
 
-    @SuppressLint("RestrictedApi")
-    public void openNewRecord(View view) {
-        mediaPlayer.start();
-        saveBtn.startAnimation(animation3);
 
-        //Setting the details from the Activity to send to the Website constructor
-//        final String category = category_EditText.getText().toString();
+    @SuppressLint({"RestrictedApi", "StaticFieldLeak"})
+    public void openNewRecord(View view) {                     // the onClick func (save Button)
+        cryptography = new Cryptography();                      // making argument of Cryptography wich is private!
+        //Setting the details from the Activity to send to the Record constructor
         final String title = title_EditText.getText().toString();
         final String userName = username_EditText.getText().toString().trim();
         final String password = password_EditText.getText().toString().trim();
         final String website = website_EditText.getText().toString().trim();
         final String email = email_EditText.getText().toString().trim();
         final String expiringDate = expiringDate_EditText.getText().toString().trim();
-        //final String other = editTextOther.getText().toString();
+        final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString();
+        final String folder = category_Spinner.getSelectedItem().toString();
+        //final String note = this.note.getText().toString();
+//        final int accountNumber;
+//        final long IBAN;
+//        final int bankNumber;
+//        final String address;
+//        final int cardNumber;
+//        final int CVV;
+//        final int expireYear;
+//        final int expireMonth;
+//        final int expireDay;
+//        final String publicKey;
+//        final String privateKey;
+//        final String walletGenerationSeed;
+//        final int licenceNumber = Integer.parseInt(licenceExpiringDate_EditText.toString());
+//        final int passportNumber;
+//        final String issuanceDate = issuanceDate_EditText.getText().toString().trim();
+//        final String issuancePlace;
+//        final String secret_question;
 
 
         //Check if all the needed details are typed.
-        //NEED TO UPGRADE A LITTLE
         if (title.isEmpty()) {
             Toast.makeText(this, "Please fill 'title' field", Toast.LENGTH_SHORT).show();
             return;
-        }
+        } else {
+            // If all fields are good, opening AsyncTask
+            // We have to use AsyncTask for RecyclerView
+            new AsyncTask<Void, Void, Void>() {
 
-        if (password != null) {
-            checkPassword(password);
-        }
-//        if (title.isEmpty() || userName.isEmpty() || password.isEmpty()
-//                || website.isEmpty() || email.isEmpty()) {
-//            Toast.makeText(this, "Please insert all the requested fields", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    try {
+                        // encrypthing the password and the username(username for test)
+                        encryptedUsername = cryptography.encryptUsername(username_EditText.getText().toString());
 
-        class SaveNewRecord extends AsyncTask<Void, Void, Void> {
+                        if (password_EditText.getText().toString() != null) {
+                            encryptedPassword = cryptography.encryptPassword(username_EditText.getText().toString(), password_EditText.getText().toString());
+                            Log.d("crypto", "" + encryptedUsername);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-            String encryptedUsername;
-            String encryptedPassword;
-            String decryptedPassword;
+                    // opening Record to insert the TextFields and insert to DB
+                    Record record = new Record();
+                    record.setType(typeOfRecord);
+                    record.setFolder(folder);
+                    record.setTitle(title);
+                    record.setUserName(encryptedUsername);
+                    record.setPassword(encryptedPassword);
+                    record.setWebsite(website);
+                    record.setEmail(email);
+                    record.setExpiringDate(expiringDate);
 
-            //encryption methods: the first argument will be the Data(the encryption uses the data to generate the Key) which has to be unique and unguessable
-            // and the second argument will be the field which we want to save the encrypted message to
 
-            private String encryptPassword(String username, String password) throws Exception {
-                SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance("AES");
-                c.init(Cipher.ENCRYPT_MODE, key);
-                byte[] encVal = c.doFinal(password.getBytes());
-                String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
-                return encryptedValue;
-            }
+                    // inserting record to DB
+                    DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
+                            .daoRecord()
+                            .insert(record);
 
-            private String encryptUsername(String username) throws Exception {
-                SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance("AES");
-                c.init(Cipher.ENCRYPT_MODE, key);
-                byte[] encVal = c.doFinal(username.getBytes());
-                String encryptedValue = Base64.encodeToString(encVal, Base64.DEFAULT);
-                return encryptedValue;
-            }
-
-            private String decrypt(String outputString, String username) throws Exception {
-                SecretKeySpec key = generateKey(username);
-                Cipher c = Cipher.getInstance("AES");
-                c.init(Cipher.DECRYPT_MODE, key);
-                byte[] decodeValue = Base64.decode(outputString, Base64.DEFAULT);
-                byte[] decValue = c.doFinal(decodeValue);
-                String decryptedValue = new String(decValue);
-                return decryptedValue;
-            }
-
-            private SecretKeySpec generateKey(String username) throws Exception {
-                final MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                byte[] bytes = username.getBytes("UTF-8");
-                digest.update(bytes, 0, bytes.length);
-                byte[] key = digest.digest();
-                SecretKeySpec secretKeySpec = new SecretKeySpec(key, "AES");
-                return secretKeySpec;
-            }
-
-            //expiring-date fields are seperated so we concat them into one string.
-            //String expiringDate_arr[] = {expiringDateDay, expiringDateMonth, expiringDateYear};
-            //final String expiringDate = expiringDate_arr.toString();
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-
-                try {
-                    encryptedUsername = encryptUsername(userName);
-                    encryptedPassword = encryptPassword(userName, password);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    return null;
                 }
 
-                //outputText.setText( outputString ); - will be used when we will want to display the data
-                //outputText.setText( outputString ); - will be used when we will want to display the data
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    Toast.makeText(getApplicationContext(), "record created", Toast.LENGTH_SHORT).show();
+// after the save button is clicked and finished all his jobs, before exiting completely,
+// finishing the activity and open 'new' (refreshed ) RecyclerView with Website Category
 
-                Record record = new Record();
-                record.setType(typeOfRecord_Spinner.getSelectedItem().toString());
-                record.setFolder(category_Spinner.getSelectedItem().toString());
-                record.setTitle(title);
-                record.setUserName(encryptedUsername);
-                record.setPassword(encryptedPassword);
-
-                try {
-                    decryptedPassword = decrypt(encryptedPassword, username_EditText.getText().toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    finish();
+                    Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+                    intent.putExtra(EXTRA_FOLDER, folder);
+                    startActivity(intent);
                 }
+            }.execute();                // execute for starting the AsyncTask
 
-                record.setWebsite(website);
-                record.setEmail(email);
-                record.setExpiringDate(expiringDate);
 
-                DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
-                        .daoRecord()
-                        .insert(record);
+            // ------------------------- decypher func --------------------------- //
+            // ---------------- use in case you need to decypher ---------------- //
+//            try {
+//                decryptedPassword = decrypt(encryptedPassword, username_EditText.getText().toString());
+//                Log.d("decript", decryptedPassword);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+            // ------------------------------------------------------------------- //
 
-                //to deliver to RecyclerView
-//                Intent data = new Intent();
-//                data.putExtra(EXTRA_CATEGORY, category);
-//                data.putExtra(EXTRA_TITLE, title);
-//                data.putExtra(EXTRA_USERNAME, userName);
-//                data.putExtra(EXTRA_PASSWORD, password);
-//                data.putExtra(EXTRA_EMAIL, email);
-//                data.putExtra(EXTRA_WEBSITE, email);
-//                data.putExtra(EXTRA_EXPIRING_DATE_DAY, expiringDate); //delete "Day"
-                //data.putExtra(EXTRA_OTHER, other);
 
-//                setResult(RESULT_OK, data);
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                finish();
-                // need to send with extra string
-
-                // startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
-
-                // afther the activity is finish it returns the recycler view without any string
-                // it couses the recycler to not know witch Dao to call
-//                // so we need to send him string with the category we want.
-//                Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
-//                intent.putExtra(EXTRA_CATEGORY, category);
-//                startActivity(intent);
-
-                //startActivity(new Intent(getApplicationContext(), RecordRecycler_Activity.class));
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
-            }
         }
 
-        SaveNewRecord saveNewRecord = new SaveNewRecord();
-        saveNewRecord.execute();
 
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
@@ -479,17 +589,16 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void addNote(View view) {
-        if (note.getVisibility()==View.GONE){
+        if (note.getVisibility() == View.GONE) {
             note.setVisibility(View.VISIBLE);
             //note_title.setVisibility(View.VISIBLE);
             addNote.setVisibility(View.GONE);
             note.requestFocus();
         }
-        if (typeOfRecord_Spinner.getSelectedItemPosition()==8){
+        if (typeOfRecord_Spinner.getSelectedItemPosition() == 8) {
             title_EditText.requestFocus();
             note.setMinHeight(800);
-        }
-        else{
+        } else {
             note.setMinHeight(200);
         }
     }
@@ -509,18 +618,15 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = month + "/" + dayOfMonth + "/" + year;
-        if (licenceExpiringDate_EditText.isFocused()){
+        if (licenceExpiringDate_EditText.isFocused()) {
             licenceExpiringDate_EditText.setText(date);
-        }
-        else if (expiringDate_EditText.isFocused()){
+        } else if (expiringDate_EditText.isFocused()) {
             expiringDate_EditText.setText(date);
-        }
-        else if (issuanceDate_EditText.isFocused()){
+        } else if (issuanceDate_EditText.isFocused()) {
             issuanceDate_EditText.setText(date);
         }
 
     }
-
 
     public void showPass(View view) {
 //        password.requestFocus();
@@ -586,23 +692,37 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void back(View view) {
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        this.startActivity(intent);
+        finish(); //finishing current activity
 
-        finish();
+        //get EXTRA_FOLDER that we know where to navigate(which folder we want to return)
+        Bundle extras = getIntent().getExtras();
+        String folder;
+        if (extras != null) {
+            Log.d("back", "inside if ");
+
+            folder = extras.getString(EXTRA_FOLDER);
+            Intent intent = new Intent(this, RecordRecycler_Activity.class);
+            Log.d("back", "folder is :  " + folder);
+
+            intent.putExtra(EXTRA_FOLDER, folder);
+            this.startActivity(intent);
+
+        } else {       //just in case
+            Log.d("back", "inside else ");
+
+            Intent intent = new Intent(this, CategoryList_Activity.class);
+            this.startActivity(intent);
+        }
     }
-
-
 
     public void showCategory(View view) {
         mediaPlayer.start();
-        if (showCategory.getVisibility()== View.VISIBLE){
+        if (showCategory.getVisibility() == View.VISIBLE) {
             category.setVisibility(View.VISIBLE);
             showCategory.setVisibility(View.GONE);
             typeOfRecord.setVisibility(View.GONE);
             showTypeOfRecord.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             category.setVisibility(View.GONE);
             showCategory.setVisibility(View.VISIBLE);
             typeOfRecord.setVisibility(View.VISIBLE);
@@ -624,11 +744,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void addToFavorites(View view) {
-        if (starBtn.getVisibility()==View.VISIBLE){
+        if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
             starFullBtn.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             starBtn.setVisibility(View.VISIBLE);
             starFullBtn.setVisibility(View.GONE);
         }

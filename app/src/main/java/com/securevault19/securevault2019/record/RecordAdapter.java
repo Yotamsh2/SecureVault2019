@@ -1,5 +1,6 @@
 package com.securevault19.securevault2019.record;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import com.securevault19.securevault2019.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import cryptography.Cryptography;
+
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHolder> {
 
     private List<Record> records = new ArrayList<>();
 
     private OnRecordListener mOnRecordListener;
+    private Cryptography cryptography;
 
     public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener) {
         this.records = records;
@@ -34,8 +38,19 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 
     @Override
     public void onBindViewHolder(@NonNull RecordHolder holder, int position) {
+        cryptography = new Cryptography();  //used for decryption
+
         Record currentRecord = records.get(position);
         holder.textViewTitle.setText(currentRecord.getTitle());
+//        final String userName = currentRecord.getUserName(); //decrypting username
+//        Log.d("crypto", "1: "+ userName + " and: " + currentRecord.getUserName());
+//        try {
+//            cryptography.decrypt(userName, currentRecord.getUserName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        Log.d("crypto", "2: "+ userName + " and: " + currentRecord.getUserName());
+//        holder.textViewRecord.setText(userName);
         holder.textViewRecord.setText(currentRecord.getUserName());
 
     }

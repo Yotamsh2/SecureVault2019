@@ -26,13 +26,22 @@ import java.util.List;
 import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
+import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
+
 public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener {
     public static final int ADD_RECORD_REQUEST = 1;
+
+    public static final String EXTRA_TYPE =
+            "com.example.architectureexample.EXTRA_TYPE";
+    public static final String EXTRA_ORIGIN =
+            "com.example.architectureexample.EXTRA_ORIGIN";
+
 
     private Record_ViewModel viewModel;
     private List<Record> records = new ArrayList<>();
     private TextView activityTitle;
     private Typeface myFont;
+    String folder;
 
 
     @Override
@@ -51,145 +60,138 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 //        showCurrentCategory(recordAdapter);
         //getting the String to know which Category to show
         Bundle extras = getIntent().getExtras();
-        String type;
 
         //checking the extras is not null -> to get rid of "null object reference"
         if (extras != null) {
-            type = extras.getString(CategoryList_Activity.EXTRA_CATEGORY);
+            folder = extras.getString(EXTRA_FOLDER);
 
-            if (type != null) {
+            if (folder != null) {
+                Log.d("back", "folder is not null:  " + folder);
 
                 //Switch case for each Category to show
-            switch (type) {
-                case "BankAccounts":
-                    viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                switch (folder) {
+                    case "BankAccounts":
+                        viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "CreditCards":
-                    viewModel.getAllCreditCards().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "CreditCards":
+                        viewModel.getAllCreditCards().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "SocialMedia":
-                    viewModel.getAllSocialMedia().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "SocialMedia":
+                        viewModel.getAllSocialMedia().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "WebAccounts":
-                    viewModel.getAllWebAccounts().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "WebAccounts":
+                        viewModel.getAllWebAccounts().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "OnlineShopping":
-                    viewModel.getAllOnlineShopping().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "OnlineShopping":
+                        viewModel.getAllOnlineShopping().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "Cryptocurrency":
-                    viewModel.getAllCryptocurrency().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "Cryptocurrency":
+                        viewModel.getAllCryptocurrency().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "DrivingLicence":
-                    viewModel.getAllDrivingLicence().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "DrivingLicence":
+                        viewModel.getAllDrivingLicence().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "Passports":
-                    viewModel.getAllPassports().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "Passports":
+                        viewModel.getAllPassports().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "Customized":
-                    viewModel.getAllCustomized().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "Customized":
+                        viewModel.getAllCustomized().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                case "Notes":
-                    viewModel.getAllNotes().observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        break;
+                    case "Notes":
+                        viewModel.getAllNotes().observe(this, new Observer<List<Record>>() {
+                            @Override
+                            public void onChanged(List<Record> records) {
+                                recordAdapter.setRecords(records);
+                                recordAdapter.notifyDataSetChanged();
 
-                        }
-                    });
-                    break;
-                default: //shows all records
+                            }
+                        });
+                        break;
+                    default: //shows all records
 //                   Meanwhile, untill we know to show the last category used, we show the category list.
-                    //------>>>>>>>>>>>>>>>>>>>>>THE PROBLEM: after adding new record: allways getting to this default case.<<<<<<<<<<<<<<<<<<---------------------------
-                    Intent intent = new Intent(this, CategoryList_Activity.class);
-                    startActivity(intent);
-                    break;
-            }
+                        //------>>>>>>>>>>>>>>>>>>>>>THE PROBLEM: after adding new record: allways getting to this default case.<<<<<<<<<<<<<<<<<<---------------------------
+                        Intent intent = new Intent(this, CategoryList_Activity.class);
+                        startActivity(intent);
+                        break;
+                }
             }
 
         }
 
-        //right now, getting back to bankAccounts. needs to be changed to the Category
-//        viewModel.getAllBankAccounts().observe(this, new Observer<List<Record>>() {
-//            @Override
-//            public void onChanged(List<Record> records) {
-//                recordAdapter.setRecords(records);
-//                recordAdapter.notifyDataSetChanged();
-//
-//            }
-//        });
 
         FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                finish();
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
-                startActivityForResult(intent, ADD_RECORD_REQUEST);
+                intent.putExtra(EXTRA_FOLDER, folder); //to know which folder we came from
+                intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
+                finish();
 
+                startActivityForResult(intent, ADD_RECORD_REQUEST);
 
             }
         });
@@ -222,11 +224,27 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         }
     }
 
+    //Creating new Record
     @Override
     public void onRecordClick(int position) {
         Log.d("onRecordClick", "clicked. " + position);
         Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
-       // records.get(position);
+        // records.get(position);
+        String folder = getIntent().getExtras().getString(EXTRA_FOLDER);
+        String type;
+
+        Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
+        intent.putExtra(EXTRA_FOLDER, folder);
+
+        if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
+            type = records.get(position).type;
+            intent.putExtra(EXTRA_TYPE, type);
+        }
+
+        //passing to Add_New_Record where we came from - to decide what type of screen to show.
+        intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
+        startActivity(intent);
+
 
     }
 
