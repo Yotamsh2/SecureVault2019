@@ -10,4 +10,12 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
+    <style name="AppTheme.PopupWindow">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:elevation">20dp</item>
+    </style>
+
 </resources>

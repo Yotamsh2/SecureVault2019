@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <activity android:name="view.explorer.PatternLockView_Activity"></activity>-->
+        <activity android:name="view.records.ChooseIcon_PopupActivity"
+            android:theme="@style/AppTheme.PopupWindow"></activity>
         <activity android:name="view.records.RecordRecycler_Activity" />
         <activity android:name=".MainActivity">
             <intent-filter>

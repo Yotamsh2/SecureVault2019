@@ -744,6 +744,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void chooseIcon(View view) {
+        startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
 
     }
 
@@ -760,6 +761,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void addChooseIcon(View view) {
         addChooseIconBtn.setVisibility(View.GONE);
         chooseIcon.setVisibility(View.VISIBLE);
+        chooseIcon(null);
     }
 
     public void checkPassword(String password) {
