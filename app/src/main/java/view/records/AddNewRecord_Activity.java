@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -106,14 +107,14 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private LinearLayout category, typeOfRecord;
     private LinearLayout registerDetails;
     private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
-
+    private HorizontalScrollView listOfIcons;
 
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
 
-
+        listOfIcons = findViewById(R.id.listOfIcons);
         addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
         chooseIcon = findViewById(R.id.chooseIcon);
         starBtn = findViewById(R.id.star_icon);
@@ -744,8 +745,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void chooseIcon(View view) {
-        startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
-
+        //startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
+        mediaPlayer.start();
+        if (listOfIcons.getVisibility()==View.GONE)
+            listOfIcons.setVisibility(View.VISIBLE);
+        else
+            listOfIcons.setVisibility(View.GONE);
     }
 
     public void addToFavorites(View view) {
@@ -778,6 +783,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         //calculate "points" and shows current strength level
 
 
+    }
+
+    public void changeIcon(View view) {
+        chooseIcon.setBackground(view.getBackground());
+        //mediaPlayer.start();
+        view.startAnimation(animation3);
     }
 }
 
