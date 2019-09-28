@@ -753,6 +753,18 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             listOfIcons.setVisibility(View.GONE);
     }
 
+    public void changeIcon(View view) {
+        chooseIcon.setBackground(view.getBackground());
+        //mediaPlayer.start();
+        view.startAnimation(animation3);
+    }
+
+    public void addChooseIcon(View view) {
+        addChooseIconBtn.setVisibility(View.GONE);
+        chooseIcon.setVisibility(View.VISIBLE);
+        chooseIcon(null);
+    }
+
     public void addToFavorites(View view) {
         if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
@@ -763,11 +775,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
     }
 
-    public void addChooseIcon(View view) {
-        addChooseIconBtn.setVisibility(View.GONE);
-        chooseIcon.setVisibility(View.VISIBLE);
-        chooseIcon(null);
-    }
 
     public void checkPassword(String password) {
         //check if there's minimum 8 characters.
@@ -785,11 +792,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     }
 
-    public void changeIcon(View view) {
-        chooseIcon.setBackground(view.getBackground());
-        //mediaPlayer.start();
-        view.startAnimation(animation3);
-    }
 }
 
 
