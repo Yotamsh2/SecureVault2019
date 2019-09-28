@@ -83,4 +83,5 @@
     <string name="issuanceDate">Issuance Date</string>
     <string name="issuancePlace">Issuance Place</string>
     <string name="addChooseIcon">+ Choose Icon</string>
+    <string name="folder">Folder</string>
 </resources>

@@ -73,4 +73,5 @@
     <string name="walletGenerationSeed">Wallet Generation Seed</string>
     <string name="webAccountsAndEmail">חשבונות אתרים ואימייל</string>
     <string name="addChooseIcon">+ בחירת איקון</string>
+    <string name="folder">תיקייה</string>
 </resources>

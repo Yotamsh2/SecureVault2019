@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:labelFor="@id/category_Spinner"
-                        android:text="@string/category" />
+                        android:text="@string/folder" />
 
                         <Spinner
                         android:id="@+id/category_Spinner"
