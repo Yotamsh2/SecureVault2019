@@ -2,6 +2,7 @@ package repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -14,6 +15,8 @@ import local_database.dao.DaoRecord;
 
 import local_database.DatabaseClient;
 import local_database.RecordDatabase2;
+import view.records.AddNewRecord_Activity;
+import view.records.RecordRecycler_Activity;
 
 public class RecordRepository {
 
@@ -29,25 +32,13 @@ public class RecordRepository {
     private LiveData<List<Record>> allPassports;
     private LiveData<List<Record>> allCustomized;
     private LiveData<List<Record>> allNotes;
+    private String nameOfFolder;
 
 
     public RecordRepository(Application application) {
         RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the single ton database
 
         DaoRecord = database2.daoRecord();
-        allRecords = DaoRecord.getAllRecords();
-        allBankAccounts = DaoRecord.getAllBankAccounts(); //not BankAccounts because we look where the dao searches category name
-        allCreditCards = DaoRecord.getAllCreditCards();
-        allSocialMedia = DaoRecord.getAllSocialMedia();
-        allWebAccounts = DaoRecord.getAllWebAccounts();
-        allOnlineShopping = DaoRecord.getAllOnlineShopping();
-        allCryptocurrency = DaoRecord.getAllCryptocurrency();
-        allDrivingLicence = DaoRecord.getAllDrivingLicence();
-        allPassports = DaoRecord.getAllPassports();
-        allCustomized = DaoRecord.getAllCustomized();
-        allNotes = DaoRecord.getAllNotes();
-
-
     }
 
     public void insert(Record record) {
@@ -56,49 +47,12 @@ public class RecordRepository {
 
 
     public LiveData<List<Record>> getAllRecords() {
-        return allRecords;
+        return DaoRecord.getAllRecords();
     }
 
-    public LiveData<List<Record>> getAllBankAccounts() {
-        return allBankAccounts;
+    public LiveData<List<Record>> getAllFolder(String nameOfFolder) {
+        return DaoRecord.getAllFolder(nameOfFolder);
     }
-
-    public LiveData<List<Record>> getAllCreditCards() {
-        return allCreditCards;
-    }
-
-    public LiveData<List<Record>> getAllWebAccounts() {
-        return allWebAccounts;
-    }
-
-    public LiveData<List<Record>> getAllOnlineShopping() {
-        return allOnlineShopping;
-    }
-
-    public LiveData<List<Record>> getAllSocialMedia() {
-        return allSocialMedia;
-    }
-
-    public LiveData<List<Record>> getAllCryptocurrency() {
-        return allCryptocurrency;
-    }
-
-    public LiveData<List<Record>> getAllDrivingLicence() {
-        return allDrivingLicence;
-    }
-
-    public LiveData<List<Record>> getAllPassports() {
-        return allPassports;
-    }
-
-    public LiveData<List<Record>> getAllCustomized() {
-        return allCustomized;
-    }
-
-    public LiveData<List<Record>> getAllNotes() {
-        return allNotes;
-    }
-
 
     public void show(Record record) {
         new ShowRecordAsyncTask(DaoRecord).execute(record);

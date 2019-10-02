@@ -1098,6 +1098,11 @@
                             <ImageView
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
+                                android:background="@drawable/ic_star_black"
+                                android:onClick="changeIcon"/>
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
                                 android:background="@drawable/ic_train_black"
                                 android:onClick="changeIcon"/>
                             <ImageView

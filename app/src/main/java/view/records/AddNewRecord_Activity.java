@@ -198,7 +198,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             switch (type) {
                                 //NEED TO BE COMPLETED FOR ALL THE RECORD TYPES.
 
-                                case "BankAccounts": //shows the relevant fields of the clicked Record.
+                                case "Bank Accounts": //shows the relevant fields of the clicked Record.
                                     userName.setVisibility(View.VISIBLE);
                                     password.setVisibility(View.VISIBLE);
                                     website.setVisibility(View.GONE);
@@ -208,6 +208,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                     cryptocurrency.setVisibility(View.GONE);
                                     drivingLicence.setVisibility(View.GONE);
                                     passport.setVisibility(View.GONE);
+                                    Toast.makeText(this, "EXTRA_FOLDER: Bank Accounts", Toast.LENGTH_SHORT).show();
                                     break;
 
                                 default:  //FOR EXAMPLE
@@ -755,8 +756,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     public void changeIcon(View view) {
         chooseIcon.setBackground(view.getBackground());
-        //mediaPlayer.start();
-        view.startAnimation(animation3);
+        mediaPlayer.start();
+        listOfIcons.setVisibility(View.GONE);
+        //view.startAnimation(animation3);
     }
 
     public void addChooseIcon(View view) {

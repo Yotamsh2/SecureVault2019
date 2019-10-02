@@ -62,15 +62,15 @@
     <string name="expireMonth">Month</string>
     <string name="cardExpiringDate">Credit Card Expiring Date</string>
     <string-array name="typesOfRecord">
-        <item><![CDATA[Website/Email Account]]></item>
+        <item><![CDATA[Website & Email]]></item>
         <item>Social Media</item>
         <item>Online Shopping</item>
-        <item>Bank Account</item>
-        <item>Credit Card</item>
-        <item>Passport</item>
+        <item>Bank Accounts</item>
+        <item>Credit Cards</item>
+        <item>Passports</item>
         <item>Cryptocurrency</item>
         <item>Driving Licence</item>
-        <item>Note</item>
+        <item>Notes</item>
     </string-array>
     <string name="discard">Discard</string>
     <string name="publicKey">Public Key</string>
@@ -84,4 +84,6 @@
     <string name="issuancePlace">Issuance Place</string>
     <string name="addChooseIcon">+ Choose Icon</string>
     <string name="folder">Folder</string>
+    <string name="showAll">Show All</string>
+    <string name="allRecords">All Records</string>
 </resources>

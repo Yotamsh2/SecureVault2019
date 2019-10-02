@@ -1,11 +1,13 @@
 package view.explorer;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,10 +28,13 @@ public class CategoryList_Activity extends AppCompatActivity {
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
 
+    public static final String EXTRA_SEARCH =
+            "com.securevault19.securevault2019.EXTRA_SEARCH";
+
     Typeface myFont;
     TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
     GridLayout mainGrid;
-    CardView bankAccounts, creditCard, socialMedia, webAccounts, onlineShopping, cryptocurrency, drivingLicence, passports, customized, notes;
+    CardView bankAccounts, creditCard, socialMedia, webAccounts, onlineShopping, cryptocurrency, drivingLicence, passports, allRecords, notes;
     Animation animation1, animation2, animation3, animation4;
     MediaPlayer mediaPlayer;
     RelativeLayout search_layout;
@@ -37,6 +42,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     Button search_btn;
     EditText search_bar;
     TextView activityTitle;
+    String nameOfFolder;
 
 
     @Override
@@ -53,7 +59,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         cryptocurrency =  findViewById(R.id.cryptocurrency);
         drivingLicence = findViewById(R.id.drivingLicence);
         passports =  findViewById(R.id.passport);
-        customized =  findViewById(R.id.customized);
+        allRecords =  findViewById(R.id.allRecords);
         notes =  findViewById(R.id.notes);
         search_layout =  findViewById(R.id.search_layout);
         search_btn =  findViewById(R.id.search_btn);
@@ -97,92 +103,51 @@ public class CategoryList_Activity extends AppCompatActivity {
 
     }
 
-    public void goToBankAccounts(View view) {
+    public void goToFolderRecords(View view) {
+        if (view == bankAccounts)
+            nameOfFolder = "Bank Accounts";
+        else if (view==creditCard)
+            nameOfFolder = "Credit Cards";
+        else if (view==socialMedia)
+            nameOfFolder = "Social Media";
+        else if (view==webAccounts)
+            nameOfFolder = "Website & Email";
+        else if (view==onlineShopping)
+            nameOfFolder = "Online Shopping";
+        else if (view==cryptocurrency)
+            nameOfFolder = "Cryptocurrency";
+        else if (view==drivingLicence)
+            nameOfFolder = "Driving Licence";
+        else if (view==passports)
+            nameOfFolder = "Passports";
+        else if (view==allRecords)
+            nameOfFolder = "All Records";
+        else if (view==notes)
+            nameOfFolder = "Notes";
+
         mediaPlayer.start();
-        bankAccounts.startAnimation(animation3);
+        view.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "BankAccounts");
+        intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
 
     }
 
-    public void goToCreditCard(View view) {
-        mediaPlayer.start();
-        creditCard.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "CreditCards");
-        this.startActivity(intent);
-    }
-
-    public void goToSocialMedia(View view) {
-        mediaPlayer.start();
-        socialMedia.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "SocialMedia");
-        this.startActivity(intent);
-    }
-
-    public void goToWebAccounts(View view) {
-        mediaPlayer.start();
-        webAccounts.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "WebAccounts");
-        this.startActivity(intent);
-    }
-
-    public void goToOnlineShopping(View view) {
-        mediaPlayer.start();
-        onlineShopping.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "OnlineShopping");
-        this.startActivity(intent);
-    }
-
-    public void goToCryptocurrency(View view) {
-        mediaPlayer.start();
-        cryptocurrency.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "Cryptocurrency");
-        this.startActivity(intent);
-    }
-
-    public void goToDrivingLicence(View view) {
-        mediaPlayer.start();
-        drivingLicence.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "DrivingLicence");
-        this.startActivity(intent);
-    }
-
-    public void goToPassports(View view) {
-        mediaPlayer.start();
-        passports.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "Passports");
-        this.startActivity(intent);
-    }
-
-    public void goToCustomized(View view) {
-        mediaPlayer.start();
-        customized.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "Customized");
-        this.startActivity(intent);
-    }
-
-    public void goToNotes(View view) {
-        mediaPlayer.start();
-        notes.startAnimation(animation3);
-        Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, "Notes");
-        this.startActivity(intent);
-    }
-
-
     public void search(View view) {
         mediaPlayer.start();
         search_btn.startAnimation(animation3);
+        if (search_bar.getText().toString().equals("")){
+            goToFolderRecords(allRecords);
+        }
+        else {
+            String searchString = search_bar.getText().toString();
+
+            Intent intent = new Intent(this, RecordRecycler_Activity.class);
+            intent.putExtra(EXTRA_SEARCH,searchString);
+            intent.putExtra(EXTRA_FOLDER, "Search");
+            this.startActivity(intent);
+        }
     }
 
     public void openSearch(View view) {
@@ -193,6 +158,7 @@ public class CategoryList_Activity extends AppCompatActivity {
             search_layout.startAnimation(animation1);
             search_layout.setVisibility(View.VISIBLE);
             search_bar.setVisibility(View.VISIBLE);
+            search_bar.requestFocus();
             search_btn.setVisibility(View.VISIBLE);
         } else {
             search_layout.setVisibility(View.GONE);

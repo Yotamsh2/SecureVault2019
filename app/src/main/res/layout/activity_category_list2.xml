@@ -134,7 +134,8 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToBankAccounts"
+                    android:onClick="goToFolderRecords"
+
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
 
@@ -172,7 +173,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToCreditCard"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -211,7 +212,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToSocialMedia"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -251,7 +252,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToWebAccounts"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -291,7 +292,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToOnlineShopping"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -330,7 +331,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToCryptocurrency"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -370,7 +371,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToDrivingLicence"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -409,7 +410,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToPassports"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -443,12 +444,12 @@
                 <!--Passport-->
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/customized"
+                    android:id="@+id/allRecords"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToCustomized"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -472,9 +473,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:text="@string/customized"
+                            android:text="@string/allRecords"
                             android:textAlignment="center"
-                            android:textColor="@color/category_text"
+                            android:textColor="@color/back_lastColor"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -487,7 +488,7 @@
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToNotes"
+                    android:onClick="goToFolderRecords"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -513,7 +514,7 @@
                             android:ellipsize="end"
                             android:text="@string/notes"
                             android:textAlignment="center"
-                            android:textColor="@color/category_text"
+                            android:textColor="#FF9800"
                             android:textSize="16sp" />
 
                     </LinearLayout>

@@ -2,6 +2,7 @@ package view_model.records;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -26,68 +27,18 @@ public class Record_ViewModel extends AndroidViewModel {
     private LiveData<List<Record>> allPassports;
     private LiveData<List<Record>> allCustomized;
     private LiveData<List<Record>> allNotes;
-
+    private String nameOfFolder;
 
     public Record_ViewModel(@NonNull Application application) {
         super(application);
         repository = new RecordRepository(application);
-        allRecords = repository.getAllRecords();
-        allBankAccounts = repository.getAllBankAccounts();
-        allCreditCards = repository.getAllCreditCards();
-        allSocialMedia = repository.getAllSocialMedia();
-        allWebAccounts = repository.getAllWebAccounts();
-        allOnlineShopping = repository.getAllOnlineShopping();
-        allCryptocurrency = repository.getAllCryptocurrency();
-        allDrivingLicence = repository.getAllDrivingLicence();
-        allPassports = repository.getAllPassports();
-        allCustomized = repository.getAllCustomized();
-        allNotes = repository.getAllNotes();
-
-
     }
-
 
     public LiveData<List<Record>> getAllRecords() {
-        return allRecords;
-    }
-    public LiveData<List<Record>> getAllBankAccounts() {
-        return allBankAccounts;
+        return repository.getAllRecords();
     }
 
-    public LiveData<List<Record>> getAllCreditCards() {
-        return allCreditCards;
+    public LiveData<List<Record>> getAllFolder(String nameOfFolder) {
+        return repository.getAllFolder(nameOfFolder);
     }
-
-    public LiveData<List<Record>> getAllWebAccounts() {
-        return allWebAccounts;
-    }
-
-    public LiveData<List<Record>> getAllOnlineShopping() {
-        return allOnlineShopping;
-    }
-
-    public LiveData<List<Record>> getAllSocialMedia() {
-        return allSocialMedia;
-    }
-
-    public LiveData<List<Record>> getAllCryptocurrency() {
-        return allCryptocurrency;
-    }
-
-    public LiveData<List<Record>> getAllDrivingLicence() {
-        return allDrivingLicence;
-    }
-
-    public LiveData<List<Record>> getAllPassports() {
-        return allPassports;
-    }
-
-    public LiveData<List<Record>> getAllCustomized() {
-        return allCustomized;
-    }
-
-    public LiveData<List<Record>> getAllNotes() {
-        return allNotes;
-    }
-
 }

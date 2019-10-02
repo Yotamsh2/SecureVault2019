@@ -74,4 +74,6 @@
     <string name="webAccountsAndEmail">חשבונות אתרים ואימייל</string>
     <string name="addChooseIcon">+ בחירת איקון</string>
     <string name="folder">תיקייה</string>
+    <string name="showAll">הצג הכל</string>
+    <string name="allRecords">כל הרשומות</string>
 </resources>
