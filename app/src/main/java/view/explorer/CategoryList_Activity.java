@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -147,6 +149,7 @@ public class CategoryList_Activity extends AppCompatActivity {
             intent.putExtra(EXTRA_SEARCH,searchString);
             intent.putExtra(EXTRA_FOLDER, "Search");
             this.startActivity(intent);
+            overridePendingTransition(0, 0);
         }
     }
 
@@ -164,6 +167,8 @@ public class CategoryList_Activity extends AppCompatActivity {
             search_layout.setVisibility(View.GONE);
             search_bar.setVisibility(View.GONE);
             search_btn.setVisibility(View.GONE);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
 
     }

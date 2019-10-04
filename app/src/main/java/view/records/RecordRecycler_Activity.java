@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,22 +52,44 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     private Typeface myFont;
     String nameOfFolder;
     MediaPlayer mediaPlayer;
+    RelativeLayout search_layout;
+    Button search_btn;
+    EditText search_bar;
+    Animation animation3;
+    RecyclerView recyclerView;
+    String searchString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_recycler);
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
         mediaPlayer = MediaPlayer.create(this, button);
+        search_layout =  findViewById(R.id.search_layout);
+        search_btn =  findViewById(R.id.search_btn);
+        search_bar =  findViewById(R.id.search_bar);
+        activityTitle = findViewById(R.id.activityTitle);
+
+        //Set logo's font to category's text
+        myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
+        activityTitle.setTypeface(myFont);
 
         //Animation Sets
         Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.zoomin);
         final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
         final Animation animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
 
+
+        recycler();
+
+        floatingActionButton();
+
+    }
+
+    public void recycler (){
 
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
         recyclerView.setAdapter(recordAdapter);
@@ -77,7 +102,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 //////////checking the extras is not null -> to get rid of "null object reference"/////////////////////////////////////
         if (extras != null) {
             nameOfFolder = extras.getString(EXTRA_FOLDER);
-            String searchString = extras.getString(EXTRA_SEARCH);
+            searchString = extras.getString(EXTRA_SEARCH);
 
             if (nameOfFolder != null) {
                 Log.d("back", "folder is not null:  " + nameOfFolder);
@@ -93,7 +118,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     });
                 }
                 else if (nameOfFolder.equals("Search")){
-                    viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
+                    search_layout.setVisibility(View.VISIBLE);
+                    search_bar.setText(searchString);
+                    viewModel.getSearchRecords(searchString).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
@@ -115,6 +142,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
             }
         }
 
+    }
+
+    public void floatingActionButton(){
 
         final FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
@@ -132,14 +162,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
             }
         });
 
-
-        activityTitle = findViewById(R.id.activityTitle);
-        //        Set logo's font to category's text
-        myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
-        activityTitle.setTypeface(myFont);
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -192,5 +215,29 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         finish();
     }
 
+
+
+    public void search(View view) {
+        mediaPlayer.start();
+        //search_btn.startAnimation(animation3);
+        if (search_bar.getText().toString().equals(searchString)){
+            return;        }
+        else if (search_bar.getText().toString().equals("")) {
+            searchString = "%";        }
+        else {
+            searchString = search_bar.getText().toString();
+        }
+        Toast.makeText(this, "searchString: "+searchString, Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra(EXTRA_SEARCH,searchString);
+        intent.putExtra(EXTRA_FOLDER, "Search");
+        finish();
+        //overridePendingTransition(0, 0);
+        this.startActivity(intent);
+        //overridePendingTransition(0, 0);
+
+
+    }
 
 }

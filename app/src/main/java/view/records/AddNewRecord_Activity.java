@@ -699,26 +699,26 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     public void back(View view) {
         finish(); //finishing current activity
-
-        //get EXTRA_FOLDER that we know where to navigate(which folder we want to return)
-        Bundle extras = getIntent().getExtras();
-        String folder;
-        if (extras != null) {
-            Log.d("back", "inside if ");
-
-            folder = extras.getString(EXTRA_FOLDER);
-            Intent intent = new Intent(this, RecordRecycler_Activity.class);
-            Log.d("back", "folder is :  " + folder);
-
-            intent.putExtra(EXTRA_FOLDER, folder);
-            this.startActivity(intent);
-
-        } else {       //just in case
-            Log.d("back", "inside else ");
-
-            Intent intent = new Intent(this, CategoryList_Activity.class);
-            this.startActivity(intent);
-        }
+//
+//        //get EXTRA_FOLDER that we know where to navigate(which folder we want to return)
+//        Bundle extras = getIntent().getExtras();
+//        String folder;
+//        if (extras != null) {
+//            Log.d("back", "inside if ");
+//
+//            folder = extras.getString(EXTRA_FOLDER);
+//            Intent intent = new Intent(this, RecordRecycler_Activity.class);
+//            Log.d("back", "folder is :  " + folder);
+//
+//            intent.putExtra(EXTRA_FOLDER, folder);
+//            this.startActivity(intent);
+//
+//        } else {       //just in case
+//            Log.d("back", "inside else ");
+//
+//            Intent intent = new Intent(this, CategoryList_Activity.class);
+//            this.startActivity(intent);
+//        }
     }
 
     public void showCategory(View view) {

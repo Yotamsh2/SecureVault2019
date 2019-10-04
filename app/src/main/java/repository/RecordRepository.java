@@ -21,23 +21,10 @@ import view.records.RecordRecycler_Activity;
 public class RecordRepository {
 
     private DaoRecord DaoRecord;
-    private LiveData<List<Record>> allRecords;
-    private LiveData<List<Record>> allBankAccounts;
-    private LiveData<List<Record>> allCreditCards;
-    private LiveData<List<Record>> allSocialMedia;
-    private LiveData<List<Record>> allWebAccounts;
-    private LiveData<List<Record>> allOnlineShopping;
-    private LiveData<List<Record>> allCryptocurrency;
-    private LiveData<List<Record>> allDrivingLicence;
-    private LiveData<List<Record>> allPassports;
-    private LiveData<List<Record>> allCustomized;
-    private LiveData<List<Record>> allNotes;
-    private String nameOfFolder;
 
 
     public RecordRepository(Application application) {
         RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the single ton database
-
         DaoRecord = database2.daoRecord();
     }
 
@@ -45,14 +32,15 @@ public class RecordRepository {
         new InsertRecordAsyncTask(DaoRecord).execute(record);
     }
 
-
     public LiveData<List<Record>> getAllRecords() {
-        return DaoRecord.getAllRecords();
-    }
+        return DaoRecord.getAllRecords();    }
 
     public LiveData<List<Record>> getAllFolder(String nameOfFolder) {
-        return DaoRecord.getAllFolder(nameOfFolder);
-    }
+        return DaoRecord.getAllFolder(nameOfFolder);    }
+
+    public LiveData<List<Record>> getSearchRecords(String searchString) {
+        return DaoRecord.getSearchRecords(searchString);    }
+
 
     public void show(Record record) {
         new ShowRecordAsyncTask(DaoRecord).execute(record);

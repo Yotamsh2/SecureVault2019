@@ -52,8 +52,10 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Welcome back, User_Name", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
                     startActivity(intent);
+                    overridePendingTransition(0, 0);
                     mediaPlayer.start();
                     finish();
+                    overridePendingTransition(0, 0);
 
                 } else {
                     patternLockView.setViewMode(PatternLockView.PatternViewMode.WRONG);

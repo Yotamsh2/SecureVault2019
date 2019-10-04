@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             if(true){
                 Intent intent = new Intent(this, PatternLockView_Activity.class);
                 this.startActivity(intent);
+                //overridePendingTransition(R.anim.fadein_fast, 0);
                 finish();
             }
             else{

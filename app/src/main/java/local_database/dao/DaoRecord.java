@@ -31,5 +31,7 @@ public interface DaoRecord {
     LiveData<List<Record>> getAllRecords();
     @Query("SELECT * FROM record_table WHERE folder LIKE :nameOfFolder")   // '%' because we are looking for two words(and there's no duplicates with the folders names
     LiveData<List<Record>> getAllFolder(String nameOfFolder);
+    @Query("SELECT * FROM record_table WHERE title LIKE :searchString")
+    LiveData<List<Record>> getSearchRecords(String searchString);
 
 }
