@@ -80,7 +80,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         //Animation Sets
         Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.zoomin);
         final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
-        final Animation animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
+        animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
 
 
         recycler();
@@ -164,6 +164,11 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+        back(null);    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -192,6 +197,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
         String type;
 
+        mediaPlayer.start();
+
         Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
         intent.putExtra(EXTRA_FOLDER, folder);
 
@@ -212,6 +219,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     public void back(View view) {
         mediaPlayer.start();
+        Intent intent = new Intent(this, CategoryList_Activity.class);
+        this.startActivity(intent);
+        overridePendingTransition(0, 0);
         finish();
     }
 
@@ -219,7 +229,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     public void search(View view) {
         mediaPlayer.start();
-        //search_btn.startAnimation(animation3);
+        search_btn.startAnimation(animation3);
         if (search_bar.getText().toString().equals(searchString)){
             return;        }
         else if (search_bar.getText().toString().equals("")) {
@@ -227,15 +237,14 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         else {
             searchString = search_bar.getText().toString();
         }
-        Toast.makeText(this, "searchString: "+searchString, Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
         intent.putExtra(EXTRA_SEARCH,searchString);
         intent.putExtra(EXTRA_FOLDER, "Search");
-        finish();
-        //overridePendingTransition(0, 0);
         this.startActivity(intent);
-        //overridePendingTransition(0, 0);
+        overridePendingTransition(0, 0);
+        finish();
+        overridePendingTransition(0, 0);
 
 
     }

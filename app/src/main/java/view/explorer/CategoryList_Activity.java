@@ -132,6 +132,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
+        finish();
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
 
     }
@@ -150,6 +151,7 @@ public class CategoryList_Activity extends AppCompatActivity {
             intent.putExtra(EXTRA_FOLDER, "Search");
             this.startActivity(intent);
             overridePendingTransition(0, 0);
+            finish();
         }
     }
 
@@ -167,8 +169,9 @@ public class CategoryList_Activity extends AppCompatActivity {
             search_layout.setVisibility(View.GONE);
             search_bar.setVisibility(View.GONE);
             search_btn.setVisibility(View.GONE);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            search_bar.clearFocus();
+//            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE); //Hide keyboard
+//            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
         }
 
     }
