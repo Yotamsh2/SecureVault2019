@@ -152,6 +152,8 @@ public class CategoryList_Activity extends AppCompatActivity {
             this.startActivity(intent);
             overridePendingTransition(0, 0);
             finish();
+            overridePendingTransition(0, 0);
+
         }
     }
 
