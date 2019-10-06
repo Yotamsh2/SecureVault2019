@@ -155,7 +155,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
-                finish();
 
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
 
