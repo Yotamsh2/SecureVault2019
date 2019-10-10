@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="view.explorer.CategoryList_Activity">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_add_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal"
+        app:backgroundTint="@color/back_secondColor"/>
+
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/new_back"
@@ -29,6 +46,7 @@
                 android:background="@drawable/icon_menu"
                 android:onClick="openMenu" />
 
+<!--
             <Button
                 android:id="@+id/search_icon"
                 android:layout_width="25dp"
@@ -38,6 +56,17 @@
                 android:layout_marginEnd="14dp"
                 android:background="@drawable/icon_search"
                 android:onClick="openSearch" />
+-->
+
+            <Button
+                android:id="@+id/options_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="14dp"
+                android:background="@drawable/ic_more_vert_white"
+                android:onClick="openOptions" />
         </RelativeLayout>
         <!--menu and search buttons-->
 
@@ -78,7 +107,7 @@
         android:layout_marginBottom="2dp"
         android:paddingStart="6dp"
         android:paddingEnd="6dp"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <EditText
             android:id="@+id/search_bar"
@@ -97,7 +126,7 @@
             android:textColorHint="#66FFFFFF"
             android:inputType="text"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/search_btn"
             android:layout_width="60dp"
             android:layout_height="30dp"
@@ -106,8 +135,7 @@
             android:layout_marginEnd="12dp"
             android:background="@drawable/btn_style"
             android:onClick="search"
-            android:text="@string/go"
-            android:textColor="#fff"/>
+            android:src="@drawable/ic_arrow_right_white"/>
 
     </RelativeLayout>
     <!--Search-->
@@ -528,3 +556,5 @@
     <!--Cards-->
 
 </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

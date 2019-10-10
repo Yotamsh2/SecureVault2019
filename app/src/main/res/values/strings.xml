@@ -86,4 +86,5 @@
     <string name="folder">Folder</string>
     <string name="showAll">Show All</string>
     <string name="allRecords">All Records</string>
+    <string name="security_level">Security Level</string>
 </resources>

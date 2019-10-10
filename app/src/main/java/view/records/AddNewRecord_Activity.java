@@ -99,6 +99,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private FloatingActionButton editForm;
     private TextView activityTitle;
     private Typeface myFont;
+    private String nameOfFolder,type, origin;
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
@@ -181,20 +182,18 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         //Getting all the EXTRAS from all the 'intent.puExtra()'s
         Bundle extras = getIntent().getExtras();
-        String folder, type, origin;
 
 
         if (extras != null) {
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
             Log.d("AddNewRecord", "from onRecordClick: origin: " + origin);
+            nameOfFolder = extras.getString(EXTRA_FOLDER);
 
             switch (origin) {
                 case "onRecordClick":
 
-                    folder = extras.getString(EXTRA_FOLDER);
-
-                    if (folder != null) {
+                    if (nameOfFolder != null) {
                         type = extras.getString(EXTRA_TYPE);
                         if (type != null) {
                             switch (type) {
@@ -232,6 +231,27 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 //If we came from buttonAddRecord
                 default:
+                    switch (nameOfFolder){
+                        case "Website & Email":
+                            category_Spinner.setSelection(0);
+                        case "Social Media":
+                            category_Spinner.setSelection(1);
+                        case "Online Shopping":
+                            category_Spinner.setSelection(2);
+                        case "Bank Account":
+                            category_Spinner.setSelection(3);
+                        case "Credit Cards":
+                            category_Spinner.setSelection(4);
+                        case "Passports":
+                            category_Spinner.setSelection(5);
+                        case "Cryptocurrency":
+                            category_Spinner.setSelection(6);
+                        case "Driving Licence":
+                            category_Spinner.setSelection(7);
+                        case "Notes":
+                            category_Spinner.setSelection(8);
+                    }
+
                     //Show fields after selecting item in spinner
                     typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override

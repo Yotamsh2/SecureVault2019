@@ -30,6 +30,7 @@
         <activity
             android:name="view.explorer.PatternLockView_Activity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name="view.preferences.SecurityLevel_Activity" />
     </application>
 
 </manifest>

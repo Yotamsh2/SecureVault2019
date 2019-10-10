@@ -17,21 +17,28 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 
+import view.preferences.SecurityLevel_Activity;
+import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
 
-public class CategoryList_Activity extends AppCompatActivity {
-//    public static final int ADD_RECORD_REQUEST = 1;
+import static view.records.RecordRecycler_Activity.ADD_RECORD_REQUEST;
 
+public class CategoryList_Activity extends AppCompatActivity {
+    public static final int ADD_RECORD_REQUEST = 1;
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
-
     public static final String EXTRA_SEARCH =
             "com.securevault19.securevault2019.EXTRA_SEARCH";
+    public static final String EXTRA_ORIGIN =
+            "com.example.architectureexample.EXTRA_ORIGIN";
 
     Typeface myFont;
     TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
@@ -41,7 +48,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     RelativeLayout search_layout;
     Button search_icon;
-    Button search_btn;
+    ImageButton search_btn;
     EditText search_bar;
     TextView activityTitle;
     String nameOfFolder;
@@ -103,9 +110,29 @@ public class CategoryList_Activity extends AppCompatActivity {
         category9.setTypeface(myFont);
         category10.setTypeface(myFont);
 
+        floatingActionButton();
     }
 
-    public void goToFolderRecords(View view) {
+
+    public void floatingActionButton(){
+
+        final FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
+        buttonAddRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mediaPlayer.start();
+                buttonAddRecord.startAnimation(animation3);
+                Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
+                intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
+                intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
+                Toast.makeText(CategoryList_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
+                startActivityForResult(intent, ADD_RECORD_REQUEST);
+            }
+        });
+    }
+
+
+        public void goToFolderRecords(View view) {
         if (view == bankAccounts)
             nameOfFolder = "Bank Accounts";
         else if (view==creditCard)
@@ -132,7 +159,6 @@ public class CategoryList_Activity extends AppCompatActivity {
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
-        finish();
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
 
     }
@@ -150,8 +176,6 @@ public class CategoryList_Activity extends AppCompatActivity {
             intent.putExtra(EXTRA_SEARCH,searchString);
             intent.putExtra(EXTRA_FOLDER, "Search");
             this.startActivity(intent);
-            overridePendingTransition(0, 0);
-            finish();
             overridePendingTransition(0, 0);
 
         }
@@ -179,5 +203,10 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
     public void openMenu(View view) {
+    }
+
+    public void openOptions(View view) {
+        Intent intent = new Intent(this, SecurityLevel_Activity.class);
+        this.startActivity(intent);
     }
 }

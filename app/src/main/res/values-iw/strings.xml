@@ -76,4 +76,5 @@
     <string name="folder">תיקייה</string>
     <string name="showAll">הצג הכל</string>
     <string name="allRecords">כל הרשומות</string>
+    <string name="security_level">רמת אבטחה</string>
 </resources>

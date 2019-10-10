@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     String nameOfFolder;
     MediaPlayer mediaPlayer;
     RelativeLayout search_layout;
-    Button search_btn;
+    ImageButton search_btn;
     EditText search_bar;
     Animation animation3;
     RecyclerView recyclerView;
@@ -155,9 +156,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
-
+                Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
-
             }
         });
 
@@ -218,9 +218,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     public void back(View view) {
         mediaPlayer.start();
-        Intent intent = new Intent(this, CategoryList_Activity.class);
-        this.startActivity(intent);
-        overridePendingTransition(0, 0);
         finish();
     }
 
@@ -246,6 +243,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         overridePendingTransition(0, 0);
 
 
+    }
+
+    public void openMenu(View view) {
     }
 
 }

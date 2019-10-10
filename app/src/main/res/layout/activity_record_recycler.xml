@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context="view.records.RecordRecycler_Activity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_add_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add"
+        app:fabSize="normal"
+        app:backgroundTint="@color/back_secondColor"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -102,7 +112,7 @@
                 android:textColorHint="#66FFFFFF"
                 android:inputType="text"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/search_btn"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
@@ -111,8 +121,7 @@
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/btn_style"
                 android:onClick="search"
-                android:text="@string/go"
-                android:textColor="#fff"/>
+                android:src="@drawable/ic_arrow_right_white"/>
 
         </RelativeLayout>
         <!--Search-->
@@ -128,15 +137,6 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_add_record"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        app:fabSize="normal"
-        app:backgroundTint="@color/back_secondColor"/>
     <!--        android:onClick="editForm"-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
