@@ -54,6 +54,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
                 Log.d(getClass().getName(), "Pattern complete: " +
                         PatternLockUtils.patternToString(patternLockView, pattern));
                 if (PatternLockUtils.patternToString(patternLockView, pattern).equalsIgnoreCase("012")) {
+                    //Clears the Pattern from the screen
                     clearPattern(patternLockView);
                     Toast.makeText(getApplicationContext(), "Welcome back, User_Name", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
@@ -64,8 +65,9 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
 
                 } else {
-                    patternLockView.setViewMode(PatternViewMode.WRONG); //Pattern's Color becomes red
+                    //Clears the Pattern from the screen
                     clearPattern(patternLockView);
+                    patternLockView.setViewMode(PatternViewMode.WRONG); //Pattern's Color becomes red
 
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
