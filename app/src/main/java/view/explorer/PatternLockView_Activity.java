@@ -55,6 +55,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
                 if (PatternLockUtils.patternToString(patternLockView, pattern).equalsIgnoreCase("012")) {
                     //Clears the Pattern from the screen
                     clearPattern(patternLockView);
+
                     Toast.makeText(getApplicationContext(), "Welcome back, User_Name", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
                     startActivity(intent);
