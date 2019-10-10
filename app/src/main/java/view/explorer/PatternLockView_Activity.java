@@ -65,13 +65,15 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
 
                 } else {
+
                     //Clears the Pattern from the screen
                     clearPattern(patternLockView);
                     patternLockView.setViewMode(PatternViewMode.WRONG); //Pattern's Color becomes red
+                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
 
                     Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
-                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
