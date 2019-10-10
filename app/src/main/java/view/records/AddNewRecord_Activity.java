@@ -794,15 +794,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
             starFullBtn.setVisibility(View.VISIBLE);
-            isFavorite();
+            isFavorite = true;
         } else {
             starBtn.setVisibility(View.VISIBLE);
             starFullBtn.setVisibility(View.GONE);
+            isFavorite = false;
         }
-    }
-
-    public void isFavorite(){
-       isFavorite = true;
     }
 
 

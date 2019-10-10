@@ -1,5 +1,6 @@
 package view.records;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -59,6 +60,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     Animation animation3;
     RecyclerView recyclerView;
     String searchString;
+    FloatingActionButton button_add_record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         search_btn =  findViewById(R.id.search_btn);
         search_bar =  findViewById(R.id.search_bar);
         activityTitle = findViewById(R.id.activityTitle);
+        button_add_record = findViewById(R.id.button_add_record);
 
         //Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
@@ -130,6 +133,18 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 }
+                else if (nameOfFolder.equals("Favorites")){
+                    viewModel.getFavoritesRecords().observe(this, new Observer<List<Record>>() {
+                        @SuppressLint("RestrictedApi")
+                        @Override
+                        public void onChanged(List<Record> records) {
+                            recordAdapter.setRecords(records);
+                            recordAdapter.notifyDataSetChanged();
+                            activityTitle.setText(nameOfFolder);
+                            button_add_record.setVisibility(View.GONE);
+                        }
+                    });
+                }
                 else {
                     viewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
                         @Override
@@ -158,6 +173,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
                 Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
+                finish();
             }
         });
 

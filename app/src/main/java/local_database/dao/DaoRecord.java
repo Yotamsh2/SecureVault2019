@@ -33,5 +33,7 @@ public interface DaoRecord {
     LiveData<List<Record>> getAllFolder(String nameOfFolder);
     @Query("SELECT * FROM record_table WHERE title LIKE :searchString")
     LiveData<List<Record>> getSearchRecords(String searchString);
+    @Query("SELECT * FROM record_table WHERE favorite LIKE '1'")
+    LiveData<List<Record>> getFavoritesRecords();
 
 }

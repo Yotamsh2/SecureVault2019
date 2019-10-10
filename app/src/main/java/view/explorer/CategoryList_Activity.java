@@ -48,7 +48,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     RelativeLayout search_layout;
     Button search_icon;
-    ImageButton search_btn;
+    ImageButton search_btn, favorites;
     EditText search_bar;
     TextView activityTitle;
     String nameOfFolder;
@@ -60,6 +60,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_category_list2);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
+        favorites = findViewById(R.id.favorites);
         bankAccounts =  findViewById(R.id.bankAccount);
         creditCard =  findViewById(R.id.creditCard);
         socialMedia =  findViewById(R.id.socialMedia);
@@ -153,6 +154,9 @@ public class CategoryList_Activity extends AppCompatActivity {
             nameOfFolder = "All Records";
         else if (view==notes)
             nameOfFolder = "Notes";
+        else if (view==favorites)
+            nameOfFolder = "Favorites";
+
 
         mediaPlayer.start();
         view.startAnimation(animation3);

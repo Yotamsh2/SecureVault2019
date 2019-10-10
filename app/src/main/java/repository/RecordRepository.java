@@ -42,6 +42,10 @@ public class RecordRepository {
         return DaoRecord.getSearchRecords(searchString);    }
 
 
+    public LiveData<List<Record>> getFavoritesRecords() {
+        return DaoRecord.getFavoritesRecords();    }
+
+
     public void show(Record record) {
         new ShowRecordAsyncTask(DaoRecord).execute(record);
     }

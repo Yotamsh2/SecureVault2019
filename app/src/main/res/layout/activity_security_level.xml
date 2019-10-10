@@ -99,7 +99,7 @@
                 android:id="@+id/level1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="6dp"
+                android:layout_marginTop="10dp"
                 android:paddingStart="6dp"
                 android:onClick="level_clicked">
                 <ImageView
