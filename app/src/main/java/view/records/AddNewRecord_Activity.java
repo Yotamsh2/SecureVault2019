@@ -109,6 +109,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
     private HorizontalScrollView listOfIcons;
 
+    private boolean isFavorite = false; //as default, a record is not a favorite.
+
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
@@ -506,6 +508,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setWebsite(website);
                     record.setEmail(email);
                     record.setExpiringDate(expiringDate);
+                    record.setFavorite(isFavorite);
 
 
                     // inserting record to DB
@@ -771,10 +774,15 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
             starFullBtn.setVisibility(View.VISIBLE);
+            isFavorite();
         } else {
             starBtn.setVisibility(View.VISIBLE);
             starFullBtn.setVisibility(View.GONE);
         }
+    }
+
+    public void isFavorite(){
+       isFavorite = true;
     }
 
 
