@@ -36,7 +36,6 @@
         android:layout_height="0dp"
         android:layout_weight="6"
         android:layout_gravity="center"
-        dotCount= "12"
         correctStateColor="@color/colorCorrectLine"
         normalStateColor="@color/colorNormalLine"
         wrongStateColor="@color/colorWrongLine"

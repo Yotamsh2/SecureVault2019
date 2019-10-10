@@ -1,8 +1,10 @@
 package view.explorer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,6 +16,10 @@ import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.securevault19.securevault2019.R;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static com.andrognito.patternlockview.PatternLockView.*;
 
 public class PatternLockView_Activity extends AppCompatActivity {
 
@@ -30,8 +36,8 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
         patternLockView = findViewById(R.id.patternView);
         patternLockView.setDotCount(3);
+        patternLockView.setCorrectStateColor(getResources().getColor(R.color.colorCorrectLine));
         patternLockView.addPatternLockListener(new PatternLockViewListener() {
-
 
             @Override
             public void onStarted() {
@@ -48,8 +54,8 @@ public class PatternLockView_Activity extends AppCompatActivity {
                 Log.d(getClass().getName(), "Pattern complete: " +
                         PatternLockUtils.patternToString(patternLockView, pattern));
                 if (PatternLockUtils.patternToString(patternLockView, pattern).equalsIgnoreCase("012")) {
-                    patternLockView.setViewMode(PatternLockView.PatternViewMode.CORRECT);
-                    Toast.makeText(getApplicationContext(), "Welcome back, User_Name", Toast.LENGTH_LONG).show();
+                    clearPattern(patternLockView);
+                    Toast.makeText(getApplicationContext(), "Welcome back, User_Name", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
@@ -58,8 +64,12 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
 
                 } else {
-                    patternLockView.setViewMode(PatternLockView.PatternViewMode.WRONG);
-                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_LONG).show();
+                    patternLockView.setViewMode(PatternViewMode.WRONG); //Pattern's Color becomes red
+                    clearPattern(patternLockView);
+
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(500);
+                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -68,6 +78,18 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    //Clears the Pattern from the screen
+    private void clearPattern(final PatternLockView patternLockView){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                patternLockView.clearPattern();
+            }
+        },1500);
 
     }
 }
