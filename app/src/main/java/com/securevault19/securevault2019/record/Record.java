@@ -1,11 +1,7 @@
 package com.securevault19.securevault2019.record;
 
-import android.util.Log;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import cryptography.Cryptography;
 
 @Entity(tableName = "record_table")
 public class Record {
@@ -43,6 +39,10 @@ public class Record {
     private String secret_question;
 //    private String note;
     private String folder; //folder = category
+    private boolean favorite;
+
+
+
 
 
     //public void setRecordID(int recordID) {
@@ -133,10 +133,9 @@ public class Record {
     public void setFolder(String folder) {
         this.folder = folder;
     }
+    public void setFavorite(boolean favorite) {   this.favorite = favorite;  }
 
-    public int getRecordID() {
-        return recordID;
-    }
+    public int getRecordID() { return recordID;   }
     public String getUserName() { return userName;  }
     public int getAccountNumber() {
         return accountNumber;
@@ -220,5 +219,6 @@ public class Record {
     public String getFolder() {
         return folder;
     }
+    public boolean getFavorite() { return favorite; }
 }
 
