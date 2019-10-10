@@ -46,7 +46,6 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
             @Override
             public void onProgress(List progressPattern) {
-
             }
 
             @Override
