@@ -27,26 +27,29 @@ private String getAES(){
     return AES;
 }
 
-        public String encryptPassword(String username, String password) throws Exception {
-        SecretKeySpec key = generateKey(username);
+
+        //The first parameter will be the Key which we encrypt with, The Second parameter will be the data to encrypt
+
+        public String encrypt(String Key, String Data) throws Exception {
+        SecretKeySpec key = generateKey(Key);
         Cipher c = Cipher.getInstance(getAES());
         c.init(Cipher.ENCRYPT_MODE,key);
-        byte[] encVal = c.doFinal(password.getBytes());
+        byte[] encVal = c.doFinal(Data.getBytes());
         String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
         return encryptedValue;
     }
 
-    public String encryptUsername(String username) throws Exception {
-        SecretKeySpec key = generateKey(username);
-        Cipher c = Cipher.getInstance(getAES());
-        c.init(Cipher.ENCRYPT_MODE,key);
-        byte[] encVal = c.doFinal(username.getBytes());
-        String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
-        return encryptedValue;
-    }
+//    public String encryptUsername(String username) throws Exception {
+//        SecretKeySpec key = generateKey(username);
+//        Cipher c = Cipher.getInstance(getAES());
+//        c.init(Cipher.ENCRYPT_MODE,key);
+//        byte[] encVal = c.doFinal(username.getBytes());
+//        String encryptedValue = Base64.encodeToString(encVal,Base64.DEFAULT);
+//        return encryptedValue;
+//    }
 
-    public  String decrypt (String outputString, String username) throws Exception{
-        SecretKeySpec key = generateKey(username);
+    public String decrypt (String outputString, String Data) throws Exception{
+        SecretKeySpec key = generateKey(Data);
         Cipher c = Cipher.getInstance(getAES());
         c.init( Cipher.DECRYPT_MODE, key);
         byte[] decodeValue = Base64.decode( outputString, Base64.DEFAULT );
@@ -55,15 +58,14 @@ private String getAES(){
         return decryptedValue;
     }
 
-    public  SecretKeySpec generateKey(String username) throws Exception{
+    public  SecretKeySpec generateKey(String Data) throws Exception{
         final MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] bytes = username.getBytes("UTF-8");
+        byte[] bytes = Data.getBytes("UTF-8");
         digest.update( bytes,0,bytes.length );
         byte[] key = digest.digest();
         SecretKeySpec secretKeySpec = new SecretKeySpec( key,"AES" );
         return secretKeySpec;
     }
-
 
     //expiring-date fields are seperated so we concat them into one string.
     //String expiringDate_arr[] = {expiringDateDay, expiringDateMonth, expiringDateYear};

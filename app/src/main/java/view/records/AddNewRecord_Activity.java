@@ -508,10 +508,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 protected Void doInBackground(Void... voids) {
                     try {
                         // encrypthing the password and the username(username for test)
-                        encryptedUsername = cryptography.encryptUsername(username_EditText.getText().toString());
+                        encryptedUsername = cryptography.encrypt(username_EditText.getText().toString(),username_EditText.getText().toString());
 
                         if (password_EditText.getText().toString() != null) {
-                            encryptedPassword = cryptography.encryptPassword(username_EditText.getText().toString(), password_EditText.getText().toString());
+                            encryptedPassword = cryptography.encrypt(username_EditText.getText().toString(), password_EditText.getText().toString());
                             Log.d("crypto", "" + encryptedUsername);
                         }
                     } catch (Exception e) {
