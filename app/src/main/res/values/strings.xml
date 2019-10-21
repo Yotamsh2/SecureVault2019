@@ -61,17 +61,6 @@
     <string name="expireYear">Year</string>
     <string name="expireMonth">Month</string>
     <string name="cardExpiringDate">Credit Card Expiring Date</string>
-    <string-array name="typesOfRecord">
-        <item><![CDATA[Website & Email]]></item>
-        <item>Social Media</item>
-        <item>Online Shopping</item>
-        <item>Bank Accounts</item>
-        <item>Credit Cards</item>
-        <item>Passports</item>
-        <item>Cryptocurrency</item>
-        <item>Driving Licence</item>
-        <item>Notes</item>
-    </string-array>
     <string name="discard">Discard</string>
     <string name="publicKey">Public Key</string>
     <string name="privateKey">Private Key</string>
@@ -87,4 +76,15 @@
     <string name="showAll">Show All</string>
     <string name="allRecords">All Records</string>
     <string name="security_level">Security Level</string>
+    <string-array name="typesOfRecord">
+        <item><![CDATA[Website & Email]]></item>
+        <item>Social Media</item>
+        <item>Online Shopping</item>
+        <item>Bank Accounts</item>
+        <item>Credit Cards</item>
+        <item>Passports</item>
+        <item>Cryptocurrency</item>
+        <item>Driving Licence</item>
+        <item>Notes</item>
+    </string-array>
 </resources>
