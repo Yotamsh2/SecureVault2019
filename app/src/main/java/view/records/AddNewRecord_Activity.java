@@ -910,7 +910,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             }
         }
 
-        return 0; //just in case the drawable wasn't found.
+        return 1; //just in case the drawable wasn't found.
     }
 
 }
