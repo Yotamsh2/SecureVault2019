@@ -41,9 +41,15 @@ public class Record {
     private String folder; //folder = category
     private boolean favorite;
 
+    private String icon;
 
+    public String getIcon() {
+        return icon;
+    }
 
-
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     //public void setRecordID(int recordID) {
     //    this.recordID = recordID;

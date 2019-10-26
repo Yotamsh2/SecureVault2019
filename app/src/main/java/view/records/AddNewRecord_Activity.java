@@ -3,15 +3,18 @@ package view.records;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,12 +35,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 
+import java.lang.reflect.Field;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
@@ -109,12 +119,24 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
     private HorizontalScrollView listOfIcons;
 
+    private GridLayout gridLayout; //TO DELETE
+
     private boolean isFavorite = false; //as default, a record is not a favorite.
+
+    Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
+    ArrayList<Drawable> drawableResources = new ArrayList<>();
+    //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
+    int drawabaleID;
+    Drawable mChooseicon;
+    private Drawable currentDrawable;
+
 
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
+
+        gridLayout = findViewById(R.id.add_new_record_gridLayout); //TO DELETE
 
         listOfIcons = findViewById(R.id.listOfIcons);
         addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
@@ -175,9 +197,25 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         animation3 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
+
         //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
+
+
+        //gridLayout listener
+//        Log.d("icon", "getChildCount(): "+ gridLayout.getChildCount()); //TO DELETE
+//
+//
+//        Log.d("icon", "icon_imageView: "+ icon_imageView); //TO DELETE
+
+        //will be delivered to AsyncTask
+        try { //DO NOT DELETE
+            getDrawabalesFields();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         //Getting all the EXTRAS from all the 'intent.puExtra()'s
         Bundle extras = getIntent().getExtras();
@@ -455,6 +493,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String expiringDate = expiringDate_EditText.getText().toString().trim();
         final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString();
         final String folder = category_Spinner.getSelectedItem().toString();
+
+
+        final String icon = chooseIcon.toString();
+
+
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
 //        final long IBAN;
@@ -498,6 +541,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         e.printStackTrace();
                     }
 
+
                     // opening Record to insert the TextFields and insert to DB
                     Record record = new Record();
                     record.setType(typeOfRecord);
@@ -509,6 +553,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setEmail(email);
                     record.setExpiringDate(expiringDate);
                     record.setFavorite(isFavorite);
+                    record.setIcon(String.valueOf(drawabaleID));
 
 
                     // inserting record to DB
@@ -751,18 +796,41 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void chooseIcon(View view) {
         //startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
         mediaPlayer.start();
-        if (listOfIcons.getVisibility()==View.GONE)
+        if (listOfIcons.getVisibility() == View.GONE)
             listOfIcons.setVisibility(View.VISIBLE);
         else
             listOfIcons.setVisibility(View.GONE);
+
     }
 
-    public void changeIcon(View view) {
+    public void changeIcon(View view) throws IllegalAccessException {
+
         chooseIcon.setBackground(view.getBackground());
-        mediaPlayer.start();
-        listOfIcons.setVisibility(View.GONE);
-        //view.startAnimation(animation3);
+
+        if (chooseIcon != null) {
+//            Log.d("icon", "view.getBackground().getConstantState(): " + view.getBackground().getConstantState());
+            for (Drawable drawables : drawableResources) {
+
+                //if view's background found in Drawables Resources
+                if (view.getBackground() != null &&
+                        view.getBackground().getConstantState()
+                                .equals(drawables.getCurrent().getConstantState())) {
+
+                    Log.d("icon", "found(.getConstantState()): " + drawables.getCurrent().getConstantState());
+
+                    //get the needed drawable id
+                    drawabaleID = getDrawabaleID(drawables.getCurrent(), drawableResources);
+
+                    //chooseIcon.setImageResource(drawabaleID); //apperantly, not needed
+                }
+            }
+
+            mediaPlayer.start();
+            listOfIcons.setVisibility(View.GONE);
+            //view.startAnimation(animation3);
+        }
     }
+
 
     public void addChooseIcon(View view) {
         addChooseIconBtn.setVisibility(View.GONE);
@@ -770,6 +838,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         chooseIcon(null);
     }
 
+
+    //Add to favorites. WORKS
     public void addToFavorites(View view) {
         if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
@@ -781,8 +851,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
     }
 
-    public void isFavorite(){
-       isFavorite = true;
+    public void isFavorite() {
+        isFavorite = true;
     }
 
 
@@ -800,6 +870,47 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         //calculate "points" and shows current strength level
 
 
+    }
+
+
+    public void getDrawabalesFields() throws IllegalAccessException { //make as an AsyncTask
+        for (Field field : allDrawablesfromRes_drawable) {
+            //Add drawable's ConstantState to Arraylist
+            drawableResources.add(getResources().getDrawable(field.getInt(null))); //returns:  android.graphics.drawable.GradientDrawable@3189a46 (for example)
+
+//            Log.d("icon", "field.getName(): "+ field.getName());
+
+        }
+
+    }
+
+    public int getDrawabaleID(Drawable drawable, ArrayList<Drawable> drawableResources) throws IllegalAccessException { //make as an AsyncTask
+        //'drawable' = view.getBackground().getConstantState  from "changeIcon" method.
+        //'drawableResources' and 'drawableResourcesIDs': initialized in Oncreate
+        int id;
+
+        for (Drawable currentDrawable : drawableResources) {
+
+            //if the drawable we passed here exists to a drawable from the ArrayList(that includes all the drawables in the app)
+            //then get it's ID in order to save it in the database.
+            if (drawable.getConstantState().equals(currentDrawable.getConstantState())) {
+
+                //for loop to get the proper drawable's id
+                for (Field field : allDrawablesfromRes_drawable) {
+                 //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState());
+                    Drawable d = getResources().getDrawable(field.getInt(null));
+                   // Log.d("icon", "d.getConstantState(): " + d.getConstantState());
+
+                    if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
+                        id = field.getInt(null);
+                        Log.d("icon", "id found: " + id);
+                        return id;
+                    }
+                }
+            }
+        }
+
+        return 0; //just in case the drawable wasn't found.
     }
 
 }

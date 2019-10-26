@@ -2,6 +2,7 @@ package view.records;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,8 @@ import com.securevault19.securevault2019.record.RecordAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
@@ -50,6 +53,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     private List<Record> records = new ArrayList<>();
     private TextView activityTitle;
     private Typeface myFont;
+    private Drawable icon;
     String nameOfFolder;
     MediaPlayer mediaPlayer;
     RelativeLayout search_layout;
@@ -68,19 +72,20 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         recyclerView.setHasFixedSize(true);
 
         mediaPlayer = MediaPlayer.create(this, button);
-        search_layout =  findViewById(R.id.search_layout);
-        search_btn =  findViewById(R.id.search_btn);
-        search_bar =  findViewById(R.id.search_bar);
+        search_layout = findViewById(R.id.search_layout);
+        search_btn = findViewById(R.id.search_btn);
+        search_bar = findViewById(R.id.search_bar);
         activityTitle = findViewById(R.id.activityTitle);
+
 
         //Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
 
         //Animation Sets
-        Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.zoomin);
-        final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
-        animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
+        Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.zoomin);
+        final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.bottomtotop);
+        animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.buttonpush_anim);
 
 
         recycler();
@@ -89,7 +94,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     }
 
-    public void recycler (){
+    public void recycler() {
 
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
         recyclerView.setAdapter(recordAdapter);
@@ -102,12 +107,21 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 //////////checking the extras is not null -> to get rid of "null object reference"/////////////////////////////////////
         if (extras != null) {
             nameOfFolder = extras.getString(EXTRA_FOLDER);
+
+            //Matcher is a class that contains the all the options in the inpur search string
+//            String searchString;
+//            searchString = searchStringToRegEx(EXTRA_SEARCH); // making the search string Regular Expression
             searchString = extras.getString(EXTRA_SEARCH);
+
+            Pattern pattern = Pattern.compile("\\w+");
+
+            Matcher matcher = pattern.matcher(EXTRA_SEARCH);
+
 
             if (nameOfFolder != null) {
                 Log.d("back", "folder is not null:  " + nameOfFolder);
 
-                if (nameOfFolder.equals("All Records")){
+                if (nameOfFolder.equals("All Records")) {
                     viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
@@ -116,20 +130,20 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             activityTitle.setText(nameOfFolder);
                         }
                     });
-                }
-                else if (nameOfFolder.equals("Search")){
+                } else if (nameOfFolder.equals("Search")) {
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
-                    viewModel.getSearchRecords(searchString).observe(this, new Observer<List<Record>>() {
-                        @Override
-                        public void onChanged(List<Record> records) {
-                            recordAdapter.setRecords(records);
-                            recordAdapter.notifyDataSetChanged();
-                            activityTitle.setText(nameOfFolder);
-                        }
-                    });
-                }
-                else {
+
+                            viewModel.getSearchRecords(searchString.toLowerCase()).observe(this, new Observer<List<Record>>() {
+                                @Override
+                                public void onChanged(List<Record> records) {
+                                    recordAdapter.setRecords(records);
+                                    recordAdapter.notifyDataSetChanged();
+                                    activityTitle.setText(nameOfFolder);
+                                }
+                            });
+
+                } else {
                     viewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
@@ -144,7 +158,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     }
 
-    public void floatingActionButton(){
+    public void floatingActionButton() {
 
         final FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +180,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     @Override
     public void onBackPressed() {
-        back(null);    }
+        back(null);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -225,20 +240,19 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     }
 
 
-
     public void search(View view) {
         mediaPlayer.start();
         search_btn.startAnimation(animation3);
-        if (search_bar.getText().toString().equals(searchString)){
-            return;        }
-        else if (search_bar.getText().toString().equals("")) {
-            searchString = "%";        }
-        else {
+        if (search_bar.getText().toString().equals(searchString)) {
+            return;
+        } else if (search_bar.getText().toString().equals("")) {
+            searchString = "%";
+        } else {
             searchString = search_bar.getText().toString();
         }
 
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_SEARCH,searchString);
+        intent.putExtra(EXTRA_SEARCH, searchString);
         intent.putExtra(EXTRA_FOLDER, "Search");
         this.startActivity(intent);
         overridePendingTransition(0, 0);
@@ -246,6 +260,16 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         overridePendingTransition(0, 0);
 
 
+    }
+
+    public String searchStringToRegEx(String extra_search) {
+        Pattern pattern = Pattern.compile("\\w+");
+
+        Matcher matcher = pattern.matcher(extra_search);
+        if (matcher.matches()){
+        return matcher.group();
+    }
+        return null;
     }
 
 }
