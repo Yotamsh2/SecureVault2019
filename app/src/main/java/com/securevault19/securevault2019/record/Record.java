@@ -37,13 +37,19 @@ public class Record {
     //to add expiring date
     private String issuancePlace;
     private String secret_question;
-//    private String note;
+    //    private String note;
     private String folder; //folder = category
     private boolean favorite;
 
+    private String icon;
 
+    public String getIcon() {
+        return icon;
+    }
 
-
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     //public void setRecordID(int recordID) {
     //    this.recordID = recordID;

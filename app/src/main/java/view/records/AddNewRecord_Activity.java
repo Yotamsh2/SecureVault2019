@@ -3,15 +3,18 @@ package view.records;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,6 +22,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -30,12 +35,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 
+import java.lang.reflect.Field;
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
@@ -99,7 +109,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private FloatingActionButton editForm;
     private TextView activityTitle;
     private Typeface myFont;
-    private String nameOfFolder,type, origin;
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
@@ -110,7 +119,17 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
     private HorizontalScrollView listOfIcons;
 
+    private GridLayout gridLayout; //TO DELETE
+
     private boolean isFavorite = false; //as default, a record is not a favorite.
+
+    Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
+    ArrayList<Drawable> drawableResources = new ArrayList<>();
+    //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
+    int drawabaleID = 2131230920; //Default Icon(Secure Vault Black)
+    Drawable mChooseicon;
+    private Drawable currentDrawable;
+
 
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -176,24 +195,38 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         animation3 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
+
         //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
 
+
+        //will be delivered to AsyncTask
+//        try { //DO NOT DELETE
+//            getDrawabalesFields();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+//        new getAllDrawablesResourcesAsyncTask().execute();
+
+
         //Getting all the EXTRAS from all the 'intent.puExtra()'s
         Bundle extras = getIntent().getExtras();
+        String folder, type, origin;
 
 
         if (extras != null) {
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
             Log.d("AddNewRecord", "from onRecordClick: origin: " + origin);
-            nameOfFolder = extras.getString(EXTRA_FOLDER);
 
             switch (origin) {
                 case "onRecordClick":
 
-                    if (nameOfFolder != null) {
+                    folder = extras.getString(EXTRA_FOLDER);
+
+                    if (folder != null) {
                         type = extras.getString(EXTRA_TYPE);
                         if (type != null) {
                             switch (type) {
@@ -231,27 +264,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 //If we came from buttonAddRecord
                 default:
-                    switch (nameOfFolder){
-                        case "Website & Email":
-                            category_Spinner.setSelection(0);
-                        case "Social Media":
-                            category_Spinner.setSelection(1);
-                        case "Online Shopping":
-                            category_Spinner.setSelection(2);
-                        case "Bank Account":
-                            category_Spinner.setSelection(3);
-                        case "Credit Cards":
-                            category_Spinner.setSelection(4);
-                        case "Passports":
-                            category_Spinner.setSelection(5);
-                        case "Cryptocurrency":
-                            category_Spinner.setSelection(6);
-                        case "Driving Licence":
-                            category_Spinner.setSelection(7);
-                        case "Notes":
-                            category_Spinner.setSelection(8);
-                    }
-
                     //Show fields after selecting item in spinner
                     typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -475,6 +487,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String expiringDate = expiringDate_EditText.getText().toString().trim();
         final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString();
         final String folder = category_Spinner.getSelectedItem().toString();
+
+
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
 //        final long IBAN;
@@ -506,6 +520,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 @Override
                 protected Void doInBackground(Void... voids) {
+                    //try for Encryption
                     try {
                         // encrypthing the password and the username(username for test)
                         encryptedUsername = cryptography.encryptUsername(username_EditText.getText().toString());
@@ -518,6 +533,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         e.printStackTrace();
                     }
 
+
                     // opening Record to insert the TextFields and insert to DB
                     Record record = new Record();
                     record.setType(typeOfRecord);
@@ -529,6 +545,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setEmail(email);
                     record.setExpiringDate(expiringDate);
                     record.setFavorite(isFavorite);
+                    record.setIcon(String.valueOf(drawabaleID));
 
 
                     // inserting record to DB
@@ -771,35 +788,66 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void chooseIcon(View view) {
         //startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
         mediaPlayer.start();
-        if (listOfIcons.getVisibility()==View.GONE)
+        if (listOfIcons.getVisibility() == View.GONE)
             listOfIcons.setVisibility(View.VISIBLE);
         else
             listOfIcons.setVisibility(View.GONE);
+
     }
 
-    public void changeIcon(View view) {
+    public void changeIcon(View view) throws IllegalAccessException {
+
         chooseIcon.setBackground(view.getBackground());
+
+        if (chooseIcon != null) {
+            //            Log.d("icon", "view.getBackground().getConstantState(): " + view.getBackground().getConstantState());
+            for (Drawable drawables : drawableResources) {
+
+                //if view's background found in Drawables Resources
+                if (view.getBackground() != null &&
+                        view.getBackground().getConstantState()
+                                .equals(drawables.getCurrent().getConstantState())) {
+
+                    Log.d("icon", "found(.getConstantState()): " + drawables.getCurrent().getConstantState());
+
+                    //get the needed drawable id
+                    new getDrawableIDAsyncTask(drawables.getCurrent(), drawableResources).execute(); //Initializing 'drawableID' inside doInBackGround() method.
+                    //getDrawableIDAsyncTask was:
+                    //drawabaleID = getDrawabaleID(drawables.getCurrent(), drawableResources);
+
+                }
+            }
+        }
+
         mediaPlayer.start();
         listOfIcons.setVisibility(View.GONE);
         //view.startAnimation(animation3);
     }
 
+
     public void addChooseIcon(View view) {
         addChooseIconBtn.setVisibility(View.GONE);
         chooseIcon.setVisibility(View.VISIBLE);
         chooseIcon(null);
+        new getAllDrawablesResourcesAsyncTask().execute(); //inserts all drawables to ArrayList
+
     }
 
+
+    //Add to favorites. WORKS
     public void addToFavorites(View view) {
         if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
             starFullBtn.setVisibility(View.VISIBLE);
-            isFavorite = true;
+            isFavorite();
         } else {
             starBtn.setVisibility(View.VISIBLE);
             starFullBtn.setVisibility(View.GONE);
-            isFavorite = false;
         }
+    }
+
+    public void isFavorite() {
+        isFavorite = true;
     }
 
 
@@ -818,6 +866,119 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
 
     }
+
+
+    public class getAllDrawablesResourcesAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            //inserts all the drawables in the 'drawable' folder into ArrayList
+            for (Field field : allDrawablesfromRes_drawable) {
+
+                //Add drawable's ConstantState to Arraylist
+                try {
+                    drawableResources.add(getResources().getDrawable(field.getInt(null))); //returns:  android.graphics.drawable.GradientDrawable@3189a46 (for example)
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+//            Log.d("icon", "field.getName(): "+ field.getName());
+
+            }
+            return null;
+        }
+    }
+
+    public class getDrawableIDAsyncTask extends AsyncTask<Void, Void, Integer> {
+        private Drawable drawable;
+        private ArrayList<Drawable> drawableResources;
+        int id;
+
+
+        private getDrawableIDAsyncTask(Drawable drawable, ArrayList<Drawable> drawableResources) {
+            this.drawable = drawable; // view.getBackground().getConstantState  from "changeIcon" method.
+            this.drawableResources = drawableResources; //initialized in addChooseIcon
+        }
+
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            for (Drawable currentDrawable : drawableResources) {
+
+                //if the drawable we passed here exists to a drawable from the ArrayList(that includes all the drawables in the app)
+                //then get it's ID in order to save it in the database.
+                if (drawable.getConstantState().equals(currentDrawable.getConstantState())) {
+
+                    //for loop to get the proper drawable's id
+                    for (Field field : allDrawablesfromRes_drawable) {
+                        //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
+                        Drawable d = null;
+                        try {
+                            d = getResources().getDrawable(field.getInt(null));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        // Log.d("icon", "d.getConstantState(): " + d.getConstantState()); //TO DELETE
+                        int id;
+                        if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
+                            try {
+                                id = field.getInt(null);
+                                drawabaleID = id;
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            return 0;
+        }
+    }
+
+
+    public void getDrawabalesFields() throws IllegalAccessException { //moved to AsyncTask
+        for (Field field : allDrawablesfromRes_drawable) {
+            //Add drawable's ConstantState to Arraylist
+            drawableResources.add(getResources().getDrawable(field.getInt(null))); //returns:  android.graphics.drawable.GradientDrawable@3189a46 (for example)
+
+//            Log.d("icon", "field.getName(): "+ field.getName());
+
+        }
+
+    }
+
+    public int getDrawabaleID(Drawable drawable, ArrayList<Drawable> drawableResources) throws IllegalAccessException { //moved to AsyncTask
+        //'drawable' = view.getBackground().getConstantState  from "changeIcon" method.
+        //'drawableResources' initialized in Oncreate
+        int id;
+
+        for (Drawable currentDrawable : drawableResources) {
+
+            //if the drawable we passed here exists to a drawable from the ArrayList(that includes all the drawables in the app)
+            //then get it's ID in order to save it in the database.
+            if (drawable.getConstantState().equals(currentDrawable.getConstantState())) {
+
+                //for loop to get the proper drawable's id
+                for (Field field : allDrawablesfromRes_drawable) {
+                    //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
+                    Drawable d = getResources().getDrawable(field.getInt(null));
+                    // Log.d("icon", "d.getConstantState(): " + d.getConstantState()); //TO DELETE
+
+                    if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
+                        id = field.getInt(null);
+                        Log.d("icon", "id found: " + id);
+                        return id;
+                    }
+                }
+            }
+        }
+
+        return 0; //just in case the drawable wasn't found.
+    }
+
 
 }
 

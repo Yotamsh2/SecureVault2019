@@ -1,9 +1,10 @@
 package com.securevault19.securevault2019.record;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import cryptography.Cryptography;
 
+
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHolder> {
 
     private List<Record> records = new ArrayList<>();
@@ -23,9 +25,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     private OnRecordListener mOnRecordListener;
     private Cryptography cryptography;
 
+
     public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener) {
         this.records = records;
         this.mOnRecordListener = onRecordListener;
+
     }
 
     @NonNull
@@ -40,6 +44,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     public void onBindViewHolder(@NonNull RecordHolder holder, int position) {
         cryptography = new Cryptography();  //used for decryption
 
+
         Record currentRecord = records.get(position);
         holder.textViewTitle.setText(currentRecord.getTitle());
 //        final String userName = currentRecord.getUserName(); //decrypting username
@@ -53,6 +58,11 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 //        holder.textViewRecord.setText(userName);
         holder.textViewRecord.setText(currentRecord.getUserName());
 
+
+        String iconID = currentRecord.getIcon();
+        holder.recordIcon.setImageResource(Integer.valueOf(iconID));
+
+
     }
 
     @Override
@@ -65,20 +75,24 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         notifyDataSetChanged();
     }
 
-//    public Website getWebsiteAt(int position) {
-//        return websites.get(position);
-//    }
+
 
 
     class RecordHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView textViewTitle;
         private TextView textViewRecord;
+        private ImageView recordIcon;
         OnRecordListener onRecordListener;
+
+
 
         public RecordHolder(@NonNull View itemView, OnRecordListener onRecordListener) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.title);
             textViewRecord = itemView.findViewById(R.id.record);
+            recordIcon = itemView.findViewById(R.id.icon);
+
+
             this.onRecordListener = onRecordListener;
 
             itemView.setOnClickListener(this);
@@ -94,5 +108,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     public interface OnRecordListener {
         void onRecordClick(int position);
     }
+
 
 }
