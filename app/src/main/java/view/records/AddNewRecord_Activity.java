@@ -203,18 +203,14 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         activityTitle.setTypeface(myFont);
 
 
-        //gridLayout listener
-//        Log.d("icon", "getChildCount(): "+ gridLayout.getChildCount()); //TO DELETE
-//
-//
-//        Log.d("icon", "icon_imageView: "+ icon_imageView); //TO DELETE
-
         //will be delivered to AsyncTask
-        try { //DO NOT DELETE
-            getDrawabalesFields();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try { //DO NOT DELETE
+//            getDrawabalesFields();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+//        new getAllDrawablesResourcesAsyncTask().execute();
 
 
         //Getting all the EXTRAS from all the 'intent.puExtra()'s
@@ -495,9 +491,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String folder = category_Spinner.getSelectedItem().toString();
 
 
-        final String icon = chooseIcon.toString();
-
-
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
 //        final long IBAN;
@@ -529,6 +522,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 @Override
                 protected Void doInBackground(Void... voids) {
+                    //try for Encryption
                     try {
                         // encrypthing the password and the username(username for test)
                         encryptedUsername = cryptography.encryptUsername(username_EditText.getText().toString());
@@ -808,7 +802,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         chooseIcon.setBackground(view.getBackground());
 
         if (chooseIcon != null) {
-//            Log.d("icon", "view.getBackground().getConstantState(): " + view.getBackground().getConstantState());
+            //            Log.d("icon", "view.getBackground().getConstantState(): " + view.getBackground().getConstantState());
             for (Drawable drawables : drawableResources) {
 
                 //if view's background found in Drawables Resources
@@ -819,16 +813,17 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     Log.d("icon", "found(.getConstantState()): " + drawables.getCurrent().getConstantState());
 
                     //get the needed drawable id
-                    drawabaleID = getDrawabaleID(drawables.getCurrent(), drawableResources);
+                    new getDrawableIDAsyncTask(drawables.getCurrent(), drawableResources).execute(); //Initializing 'drawableID' inside doInBackGround() method.
+                    //getDrawableIDAsyncTask was:
+                    //drawabaleID = getDrawabaleID(drawables.getCurrent(), drawableResources);
 
-                    //chooseIcon.setImageResource(drawabaleID); //apperantly, not needed
                 }
             }
-
-            mediaPlayer.start();
-            listOfIcons.setVisibility(View.GONE);
-            //view.startAnimation(animation3);
         }
+
+        mediaPlayer.start();
+        listOfIcons.setVisibility(View.GONE);
+        //view.startAnimation(animation3);
     }
 
 
@@ -836,6 +831,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         addChooseIconBtn.setVisibility(View.GONE);
         chooseIcon.setVisibility(View.VISIBLE);
         chooseIcon(null);
+        new getAllDrawablesResourcesAsyncTask().execute(); //inserts all drawables to ArrayList
+
     }
 
 
@@ -873,7 +870,78 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 
-    public void getDrawabalesFields() throws IllegalAccessException { //make as an AsyncTask
+    public class getAllDrawablesResourcesAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            //inserts all the drawables in the 'drawable' folder into ArrayList
+            for (Field field : allDrawablesfromRes_drawable) {
+
+                //Add drawable's ConstantState to Arraylist
+                try {
+                    drawableResources.add(getResources().getDrawable(field.getInt(null))); //returns:  android.graphics.drawable.GradientDrawable@3189a46 (for example)
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+
+//            Log.d("icon", "field.getName(): "+ field.getName());
+
+            }
+            return null;
+        }
+    }
+
+    public class getDrawableIDAsyncTask extends AsyncTask<Void, Void, Integer> {
+        private Drawable drawable;
+        private ArrayList<Drawable> drawableResources;
+        int id;
+
+
+        private getDrawableIDAsyncTask(Drawable drawable, ArrayList<Drawable> drawableResources) {
+            this.drawable = drawable; // view.getBackground().getConstantState  from "changeIcon" method.
+            this.drawableResources = drawableResources; //initialized in addChooseIcon
+        }
+
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            for (Drawable currentDrawable : drawableResources) {
+
+                //if the drawable we passed here exists to a drawable from the ArrayList(that includes all the drawables in the app)
+                //then get it's ID in order to save it in the database.
+                if (drawable.getConstantState().equals(currentDrawable.getConstantState())) {
+
+                    //for loop to get the proper drawable's id
+                    for (Field field : allDrawablesfromRes_drawable) {
+                        //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
+                        Drawable d = null;
+                        try {
+                            d = getResources().getDrawable(field.getInt(null));
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                        // Log.d("icon", "d.getConstantState(): " + d.getConstantState()); //TO DELETE
+                        int id;
+                        if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
+                            try {
+                                id = field.getInt(null);
+                                drawabaleID = id;
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            return 0;
+        }
+    }
+
+
+    public void getDrawabalesFields() throws IllegalAccessException { //moved to AsyncTask
         for (Field field : allDrawablesfromRes_drawable) {
             //Add drawable's ConstantState to Arraylist
             drawableResources.add(getResources().getDrawable(field.getInt(null))); //returns:  android.graphics.drawable.GradientDrawable@3189a46 (for example)
@@ -884,9 +952,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     }
 
-    public int getDrawabaleID(Drawable drawable, ArrayList<Drawable> drawableResources) throws IllegalAccessException { //make as an AsyncTask
+    public int getDrawabaleID(Drawable drawable, ArrayList<Drawable> drawableResources) throws IllegalAccessException { //moved to AsyncTask
         //'drawable' = view.getBackground().getConstantState  from "changeIcon" method.
-        //'drawableResources' and 'drawableResourcesIDs': initialized in Oncreate
+        //'drawableResources' initialized in Oncreate
         int id;
 
         for (Drawable currentDrawable : drawableResources) {
@@ -897,9 +965,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 //for loop to get the proper drawable's id
                 for (Field field : allDrawablesfromRes_drawable) {
-                 //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState());
+                    //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
                     Drawable d = getResources().getDrawable(field.getInt(null));
-                   // Log.d("icon", "d.getConstantState(): " + d.getConstantState());
+                    // Log.d("icon", "d.getConstantState(): " + d.getConstantState()); //TO DELETE
 
                     if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
                         id = field.getInt(null);
@@ -912,6 +980,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         return 0; //just in case the drawable wasn't found.
     }
+
 
 }
 
