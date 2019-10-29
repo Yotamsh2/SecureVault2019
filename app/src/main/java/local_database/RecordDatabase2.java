@@ -7,9 +7,13 @@ import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.user.User;
 
 import local_database.dao.DaoRecord;
+import local_database.dao.DaoUser;
 
-@Database(entities = {Record.class, User.class},version = 4)
+// have to put the exportSchema = false => its fixig the problem of LogInConfirmation Query.
+// without it, we will get error!
+@Database(entities = {Record.class, User.class},version = 4,exportSchema = false)
 public abstract class RecordDatabase2 extends RoomDatabase {
 
     public abstract DaoRecord daoRecord();
+    public abstract DaoUser daoUser();
 }

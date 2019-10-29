@@ -1,7 +1,9 @@
 package com.securevault19.securevault2019.user;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
@@ -10,28 +12,30 @@ public class User {
     //    private int ID;   // no need ? because there is only one user to the app.
 
     @PrimaryKey         // no need?
-    @NonNull private String firstName;
+    @NonNull
+    @ColumnInfo(name = "first_name")
+    private String firstName;
+    @ColumnInfo(name = "lastName") private String lastName;
+    @ColumnInfo(name = "DateOfBirth") private String DateOfBirth;
+    @ColumnInfo(name = "email")private String email;
+    @ColumnInfo(name = "optionalQuestion")private String optionalQuestion;
+    @ColumnInfo(name = "optionalAnswer") private String optionalAnswer;
 
-    private String lastName;
-    private String DateOfBirth;
-    private String email;
-    private String optionalQuestion;
-    private String optionalAnswer;
+    @ColumnInfo(name = "master_password")
     private String masterPassword;
-    private String secureLevel;
+    @ColumnInfo(name = "secureLevel")  private String secureLevel;
 
     public User(String firstName, String lastName, String DateOfBirth, String email, String optionalQuestion, String optionalAnswer, String masterPassword, String secureLevel) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DateOfBirth = DateOfBirth;
         this.email = email;
-        this.optionalQuestion= optionalQuestion;
+        this.optionalQuestion = optionalQuestion;
         this.optionalAnswer = optionalAnswer;
         this.masterPassword = masterPassword;
         this.secureLevel = secureLevel;
 
     }
-
     //Setters
 
 //    public void setID(int ID) {

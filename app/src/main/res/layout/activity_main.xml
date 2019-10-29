@@ -31,107 +31,108 @@
         android:layout_height="0dp"
         android:layout_weight="6">
 
-    <LinearLayout
-        android:id="@+id/signInForm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="top"
-        android:layout_marginTop="10dp">
-
-        <EditText
-            android:id="@+id/userName"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/edit_text_style"
-            android:hint="@string/user_name"
-            android:textColorHint="#80FFFFFF"
-            android:textColor="#fff"
-            android:textAlignment="center"
-            android:inputType="text"/>
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/signInForm"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_gravity="top"
             android:layout_marginTop="10dp">
-        <EditText
-            android:id="@+id/password_EditText"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:background="@drawable/edit_text_style"
-            android:hint="@string/password"
-            android:textColorHint="#80FFFFFF"
-            android:textColor="#fff"
-            android:textAlignment="center"
-            android:inputType="textPassword"
-            android:ellipsize="start"/>
+
+            <EditText
+                android:id="@+id/userName"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/edit_text_style"
+                android:hint="@string/user_name"
+                android:textColorHint="#80FFFFFF"
+                android:textColor="#fff"
+                android:textAlignment="center"
+                android:inputType="text"/>
 
 
-
-            <ImageButton
-                android:id="@+id/showPass"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/password_EditText"
-                android:layout_marginStart="-40dp"
-                android:src="@drawable/ic_show_pass_white"
-                android:background="@color/transparent"
-                android:layout_centerVertical="true"
-                android:onClick="showPass"
-                android:visibility="gone"/>
-            <!--show Button-->
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+                <EditText
+                    android:id="@+id/password_EditText"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/edit_text_style"
+                    android:hint="@string/password"
+                    android:textColorHint="#80FFFFFF"
+                    android:textColor="#fff"
+                    android:textAlignment="center"
+                    android:inputType="textPassword"
+                    android:ellipsize="start"/>
 
-            <ImageButton
-                android:id="@+id/hidePass"
+
+
+                <ImageButton
+                    android:id="@+id/showPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/password_EditText"
+                    android:layout_marginStart="-40dp"
+                    android:src="@drawable/ic_show_pass_white"
+                    android:background="@color/transparent"
+                    android:layout_centerVertical="true"
+                    android:onClick="showPass"
+                    android:visibility="gone"/>
+                <!--show Button-->
+
+                <ImageButton
+                    android:id="@+id/hidePass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="-40dp"
+                    android:src="@drawable/ic_hide_pass_white"
+                    android:background="@color/transparent"
+                    android:layout_centerVertical="true"
+                    android:onClick="showPass"
+                    android:visibility="gone" />
+                <!--hide Button-->
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/signIn"
+                android:layout_width="110dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="signIn"
+                android:background="@drawable/btn_style"
+                android:text="@string/sign_in"
+                android:textColor="#fff" />
+
+
+            <Button
+                android:id="@+id/forgotPass"
+                android:onClick="forgotPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-40dp"
-                android:src="@drawable/ic_hide_pass_white"
-                android:background="@color/transparent"
-                android:layout_centerVertical="true"
-                android:onClick="showPass"
-                android:visibility="gone" />
-            <!--hide Button-->
-        </RelativeLayout>
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:textColor="#fff"
+                android:textColorHighlight="@color/btn_firstColor"
+                android:text="@string/forgot_pass"
+                android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/signIn"
-            android:layout_width="110dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_style"
-            android:text="@string/sign_in"
-            android:textColor="#fff" />
-
-
-    <Button
-            android:id="@+id/forgotPass"
-            android:onClick="forgotPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@null"
-            android:textColor="#fff"
-            android:textColorHighlight="@color/btn_firstColor"
-            android:text="@string/forgot_pass"
-            android:textSize="12sp" />
-
-    <Button
-        android:id="@+id/signUp"
-        android:onClick="signUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@null"
-        android:textColor="#fff"
-        android:text="@string/create_vault"
-        android:layout_marginTop="-20dp"
-        android:textSize="12sp" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/signUp"
+                android:onClick="signUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@null"
+                android:textColor="#fff"
+                android:text="@string/create_vault"
+                android:layout_marginTop="-20dp"
+                android:textSize="12sp" />
+        </LinearLayout>
 
     </ScrollView>
 

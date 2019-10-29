@@ -22,6 +22,7 @@ import com.securevault19.securevault2019.user.User;
 import local_database.DatabaseClient;
 import view.entrance.SignUp_Activity;
 import view.explorer.CategoryList_Activity;
+import view.explorer.PatternLockView_Activity;
 
 
 @SuppressLint("Registered")
