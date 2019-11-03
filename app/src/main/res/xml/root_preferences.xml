@@ -1,0 +1,126 @@
+<!--
+  ~ Copyright 2018 The app Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="Upgrade to Premium">
+
+        <ListPreference
+            app:defaultValue="okay"
+            app:entries="@array/upgrade"
+            app:entryValues="@array/upgrade_values"
+            app:key="upgrade"
+            app:title="Upgrade to premium"
+            />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="Your Account">
+
+        <EditTextPreference
+            app:key="change_mp"
+            app:title="Change MasterPassword"
+
+            />
+        <ListPreference
+            app:dialogMessage="getMasterPassword"
+            app:key="accout"
+            app:title="Master Password(do not choose)"/>
+
+        <MultiSelectListPreference
+            app:key="autofill"
+            app:title="Autofill"
+            app:dialogTitle="Autofill"
+            app:entryValues="@array/autofill_values"
+            app:entries="@array/autofill"
+            />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="AutoFill(2nd option)">
+
+        <CheckBoxPreference
+            app:key="email"
+            app:summary="while creating a new record"
+            app:title="Email" />
+
+
+        <CheckBoxPreference
+            app:key="userName"
+            app:summary="let you choose from your recent used usernames"
+            app:title="User name" />
+
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <CheckBoxPreference
+            app:summary="2nd option"
+            app:title="Allow sync to Cloud" />
+
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_off"
+            app:summaryOn="@string/attachment_summary_on"
+            app:title="@string/attachment_title" />
+
+
+        <SwitchPreferenceCompat
+            app:key="sync"
+            app:summary="1st option"
+            app:title="Allow sync to Cloud" />
+
+
+    </PreferenceCategory>
+
+
+
+<PreferenceCategory app:title="Notifications">
+
+
+</PreferenceCategory>
+    <PreferenceCategory app:title="About">
+        <EditTextPreference
+            app:key="about"
+            app:summary="1.0.0"
+            app:title="version" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/messages_header">
+
+        <EditTextPreference
+            app:key="signature"
+            app:title="@string/signature_title"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:defaultValue="reply"
+            app:entries="@array/reply"
+            app:entryValues="@array/reply_values"
+            app:key="reply"
+            app:title="@string/reply_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+</PreferenceScreen><!--            app:dialogMessage="aaa"  text below title inside where we clicked(like editText)-->
