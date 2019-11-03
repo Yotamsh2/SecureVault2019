@@ -24,6 +24,7 @@ public class SignUp_Activity extends AppCompatActivity {
     private TextView TextViewPassword;
     private Button SignUpButton;
     private User user;
+    private String encryptedUserName;
     private String encryptedPassword;
 
     @Override
@@ -32,10 +33,14 @@ public class SignUp_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         SignUpButton = findViewById(R.id.SignUp);
 
+        String a = getIntent().getStringExtra("BLABLA");
+        Toast.makeText(getApplicationContext(),""+a,Toast.LENGTH_LONG).show();
+
+
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void SignUpOnClick(View view) {           // on Click
+    public void SignUpOnClick(View view) {           // on Click func
         Cryptography cryptography = new Cryptography();
         TextViewName = findViewById(R.id.TextView_Name);
         TextViewPassword = findViewById(R.id.TextView_Password);
@@ -46,7 +51,8 @@ public class SignUp_Activity extends AppCompatActivity {
 
 
         try {
-            encryptedPassword = cryptography.encryptPassword(firstName, masterPassword);
+            encryptedUserName = cryptography.encrypt(firstName);
+            encryptedPassword = cryptography.encryptWithKey(firstName, masterPassword);
             Log.e("check", "" + firstName + " " + masterPassword + " " + encryptedPassword);
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +66,9 @@ public class SignUp_Activity extends AppCompatActivity {
 
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    user = new User(firstName, null, null, null, null, null, masterPassword, null);
+                    // you can just do
+                    // user = new User(cryptography.encrypt(firstName), null, null, null, null, null, cryptography.encryptWithKey(firstName, masterPassword), null);
+                    user = new User(encryptedUserName, null, null, null, null, null, encryptedPassword, null);
                     DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
                     return null;
                 }
