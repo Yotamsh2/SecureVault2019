@@ -3,7 +3,6 @@ package com.securevault19.securevault2019.user;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
@@ -13,16 +12,14 @@ public class User {
 
     @PrimaryKey         // no need?
     @NonNull
-    @ColumnInfo(name = "first_name")
-    private String firstName;
+    @ColumnInfo(name = "first_name") private String firstName;
     @ColumnInfo(name = "lastName") private String lastName;
     @ColumnInfo(name = "DateOfBirth") private String DateOfBirth;
     @ColumnInfo(name = "email")private String email;
     @ColumnInfo(name = "optionalQuestion")private String optionalQuestion;
     @ColumnInfo(name = "optionalAnswer") private String optionalAnswer;
 
-    @ColumnInfo(name = "master_password")
-    private String masterPassword;
+    @ColumnInfo(name = "master_password") private String masterPassword;
     @ColumnInfo(name = "secureLevel")  private String secureLevel;
 
     public User(String firstName, String lastName, String DateOfBirth, String email, String optionalQuestion, String optionalAnswer, String masterPassword, String secureLevel) {

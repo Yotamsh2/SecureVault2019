@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
 import static com.securevault19.securevault2019.R.raw.button;
@@ -86,18 +84,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
         animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
 
-
-        recycler();
-
-        floatingActionButton();
-
-    }
-
-    public void recycler (){
-
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
         recyclerView.setAdapter(recordAdapter);
-
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
         //showCurrentCategory(recordAdapter);
         //getting the String to know which Category to show
@@ -157,6 +145,76 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 }
             }
         }
+        recycler();
+
+        floatingActionButton();
+
+    }
+
+    public void recycler (){
+
+//        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
+//        recyclerView.setAdapter(recordAdapter);
+
+//        viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
+//        //showCurrentCategory(recordAdapter);
+//        //getting the String to know which Category to show
+//        Bundle extras = getIntent().getExtras();
+//
+////////////checking the extras is not null -> to get rid of "null object reference"/////////////////////////////////////
+//        if (extras != null) {
+//            nameOfFolder = extras.getString(EXTRA_FOLDER);
+//            searchString = extras.getString(EXTRA_SEARCH);
+//
+//            if (nameOfFolder != null) {
+//                Log.d("back", "folder is not null:  " + nameOfFolder);
+//
+//                if (nameOfFolder.equals("All Records")){
+//                    viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
+//                        @Override
+//                        public void onChanged(List<Record> records) {
+//                            recordAdapter.setRecords(records);
+//                            recordAdapter.notifyDataSetChanged();
+//                            activityTitle.setText(nameOfFolder);
+//                        }
+//                    });
+//                }
+//                else if (nameOfFolder.equals("Search")){
+//                    search_layout.setVisibility(View.VISIBLE);
+//                    search_bar.setText(searchString);
+//                    viewModel.getSearchRecords(searchString).observe(this, new Observer<List<Record>>() {
+//                        @Override
+//                        public void onChanged(List<Record> records) {
+//                            recordAdapter.setRecords(records);
+//                            recordAdapter.notifyDataSetChanged();
+//                            activityTitle.setText(nameOfFolder);
+//                        }
+//                    });
+//                }
+//                else if (nameOfFolder.equals("Favorites")){
+//                    viewModel.getFavoritesRecords().observe(this, new Observer<List<Record>>() {
+//                        @SuppressLint("RestrictedApi")
+//                        @Override
+//                        public void onChanged(List<Record> records) {
+//                            recordAdapter.setRecords(records);
+//                            recordAdapter.notifyDataSetChanged();
+//                            activityTitle.setText(nameOfFolder);
+//                            button_add_record.setVisibility(View.GONE);
+//                        }
+//                    });
+//                }
+//                else {
+//                    viewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
+//                        @Override
+//                        public void onChanged(List<Record> records) {
+//                            recordAdapter.setRecords(records);
+//                            recordAdapter.notifyDataSetChanged();
+//                            activityTitle.setText(nameOfFolder);
+//                        }
+//                    });
+//                }
+//            }
+//        }
 
     }
 
@@ -205,7 +263,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     //Creating new Record
     @Override
-    public void onRecordClick(int position) {
+    public void onRecordClick(int position, List<Record> records) {
         Log.d("onRecordClick", "clicked. " + position);
         Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
         // records.get(position);
@@ -217,8 +275,11 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
         intent.putExtra(EXTRA_FOLDER, folder);
 
+        Log.d("type","before if:"+ records);
+
         if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
             type = records.get(position).type;
+            Log.d("type", "(inside if) type: "+ type);
             intent.putExtra(EXTRA_TYPE, type);
         }
 

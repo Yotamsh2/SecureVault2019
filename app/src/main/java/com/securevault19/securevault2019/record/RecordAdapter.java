@@ -1,6 +1,7 @@
 package com.securevault19.securevault2019.record;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import cryptography.Cryptography;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHolder> {
 
-    private List<Record> records = new ArrayList<>();
+    private List<Record> records;
 
     private OnRecordListener mOnRecordListener;
     private Cryptography cryptography;
@@ -63,6 +64,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         holder.recordIcon.setImageResource(Integer.valueOf(iconID));
 
 
+       // holder.textViewType.setText(currentRecord.getType());
     }
 
     @Override
@@ -71,6 +73,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     }
 
     public void setRecords(List<Record> records) {
+        Log.d("type",""+ records);
         this.records = records;
         notifyDataSetChanged();
     }
@@ -83,6 +86,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         private TextView textViewRecord;
         private ImageView recordIcon;
         OnRecordListener onRecordListener;
+        private TextView textViewType;
+
 
 
 
@@ -91,7 +96,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
             textViewTitle = itemView.findViewById(R.id.title);
             textViewRecord = itemView.findViewById(R.id.record);
             recordIcon = itemView.findViewById(R.id.icon);
-
+            textViewType = itemView.findViewById(R.id.typeOfRecord);
 
             this.onRecordListener = onRecordListener;
 
@@ -101,12 +106,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 
         @Override
         public void onClick(View view) {
-            onRecordListener.onRecordClick(getAdapterPosition());
+            onRecordListener.onRecordClick(getAdapterPosition(), records);
         }
     }
 
     public interface OnRecordListener {
-        void onRecordClick(int position);
+        void onRecordClick(int position, List<Record> records);
     }
 
 

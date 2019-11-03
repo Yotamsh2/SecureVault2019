@@ -1,19 +1,12 @@
 package view.explorer;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
@@ -22,14 +15,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 
-import view.preferences.SecurityLevel_Activity;
+import view.preferences.SettingsActivity;
 import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
-
-import static view.records.RecordRecycler_Activity.ADD_RECORD_REQUEST;
 
 public class CategoryList_Activity extends AppCompatActivity {
     public static final int ADD_RECORD_REQUEST = 1;
@@ -210,7 +204,9 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
     public void openOptions(View view) {
-        Intent intent = new Intent(this, SecurityLevel_Activity.class);
+//        Intent intent = new Intent(this, SecurityLevel_Activity.class);
+        Intent intent = new Intent(this, SettingsActivity.class);
+
         this.startActivity(intent);
     }
 }

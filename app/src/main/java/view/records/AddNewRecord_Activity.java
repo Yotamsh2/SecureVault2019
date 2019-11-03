@@ -3,7 +3,6 @@ package view.records;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,7 +21,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -35,21 +32,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 
 import java.lang.reflect.Field;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
-import view.explorer.CategoryList_Activity;
 
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
@@ -895,12 +888,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         private ArrayList<Drawable> drawableResources;
         int id;
 
-
+        //Constructor
         private getDrawableIDAsyncTask(Drawable drawable, ArrayList<Drawable> drawableResources) {
             this.drawable = drawable; // view.getBackground().getConstantState  from "changeIcon" method.
             this.drawableResources = drawableResources; //initialized in addChooseIcon
         }
-
 
         @Override
         protected Integer doInBackground(Void... voids) {
@@ -949,36 +941,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
 
     }
-
-    public int getDrawabaleID(Drawable drawable, ArrayList<Drawable> drawableResources) throws IllegalAccessException { //moved to AsyncTask
-        //'drawable' = view.getBackground().getConstantState  from "changeIcon" method.
-        //'drawableResources' initialized in Oncreate
-        int id;
-
-        for (Drawable currentDrawable : drawableResources) {
-
-            //if the drawable we passed here exists to a drawable from the ArrayList(that includes all the drawables in the app)
-            //then get it's ID in order to save it in the database.
-            if (drawable.getConstantState().equals(currentDrawable.getConstantState())) {
-
-                //for loop to get the proper drawable's id
-                for (Field field : allDrawablesfromRes_drawable) {
-                    //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
-                    Drawable d = getResources().getDrawable(field.getInt(null));
-                    // Log.d("icon", "d.getConstantState(): " + d.getConstantState()); //TO DELETE
-
-                    if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
-                        id = field.getInt(null);
-                        Log.d("icon", "id found: " + id);
-                        return id;
-                    }
-                }
-            }
-        }
-
-        return 0; //just in case the drawable wasn't found.
-    }
-
 
 }
 
