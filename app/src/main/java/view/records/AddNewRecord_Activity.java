@@ -222,11 +222,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 case "onRecordClick":           // clicked from recycler view
 
                     folder = extras.getString(EXTRA_FOLDER);
-                    Log.d("AddNewRecord123", "onRecorClick: " +  folder);
+                    Log.d("AddNewRecord123", "from folder: " +  folder);
                     if (folder != null) {
 
                         type = extras.getString(EXTRA_TYPE);
-                        Log.d("AddNewRecord123", "onRecorClick: " +  type);
+                        Log.d("AddNewRecord123", "type: " +  type);
                         if (type != null) {
                             switch (type) {
                                 //NEED TO BE COMPLETED FOR ALL THE RECORD TYPES.

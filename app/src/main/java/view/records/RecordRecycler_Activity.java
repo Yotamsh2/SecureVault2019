@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
 import static com.securevault19.securevault2019.R.raw.button;
@@ -44,9 +42,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     public static final int ADD_RECORD_REQUEST = 1;
 
     public static final String EXTRA_TYPE =
-            "com.example.architectureexample.EXTRA_TYPE";
+            "com.securevault19.securevault2019.EXTRA_TYPE";
     public static final String EXTRA_ORIGIN =
-            "com.example.architectureexample.EXTRA_ORIGIN";
+            "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
 
     private Record_ViewModel viewModel;
