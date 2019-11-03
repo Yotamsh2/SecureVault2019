@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -32,6 +33,9 @@ import view.records.RecordRecycler_Activity;
 import static view.records.RecordRecycler_Activity.ADD_RECORD_REQUEST;
 
 public class CategoryList_Activity extends AppCompatActivity {
+    //-----------------//
+    private String user;
+    //----------------//
     public static final int ADD_RECORD_REQUEST = 1;
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
@@ -58,27 +62,31 @@ public class CategoryList_Activity extends AppCompatActivity {
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_category_list2);
+// ----------------------------------------------------------- //
+// drawing the user name from the log in activity ( the user is out KEY as encryptedWIthKey method.
+        user = getIntent().getStringExtra("CRYPTO_KEY");
+// ----------------------------------------------------------- //
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         favorites = findViewById(R.id.favorites);
-        bankAccounts =  findViewById(R.id.bankAccount);
-        creditCard =  findViewById(R.id.creditCard);
-        socialMedia =  findViewById(R.id.socialMedia);
-        webAccounts =  findViewById(R.id.webAccounts);
-        onlineShopping =  findViewById(R.id.onlineShopping);
-        cryptocurrency =  findViewById(R.id.cryptocurrency);
+        bankAccounts = findViewById(R.id.bankAccount);
+        creditCard = findViewById(R.id.creditCard);
+        socialMedia = findViewById(R.id.socialMedia);
+        webAccounts = findViewById(R.id.webAccounts);
+        onlineShopping = findViewById(R.id.onlineShopping);
+        cryptocurrency = findViewById(R.id.cryptocurrency);
         drivingLicence = findViewById(R.id.drivingLicence);
-        passports =  findViewById(R.id.passport);
-        allRecords =  findViewById(R.id.allRecords);
-        notes =  findViewById(R.id.notes);
-        search_layout =  findViewById(R.id.search_layout);
-        search_btn =  findViewById(R.id.search_btn);
-        search_bar =  findViewById(R.id.search_bar);
-        search_icon =  findViewById(R.id.search_icon);
+        passports = findViewById(R.id.passport);
+        allRecords = findViewById(R.id.allRecords);
+        notes = findViewById(R.id.notes);
+        search_layout = findViewById(R.id.search_layout);
+        search_btn = findViewById(R.id.search_btn);
+        search_bar = findViewById(R.id.search_bar);
+        search_icon = findViewById(R.id.search_icon);
         activityTitle = findViewById(R.id.activityTitle);
 
 
-        mainGrid =  findViewById(R.id.mainGrid);
+        mainGrid = findViewById(R.id.mainGrid);
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(CategoryList_Activity.this, R.anim.zoomin_fast);
         animation2 = AnimationUtils.loadAnimation(CategoryList_Activity.this, R.anim.categories_anim);
@@ -90,16 +98,16 @@ public class CategoryList_Activity extends AppCompatActivity {
 //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
-        category1 =  findViewById(R.id.category1);
-        category2 =  findViewById(R.id.category2);
-        category3 =  findViewById(R.id.category3);
-        category4 =  findViewById(R.id.category4);
-        category5 =  findViewById(R.id.category5);
-        category6 =  findViewById(R.id.category6);
-        category7 =  findViewById(R.id.category7);
-        category8 =  findViewById(R.id.category8);
-        category9 =  findViewById(R.id.category9);
-        category10 =  findViewById(R.id.category10);
+        category1 = findViewById(R.id.category1);
+        category2 = findViewById(R.id.category2);
+        category3 = findViewById(R.id.category3);
+        category4 = findViewById(R.id.category4);
+        category5 = findViewById(R.id.category5);
+        category6 = findViewById(R.id.category6);
+        category7 = findViewById(R.id.category7);
+        category8 = findViewById(R.id.category8);
+        category9 = findViewById(R.id.category9);
+        category10 = findViewById(R.id.category10);
         category1.setTypeface(myFont);
         category2.setTypeface(myFont);
         category3.setTypeface(myFont);
@@ -115,7 +123,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
 
-    public void floatingActionButton(){
+    public void floatingActionButton() {
 
         final FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +134,7 @@ public class CategoryList_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
+                intent.putExtra("CRYPTO_KEY",user);    // passing the userName for the KEY encryption
                 Toast.makeText(CategoryList_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
             }
@@ -133,34 +142,36 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
 
-        public void goToFolderRecords(View view) {
+    public void goToFolderRecords(View view) {               // on click func
         if (view == bankAccounts)
             nameOfFolder = "Bank Accounts";
-        else if (view==creditCard)
+        else if (view == creditCard)
             nameOfFolder = "Credit Cards";
-        else if (view==socialMedia)
+        else if (view == socialMedia)
             nameOfFolder = "Social Media";
-        else if (view==webAccounts)
+        else if (view == webAccounts)
             nameOfFolder = "Website & Email";
-        else if (view==onlineShopping)
+        else if (view == onlineShopping)
             nameOfFolder = "Online Shopping";
-        else if (view==cryptocurrency)
+        else if (view == cryptocurrency)
             nameOfFolder = "Cryptocurrency";
-        else if (view==drivingLicence)
+        else if (view == drivingLicence)
             nameOfFolder = "Driving Licence";
-        else if (view==passports)
+        else if (view == passports)
             nameOfFolder = "Passports";
-        else if (view==allRecords)
+        else if (view == allRecords)
             nameOfFolder = "All Records";
-        else if (view==notes)
+        else if (view == notes)
             nameOfFolder = "Notes";
-        else if (view==favorites)
+        else if (view == favorites)
             nameOfFolder = "Favorites";
 
 
         mediaPlayer.start();
         view.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        intent.putExtra("CRYPTO_KEY",user);
+        Log.d("userCheck", "!!!" + user);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
@@ -170,14 +181,13 @@ public class CategoryList_Activity extends AppCompatActivity {
     public void search(View view) {
         mediaPlayer.start();
         search_btn.startAnimation(animation3);
-        if (search_bar.getText().toString().equals("")){
+        if (search_bar.getText().toString().equals("")) {
             goToFolderRecords(allRecords);
-        }
-        else {
+        } else {
             String searchString = search_bar.getText().toString();
 
             Intent intent = new Intent(this, RecordRecycler_Activity.class);
-            intent.putExtra(EXTRA_SEARCH,searchString);
+            intent.putExtra(EXTRA_SEARCH, searchString);
             intent.putExtra(EXTRA_FOLDER, "Search");
             this.startActivity(intent);
             overridePendingTransition(0, 0);

@@ -57,6 +57,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private Cryptography cryptography;
     private String encryptedUsername;
     private String encryptedPassword;
+    private String user;
 
 
     // --- test for checking why the recycler view dosent show any thing --- //
@@ -135,6 +136,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
+        user = getIntent().getStringExtra("CRYPTO_KEY");
+        Log.d("userCheck", "---" + user);
+
 
         listOfIcons = findViewById(R.id.listOfIcons);
         addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
@@ -219,15 +223,17 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (extras != null) {
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
-            Log.d("AddNewRecord", "from onRecordClick: origin: " + origin);
+            Log.d("AddNewRecord123", "from onRecordClick: origin: " + origin);
 
             switch (origin) {
-                case "onRecordClick":
+                case "onRecordClick":           // clicked from recycler view
 
                     folder = extras.getString(EXTRA_FOLDER);
-
+                    Log.d("AddNewRecord123", "onRecorClick: " +  folder);
                     if (folder != null) {
+
                         type = extras.getString(EXTRA_TYPE);
+                        Log.d("AddNewRecord123", "onRecorClick: " +  type);
                         if (type != null) {
                             switch (type) {
                                 //NEED TO BE COMPLETED FOR ALL THE RECORD TYPES.
@@ -235,13 +241,14 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Bank Accounts": //shows the relevant fields of the clicked Record.
                                     userName.setVisibility(View.VISIBLE);
                                     password.setVisibility(View.VISIBLE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
+                                    website.setVisibility(View.VISIBLE);
+                                    email.setVisibility(View.VISIBLE);
                                     bankAccount.setVisibility(View.VISIBLE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.VISIBLE);
+                                    cryptocurrency.setVisibility(View.VISIBLE);
+                                    drivingLicence.setVisibility(View.VISIBLE);
+                                    passport.setVisibility(View.VISIBLE);
+                                    Log.d("AddNewRecord123", "bankAccount" );
                                     Toast.makeText(this, "EXTRA_FOLDER: Bank Accounts", Toast.LENGTH_SHORT).show();
                                     break;
 
@@ -477,7 +484,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     @SuppressLint({"RestrictedApi", "StaticFieldLeak"})
     public void openNewRecord(View view) {                     // the onClick func (save Button)
-        cryptography = new Cryptography();                      // making argument of Cryptography wich is private!
+        cryptography = new Cryptography();                      // making argument of Cryptography which is private!
         //Setting the details from the Activity to send to the Record constructor
         final String title = title_EditText.getText().toString();
         final String userName = username_EditText.getText().toString().trim();
@@ -487,6 +494,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String expiringDate = expiringDate_EditText.getText().toString().trim();
         final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString();
         final String folder = category_Spinner.getSelectedItem().toString();
+
 
 
         //final String note = this.note.getText().toString();
@@ -523,16 +531,25 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     //try for Encryption
                     try {
                         // encrypthing the password and the username(username for test)
-                        encryptedUsername = cryptography.encryptUsername(username_EditText.getText().toString());
+                        //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
+                       encryptedUsername = cryptography.encryptWithKey(user,username_EditText.getText().toString());
+                          Log.d("userCheck", "" +user);
 
-                        if (password_EditText.getText().toString() != null) {
-                            encryptedPassword = cryptography.encryptPassword(username_EditText.getText().toString(), password_EditText.getText().toString());
-                            Log.d("crypto", "" + encryptedUsername);
-                        }
+                        //if (password_EditText.getText().toString() != null) {
+                            //encryptedPassword = cryptography.encryptWithKey(user,password_EditText.getText().toString());
+                            encryptedPassword = cryptography.encryptWithKey(user,password_EditText.getText().toString());
+                        Log.d("userCheck", "" + user);
+                          //  Log.d("crypto", "" + encryptedUsername);
+                        //}
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
+
+
+                    // PAY ATTENTION!                                //
+                    // the encryption we using is EncryptWithKey();!//
+                    // the KEY will be the userName                 //
 
                     // opening Record to insert the TextFields and insert to DB
                     Record record = new Record();
@@ -546,6 +563,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setExpiringDate(expiringDate);
                     record.setFavorite(isFavorite);
                     record.setIcon(String.valueOf(drawabaleID));
+
 
 
                     // inserting record to DB

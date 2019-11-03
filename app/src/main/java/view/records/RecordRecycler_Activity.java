@@ -40,6 +40,7 @@ import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.explorer.CategoryList_Activity.EXTRA_SEARCH;
 
 public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener {
+    private String user;
     public static final int ADD_RECORD_REQUEST = 1;
 
     public static final String EXTRA_TYPE =
@@ -86,6 +87,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
         animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
 
+        user = getIntent().getStringExtra("CRYPTO_KEY");
 
         recycler();
 
@@ -95,7 +97,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     public void recycler (){
 
-        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this);
+        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this,user);
         recyclerView.setAdapter(recordAdapter);
 
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
@@ -171,6 +173,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
+                intent.putExtra("CRYPTO_KEY",user);
                 Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 finish();
@@ -205,12 +208,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     //Creating new Record
     @Override
-    public void onRecordClick(int position) {
+    public void onRecordClick(int position) {           // clicked or exitting record
         Log.d("onRecordClick", "clicked. " + position);
         Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
         // records.get(position);
         String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
-        String type;
+        String type = null;
 
         mediaPlayer.start();
 
@@ -218,10 +221,13 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         intent.putExtra(EXTRA_FOLDER, folder);
 
         if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
+
             type = records.get(position).type;
+            Log.d("typeTest", "type Inside if : " +  type);
             intent.putExtra(EXTRA_TYPE, type);
         }
 
+        Log.d("typeTest", "type Afther if : " +  type);
         //passing to Add_New_Record where we came from - to decide what type of screen to show.
         intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
         startActivity(intent);

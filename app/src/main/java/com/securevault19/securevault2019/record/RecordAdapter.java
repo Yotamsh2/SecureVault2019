@@ -24,9 +24,10 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 
     private OnRecordListener mOnRecordListener;
     private Cryptography cryptography;
+private String userKey;
 
-
-    public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener) {
+    public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener,String userKey) {
+        this.userKey = userKey;
         this.records = records;
         this.mOnRecordListener = onRecordListener;
 
@@ -56,7 +57,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 //        }
 //        Log.d("crypto", "2: "+ userName + " and: " + currentRecord.getUserName());
 //        holder.textViewRecord.setText(userName);
-        holder.textViewRecord.setText(currentRecord.getUserName());
+
+        try {
+            holder.textViewRecord.setText(cryptography.decrypt(currentRecord.getUserName(),userKey));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         String iconID = currentRecord.getIcon();
