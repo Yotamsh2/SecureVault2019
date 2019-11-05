@@ -18,7 +18,6 @@ public class User {
     @ColumnInfo(name = "email")private String email;
     @ColumnInfo(name = "optionalQuestion")private String optionalQuestion;
     @ColumnInfo(name = "optionalAnswer") private String optionalAnswer;
-
     @ColumnInfo(name = "master_password") private String masterPassword;
     @ColumnInfo(name = "secureLevel")  private String secureLevel;
 

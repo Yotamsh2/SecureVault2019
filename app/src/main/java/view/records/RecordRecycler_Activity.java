@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import local_database.DatabaseClient;
 import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
@@ -210,12 +211,16 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     @Override
     public void onRecordClick(int position, List<Record> records) {   // clicked or exiting record
         Log.d("onRecordClick", "clicked. " + position);
-//        Log.d("onRecordClick", "")
+        // ------------------------------------------------------------------------------- //
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+        Log.d("onRecordClick", "clicked "+ records.get(position).getRecordID());
+        // ------------------------------------------------------------------------------- //
         Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
         // records.get(position);
         String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
         String type;
-
+        int clickedRecordIdPosition = records.get(position).getRecordID();
+//Record record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().
         mediaPlayer.start();
 
         Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);

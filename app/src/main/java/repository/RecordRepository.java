@@ -41,6 +41,10 @@ public class RecordRepository {
     public LiveData<List<Record>> getSearchRecords(String searchString) {
         return DaoRecord.getSearchRecords(searchString);    }
 
+    public LiveData<List<Record>> getRecordDetails(int recordID) {
+        return DaoRecord.getRecordDetails(recordID);    }
+
+
 
     public LiveData<List<Record>> getFavoritesRecords() {
         return DaoRecord.getFavoritesRecords();    }
