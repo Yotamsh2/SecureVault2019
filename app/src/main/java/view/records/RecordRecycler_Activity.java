@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
 import static com.securevault19.securevault2019.R.raw.button;
@@ -171,6 +173,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
+                intent.putExtra("CRYPTO_KEY",user);
                 Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 finish();
@@ -205,8 +208,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     //Creating new Record
     @Override
-    public void onRecordClick(int position, List<Record> records) {
+    public void onRecordClick(int position, List<Record> records) {   // clicked or exiting record
         Log.d("onRecordClick", "clicked. " + position);
+//        Log.d("onRecordClick", "")
         Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
         // records.get(position);
         String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
@@ -217,11 +221,10 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
         intent.putExtra(EXTRA_FOLDER, folder);
 
-        Log.d("type","before if:"+ records);
-
         if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
+
             type = records.get(position).type;
-            Log.d("type", "(inside if) type: "+ type);
+
             intent.putExtra(EXTRA_TYPE, type);
         }
 

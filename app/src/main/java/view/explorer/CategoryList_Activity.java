@@ -136,7 +136,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
 
-    public void goToFolderRecords(View view) {               // on click func
+    public void goToFolderRecords(View view) {               // on click func       // the view is what appears on top of the recycler view
         if (view == bankAccounts)
             nameOfFolder = "Bank Accounts";
         else if (view == creditCard)
@@ -164,6 +164,8 @@ public class CategoryList_Activity extends AppCompatActivity {
         mediaPlayer.start();
         view.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        // pass extra the name of the folder that clicked
+
         intent.putExtra("CRYPTO_KEY",user);
         Log.d("userCheck", "!!!" + user);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);

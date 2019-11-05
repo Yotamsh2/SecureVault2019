@@ -44,6 +44,7 @@ import java.util.Calendar;
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
 
+import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -51,6 +52,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private String encryptedUsername;
     private String encryptedPassword;
     private String user;
+    private String nameOfFolder;
 
 
     // --- test for checking why the recycler view dosent show any thing --- //
@@ -130,6 +132,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
         user = getIntent().getStringExtra("CRYPTO_KEY");
+        nameOfFolder = getIntent().getStringExtra(EXTRA_FOLDER);
+        Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
         Log.d("userCheck", "---" + user);
 
 
@@ -220,32 +224,131 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             switch (origin) {
                 case "onRecordClick":           // clicked from recycler view
-
-                    folder = extras.getString(EXTRA_FOLDER);
-                    Log.d("AddNewRecord123", "from folder: " +  folder);
+                    Log.e("onRecordClick321", "clicked onRecordClick");
+                    folder = extras.getString(EXTRA_FOLDER);            // name of the folder
+                    //Log.d("AddNewRecord123", "from folder: " +  folder);
                     if (folder != null) {
-
-                        type = extras.getString(EXTRA_TYPE);
-                        Log.d("AddNewRecord123", "type: " +  type);
+                        Log.e("onRecordClick321", "clicked folder!= null");
+                        type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
                         if (type != null) {
+                            Log.e("onRecordClick321", "clicked type != null");
                             switch (type) {
                                 //NEED TO BE COMPLETED FOR ALL THE RECORD TYPES.
 
                                 case "Bank Accounts": //shows the relevant fields of the clicked Record.
+                                    typeOfRecord_Spinner.setSelection(3);
+                                    category_Spinner.setSelection(3);
+                                    Log.e("onRecordClick321", "clicked Bank account ");
+                                    userName.setVisibility(View.VISIBLE);
+                                    password.setVisibility(View.VISIBLE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.VISIBLE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+
+
+                                    Log.d("AddNewRecord123", "bankAccount");
+                                    Toast.makeText(this, "EXTRA_FOLDER: Bank Accounts", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case "Credit Cards":
+                                    typeOfRecord_Spinner.setSelection(4);
+                                    category_Spinner.setSelection(4);
+                                    Log.e("taaaa", "entered credit card " + type);
+                                    userName.setVisibility(View.GONE);
+                                    password.setVisibility(View.VISIBLE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.VISIBLE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                                case "Social Media":
+                                    typeOfRecord_Spinner.setSelection(1);
+                                    category_Spinner.setSelection(1);
                                     userName.setVisibility(View.VISIBLE);
                                     password.setVisibility(View.VISIBLE);
                                     website.setVisibility(View.VISIBLE);
                                     email.setVisibility(View.VISIBLE);
-                                    bankAccount.setVisibility(View.VISIBLE);
-                                    creditCard.setVisibility(View.VISIBLE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                                case "Website & Email":
+                                    typeOfRecord_Spinner.setSelection(0);
+                                    category_Spinner.setSelection(0);
+                                    userName.setVisibility(View.VISIBLE);
+                                    password.setVisibility(View.VISIBLE);
+                                    website.setVisibility(View.VISIBLE);
+                                    email.setVisibility(View.VISIBLE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                                case "Online Shopping":
+                                    typeOfRecord_Spinner.setSelection(2);
+                                    category_Spinner.setSelection(2);
+                                    userName.setVisibility(View.VISIBLE);
+                                    password.setVisibility(View.VISIBLE);
+                                    website.setVisibility(View.VISIBLE);
+                                    email.setVisibility(View.VISIBLE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                                case "Cryptocurrency":
+                                    typeOfRecord_Spinner.setSelection(6);
+                                    category_Spinner.setSelection(6);
+                                    userName.setVisibility(View.GONE);
+                                    password.setVisibility(View.GONE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
                                     cryptocurrency.setVisibility(View.VISIBLE);
+                                    drivingLicence.setVisibility(View.GONE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                                case "Driving Licence":
+                                    typeOfRecord_Spinner.setSelection(7);
+                                    category_Spinner.setSelection(7);
+                                    userName.setVisibility(View.GONE);
+                                    password.setVisibility(View.GONE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
                                     drivingLicence.setVisibility(View.VISIBLE);
+                                    passport.setVisibility(View.GONE);
+                                    break;
+                                case "Passports":
+                                    typeOfRecord_Spinner.setSelection(5);
+                                    category_Spinner.setSelection(5);
+                                    userName.setVisibility(View.GONE);
+                                    password.setVisibility(View.GONE);
+                                    website.setVisibility(View.GONE);
+                                    email.setVisibility(View.GONE);
+                                    bankAccount.setVisibility(View.GONE);
+                                    creditCard.setVisibility(View.GONE);
+                                    cryptocurrency.setVisibility(View.GONE);
+                                    drivingLicence.setVisibility(View.GONE);
                                     passport.setVisibility(View.VISIBLE);
-                                    Log.d("AddNewRecord123", "bankAccount" );
-                                    Toast.makeText(this, "EXTRA_FOLDER: Bank Accounts", Toast.LENGTH_SHORT).show();
                                     break;
 
                                 default:  //FOR EXAMPLE
+                                    typeOfRecord_Spinner.setSelection(8);
+                                    category_Spinner.setSelection(8);
                                     userName.setVisibility(View.GONE);
                                     password.setVisibility(View.GONE);
                                     website.setVisibility(View.GONE);
@@ -264,12 +367,50 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 //If we came from buttonAddRecord
                 default:
+// ---------------------------------------------------------------------------- //
+// for testing,
+
+
+                    // looks on which folder we clicked and set the spinner in the correct position.
+                    if (nameOfFolder.equals("Website & Email")) {
+                        typeOfRecord_Spinner.setSelection(0);
+                        category_Spinner.setSelection(0);
+                    } else if (nameOfFolder.equals("Social Media")) {
+                        typeOfRecord_Spinner.setSelection(1);
+                        category_Spinner.setSelection(1);
+                    } else if (nameOfFolder.equals("Online Shopping")) {
+                        typeOfRecord_Spinner.setSelection(2);
+                        category_Spinner.setSelection(2);
+                    } else if (nameOfFolder.equals("Bank Accounts")) {
+                        typeOfRecord_Spinner.setSelection(3);
+                        category_Spinner.setSelection(3);
+                    } else if (nameOfFolder.equals("Credit Cards")) {
+                        typeOfRecord_Spinner.setSelection(4);
+                        category_Spinner.setSelection(4);
+                    } else if (nameOfFolder.equals("Passports")) {
+                        typeOfRecord_Spinner.setSelection(5);
+                        category_Spinner.setSelection(5);
+                    } else if (nameOfFolder.equals("Cryptocurrency")) {
+                        typeOfRecord_Spinner.setSelection(6);
+                        category_Spinner.setSelection(6);
+                    } else if (nameOfFolder.equals("Driving Licence")) {
+                        typeOfRecord_Spinner.setSelection(7);
+                        category_Spinner.setSelection(7);
+                    } else {
+                        typeOfRecord_Spinner.setSelection(8);
+                        category_Spinner.setSelection(8);
+                    }
+
+
+// ---------------------------------------------------------------------------- //
                     //Show fields after selecting item in spinner
                     typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            Log.e("checkPosition", "entered onItemSElected");
                             //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
                             if (position == 0 || position == 1 || position == 2) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.VISIBLE);
                                 password.setVisibility(View.VISIBLE);
                                 website.setVisibility(View.VISIBLE);
@@ -282,6 +423,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             }
                             //(3)Bank Account
                             if (position == 3) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.VISIBLE);
                                 password.setVisibility(View.VISIBLE);
                                 website.setVisibility(View.GONE);
@@ -294,6 +436,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             }
                             //(4)Credit Card
                             if (position == 4) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.GONE);
                                 password.setVisibility(View.VISIBLE);
                                 website.setVisibility(View.GONE);
@@ -306,6 +449,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             }
                             //(5)Passport
                             if (position == 5) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.GONE);
                                 password.setVisibility(View.GONE);
                                 website.setVisibility(View.GONE);
@@ -318,6 +462,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             }
                             //(6)Cryptocurrency
                             if (position == 6) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.GONE);
                                 password.setVisibility(View.GONE);
                                 website.setVisibility(View.GONE);
@@ -330,6 +475,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             }
                             //(7)Driving Licence
                             if (position == 7) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.GONE);
                                 password.setVisibility(View.GONE);
                                 website.setVisibility(View.GONE);
@@ -342,6 +488,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             }
                             //(8)NOTE
                             if (position == 8) {
+                                Log.e("checkPosition", "entered to onItemSelected " + position);
                                 userName.setVisibility(View.GONE);
                                 password.setVisibility(View.GONE);
                                 website.setVisibility(View.GONE);
@@ -489,7 +636,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String folder = category_Spinner.getSelectedItem().toString();
 
 
-
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
 //        final long IBAN;
@@ -525,19 +671,18 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     try {
                         // encrypthing the password and the username(username for test)
                         //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
-                       encryptedUsername = cryptography.encryptWithKey(user,username_EditText.getText().toString());
-                          Log.d("userCheck", "" +user);
+                        encryptedUsername = cryptography.encryptWithKey(user, username_EditText.getText().toString());
+                        Log.d("userCheck", "" + user);
 
                         //if (password_EditText.getText().toString() != null) {
-                            //encryptedPassword = cryptography.encryptWithKey(user,password_EditText.getText().toString());
-                            encryptedPassword = cryptography.encryptWithKey(user,password_EditText.getText().toString());
+                        //encryptedPassword = cryptography.encryptWithKey(user,password_EditText.getText().toString());
+                        encryptedPassword = cryptography.encryptWithKey(user, password_EditText.getText().toString());
                         Log.d("userCheck", "" + user);
-                          //  Log.d("crypto", "" + encryptedUsername);
+                        //  Log.d("crypto", "" + encryptedUsername);
                         //}
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
 
 
                     // PAY ATTENTION!                                //
@@ -556,7 +701,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setExpiringDate(expiringDate);
                     record.setFavorite(isFavorite);
                     record.setIcon(String.valueOf(drawabaleID));
-
 
 
                     // inserting record to DB

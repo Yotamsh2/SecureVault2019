@@ -36,4 +36,7 @@ public interface DaoRecord {
     @Query("SELECT * FROM record_table WHERE favorite LIKE '1'")
     LiveData<List<Record>> getFavoritesRecords();
 
+
+
+
 }
