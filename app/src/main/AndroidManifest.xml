@@ -15,6 +15,7 @@
             android:label="@string/title_activity_settings"
             android:parentActivityName="view.explorer.CategoryList_Activity">
         </activity>
+        <activity android:name="view.explorer.Team_Activity"/>
         <activity android:name="view.entrance.SignUp_Activity" />
         <activity
             android:name="view.records.ChooseIcon_PopupActivity"
@@ -29,6 +30,9 @@
         </activity>
         <activity
             android:name="view.records.AddNewRecord_Activity"
+            android:parentActivityName="view.explorer.CategoryList_Activity" />
+        <activity
+            android:name="view.entrance.NewUser_Activity"
             android:parentActivityName="view.explorer.CategoryList_Activity" />
         <activity
             android:name="view.explorer.CategoryList_Activity"

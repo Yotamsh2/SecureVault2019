@@ -77,4 +77,18 @@
     <string name="showAll">הצג הכל</string>
     <string name="allRecords">כל הרשומות</string>
     <string name="security_level">רמת אבטחה</string>
+    <string name="verifyPass">אימות סיסמה</string>
+    <string name="masterPass">סיסמת מאסטר</string>
+    <string name="newAccount">חשבון חדש</string>
+    <string name="title_activity_settings">הגדרות</string>
+    <string name="sync_title">כותרת סינכרון</string>
+    <string name="sync_header">סינכרון</string>
+    <string name="signature_title">החתימה שלך</string>
+    <string name="reply_title">פעולת ברירת מחדל</string>
+    <string name="messages_header">הודעות</string>
+    <string name="evgeni">יבגני איסייב</string>
+    <string name="idan">עידן ברדוגו</string>
+    <string name="ori">אורי אבן חן</string>
+    <string name="yotam">יותם שובל</string>
+    <string name="project_team">צוות הפרויקט</string>
 </resources>

@@ -92,7 +92,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView licenceExpiringDate_EditText;
     private TextView issuanceDate_EditText;
-    private TextView expiringDate_EditText;
+    private TextView expiringDate_EditText,tagNames_EditText;
     private TextView expiringDate_title;
     private ImageButton calendarBtn;
     private ImageView logo;
@@ -105,6 +105,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private FloatingActionButton editForm;
     private TextView activityTitle;
     private Typeface myFont;
+    private TextView folder_name;
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
@@ -114,8 +115,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private LinearLayout registerDetails;
     private LinearLayout userName, password, website, email, bankAccount, creditCard, cryptocurrency, drivingLicence, passport;
     private HorizontalScrollView listOfIcons;
-
-    private GridLayout gridLayout; //TO DELETE
 
     private boolean isFavorite = false; //as default, a record is not a favorite.
 
@@ -133,7 +132,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         setContentView(R.layout.activity_add_new_record);
         user = getIntent().getStringExtra("CRYPTO_KEY");
         nameOfFolder = getIntent().getStringExtra(EXTRA_FOLDER);
-        Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
         Log.d("userCheck", "---" + user);
 
 
@@ -147,6 +146,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         saveBtn = findViewById(R.id.saveBtn);
         cancelBtn = findViewById(R.id.cancelBtn);
         licenceExpiringDate_EditText = findViewById(R.id.licenceExpiringDate_EditText);
+        tagNames_EditText = findViewById(R.id.tagNames_EditText);
         issuanceDate_EditText = findViewById(R.id.issuanceDate_EditText);
         expiringDate_EditText = findViewById(R.id.expiringDate_EditText);
         expiringDate_title = findViewById(R.id.expiringDate_title);
@@ -189,10 +189,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         cryptocurrency = findViewById(R.id.cryptocurrencyDetails);
         drivingLicence = findViewById(R.id.drivingLicenceDetails);
         passport = findViewById(R.id.passportDetails);
+        folder_name=findViewById(R.id.folder_name);
 
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin);
-        animation2 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin_fast);
+        animation2 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin_fade);
         animation3 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.buttonpush_anim);
         scrollView.startAnimation(animation2);
 
@@ -220,144 +221,57 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (extras != null) {
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
+            folder = extras.getString(EXTRA_FOLDER);
+            type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
             Log.d("AddNewRecord123", "from onRecordClick: origin: " + origin);
+            folder_name.setText(folder);
 
             switch (origin) {
                 case "onRecordClick":           // clicked from recycler view
                     Log.e("onRecordClick321", "clicked onRecordClick");
-                    folder = extras.getString(EXTRA_FOLDER);            // name of the folder
-                    //Log.d("AddNewRecord123", "from folder: " +  folder);
                     if (folder != null) {
                         Log.e("onRecordClick321", "clicked folder!= null");
-                        type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
                         if (type != null) {
                             Log.e("onRecordClick321", "clicked type != null");
+                            fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
                             switch (type) {
-                                //NEED TO BE COMPLETED FOR ALL THE RECORD TYPES.
-
-                                case "Bank Accounts": //shows the relevant fields of the clicked Record.
+                                case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
                                     category_Spinner.setSelection(3);
                                     Log.e("onRecordClick321", "clicked Bank account ");
-                                    userName.setVisibility(View.VISIBLE);
-                                    password.setVisibility(View.VISIBLE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
-                                    bankAccount.setVisibility(View.VISIBLE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
-
-
-                                    Log.d("AddNewRecord123", "bankAccount");
-                                    Toast.makeText(this, "EXTRA_FOLDER: Bank Accounts", Toast.LENGTH_SHORT).show();
                                     break;
                                 case "Credit Cards":
                                     typeOfRecord_Spinner.setSelection(4);
                                     category_Spinner.setSelection(4);
-                                    Log.e("taaaa", "entered credit card " + type);
-                                    userName.setVisibility(View.GONE);
-                                    password.setVisibility(View.VISIBLE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.VISIBLE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                                 case "Social Media":
                                     typeOfRecord_Spinner.setSelection(1);
                                     category_Spinner.setSelection(1);
-                                    userName.setVisibility(View.VISIBLE);
-                                    password.setVisibility(View.VISIBLE);
-                                    website.setVisibility(View.VISIBLE);
-                                    email.setVisibility(View.VISIBLE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                                 case "Website & Email":
                                     typeOfRecord_Spinner.setSelection(0);
                                     category_Spinner.setSelection(0);
-                                    userName.setVisibility(View.VISIBLE);
-                                    password.setVisibility(View.VISIBLE);
-                                    website.setVisibility(View.VISIBLE);
-                                    email.setVisibility(View.VISIBLE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                                 case "Online Shopping":
                                     typeOfRecord_Spinner.setSelection(2);
                                     category_Spinner.setSelection(2);
-                                    userName.setVisibility(View.VISIBLE);
-                                    password.setVisibility(View.VISIBLE);
-                                    website.setVisibility(View.VISIBLE);
-                                    email.setVisibility(View.VISIBLE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                                 case "Cryptocurrency":
                                     typeOfRecord_Spinner.setSelection(6);
                                     category_Spinner.setSelection(6);
-                                    userName.setVisibility(View.GONE);
-                                    password.setVisibility(View.GONE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.VISIBLE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                                 case "Driving Licence":
                                     typeOfRecord_Spinner.setSelection(7);
                                     category_Spinner.setSelection(7);
-                                    userName.setVisibility(View.GONE);
-                                    password.setVisibility(View.GONE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.VISIBLE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                                 case "Passports":
                                     typeOfRecord_Spinner.setSelection(5);
                                     category_Spinner.setSelection(5);
-                                    userName.setVisibility(View.GONE);
-                                    password.setVisibility(View.GONE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.GONE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.VISIBLE);
                                     break;
 
                                 default:  //FOR EXAMPLE
                                     typeOfRecord_Spinner.setSelection(8);
                                     category_Spinner.setSelection(8);
-                                    userName.setVisibility(View.GONE);
-                                    password.setVisibility(View.GONE);
-                                    website.setVisibility(View.GONE);
-                                    email.setVisibility(View.GONE);
-                                    bankAccount.setVisibility(View.GONE);
-                                    creditCard.setVisibility(View.GONE);
-                                    cryptocurrency.setVisibility(View.VISIBLE);
-                                    drivingLicence.setVisibility(View.GONE);
-                                    passport.setVisibility(View.GONE);
                                     break;
                             }
                         }
@@ -370,8 +284,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 // ---------------------------------------------------------------------------- //
 // for testing,
 
-
                     // looks on which folder we clicked and set the spinner in the correct position.
+                    fieldsVisibility(nameOfFolder);
                     if (nameOfFolder.equals("Website & Email")) {
                         typeOfRecord_Spinner.setSelection(0);
                         category_Spinner.setSelection(0);
@@ -411,94 +325,37 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
                             if (position == 0 || position == 1 || position == 2) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.VISIBLE);
-                                password.setVisibility(View.VISIBLE);
-                                website.setVisibility(View.VISIBLE);
-                                email.setVisibility(View.VISIBLE);
-                                bankAccount.setVisibility(View.GONE);
-                                creditCard.setVisibility(View.GONE);
-                                cryptocurrency.setVisibility(View.GONE);
-                                drivingLicence.setVisibility(View.GONE);
-                                passport.setVisibility(View.GONE);
+                                fieldsVisibility("Social Media");
                             }
-                            //(3)Bank Account
+                            //(3)Bank Accounts
                             if (position == 3) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.VISIBLE);
-                                password.setVisibility(View.VISIBLE);
-                                website.setVisibility(View.GONE);
-                                email.setVisibility(View.GONE);
-                                bankAccount.setVisibility(View.VISIBLE);
-                                creditCard.setVisibility(View.GONE);
-                                cryptocurrency.setVisibility(View.GONE);
-                                drivingLicence.setVisibility(View.GONE);
-                                passport.setVisibility(View.GONE);
+                                fieldsVisibility("Bank Accounts");
                             }
                             //(4)Credit Card
                             if (position == 4) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.GONE);
-                                password.setVisibility(View.VISIBLE);
-                                website.setVisibility(View.GONE);
-                                email.setVisibility(View.GONE);
-                                bankAccount.setVisibility(View.GONE);
-                                creditCard.setVisibility(View.VISIBLE);
-                                cryptocurrency.setVisibility(View.GONE);
-                                drivingLicence.setVisibility(View.GONE);
-                                passport.setVisibility(View.GONE);
+                                fieldsVisibility("Credit Cards");
                             }
-                            //(5)Passport
+                            //(5)Passports
                             if (position == 5) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.GONE);
-                                password.setVisibility(View.GONE);
-                                website.setVisibility(View.GONE);
-                                email.setVisibility(View.GONE);
-                                bankAccount.setVisibility(View.GONE);
-                                creditCard.setVisibility(View.GONE);
-                                cryptocurrency.setVisibility(View.GONE);
-                                drivingLicence.setVisibility(View.GONE);
-                                passport.setVisibility(View.VISIBLE);
+                                fieldsVisibility("Passports");
                             }
                             //(6)Cryptocurrency
                             if (position == 6) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.GONE);
-                                password.setVisibility(View.GONE);
-                                website.setVisibility(View.GONE);
-                                email.setVisibility(View.GONE);
-                                bankAccount.setVisibility(View.GONE);
-                                creditCard.setVisibility(View.GONE);
-                                cryptocurrency.setVisibility(View.VISIBLE);
-                                drivingLicence.setVisibility(View.GONE);
-                                passport.setVisibility(View.GONE);
+                                fieldsVisibility("Cryptocurrency");
                             }
                             //(7)Driving Licence
                             if (position == 7) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.GONE);
-                                password.setVisibility(View.GONE);
-                                website.setVisibility(View.GONE);
-                                email.setVisibility(View.GONE);
-                                bankAccount.setVisibility(View.GONE);
-                                creditCard.setVisibility(View.GONE);
-                                cryptocurrency.setVisibility(View.GONE);
-                                drivingLicence.setVisibility(View.VISIBLE);
-                                passport.setVisibility(View.GONE);
+                                fieldsVisibility("Driving Licence");
                             }
-                            //(8)NOTE
+                            //(8)NOTES
                             if (position == 8) {
                                 Log.e("checkPosition", "entered to onItemSelected " + position);
-                                userName.setVisibility(View.GONE);
-                                password.setVisibility(View.GONE);
-                                website.setVisibility(View.GONE);
-                                email.setVisibility(View.GONE);
-                                bankAccount.setVisibility(View.GONE);
-                                creditCard.setVisibility(View.GONE);
-                                cryptocurrency.setVisibility(View.GONE);
-                                drivingLicence.setVisibility(View.GONE);
-                                passport.setVisibility(View.GONE);
-                                addNote(addNote);
+                                fieldsVisibility("Notes");
                             }
                         }
 
@@ -510,111 +367,116 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
 
 
-        //position of: 'typeOfRecord_Spinner.setOnItemSelectedListener'   before switch-case
-/*
-//        //Show fields after selecting item in spinner
-//        typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                //(0)Website/Email Account, (1)Social Media, (2)Online Shopping
-//                if (position == 0 || position == 1 || position == 2) {
-//                    userName.setVisibility(View.VISIBLE);
-//                    password.setVisibility(View.VISIBLE);
-//                    website.setVisibility(View.VISIBLE);
-//                    email.setVisibility(View.VISIBLE);
-//                    bankAccount.setVisibility(View.GONE);
-//                    creditCard.setVisibility(View.GONE);
-//                    cryptocurrency.setVisibility(View.GONE);
-//                    drivingLicence.setVisibility(View.GONE);
-//                    passport.setVisibility(View.GONE);
-//                }
-//                //(3)Bank Account
-//                if (position == 3) {
-//                    userName.setVisibility(View.VISIBLE);
-//                    password.setVisibility(View.VISIBLE);
-//                    website.setVisibility(View.GONE);
-//                    email.setVisibility(View.GONE);
-//                    bankAccount.setVisibility(View.VISIBLE);
-//                    creditCard.setVisibility(View.GONE);
-//                    cryptocurrency.setVisibility(View.GONE);
-//                    drivingLicence.setVisibility(View.GONE);
-//                    passport.setVisibility(View.GONE);
-//                }
-//                //(4)Credit Card
-//                if (position == 4) {
-//                    userName.setVisibility(View.GONE);
-//                    password.setVisibility(View.VISIBLE);
-//                    website.setVisibility(View.GONE);
-//                    email.setVisibility(View.GONE);
-//                    bankAccount.setVisibility(View.GONE);
-//                    creditCard.setVisibility(View.VISIBLE);
-//                    cryptocurrency.setVisibility(View.GONE);
-//                    drivingLicence.setVisibility(View.GONE);
-//                    passport.setVisibility(View.GONE);
-//                }
-//                //(5)Passport
-//                if (position == 5) {
-//                    userName.setVisibility(View.GONE);
-//                    password.setVisibility(View.GONE);
-//                    website.setVisibility(View.GONE);
-//                    email.setVisibility(View.GONE);
-//                    bankAccount.setVisibility(View.GONE);
-//                    creditCard.setVisibility(View.GONE);
-//                    cryptocurrency.setVisibility(View.GONE);
-//                    drivingLicence.setVisibility(View.GONE);
-//                    passport.setVisibility(View.VISIBLE);
-//                }
-//                //(6)Cryptocurrency
-//                if (position == 6) {
-//                    userName.setVisibility(View.GONE);
-//                    password.setVisibility(View.GONE);
-//                    website.setVisibility(View.GONE);
-//                    email.setVisibility(View.GONE);
-//                    bankAccount.setVisibility(View.GONE);
-//                    creditCard.setVisibility(View.GONE);
-//                    cryptocurrency.setVisibility(View.VISIBLE);
-//                    drivingLicence.setVisibility(View.GONE);
-//                    passport.setVisibility(View.GONE);
-//                }
-//                //(7)Driving Licence
-//                if (position == 7) {
-//                    userName.setVisibility(View.GONE);
-//                    password.setVisibility(View.GONE);
-//                    website.setVisibility(View.GONE);
-//                    email.setVisibility(View.GONE);
-//                    bankAccount.setVisibility(View.GONE);
-//                    creditCard.setVisibility(View.GONE);
-//                    cryptocurrency.setVisibility(View.GONE);
-//                    drivingLicence.setVisibility(View.VISIBLE);
-//                    passport.setVisibility(View.GONE);
-//                }
-//                //(8)NOTE
-//                if (position == 8) {
-//                    userName.setVisibility(View.GONE);
-//                    password.setVisibility(View.GONE);
-//                    website.setVisibility(View.GONE);
-//                    email.setVisibility(View.GONE);
-//                    bankAccount.setVisibility(View.GONE);
-//                    creditCard.setVisibility(View.GONE);
-//                    cryptocurrency.setVisibility(View.GONE);
-//                    drivingLicence.setVisibility(View.GONE);
-//                    passport.setVisibility(View.GONE);
-//                    addNote(addNote);
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//        });
-*/
     }
 
+    public void fieldsVisibility (String type) {
+        switch (type) {
+            case "Bank Accounts": //shows the relevant fields of the clicked Record.
+                userName.setVisibility(View.VISIBLE);
+                password.setVisibility(View.VISIBLE);
+                website.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                bankAccount.setVisibility(View.VISIBLE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Credit Cards":
+                userName.setVisibility(View.GONE);
+                password.setVisibility(View.VISIBLE);
+                website.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.VISIBLE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Social Media":
+                userName.setVisibility(View.VISIBLE);
+                password.setVisibility(View.VISIBLE);
+                website.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Website & Email":
+                userName.setVisibility(View.VISIBLE);
+                password.setVisibility(View.VISIBLE);
+                website.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Online Shopping":
+                userName.setVisibility(View.VISIBLE);
+                password.setVisibility(View.VISIBLE);
+                website.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Cryptocurrency":
+                userName.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                website.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.VISIBLE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Driving Licence":
+                userName.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                website.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.VISIBLE);
+                passport.setVisibility(View.GONE);
+                break;
+            case "Passports":
+                userName.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                website.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.VISIBLE);
+                break;
+            case "Notes":
+                userName.setVisibility(View.GONE);
+                password.setVisibility(View.GONE);
+                website.setVisibility(View.GONE);
+                email.setVisibility(View.GONE);
+                bankAccount.setVisibility(View.GONE);
+                creditCard.setVisibility(View.GONE);
+                cryptocurrency.setVisibility(View.GONE);
+                drivingLicence.setVisibility(View.GONE);
+                passport.setVisibility(View.GONE);
+                addNote(addNote);
+                break;
+        }
+    }
 
     @Override
     public void onBackPressed() {
         cancelWarningMessage(null);
-
     }
 
 
@@ -719,9 +581,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 // finishing the activity and open 'new' (refreshed ) RecyclerView with Website Category
 
                     finish();
-                    Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
-                    intent.putExtra(EXTRA_FOLDER, folder);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+                    //intent.putExtra(EXTRA_FOLDER, folder);
+                    //startActivity(intent);
                 }
             }.execute();                // execute for starting the AsyncTask
 
@@ -742,22 +604,23 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
-
-        category_Spinner.setEnabled(false);
-        title_EditText.setEnabled(false);
-        username_EditText.setEnabled(false);
-        password_EditText.setEnabled(false);
-        website_EditText.setEnabled(false);
-        email_EditText.setEnabled(false);
-        expiringDate_EditText.setEnabled(false);
-        custom1_EditText.setEnabled(false);
-        custom2_EditText.setEnabled(false);
-        custom3_EditText.setEnabled(false);
-        calendarBtn.setEnabled(false);
-        note.setEnabled(false);
+        //Set all fields not focusable
+        typeOfRecord_Spinner.setFocusable(false);
+        category_Spinner.setFocusable(false);
+        title_EditText.setFocusable(false);
+        username_EditText.setFocusable(false);
+        password_EditText.setFocusable(false);
+        website_EditText.setFocusable(false);
+        email_EditText.setFocusable(false);
+        expiringDate_EditText.setFocusable(false);
+        custom1_EditText.setFocusable(false);
+        custom2_EditText.setFocusable(false);
+        custom3_EditText.setFocusable(false);
+        calendarBtn.setFocusable(false);
+        note.setFocusable(false);
+        tagNames_EditText.setFocusable(false);
         saveBtn.setVisibility(View.GONE);
         cancelBtn.setVisibility(View.GONE);
-
         editForm.setVisibility(View.VISIBLE);
 
     }
@@ -888,7 +751,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         note.setEnabled(true);
         saveBtn.setVisibility(View.VISIBLE);
         cancelBtn.setVisibility(View.VISIBLE);
-
         editForm.setVisibility(View.GONE);
     }
 

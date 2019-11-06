@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "210215557918",
+    "firebase_url": "https://vault-ce82b.firebaseio.com",
+    "project_id": "vault-ce82b",
+    "storage_bucket": "vault-ce82b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210215557918:android:3fb8db02e285a3bc",
+        "android_client_info": {
+          "package_name": "com.example.gridlayouttestbucky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnbDvrPUpno6esEGCTkI9fyTctOu_Hdo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210215557918:android:5c7f479863f2385a19070f",
+        "android_client_info": {
+          "package_name": "com.securevault19.securevault2019"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnbDvrPUpno6esEGCTkI9fyTctOu_Hdo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

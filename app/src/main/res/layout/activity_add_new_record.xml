@@ -126,14 +126,16 @@
                     android:id="@+id/category_and_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/typeOfRecord"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -147,7 +149,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
                             android:entries="@array/typesOfRecord"
-                            android:maxLines="1" />
+                            android:maxLines="1"
+                            android:spinnerMode="dialog"/>
 
                     </LinearLayout>
                     <!--type of record-->
@@ -171,7 +174,8 @@
                         android:layout_marginEnd="10dp"
                         android:text="|"
                         android:textColor="#33000000"
-                        android:textSize="50sp"/>
+                        android:textSize="50sp"
+                        android:visibility="visible"/>
                     <!--separate line-->
 
                     <LinearLayout
@@ -180,7 +184,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                         android:layout_width="match_parent"
@@ -195,10 +199,13 @@
                         android:layout_height="30dp"
                         android:entries="@array/typesOfRecord"
                         android:inputType="text"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:spinnerMode="dialog"
+                        />
 
                     </LinearLayout>
                     <!--category-->
+
 
                     <ImageButton
                         android:id="@+id/showCategory"
@@ -207,13 +214,35 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="10dp"
                         android:background="@drawable/ic_folder_black"
-                        android:onClick="showCategory" />
+                        android:onClick="showCategory"
+                        android:visibility="gone"/>
                     <!--Show Category-->
 
 
 
                 </LinearLayout>
-                <!--Category & Type--> <!--Always Visible-->
+                <!--Category & Type--> <!--NOT Visible-->
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_folder_black"/>
+                    <TextView
+                        android:id="@+id/folder_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="@string/folder"
+                        android:layout_marginTop="4dp"
+                        android:textSize="16sp"
+                        android:textColor="#80000000"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/title"
@@ -233,7 +262,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/title"
                         android:inputType="text"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:layout_marginTop="4dp"/>
 
                 </LinearLayout>
                 <!--Title--> <!--Always Visible-->
@@ -308,7 +338,7 @@
                                     android:layout_alignParentEnd="true"
                                     android:text="strength"
                                     android:textColor="#07CE00"
-                                    android:visibility="visible"/>
+                                    android:visibility="gone"/>
 
                                 <ImageButton
                                     android:id="@+id/showPass"
@@ -316,7 +346,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
                                     android:layout_alignParentEnd="true"
-                                    android:background="@drawable/ic_show_pass"
+                                    android:background="@drawable/ic_hide_pass"
                                     android:onClick="showPass" />
 
                                 <ImageButton
@@ -325,7 +355,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="bottom"
                                     android:layout_alignParentEnd="true"
-                                    android:background="@drawable/ic_hide_pass"
+                                    android:background="@drawable/ic_show_pass"
                                     android:onClick="showPass"
                                     android:visibility="gone" />
 

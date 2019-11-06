@@ -14,7 +14,8 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
         app:fabSize="normal"
-        app:backgroundTint="@color/back_secondColor"/>
+        app:backgroundTint="@color/back_secondColor"
+        android:visibility="gone"/>
 
 
     <LinearLayout

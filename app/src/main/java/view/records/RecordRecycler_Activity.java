@@ -50,6 +50,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
 
+
     private Record_ViewModel viewModel;
     private List<Record> records = new ArrayList<>();
     private TextView activityTitle;
@@ -116,11 +117,13 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
                 if (nameOfFolder.equals("All Records")){
                     viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
+                        @SuppressLint("RestrictedApi")
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
                             recordAdapter.notifyDataSetChanged();
                             activityTitle.setText(nameOfFolder);
+                            button_add_record.setVisibility(View.GONE);
                         }
                     });
                 }

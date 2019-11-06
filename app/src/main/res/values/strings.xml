@@ -76,6 +76,21 @@
     <string name="showAll">Show All</string>
     <string name="allRecords">All Records</string>
     <string name="security_level">Security Level</string>
+    <string-array name="typesOfRecord">
+        <item><![CDATA[Website & Email]]></item>
+        <item>Social Media</item>
+        <item>Online Shopping</item>
+        <item>Bank Accounts</item>
+        <item>Credit Cards</item>
+        <item>Passports</item>
+        <item>Cryptocurrency</item>
+        <item>Driving Licence</item>
+        <item>Notes</item>
+    </string-array>
+    <string name="newAccount">New Account</string>
+    <string name="verifyPass">Verify Password</string>
+    <string name="masterPass">Master Password</string>
+
     <string name="title_activity_settings">Settings</string>
     <string name="messages_header">Messages</string>
 
@@ -92,17 +107,10 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string-array name="typesOfRecord">
-        <item><![CDATA[Website & Email]]></item>
-        <item>Social Media</item>
-        <item>Online Shopping</item>
-        <item>Bank Accounts</item>
-        <item>Credit Cards</item>
-        <item>Passports</item>
-        <item>Cryptocurrency</item>
-        <item>Driving Licence</item>
-        <item>Notes</item>
-    </string-array>
-
+    <string name="ori">Ori Even Hen</string>
+    <string name="yotam">Yotam Shoval</string>
+    <string name="evgeni">Evgeni Iseev</string>
+    <string name="idan">Idan Bardugo</string>
+    <string name="project_team">Project Team</string>
 
 </resources>
