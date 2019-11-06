@@ -97,26 +97,75 @@ public class SecurityLevel_Activity extends AppCompatActivity {
 
     public void level_clicked(View view) {
         mediaPlayer.start();
-        if (view == level1){
-            if (level1_logo.getDrawable() != level1_chosen){
-                level1_logo.setImageResource(R.drawable.level1_logo_chosen);
-                box_level1.setBackground(boxChosenStyle);
-            }
-            else{
-                level1_logo.setImageResource(R.drawable.level1_logo);
-                box_level1.setBackground(boxStyle);
-                Toast.makeText(SecurityLevel_Activity.this, "Not Chosen", Toast.LENGTH_SHORT).show();
+
+        // if level1 clicked
+        if (view == level1) {
+
+            //if the logo is different than gold, switch to gold
+            if (level1_logo.getDrawable() != level1_chosen) {
+                level1_logo.setImageResource( R.drawable.level1_logo_chosen );
+                box_level1.setBackground( boxChosenStyle );
+
+                level2_logo.setImageResource( R.drawable.level2_logo );
+                box_level2.setBackground( boxStyle );
+
+                level3_logo.setImageResource( R.drawable.level3_logo );
+                box_level3.setBackground( boxStyle );
 
             }
         }
-        if (view == level2){
-            if (level2_logo.getDrawable() != level2_chosen){
-                level2_logo.setImageResource(R.drawable.level2_logo_chosen);
-            }
-            else{
-                level2_logo.setImageResource(R.drawable.level2_logo);
+
+        if (view == level2) {
+
+            //if the logo is different than gold, switch to gold
+            if (level2_logo.getDrawable() != level2_chosen) {
+                level2_logo.setImageResource( R.drawable.level2_logo_chosen );
+                box_level2.setBackground( boxChosenStyle );
+
+                level1_logo.setImageResource( R.drawable.level1_logo );
+                box_level1.setBackground( boxStyle );
+
+                level3_logo.setImageResource( R.drawable.level3_logo );
+                box_level3.setBackground( boxStyle );
+
             }
         }
+
+        if (view == level3) {
+
+            //if the logo is different than gold, switch to gold
+            if (level3_logo.getDrawable() != level3_chosen) {
+                level3_logo.setImageResource( R.drawable.level3_logo_chosen );
+                box_level3.setBackground( boxChosenStyle );
+
+                level1_logo.setImageResource( R.drawable.level1_logo );
+                box_level1.setBackground( boxStyle );
+
+                level2_logo.setImageResource( R.drawable.level2_logo );
+                box_level2.setBackground( boxStyle );
+
+            }
+        }
+//        if (view == level1){
+//            if (level1_logo.getDrawable() != level1_chosen){
+//                level1_logo.setImageResource(R.drawable.level1_logo_chosen);
+//                box_level1.setBackground(boxChosenStyle);
+//            }
+//            else{
+//                level1_logo.setImageResource(R.drawable.level1_logo);
+//                box_level1.setBackground(boxStyle);
+//                Toast.makeText(SecurityLevel_Activity.this, "Not Chosen", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        }
+//        if (view == level2){
+//            if (level2_logo.getDrawable() != level2_chosen){
+//                level2_logo.setImageResource(R.drawable.level2_logo_chosen);
+//            }
+//            else{
+//                level2_logo.setImageResource(R.drawable.level2_logo);
+//            }
+//        }
     }
 
     public void chooseLevel(View view) {
