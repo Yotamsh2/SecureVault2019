@@ -233,11 +233,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (extras != null) {
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
+            folder = extras.getString(EXTRA_FOLDER);            // name of the folder
+            type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
+            folder_name.setText(folder);
             switch (origin) {
                 case "onRecordClick":           // clicked from recycler view
-                    folder = extras.getString(EXTRA_FOLDER);            // name of the folder
                     if (folder != null) {
-                        type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
                         if (type != null) {
                             fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
                             switch (type) {
