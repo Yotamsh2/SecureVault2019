@@ -58,7 +58,9 @@ public class CategoryList_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_category_list2);
 // ----------------------------------------------------------- //
 // drawing the user name from the log in activity ( the user is out KEY as encryptedWIthKey method.
+
         user = getIntent().getStringExtra("CRYPTO_KEY");
+        Log.d("userTest1Get",""+user);
 // ----------------------------------------------------------- //
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
@@ -165,7 +167,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         view.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
         // pass extra the name of the folder that clicked
-
+        Log.d("userTest2Send",""+user);
         intent.putExtra("CRYPTO_KEY",user);
         Log.d("userCheck", "!!!" + user);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);

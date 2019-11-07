@@ -1,10 +1,15 @@
 package com.securevault19.securevault2019.record;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "record_table")
-public class Record {
+public class Record implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     public int recordID;
@@ -226,5 +231,7 @@ public class Record {
         return folder;
     }
     public boolean getFavorite() { return favorite; }
+
+
 }
 

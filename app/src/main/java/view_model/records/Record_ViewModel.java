@@ -31,7 +31,7 @@ public class Record_ViewModel extends AndroidViewModel {
     public LiveData<List<Record>> getSearchRecords(String searchString) {
         return repository.getSearchRecords(searchString);    }
 
-    public LiveData<List<Record>> getRecordDetails(int recordID) {
+    public Record getRecordDetails(int recordID) {
         return repository.getRecordDetails(recordID);    }
 
 

@@ -37,6 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,12 +48,14 @@ import local_database.DatabaseClient;
 import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
-public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, Serializable {
     private Cryptography cryptography;
+    private String encryptedTitle;
     private String encryptedUsername;
     private String encryptedPassword;
     private String user;
     private String nameOfFolder;
+    private String userNameRecord;
 
 
     // --- test for checking why the recycler view dosent show any thing --- //
@@ -134,6 +137,15 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         nameOfFolder = getIntent().getStringExtra(EXTRA_FOLDER);
         //Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
         Log.d("userCheck", "---" + user);
+
+        userNameRecord = getIntent().getStringExtra("userNameRecord");
+        Log.d("userNameRecord", "the userNameRecord passed => " + userNameRecord);
+
+        cryptography = new Cryptography();
+        // getting the object ( Record ) from RecordRecycler_activiry line 326
+        Intent i = getIntent();
+        Record record = (Record) i.getSerializableExtra("recordClassDB");
+
 
 
         listOfIcons = findViewById(R.id.listOfIcons);
@@ -221,24 +233,42 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (extras != null) {
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
-            folder = extras.getString(EXTRA_FOLDER);
-            type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
-            Log.d("AddNewRecord123", "from onRecordClick: origin: " + origin);
-            folder_name.setText(folder);
-
             switch (origin) {
                 case "onRecordClick":           // clicked from recycler view
-                    Log.e("onRecordClick321", "clicked onRecordClick");
+                    folder = extras.getString(EXTRA_FOLDER);            // name of the folder
                     if (folder != null) {
-                        Log.e("onRecordClick321", "clicked folder!= null");
+                        type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
                         if (type != null) {
-                            Log.e("onRecordClick321", "clicked type != null");
                             fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
                             switch (type) {
                                 case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
                                     category_Spinner.setSelection(3);
-                                    Log.e("onRecordClick321", "clicked Bank account ");
+                                    try {
+                                        title_EditText.setText(cryptography.decrypt(record.getTitle(),user));
+                                        username_EditText.setText(cryptography.decrypt(userNameRecord, user));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+//
+//                                    new AsyncTask<Void,Void,Void>(){
+//                                    String a;
+//                                        @Override
+//                                        protected Void doInBackground(Void... voids) {
+//                                            try {
+//                                                a = cryptography.decrypt(userNameRecord,user);
+//                                                Log.d("userNameRecordAsync" , "entered try" );
+//                                            } catch (Exception e) {
+//                                                Log.d("userNameRecordAsync" , "entered catch" );
+//                                                e.printStackTrace();
+//                                            }
+//
+//                                            return null;
+//                                        }
+//                                    }.execute();
+
+
                                     break;
                                 case "Credit Cards":
                                     typeOfRecord_Spinner.setSelection(4);
@@ -283,6 +313,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 default:
 // ---------------------------------------------------------------------------- //
 // for testing,
+
 
                     // looks on which folder we clicked and set the spinner in the correct position.
                     fieldsVisibility(nameOfFolder);
@@ -486,11 +517,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     @SuppressLint({"RestrictedApi", "StaticFieldLeak"})
     public void openNewRecord(View view) {                     // the onClick func (save Button)
-        cryptography = new Cryptography();                      // making argument of Cryptography which is private!
+        //cryptography = new Cryptography();                      // making argument of Cryptography which is private!
         //Setting the details from the Activity to send to the Record constructor
         final String title = title_EditText.getText().toString();
-        final String userName = username_EditText.getText().toString().trim();
-        final String password = password_EditText.getText().toString().trim();
+        // final String userName = username_EditText.getText().toString().trim();
+        //final String password = password_EditText.getText().toString().trim();
         final String website = website_EditText.getText().toString().trim();
         final String email = email_EditText.getText().toString().trim();
         final String expiringDate = expiringDate_EditText.getText().toString().trim();
@@ -533,15 +564,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     try {
                         // encrypthing the password and the username(username for test)
                         //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
+                         encryptedTitle = cryptography.encryptWithKey(user,title);
                         encryptedUsername = cryptography.encryptWithKey(user, username_EditText.getText().toString());
-                        Log.d("userCheck", "" + user);
-
-                        //if (password_EditText.getText().toString() != null) {
-                        //encryptedPassword = cryptography.encryptWithKey(user,password_EditText.getText().toString());
                         encryptedPassword = cryptography.encryptWithKey(user, password_EditText.getText().toString());
-                        Log.d("userCheck", "" + user);
-                        //  Log.d("crypto", "" + encryptedUsername);
-                        //}
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -555,7 +582,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     Record record = new Record();
                     record.setType(typeOfRecord);
                     record.setFolder(folder);
-                    record.setTitle(title);
+                    record.setTitle(encryptedTitle);
                     record.setUserName(encryptedUsername);
                     record.setPassword(encryptedPassword);
                     record.setWebsite(website);
@@ -583,6 +610,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     finish();
                     //Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
                     //intent.putExtra(EXTRA_FOLDER, folder);
+                    //////////intent.putExtra("CRYPTO_KEY", user);
                     //startActivity(intent);
                 }
             }.execute();                // execute for starting the AsyncTask

@@ -46,6 +46,7 @@ public class SignUp_Activity extends AppCompatActivity {
         TextViewPassword = findViewById(R.id.TextView_Password);
 
 
+
         final String firstName = TextViewName.getText().toString();
         final String masterPassword = TextViewPassword.getText().toString();
 
@@ -58,7 +59,7 @@ public class SignUp_Activity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (firstName.isEmpty()) {
-            Toast.makeText(this, "name is Empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Name is Empty", Toast.LENGTH_LONG).show();
             return;
         } else {
 

@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.securevault19.securevault2019.user.User;
 
+import javax.crypto.spec.SecretKeySpec;
+
+import cryptography.Cryptography;
 import local_database.DatabaseClient;
 import view.entrance.NewUser_Activity;
 import view.entrance.SignUp_Activity;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     // added for testing //
     private User user;
     private int flag = 0;
+    private Cryptography cryptography = new Cryptography();
     //                  //
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -108,27 +112,31 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             protected Void doInBackground(User... users) {
-                Log.e("phase1", "Before reading From DATABASE");
+
 
                 // searching for user //
-                user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().LogInConfirmation(firstName, masterPassword);
+                try {
+                    user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName,masterPassword));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 // ------------------ //
 
 
                 if (user != null) {  // if user found.
-                    if ((firstName.equals(user.getFirstName())) && (masterPassword.equals(user.getMasterPassword()))) {
-                        Log.e("phase1", "entered if statment");
-                        Log.e("test2", "firstName: " + firstName + " User.GetFirstName: " + user.getFirstName() + " masterPassword: " + masterPassword + " user.getMasterPassword():" + user.getMasterPassword());
-                        flag = 1;
-                        finish();
-                    } else {
-                        // one of the params are not correct
-                        Log.e("phase1", "reached else statment");
-                        //flag = 2;
+                    try {
+                        if ((firstName.equals(cryptography.decrypt(user.getFirstName(),firstName))) && (masterPassword.equals(cryptography.decrypt(user.getMasterPassword(),firstName)))) {
+                            flag = 1;
+                        } else {
+                            // one of the params are not correct
+                            //flag = 2;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    Log.e("phase1", "before return statment");
-
                 }
+                else            // user not found, flag = 0;
+                    Log.e("phase5", "User = null ");
                 return null;
             }
 
@@ -140,15 +148,15 @@ public class MainActivity extends AppCompatActivity {
                     //  Toast.makeText(getApplicationContext(), " flag = " + flag, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent();
                     intent.setClass(getApplicationContext(), CategoryList_Activity.class);
+                    String user = userName.getText().toString();
+                    intent.putExtra("CRYPTO_KEY",user);
                     startActivity(intent);
                 } else {
-                    //Toast.makeText(getApplicationContext(), " flag = " + flag, Toast.LENGTH_LONG).show();
-                    Toast.makeText(getApplicationContext(), "Wrong UserName or Password", Toast.LENGTH_LONG).show();
+                  Toast.makeText(getApplicationContext(), "Wrong UserName or Password", Toast.LENGTH_LONG).show();
                 }
 
             }
         }.execute();
-
 
     }
 }

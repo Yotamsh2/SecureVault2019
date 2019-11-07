@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +19,10 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ReportFragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,11 +32,13 @@ import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.record.RecordAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import local_database.DatabaseClient;
+import repository.RecordRepository;
 import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 
@@ -40,7 +46,7 @@ import static com.securevault19.securevault2019.R.raw.button;
 import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.explorer.CategoryList_Activity.EXTRA_SEARCH;
 
-public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener {
+public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener,Serializable {
     private String user;
     public static final int ADD_RECORD_REQUEST = 1;
 
@@ -74,9 +80,9 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         recyclerView.setHasFixedSize(true);
 
         mediaPlayer = MediaPlayer.create(this, button);
-        search_layout =  findViewById(R.id.search_layout);
-        search_btn =  findViewById(R.id.search_btn);
-        search_bar =  findViewById(R.id.search_bar);
+        search_layout = findViewById(R.id.search_layout);
+        search_btn = findViewById(R.id.search_btn);
+        search_bar = findViewById(R.id.search_bar);
         activityTitle = findViewById(R.id.activityTitle);
         button_add_record = findViewById(R.id.button_add_record);
 
@@ -85,21 +91,24 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         activityTitle.setTypeface(myFont);
 
         //Animation Sets
-        Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.zoomin);
-        final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.bottomtotop);
-        animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this,R.anim.buttonpush_anim);
+        Animation animation1 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.zoomin);
+        final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.bottomtotop);
+        animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.buttonpush_anim);
+
+        //////////////////////////////////////////////////////////
 
         user = getIntent().getStringExtra("CRYPTO_KEY");
-
+        Log.d("userTest2Get", "" + user);
+        //////////////////////////////////////////////////////////
         recycler();
 
         floatingActionButton();
 
     }
 
-    public void recycler (){
+    public void recycler() {
 
-        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this,user);
+        final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this, user);
         recyclerView.setAdapter(recordAdapter);
 
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
@@ -115,7 +124,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
             if (nameOfFolder != null) {
                 Log.d("back", "folder is not null:  " + nameOfFolder);
 
-                if (nameOfFolder.equals("All Records")){
+                if (nameOfFolder.equals("All Records")) {
                     viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
                         @Override
@@ -126,8 +135,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             button_add_record.setVisibility(View.GONE);
                         }
                     });
-                }
-                else if (nameOfFolder.equals("Search")){
+                } else if (nameOfFolder.equals("Search")) {
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
                     viewModel.getSearchRecords(searchString).observe(this, new Observer<List<Record>>() {
@@ -138,8 +146,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             activityTitle.setText(nameOfFolder);
                         }
                     });
-                }
-                else if (nameOfFolder.equals("Favorites")){
+                } else if (nameOfFolder.equals("Favorites")) {
                     viewModel.getFavoritesRecords().observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
                         @Override
@@ -150,8 +157,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             button_add_record.setVisibility(View.GONE);
                         }
                     });
-                }
-                else {
+                } else {
                     viewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
@@ -166,7 +172,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     }
 
-    public void floatingActionButton(){
+    public void floatingActionButton() {
 
         final FloatingActionButton buttonAddRecord = findViewById(R.id.button_add_record);
         buttonAddRecord.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +183,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
-                intent.putExtra("CRYPTO_KEY",user);
+                Log.d("userTest3Send", "" + user);
+                intent.putExtra("CRYPTO_KEY", user);
                 Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 finish();
@@ -189,7 +196,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     @Override
     public void onBackPressed() {
-        back(null);    }
+        back(null);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -212,33 +220,129 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
     //Creating new Record
     @Override
-    public void onRecordClick(int position, List<Record> records) {   // clicked or exiting record
+    public void onRecordClick(final int position, final List<Record> records) {   // clicked or exiting record
         Log.d("onRecordClick", "clicked. " + position);
         // ------------------------------------------------------------------------------- //
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-        Log.d("onRecordClick", "clicked "+ records.get(position).getRecordID());
+        Log.d("onRecordClick", "clicked " + records.get(position).getRecordID());
         // ------------------------------------------------------------------------------- //
         Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
         // records.get(position);
-        String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
-        String type;
+        final String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
+        //  String type;
         int clickedRecordIdPosition = records.get(position).getRecordID();
-//Record record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().
-        mediaPlayer.start();
 
-        Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
-        intent.putExtra(EXTRA_FOLDER, folder);
+        // the class is Record and not LiveData because we just want to show the details in fileds and not use them as Live Data
 
-        if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
+        // Record record = viewModel.getRecordDetails(records.get(position).getRecordID());
+        //Log.d("recordTest321","" +record.getUserName());
+//        new AsyncTask<Void, Void, Void>() {
+//
+//            String recordUserName;
+//
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                Record record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord().getRecordDetails(records.get(position).getRecordID());
+//                recordUserName = record.getUserName();
+//                Log.d("recordTest", "" + record.getUserName() + " " + record.getPassword());
+//                return null;
+//            }
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//
+//
+//            }
+//
+//
+//        }.execute();
 
-            type = records.get(position).type;
 
-            intent.putExtra(EXTRA_TYPE, type);
-        }
+        new AsyncTask<Void, Void, Void>() {
 
-        //passing to Add_New_Record where we came from - to decide what type of screen to show.
-        intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
-        startActivity(intent);
+            Record record;
+
+            String titleRecord;
+            String dateCreatedRecord;
+            String lastModifiedRecord;
+            String passwordRecord;
+            String emailRecord;
+            String websiteRecord;
+            String expiringDate;
+            String userNameRecord;
+            int accountNumberRecord;
+            long IBANRecord;
+            int bankNumberRecord;
+            String adressRecord;
+            int cardNumberRecord;
+            int CVVRecord;
+            int expireYearRecord;
+            int expireMonthRecord;
+            int expireDayRecord;
+            String publicKeyRecord;
+            String privateKeyRecord;
+            String walletGenerationSeedRecord;
+            int licenceNumberRecord;
+            String serviceNameRecord; //email
+            int passportNumberRecord;
+            String issuanceDateRecord;
+            String type;
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord().getRecordDetails(records.get(position).getRecordID());
+                titleRecord = record.getTitle();
+                dateCreatedRecord = record.getDateCreated();
+                lastModifiedRecord = record.getLastModified();
+                passwordRecord = record.getPassword();
+                emailRecord = record.getEmail();
+                websiteRecord = record.getWebsite();
+                expiringDate = record.getExpiringDate();
+                userNameRecord = record.getUserName();
+                accountNumberRecord = record.getAccountNumber();
+                IBANRecord = record.getIBAN();
+                bankNumberRecord = record.getBankNumber();
+                adressRecord = record.getAddress();
+                cardNumberRecord = record.getCardNumber();
+                CVVRecord = record.getCVV();
+                expireYearRecord = record.getExpireYear();
+                expireMonthRecord = record.getExpireMonth();
+                expireDayRecord = record.getExpireDay();
+                publicKeyRecord = record.getPublicKey();
+                privateKeyRecord = record.getPrivateKey();
+                walletGenerationSeedRecord = record.getWalletGenerationSeed();
+                licenceNumberRecord = record.getLicenceNumber();
+                serviceNameRecord = record.getServiceName();
+                passportNumberRecord = record.getPassportNumber();
+                issuanceDateRecord = record.getIssuanceDate();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                mediaPlayer.start();
+                Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
+                intent.putExtra("CRYPTO_KEY", user);
+                intent.putExtra(EXTRA_FOLDER, folder);
+                intent.putExtra("userNameRecord", userNameRecord);
+                intent.putExtra("recordClassDB",  record);
+
+                if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
+
+                    type = records.get(position).type;
+
+                    intent.putExtra(EXTRA_TYPE, type);
+                }
+
+                //passing to Add_New_Record where we came from - to decide what type of screen to show.
+                intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
+                Log.e("userNameRecord", "before " + userNameRecord);
+                startActivity(intent);
+
+            }
+
+        }.execute();
 
 
     }
@@ -252,20 +356,19 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     }
 
 
-
     public void search(View view) {
         mediaPlayer.start();
         search_btn.startAnimation(animation3);
-        if (search_bar.getText().toString().equals(searchString)){
-            return;        }
-        else if (search_bar.getText().toString().equals("")) {
-            searchString = "%";        }
-        else {
+        if (search_bar.getText().toString().equals(searchString)) {
+            return;
+        } else if (search_bar.getText().toString().equals("")) {
+            searchString = "%";
+        } else {
             searchString = search_bar.getText().toString();
         }
 
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        intent.putExtra(EXTRA_SEARCH,searchString);
+        intent.putExtra(EXTRA_SEARCH, searchString);
         intent.putExtra(EXTRA_FOLDER, "Search");
         this.startActivity(intent);
         overridePendingTransition(0, 0);

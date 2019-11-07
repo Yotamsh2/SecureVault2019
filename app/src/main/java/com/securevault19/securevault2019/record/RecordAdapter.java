@@ -25,7 +25,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 
     private OnRecordListener mOnRecordListener;
     private Cryptography cryptography;
-private String userKey;
+    private String userKey;
 
     public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener,String userKey) {
         this.userKey = userKey;
@@ -60,6 +60,7 @@ private String userKey;
 //        holder.textViewRecord.setText(userName);
 
         try {
+            holder.textViewTitle.setText(cryptography.decrypt(currentRecord.getTitle(),userKey));
             holder.textViewRecord.setText(cryptography.decrypt(currentRecord.getUserName(),userKey));
         } catch (Exception e) {
             e.printStackTrace();

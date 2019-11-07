@@ -64,7 +64,7 @@ public class NewUser_Activity extends AppCompatActivity {
     private Typeface myFont;
     private EditText password_EditText, userName_EditText, email_EditText, verifyPassword_EditText;
     private LinearLayout userName, password, email;
-    private String encryptedPassword;
+    private String encryptedPassword,encryptedUserName;
     private User user;
 
 
@@ -177,7 +177,7 @@ public class NewUser_Activity extends AppCompatActivity {
         this.startActivity(intent);
     }
 
-    public void createNewAccount(View view) {
+    public void createNewAccount(View view) {           // onClick func
         Cryptography cryptography = new Cryptography();
         final String firstName = userName_EditText.getText().toString();
         final String masterPassword = password_EditText.getText().toString();
@@ -188,14 +188,16 @@ public class NewUser_Activity extends AppCompatActivity {
             return;
         }
 
+
         try {
+            encryptedUserName = cryptography.encrypt(firstName);
             encryptedPassword = cryptography.encryptWithKey(firstName, masterPassword);
             Log.e("check", "" + firstName + " " + masterPassword + " " + encryptedPassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (firstName.isEmpty()) {
-            Toast.makeText(this, "name is Empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Name is Empty", Toast.LENGTH_LONG).show();
             return;
         } else {
 
@@ -203,7 +205,7 @@ public class NewUser_Activity extends AppCompatActivity {
 
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    user = new User(firstName, null, null, null, null, null, masterPassword, null);
+                    user = new User(encryptedUserName, null, null, null, null, null, encryptedPassword, null);
                     DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
                     return null;
                 }
