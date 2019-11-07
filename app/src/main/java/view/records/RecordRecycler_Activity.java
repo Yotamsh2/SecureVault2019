@@ -262,59 +262,59 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
             Record record;
 
-            String titleRecord;
-            String dateCreatedRecord;
-            String lastModifiedRecord;
-            String passwordRecord;
-            String emailRecord;
-            String websiteRecord;
-            String expiringDate;
-            String userNameRecord;
-            int accountNumberRecord;
-            long IBANRecord;
-            int bankNumberRecord;
-            String adressRecord;
-            int cardNumberRecord;
-            int CVVRecord;
-            int expireYearRecord;
-            int expireMonthRecord;
-            int expireDayRecord;
-            String publicKeyRecord;
-            String privateKeyRecord;
-            String walletGenerationSeedRecord;
-            int licenceNumberRecord;
-            String serviceNameRecord; //email
-            int passportNumberRecord;
-            String issuanceDateRecord;
-            String type;
+//            String titleRecord;
+//            String dateCreatedRecord;
+//            String lastModifiedRecord;
+//            String passwordRecord;
+//            String emailRecord;
+//            String websiteRecord;
+//            String expiringDate;
+//            String userNameRecord;
+//            String accountNumberRecord;
+//            String IBANRecord;
+//            int bankNumberRecord;
+//            String adressRecord;
+//            int cardNumberRecord;
+//            int CVVRecord;
+//            int expireYearRecord;
+//            int expireMonthRecord;
+//            int expireDayRecord;
+//            String publicKeyRecord;
+//            String privateKeyRecord;
+//            String walletGenerationSeedRecord;
+//            int licenceNumberRecord;
+//            String serviceNameRecord; //email
+//            int passportNumberRecord;
+//            String issuanceDateRecord;
+                 String type;
 
             @Override
             protected Void doInBackground(Void... voids) {
                 record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord().getRecordDetails(records.get(position).getRecordID());
-                titleRecord = record.getTitle();
-                dateCreatedRecord = record.getDateCreated();
-                lastModifiedRecord = record.getLastModified();
-                passwordRecord = record.getPassword();
-                emailRecord = record.getEmail();
-                websiteRecord = record.getWebsite();
-                expiringDate = record.getExpiringDate();
-                userNameRecord = record.getUserName();
-                accountNumberRecord = record.getAccountNumber();
-                IBANRecord = record.getIBAN();
-                bankNumberRecord = record.getBankNumber();
-                adressRecord = record.getAddress();
-                cardNumberRecord = record.getCardNumber();
-                CVVRecord = record.getCVV();
-                expireYearRecord = record.getExpireYear();
-                expireMonthRecord = record.getExpireMonth();
-                expireDayRecord = record.getExpireDay();
-                publicKeyRecord = record.getPublicKey();
-                privateKeyRecord = record.getPrivateKey();
-                walletGenerationSeedRecord = record.getWalletGenerationSeed();
-                licenceNumberRecord = record.getLicenceNumber();
-                serviceNameRecord = record.getServiceName();
-                passportNumberRecord = record.getPassportNumber();
-                issuanceDateRecord = record.getIssuanceDate();
+//                titleRecord = record.getTitle();
+//                dateCreatedRecord = record.getDateCreated();
+//                lastModifiedRecord = record.getLastModified();
+//                passwordRecord = record.getPassword();
+//                emailRecord = record.getEmail();
+//                websiteRecord = record.getWebsite();
+//                expiringDate = record.getExpiringDate();
+//                userNameRecord = record.getUserName();
+//                accountNumberRecord = record.getAccountNumber();
+//                IBANRecord = record.getIBAN();
+//                bankNumberRecord = record.getBankNumber();
+//                adressRecord = record.getAddress();
+//                cardNumberRecord = record.getCardNumber();
+//                CVVRecord = record.getCVV();
+//                expireYearRecord = record.getExpireYear();
+//                expireMonthRecord = record.getExpireMonth();
+//                expireDayRecord = record.getExpireDay();
+//                publicKeyRecord = record.getPublicKey();
+//                privateKeyRecord = record.getPrivateKey();
+//                walletGenerationSeedRecord = record.getWalletGenerationSeed();
+//                licenceNumberRecord = record.getLicenceNumber();
+//                serviceNameRecord = record.getServiceName();
+//                passportNumberRecord = record.getPassportNumber();
+//                issuanceDateRecord = record.getIssuanceDate();
                 return null;
             }
 
@@ -325,7 +325,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra("CRYPTO_KEY", user);
                 intent.putExtra(EXTRA_FOLDER, folder);
-                intent.putExtra("userNameRecord", userNameRecord);
+                //intent.putExtra("userNameRecord", userNameRecord);
                 intent.putExtra("recordClassDB",  record);
 
                 if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
@@ -337,7 +337,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
                 //passing to Add_New_Record where we came from - to decide what type of screen to show.
                 intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
-                Log.e("userNameRecord", "before " + userNameRecord);
+               // Log.e("userNameRecord", "before " + userNameRecord);
                 startActivity(intent);
 
             }

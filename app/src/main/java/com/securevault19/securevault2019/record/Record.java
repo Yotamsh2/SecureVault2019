@@ -23,21 +23,21 @@ public class Record implements Serializable {
     public String website = null;
     public String expiringDate = null; //addition to the class diagram
     private String userName;
-    private int accountNumber;
-    private long IBAN;
-    private int bankNumber;
+    private String accountNumber;
+    private String IBAN;
+    private String bankNumber;
     private String address;
-    private int cardNumber;
-    private int CVV;
-    private int expireYear;
-    private int expireMonth;
-    private int expireDay;
+    private String cardNumber;
+    private String CVV;
+    private String expireYear;
+    private String expireMonth;
+    private String expireDay;
     private String publicKey;
     private String privateKey;
     private String walletGenerationSeed;
-    private int licenceNumber;
+    private String licenceNumber;
     private String serviceName; //email
-    private int passportNumber;
+    private String passportNumber;
     private String issuanceDate;
     //to add expiring date
     private String issuancePlace;
@@ -77,31 +77,31 @@ public class Record implements Serializable {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-    public void setAccountNumber(int accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
-    public void setIBAN(long IBAN) {
+    public void setIBAN(String IBAN) {
         this.IBAN = IBAN;
     }
-    public void setBankNumber(int bankNumber) {
+    public void setBankNumber(String bankNumber) {
         this.bankNumber = bankNumber;
     }
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
-    public void setCVV(int CVV) {
+    public void setCVV(String CVV) {
         this.CVV = CVV;
     }
-    public void setExpireYear(int expireYear) {
+    public void setExpireYear(String expireYear) {
         this.expireYear = expireYear;
     }
-    public void setExpireMonth(int expireMonth) {
+    public void setExpireMonth(String expireMonth) {
         this.expireMonth = expireMonth;
     }
-    public void setExpireDay(int expireDay) {
+    public void setExpireDay(String expireDay) {
         this.expireDay = expireDay;
     }
     public void setPublicKey(String publicKey) {
@@ -113,13 +113,13 @@ public class Record implements Serializable {
     public void setWalletGenerationSeed(String walletGenerationSeed) {
         this.walletGenerationSeed = walletGenerationSeed;
     }
-    public void setLicenceNumber(int licenceNumber) {
+    public void setLicenceNumber(String licenceNumber) {
         this.licenceNumber = licenceNumber;
     }
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
     }
-    public void setPassportNumber(int passportNumber) {
+    public void setPassportNumber(String passportNumber) {
         this.passportNumber = passportNumber;
     }
     public void setIssuanceDate(String issuanceDate) {
@@ -148,31 +148,31 @@ public class Record implements Serializable {
 
     public int getRecordID() { return recordID;   }
     public String getUserName() { return userName;  }
-    public int getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
-    public long getIBAN() {
+    public String getIBAN() {
         return IBAN;
     }
-    public int getBankNumber() {
+    public String getBankNumber() {
         return bankNumber;
     }
     public String getAddress() {
         return address;
     }
-    public int getCardNumber() {
+    public String getCardNumber() {
         return cardNumber;
     }
-    public int getCVV() {
+    public String getCVV() {
         return CVV;
     }
-    public int getExpireYear() {
+    public String getExpireYear() {
         return expireYear;
     }
-    public int getExpireMonth() {
+    public String getExpireMonth() {
         return expireMonth;
     }
-    public int getExpireDay() {
+    public String getExpireDay() {
         return expireDay;
     }
     public String getPublicKey() {
@@ -184,13 +184,13 @@ public class Record implements Serializable {
     public String getWalletGenerationSeed() {
         return walletGenerationSeed;
     }
-    public int getLicenceNumber() {
+    public String getLicenceNumber() {
         return licenceNumber;
     }
     public String getServiceName() {
         return serviceName;
     }
-    public int getPassportNumber() {
+    public String getPassportNumber() {
         return passportNumber;
     }
     public String getIssuanceDate() {

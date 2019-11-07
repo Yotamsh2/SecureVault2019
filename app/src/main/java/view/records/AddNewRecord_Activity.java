@@ -50,9 +50,8 @@ import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, Serializable {
     private Cryptography cryptography;
-    private String encryptedTitle;
-    private String encryptedUsername;
-    private String encryptedPassword;
+    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber, encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate, encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed, encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber, encryptedIssuanceDate, encryptedIssuancePlase;
+
     private String user;
     private String nameOfFolder;
     private String userNameRecord;
@@ -95,7 +94,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView licenceExpiringDate_EditText;
     private TextView issuanceDate_EditText;
-    private TextView expiringDate_EditText,tagNames_EditText;
+    private TextView expiringDate_EditText, tagNames_EditText;
     private TextView expiringDate_title;
     private ImageButton calendarBtn;
     private ImageView logo;
@@ -111,7 +110,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private TextView folder_name;
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
-    private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText;
+    // for simplisity and exampling:
+    private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText, accountNumber_EditText, IBAN_EditText, bankNumber_EditText, bankAddress_EditText, cardNumber_EditText, cvv_EditText, cardExpiringMonth_EditText, cardExpiringYear_EditText, publicKey_EditText, privateKey_EditText, walletGenerationSeed_EditText, licenceNumber_EditText, issuancePlace_EditText, passportNumber_EditText;
+    private TextView licenceExpiringDate_title;
     //String outputString;
 
     private LinearLayout category, typeOfRecord;
@@ -129,6 +130,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private Drawable currentDrawable;
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
@@ -138,14 +140,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         //Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
         Log.d("userCheck", "---" + user);
 
-        userNameRecord = getIntent().getStringExtra("userNameRecord");
-        Log.d("userNameRecord", "the userNameRecord passed => " + userNameRecord);
+        //userNameRecord = getIntent().getStringExtra("userNameRecord");
+        //Log.d("userNameRecord", "the userNameRecord passed => " + userNameRecord);
 
         cryptography = new Cryptography();
         // getting the object ( Record ) from RecordRecycler_activiry line 326
         Intent i = getIntent();
         Record record = (Record) i.getSerializableExtra("recordClassDB");
-
 
 
         listOfIcons = findViewById(R.id.listOfIcons);
@@ -185,6 +186,23 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         password_EditText = findViewById(R.id.password_EditText);
         website_EditText = findViewById(R.id.website_EditText);
         email_EditText = findViewById(R.id.email_EditText);
+        accountNumber_EditText = findViewById(R.id.accountNumber_EditText);
+        IBAN_EditText = findViewById(R.id.iban_EditText);
+        bankNumber_EditText = findViewById(R.id.bankNumber_EditText);
+        bankAddress_EditText = findViewById(R.id.bankAddress_EditText);
+        cardNumber_EditText = findViewById(R.id.cardNumber_EditText);
+        cvv_EditText = findViewById(R.id.cvv_EditText);
+        cardExpiringMonth_EditText = findViewById(R.id.cardExpiringMonth_EditText);
+        cardExpiringYear_EditText = findViewById(R.id.cardExpiringYear_EditText);
+        publicKey_EditText = findViewById(R.id.publicKey_EditText);
+        privateKey_EditText = findViewById(R.id.privateKey_EditText);
+        walletGenerationSeed_EditText = findViewById(R.id.walletGenerationSeed_EditText);
+        licenceNumber_EditText = findViewById(R.id.licenceNumber_EditText);
+        passportNumber_EditText = findViewById(R.id.passportNumber_EditText);
+        issuancePlace_EditText = findViewById(R.id.issuancePlace_EditText);
+        licenceExpiringDate_title = findViewById(R.id.licenceExpiringDate_title);
+
+
         editForm = findViewById(R.id.editForm);
         activityTitle = findViewById(R.id.activityTitle);
         category = findViewById(R.id.category);
@@ -197,11 +215,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         website = findViewById(R.id.website);
         email = findViewById(R.id.email);
         bankAccount = findViewById(R.id.bankAccountDetails);
+
         creditCard = findViewById(R.id.creditCardDetails);
         cryptocurrency = findViewById(R.id.cryptocurrencyDetails);
         drivingLicence = findViewById(R.id.drivingLicenceDetails);
         passport = findViewById(R.id.passportDetails);
-        folder_name=findViewById(R.id.folder_name);
+        folder_name = findViewById(R.id.folder_name);
 
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(AddNewRecord_Activity.this, R.anim.zoomin);
@@ -245,64 +264,115 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
                                     category_Spinner.setSelection(3);
-                                    try {
-                                        title_EditText.setText(cryptography.decrypt(record.getTitle(),user));
-                                        username_EditText.setText(cryptography.decrypt(userNameRecord, user));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
+                                    DisplayRecordDetails(record);
 //
-//                                    new AsyncTask<Void,Void,Void>(){
-//                                    String a;
-//                                        @Override
-//                                        protected Void doInBackground(Void... voids) {
-//                                            try {
-//                                                a = cryptography.decrypt(userNameRecord,user);
-//                                                Log.d("userNameRecordAsync" , "entered try" );
-//                                            } catch (Exception e) {
-//                                                Log.d("userNameRecordAsync" , "entered catch" );
-//                                                e.printStackTrace();
-//                                            }
-//
-//                                            return null;
-//                                        }
-//                                    }.execute();
-
-
+//                                    try {
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
+//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
+//                                        accountNumber_EditText.setText(cryptography.decrypt(record.getAccountNumber(), user));
+//                                        IBAN_EditText.setText(cryptography.decrypt(record.getIBAN(), user));
+//                                        bankNumber_EditText.setText(cryptography.decrypt(record.getBankNumber(), user));
+//                                        bankAddress_EditText.setText(cryptography.decrypt(record.getAddress(),user));
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
                                     break;
                                 case "Credit Cards":
                                     typeOfRecord_Spinner.setSelection(4);
                                     category_Spinner.setSelection(4);
+                                    DisplayRecordDetails(record);
+//                                    try {
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
+//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
+//                                        cardNumber_EditText.setText(cryptography.decrypt(record.getCardNumber(), user));
+//                                        cvv_EditText.setText(cryptography.decrypt(record.getCVV(),user));
+//                                        cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(),user));
+//                                        cardExpiringYear_EditText.setText(cryptography.decrypt(record.getExpireYear(),user));
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                    }
+
                                     break;
-                                case "Social Media":
+                                case "Social Media":                // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(1);
                                     category_Spinner.setSelection(1);
+                                    DisplayRecordDetails(record);
+//                                    try{
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
+//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
+//                                        website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
+//                                        email_EditText.setText(cryptography.decrypt(record.getEmail(),user));
+//                                    }catch(Exception e) {e.printStackTrace();}
                                     break;
-                                case "Website & Email":
+                                case "Website & Email":             // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(0);
                                     category_Spinner.setSelection(0);
+                                    DisplayRecordDetails(record);
+//                                    try {
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
+//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
+//                                        website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
+//                                        email_EditText.setText(cryptography.decrypt(record.getEmail(),user));
+//                                    }catch(Exception e){e.printStackTrace();}
                                     break;
-                                case "Online Shopping":
+                                case "Online Shopping":             // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(2);
                                     category_Spinner.setSelection(2);
+                                    DisplayRecordDetails(record);
+//                                    try {
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
+//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
+//                                        website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
+//                                        email_EditText.setText(cryptography.decrypt(record.getEmail(),user));
+//                                    }catch(Exception e){e.printStackTrace();}
                                     break;
                                 case "Cryptocurrency":
                                     typeOfRecord_Spinner.setSelection(6);
                                     category_Spinner.setSelection(6);
+                                    DisplayRecordDetails(record);
+//                                    try{
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        publicKey_EditText.setText(cryptography.decrypt(record.getPublicKey(),user));
+//                                        privateKey_EditText.setText(cryptography.decrypt(record.getPrivateKey(),user));;
+//                                        walletGenerationSeed_EditText.setText(cryptography.decrypt(record.getWalletGenerationSeed(),user));
+//
+//
+//                                    }catch(Exception e ){e.printStackTrace();}
                                     break;
                                 case "Driving Licence":
                                     typeOfRecord_Spinner.setSelection(7);
                                     category_Spinner.setSelection(7);
+                                    DisplayRecordDetails(record);
+//                                    try{
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), user));
+//                                        licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(),user));
+//
+//                                    }catch(Exception e){e.printStackTrace();}
                                     break;
                                 case "Passports":
                                     typeOfRecord_Spinner.setSelection(5);
                                     category_Spinner.setSelection(5);
+                                    DisplayRecordDetails(record);
+//                                    try{
+//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+//                                        passportNumber_EditText.setText(cryptography.decrypt(record.getPassportNumber(),user));
+//                                        issuanceDate_EditText.setText(cryptography.decrypt(record.getIssuanceDate(),user));
+//                                        issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(),user));
+//
+//                                    }catch(Exception e){e.printStackTrace();}
                                     break;
 
                                 default:  //FOR EXAMPLE
                                     typeOfRecord_Spinner.setSelection(8);
                                     category_Spinner.setSelection(8);
+                                    DisplayRecordDetails(record);
+
                                     break;
                             }
                         }
@@ -401,7 +471,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     }
 
-    public void fieldsVisibility (String type) {
+    public void fieldsVisibility(String type) {
         switch (type) {
             case "Bank Accounts": //shows the relevant fields of the clicked Record.
                 userName.setVisibility(View.VISIBLE);
@@ -506,6 +576,37 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
     }
 
+    void DisplayRecordDetails(Record record) {
+        try {
+            title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+            password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
+            email_EditText.setText(cryptography.decrypt(record.getEmail(), user));
+            website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
+            cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), user));
+            username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
+            accountNumber_EditText.setText(cryptography.decrypt(record.getAccountNumber(), user));
+            IBAN_EditText.setText(cryptography.decrypt(record.getIBAN(), user));
+            bankNumber_EditText.setText(cryptography.decrypt(record.getBankNumber(), user));
+            bankAddress_EditText.setText(cryptography.decrypt(record.getAddress(), user));
+            cardNumber_EditText.setText(cryptography.decrypt(record.getCardNumber(), user));
+            cvv_EditText.setText(cryptography.decrypt(record.getCVV(), user));
+            cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), user));
+            cardExpiringYear_EditText.setText(cryptography.decrypt(record.getExpireYear(), user));
+            publicKey_EditText.setText(cryptography.decrypt(record.getPublicKey(), user));
+            privateKey_EditText.setText(cryptography.decrypt(record.getPrivateKey(), user));
+            walletGenerationSeed_EditText.setText(cryptography.decrypt(record.getWalletGenerationSeed(), user));
+            passportNumber_EditText.setText(cryptography.decrypt(record.getPassportNumber(), user));
+            issuanceDate_EditText.setText(cryptography.decrypt(record.getIssuanceDate(), user));
+            issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(), user));
+            licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), user));
+            licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(), user));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     @Override
     public void onBackPressed() {
         cancelWarningMessage(null);
@@ -565,11 +666,27 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     try {
                         // encrypthing the password and the username(username for test)
                         //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
-                         encryptedTitle = cryptography.encryptWithKey(user,title);
+                        encryptedTitle = cryptography.encryptWithKey(user, title);
                         encryptedUsername = cryptography.encryptWithKey(user, username_EditText.getText().toString());
                         encryptedPassword = cryptography.encryptWithKey(user, password_EditText.getText().toString());
-
-
+                        encryptedAccountNumber = cryptography.encryptWithKey(user, accountNumber_EditText.getText().toString());
+                        encryptedIBAN = cryptography.encryptWithKey(user, IBAN_EditText.getText().toString());
+                        encryptedBankNumber = cryptography.encryptWithKey(user, bankNumber_EditText.getText().toString());
+                        encryptedBankAddress = cryptography.encryptWithKey(user, bankAddress_EditText.getText().toString());
+                        encryptedCardNumber = cryptography.encryptWithKey(user, cardNumber_EditText.getText().toString());
+                        encryptedCVV = cryptography.encryptWithKey(user, cvv_EditText.getText().toString());
+                        encryptedCardExpireMonth = cryptography.encryptWithKey(user, cardExpiringMonth_EditText.getText().toString());
+                        encryptedCardExpireYear = cryptography.encryptWithKey(user, cardExpiringYear_EditText.getText().toString());
+                        encryptedWebsite = cryptography.encryptWithKey(user, website_EditText.getText().toString());
+                        encryptedEmail = cryptography.encryptWithKey(user, email_EditText.getText().toString());
+                        encryptedPublicKey = cryptography.encryptWithKey(user, publicKey_EditText.getText().toString());
+                        encryptedPrivateKey = cryptography.encryptWithKey(user, privateKey_EditText.getText().toString());
+                        encryptedWalletGenerationSeed = cryptography.encryptWithKey(user, walletGenerationSeed_EditText.getText().toString());
+                        encryptedLicenceNumber = cryptography.encryptWithKey(user, licenceNumber_EditText.getText().toString());
+                        encryptedLicenceExpireDate = cryptography.encryptWithKey(user, licenceExpiringDate_EditText.getText().toString());
+                        encryptedPassportNumber = cryptography.encryptWithKey(user, passportNumber_EditText.getText().toString());
+                        encryptedIssuanceDate = cryptography.encryptWithKey(user, issuanceDate_EditText.getText().toString());
+                        encryptedIssuancePlase = cryptography.encryptWithKey(user, issuancePlace_EditText.getText().toString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -586,9 +703,25 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setTitle(encryptedTitle);
                     record.setUserName(encryptedUsername);
                     record.setPassword(encryptedPassword);
-                    record.setWebsite(website);
-                    record.setEmail(email);
-                    record.setExpiringDate(expiringDate);
+                    record.setAccountNumber(encryptedAccountNumber);
+                    record.setIBAN(encryptedIBAN);
+                    record.setBankNumber(encryptedBankNumber);
+                    record.setAddress(encryptedBankAddress);
+                    record.setCardNumber(encryptedCardNumber);
+                    record.setCVV(encryptedCVV);
+                    //record.setExpiringDate(encryptedCardExpireDate);
+                    record.setExpireMonth(encryptedCardExpireMonth);
+                    record.setExpireYear(encryptedCardExpireYear);
+                    record.setWebsite(encryptedWebsite);
+                    record.setEmail(encryptedEmail);
+                    record.setPublicKey(encryptedPublicKey);
+                    record.setPrivateKey(encryptedPrivateKey);
+                    record.setWalletGenerationSeed(encryptedWalletGenerationSeed);
+                    record.setLicenceNumber(encryptedLicenceNumber);
+                    record.setExpiringDate(encryptedLicenceExpireDate);
+                    record.setPassportNumber(encryptedPassportNumber);
+                    record.setIssuanceDate(encryptedIssuanceDate);
+                    record.setIssuancePlace(encryptedIssuancePlase);
                     record.setFavorite(isFavorite);
                     record.setIcon(String.valueOf(drawabaleID));
 
