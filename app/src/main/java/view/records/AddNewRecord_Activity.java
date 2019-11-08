@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -45,7 +44,6 @@ import java.util.Calendar;
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
 
-import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, Serializable {
@@ -125,7 +123,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
     ArrayList<Drawable> drawableResources = new ArrayList<>();
     //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
-    int drawabaleID = 2131230920; //Default Icon(Secure Vault Black)
+    int drawabaleID = 2131230959; //Default Icon(Secure Vault Black)
     Drawable mChooseicon;
     private Drawable currentDrawable;
 
@@ -600,6 +598,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(), user));
             licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), user));
             licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(), user));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -661,8 +660,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             new AsyncTask<Void, Void, Void>() {
 
                 @Override
-                protected Void doInBackground(Void... voids) {
                     //try for Encryption
+                protected Void doInBackground(Void... voids) {
                     try {
                         // encrypthing the password and the username(username for test)
                         //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
@@ -724,7 +723,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setIssuancePlace(encryptedIssuancePlase);
                     record.setFavorite(isFavorite);
                     record.setIcon(String.valueOf(drawabaleID));
-
+                    Log.d("default icon", ""+ drawabaleID);
 
                     // inserting record to DB
                     DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()

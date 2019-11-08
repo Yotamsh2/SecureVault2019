@@ -71,6 +71,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         holder.recordIcon.setImageResource(Integer.valueOf(iconID));
 
 
+
        // holder.textViewType.setText(currentRecord.getType());
     }
 
