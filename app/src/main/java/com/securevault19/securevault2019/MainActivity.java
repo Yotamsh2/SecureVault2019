@@ -19,6 +19,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.securevault19.securevault2019.user.User;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.crypto.spec.SecretKeySpec;
 
 import cryptography.Cryptography;

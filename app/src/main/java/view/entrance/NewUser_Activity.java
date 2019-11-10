@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -42,6 +43,8 @@ import com.securevault19.securevault2019.user.User;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
@@ -53,6 +56,17 @@ import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 @SuppressLint("Registered")
 public class NewUser_Activity extends AppCompatActivity {
+
+//    private static final Pattern PASSWORD_PATTERN =
+//            Pattern.compile("^" +
+//                    "(?=.*[0-9])" +                     //at least 1 digit
+//                    "(?=.*[a-z])" +                    //at least 1 lower case letter
+//                    "(?=.*[A-Z])" +                   //at least 1 upper case letter
+//                    //"(?=.*[a-zA-Z])" +             //any letter
+//                    "(?=.*[!@,)#&_'$*(%~$%^&+=])" + //at least 1 special character
+//                    "(?=\\S+$)" +                  //no white spaces
+//                    ".{8,24}" +                   //at least 8 characters, less than 24
+//                    "$");
 
     private ImageView logo;
     private ImageButton saveBtn, cancelBtn;
@@ -110,7 +124,60 @@ public class NewUser_Activity extends AppCompatActivity {
 
     }
 
+    //https://www.youtube.com/watch?v=cnD_7qFeZcY
 
+//    private boolean validatePassword() {
+//        String passwordInput = password_EditText.getText().toString().trim();
+//
+//        if (passwordInput.isEmpty()) {
+//            password_EditText.setError("Field can't be empty");
+//            return false;
+//        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
+//            password_EditText.setError("Password too weak");
+//            return false;
+//        } else {
+//            password_EditText.setError(null);
+//            return true;
+//        }
+//    }
+
+//    private boolean validateEmail() {
+//        String emailInput = email_EditText.getText().toString().trim();
+//
+//        if (emailInput.isEmpty()) {
+//            email_EditText.setError("Field can't be empty");
+//            return false;
+//        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
+//            email_EditText.setError("Please enter a valid email address");
+//            return false;
+//        } else {
+//            email_EditText.setError(null);
+//            return true;
+//        }
+//    }
+
+//    private boolean validateUsername() {
+//        String usernameInput = userName_EditText.getText().toString().trim();
+//
+//        if (usernameInput.isEmpty()) {
+//            userName_EditText.setError("Field can't be empty");
+//            return false;
+//        } else if (usernameInput.length() > 15) {
+//            userName_EditText.setError("Username too long");
+//            return false;
+//        } else {
+//            userName_EditText.setError(null);
+//            return true;
+//        }
+//    }
+
+    public boolean isValidEmail(String emailInput){
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile( EMAIL_PATTERN );
+        Matcher matcher = pattern.matcher( emailInput );
+        return matcher.matches();
+    }
 
     public void showPass(View view) {
         if (showPass.getVisibility() == View.VISIBLE) {
@@ -188,7 +255,6 @@ public class NewUser_Activity extends AppCompatActivity {
             return;
         }
 
-
         try {
             encryptedUserName = cryptography.encrypt(firstName);
             encryptedPassword = cryptography.encryptWithKey(firstName, masterPassword);
@@ -226,10 +292,4 @@ public class NewUser_Activity extends AppCompatActivity {
         finish();
     }
 
-
-
-
 }
-
-
-
