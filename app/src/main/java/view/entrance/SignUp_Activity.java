@@ -69,7 +69,7 @@ public class SignUp_Activity extends AppCompatActivity {
                 protected Void doInBackground(Void... voids) {
                     // you can just do
                     // user = new User(cryptography.encrypt(firstName), null, null, null, null, null, cryptography.encryptWithKey(firstName, masterPassword), null);
-                    user = new User(encryptedUserName, null, null, null, null, null, encryptedPassword, null);
+                    user = new User(encryptedUserName, null, null, null, null, null, encryptedPassword, null,null);
                     DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
                     return null;
                 }

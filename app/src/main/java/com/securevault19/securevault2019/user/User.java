@@ -20,8 +20,9 @@ public class User {
     @ColumnInfo(name = "optionalAnswer") private String optionalAnswer;
     @ColumnInfo(name = "master_password") private String masterPassword;
     @ColumnInfo(name = "secureLevel")  private String secureLevel;
+    @ColumnInfo(name = "PatternLock") private String patternLock;
 
-    public User(String firstName, String lastName, String DateOfBirth, String email, String optionalQuestion, String optionalAnswer, String masterPassword, String secureLevel) {
+    public User(String firstName, String lastName, String DateOfBirth, String email, String optionalQuestion, String optionalAnswer, String masterPassword, String secureLevel,String patternLock) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.DateOfBirth = DateOfBirth;
@@ -30,6 +31,7 @@ public class User {
         this.optionalAnswer = optionalAnswer;
         this.masterPassword = masterPassword;
         this.secureLevel = secureLevel;
+        this.patternLock = patternLock;
 
     }
     //Setters
@@ -68,6 +70,9 @@ public class User {
 
     public void setSecureLevel(String secureLevel) {
         this.secureLevel = secureLevel;
+    }
+    public void setPatternLock(String patternLock) {
+        this.patternLock = patternLock;
     }
 
 
@@ -108,4 +113,9 @@ public class User {
     public String getSecureLevel() {
         return secureLevel;
     }
+    public String getPatternLock() {
+        return patternLock;
+    }
+
+
 }

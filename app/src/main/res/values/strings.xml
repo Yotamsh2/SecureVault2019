@@ -76,6 +76,8 @@
     <string name="showAll">Show All</string>
     <string name="allRecords">All Records</string>
     <string name="security_level">Security Level</string>
+    <string name="Pattern">Please enter your Pattern</string>
+    <string name="enterPatternAgain">Plese enter your Pattern again</string>
     <string-array name="typesOfRecord">
         <item><![CDATA[Website & Email]]></item>
         <item>Social Media</item>

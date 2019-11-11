@@ -24,5 +24,9 @@ public interface DaoUser {
     @Query("SELECT  * FROM user_table WHERE first_Name = :firstName AND master_Password = :masterPassword")
     User LogInConfirmation(String firstName,String masterPassword);
 
+    // getting the userName name for check if one all ready exists.
+    @Query("SELECT * from user_table WHERE first_name = :firstName")
+    User CheckForUserName(String firstName);
+
 
 }

@@ -1,5 +1,6 @@
 package view.preferences;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -26,7 +27,8 @@ import view.records.RecordRecycler_Activity;
 
 public class SecurityLevel_Activity extends AppCompatActivity {
 
-
+private Intent returnedResult;
+private String securityLevel;
     Typeface myFont;
    Animation animation1, animation2, animation3, animation4;
     MediaPlayer mediaPlayer;
@@ -43,6 +45,7 @@ public class SecurityLevel_Activity extends AppCompatActivity {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_security_level);
 
+        returnedResult= new Intent();
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         level1 = findViewById(R.id.level1);
         level2 = findViewById(R.id.level2);
@@ -113,6 +116,8 @@ public class SecurityLevel_Activity extends AppCompatActivity {
                 box_level3.setBackground( boxStyle );
 
             }
+            securityLevel = "1";
+
         }
 
         if (view == level2) {
@@ -129,6 +134,8 @@ public class SecurityLevel_Activity extends AppCompatActivity {
                 box_level3.setBackground( boxStyle );
 
             }
+            securityLevel ="2";
+
         }
 
         if (view == level3) {
@@ -145,6 +152,8 @@ public class SecurityLevel_Activity extends AppCompatActivity {
                 box_level2.setBackground( boxStyle );
 
             }
+            securityLevel = "3";
+
         }
 //        if (view == level1){
 //            if (level1_logo.getDrawable() != level1_chosen){
@@ -168,10 +177,12 @@ public class SecurityLevel_Activity extends AppCompatActivity {
 //        }
     }
 
-    public void chooseLevel(View view) {
+    public void chooseLevel(View view) {                // button on click method
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
         Toast.makeText(SecurityLevel_Activity.this, "Security Level Saved", Toast.LENGTH_SHORT).show();
+        returnedResult.putExtra("SECURITY_LEVEL",securityLevel);
+        setResult(Activity.RESULT_OK,returnedResult);
         finish();
     }
 }

@@ -387,7 +387,7 @@
                         android:layout_height="60dp"
                         android:background="@drawable/ic_dialpad_black"
                         android:layout_marginEnd="10dp"
-                        android:onClick="choosePatern"/>
+                        android:onClick="choosePattern"/>
 
                     <ImageButton
                         android:layout_width="60dp"

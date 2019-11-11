@@ -1,6 +1,7 @@
 package view.entrance;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.MainActivity;
@@ -54,6 +56,19 @@ import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 @SuppressLint("Registered")
 public class NewUser_Activity extends AppCompatActivity {
 
+    private String returnedPattern;
+    private String returnedSecurityLevel;
+    private String firstNameUser;
+    private String masterPasswordUser;
+    private String emailUser;
+    private String verifyPasswordUser;
+    private String lastNameUser;
+    private String dateOfBirthUser;
+    private String optionalQuestion;
+    private String optionalAnswer;
+    private Cryptography cryptography;
+
+
     private ImageView logo;
     private ImageButton saveBtn, cancelBtn;
     private ImageButton showPass, hidePass, copyPass;
@@ -63,9 +78,13 @@ public class NewUser_Activity extends AppCompatActivity {
     private TextView activityTitle;
     private Typeface myFont;
     private EditText password_EditText, userName_EditText, email_EditText, verifyPassword_EditText;
+    //////////////////////////// for YOTAM ////////////////////////////
+    private EditText lastName_editText, dateOfBirth_EditText, optionalQuestion_EditText, optionalAnswer_EditText;
+    ///////////////////////////////////////////////////////////////////
+
     private LinearLayout userName, password, email;
-    private String encryptedPassword,encryptedUserName;
-    private User user;
+    private String encryptedPassword, encryptedUserName, encryptedEmail, encryptedPattenr, encryptedSecurityLevel, encryptedLastName, encryptedDateOfBirth, encryptedOptionalQuestion, encryptedOptionalAnswer;
+    private User user = null;
 
 
     @Override
@@ -102,6 +121,10 @@ public class NewUser_Activity extends AppCompatActivity {
         activityTitle.setTypeface(myFont);
 
 
+        // for testing
+        userName_EditText.setText("A");
+        password_EditText.setText("1");
+
     }
 
     @Override
@@ -109,7 +132,6 @@ public class NewUser_Activity extends AppCompatActivity {
         cancelWarningMessage(null);
 
     }
-
 
 
     public void showPass(View view) {
@@ -165,56 +187,113 @@ public class NewUser_Activity extends AppCompatActivity {
 
     }
 
-    public void choosePatern(View view) {
+    public void choosePattern(View view) {
 
+//        Intent intent = new Intent(this, PatternLockView_Activity.class);
+//        this.startActivity(intent);
+//        //view.setBackground(R.drawable.ic_dialpad_green);
         Intent intent = new Intent(this, PatternLockView_Activity.class);
-        this.startActivity(intent);
-        //view.setBackground(R.drawable.ic_dialpad_green);
+        startActivityForResult(intent, 1);
+
     }
 
     public void chooseSecurityLevel(View view) {
+//        Intent intent = new Intent(this, SecurityLevel_Activity.class);
+//        this.startActivity(intent);
         Intent intent = new Intent(this, SecurityLevel_Activity.class);
-        this.startActivity(intent);
+        startActivityForResult(intent, 2);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void createNewAccount(View view) {           // onClick func
-        Cryptography cryptography = new Cryptography();
-        final String firstName = userName_EditText.getText().toString();
-        final String masterPassword = password_EditText.getText().toString();
 
-        if (password_EditText==verifyPassword_EditText || password_EditText.toString()==""){
+
+        if (returnedSecurityLevel == null || returnedPattern == null) {
+
+            // check if the user is sure that he saving his account without secureLevel and pattern!
+            // maybe warning window.
+        }
+
+        cryptography = new Cryptography();
+        firstNameUser = userName_EditText.getText().toString();
+        emailUser = email_EditText.getText().toString();
+        masterPasswordUser = password_EditText.getText().toString();
+        verifyPasswordUser = verifyPassword_EditText.getText().toString();
+
+        // when there will be field ready for it. open this comment.
+
+//        lastNameUser = lastName_editText.getText().toString();
+//        dateOfBirthUser = dateOfBirth_EditText.getText().toString();
+//        optionalQuestion = optionalAnswer_EditText.getText().toString();
+//        optionalAnswer = optionalAnswer_EditText.getText().toString();
+        /////////////////////////////////////////////////////////////////////
+        // checking if the password and the verify password are the same
+        if ((!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals(""))) {
             Toast.makeText(getApplicationContext(), "Password is not verified", Toast.LENGTH_LONG).show();
             verifyPassword_EditText.requestFocus();
             return;
+
         }
 
-
         try {
-            encryptedUserName = cryptography.encrypt(firstName);
-            encryptedPassword = cryptography.encryptWithKey(firstName, masterPassword);
-            Log.e("check", "" + firstName + " " + masterPassword + " " + encryptedPassword);
+            encryptedUserName = cryptography.encrypt(firstNameUser);
+            encryptedPassword = cryptography.encryptWithKey(firstNameUser, masterPasswordUser);
+            encryptedEmail = cryptography.encryptWithKey(firstNameUser, emailUser);
+            encryptedPattenr = cryptography.encryptWithKey(firstNameUser, returnedPattern);
+            encryptedSecurityLevel = cryptography.encryptWithKey(firstNameUser, returnedSecurityLevel);
+
+            // to be change after Yotam make XML fields for lastName,DateOfBirth,Question,Answer.
+            encryptedLastName = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
+            encryptedDateOfBirth = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
+            encryptedOptionalQuestion = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
+            encryptedOptionalAnswer = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (firstName.isEmpty()) {
+        if (firstNameUser.isEmpty()) {
             Toast.makeText(this, "Name is Empty", Toast.LENGTH_LONG).show();
             return;
         } else {
 
+
+            // @SuppressLint("StaticFieldLeak") preventing memory leak
             new AsyncTask<Void, Void, Void>() {
+
+                // here you should run of the BD and check for userName.
+                // if the userName all ready exists, Toast a message
+                private int flag = 0;
+
 
                 @Override
                 protected Void doInBackground(Void... voids) {
-                    user = new User(encryptedUserName, null, null, null, null, null, encryptedPassword, null);
-                    DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
+
+                    user = new User(encryptedUserName, encryptedLastName, encryptedDateOfBirth, encryptedEmail, encryptedOptionalQuestion, encryptedOptionalAnswer, encryptedPassword, encryptedSecurityLevel, encryptedPattenr);
+                    try {
+                        DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
+                        Log.d("enteredCatch", "enteredTRY");
+                        flag = 1;
+                    } catch (Exception e) {
+                        Log.d("enteredCatch", "enteredCatch");
+                        e.printStackTrace();
+                    }
+
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    Toast.makeText(getApplicationContext(),"User "+ user.getFirstName()+" Added", Toast.LENGTH_LONG).show();
-                    finish();
+                    if (flag == 1) {
+                        Toast.makeText(getApplicationContext(), "" + firstNameUser + " Created!", Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "User all ready exists", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+
                 }
 
 
@@ -223,12 +302,43 @@ public class NewUser_Activity extends AppCompatActivity {
         }
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
-        finish();
+
+
     }
 
 
+    // maybe need to delete the super
+    // this func is getting value from other activities.
+    // it get pattern from PatternLockActivity              ( requestCode 1 )
+    // it get securityLevel from SecurityLevelActivity      ( requestCode 2 )
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent returnedIntent) {
+        super.onActivityResult(requestCode, resultCode, returnedIntent);
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                returnedPattern = returnedIntent.getStringExtra("PATTERN_LOCK");
+                Log.d("patterenGotBack", "" + returnedPattern);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "You didnt chose Patternt", Toast.LENGTH_LONG).show();
+                Log.d("patterenGotBack", "no pattern came back");
+            }
 
+        }
+        if (requestCode == 2) {
+            if (resultCode == Activity.RESULT_OK) {
+                returnedSecurityLevel = returnedIntent.getStringExtra("SECURITY_LEVEL");
+                Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_LONG).show();
+                Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                Toast.makeText(getApplicationContext(), "You didnt chose Secure Level", Toast.LENGTH_LONG).show();
+                Log.d("returnedSecurityLevel ", "no patteren returned");
+            }
 
+        }
+
+    }
 }
 
 

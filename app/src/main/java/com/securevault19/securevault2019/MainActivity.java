@@ -33,13 +33,14 @@ import view.explorer.PatternLockView_Activity;
 public class MainActivity extends AppCompatActivity {
 
     private int counter;
-    private Button signup,buttonSignIn;
+    private Button signup, buttonSignIn;
     private Animation animation2, animation3;
     private MediaPlayer mediaPlayer;
     // added for testing //
     private User user;
     private int flag = 0;
     private Cryptography cryptography = new Cryptography();
+
     //                  //
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void forgotPass(View view) {
-
+        // still in progress
     }
 
     // At this onClick method
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // searching for user //
                 try {
-                    user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName,masterPassword));
+                    user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName, masterPassword));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (user != null) {  // if user found.
                     try {
-                        if ((firstName.equals(cryptography.decrypt(user.getFirstName(),firstName))) && (masterPassword.equals(cryptography.decrypt(user.getMasterPassword(),firstName)))) {
+                        if ((firstName.equals(cryptography.decrypt(user.getFirstName(), firstName))) && (masterPassword.equals(cryptography.decrypt(user.getMasterPassword(), firstName)))) {
                             flag = 1;
                         } else {
                             // one of the params are not correct
@@ -134,8 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }
-                else            // user not found, flag = 0;
+                } else            // user not found, flag = 0;
                     Log.e("phase5", "User = null ");
                 return null;
             }
@@ -149,10 +149,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(getApplicationContext(), CategoryList_Activity.class);
                     String user = userName.getText().toString();
-                    intent.putExtra("CRYPTO_KEY",user);
+                    intent.putExtra("CRYPTO_KEY", user);
                     startActivity(intent);
                 } else {
-                  Toast.makeText(getApplicationContext(), "Wrong UserName or Password", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Wrong UserName or Password", Toast.LENGTH_LONG).show();
                 }
 
             }

@@ -30,6 +30,10 @@ public class UserRepository {
         return DaoUser.LogInConfirmation(firstName,masterPassword);
     }
 
+    public User CheckForUserName(String firstName){
+        return DaoUser.CheckForUserName(firstName);
+    }
+
     public void insert(User user) {
         new InsertAsyncTask(DaoUser).execute(user);
     }
