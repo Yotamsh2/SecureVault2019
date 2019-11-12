@@ -183,7 +183,6 @@ public class CategoryList_Activity extends AppCompatActivity {
             goToFolderRecords(allRecords);
         } else {
             String searchString = search_bar.getText().toString();
-
             Intent intent = new Intent(this, RecordRecycler_Activity.class);
             intent.putExtra(EXTRA_SEARCH, searchString);
             intent.putExtra(EXTRA_FOLDER, "Search");
@@ -220,7 +219,6 @@ public class CategoryList_Activity extends AppCompatActivity {
     public void openOptions(View view) {
 //        Intent intent = new Intent(this, SecurityLevel_Activity.class);
         Intent intent = new Intent(this, SettingsActivity.class);
-
         this.startActivity(intent);
     }
 }

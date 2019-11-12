@@ -11,6 +11,7 @@ import com.securevault19.securevault2019.user.User;
 
 import java.security.Key;
 import java.security.MessageDigest;
+import java.util.zip.Checksum;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -32,7 +33,7 @@ private String getAES(){
     return AES;
 }
 
-
+    // check the checkSum
     // first String is what we want to encrypt
     // second String is the encrypter ?
         public String encryptWithKey(String Key, String stringToEncrypt) throws Exception {

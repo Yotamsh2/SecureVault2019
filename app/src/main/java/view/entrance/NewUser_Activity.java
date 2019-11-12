@@ -83,6 +83,7 @@ public class NewUser_Activity extends AppCompatActivity {
 //                    ".{8,24}" +                   //at least 8 characters, less than 24
 //                    "$");
 
+
     private ImageView logo;
     private ImageButton saveBtn, cancelBtn;
     private ImageButton showPass, hidePass, copyPass;
@@ -194,13 +195,11 @@ public class NewUser_Activity extends AppCompatActivity {
 //        }
 //    }
 //
-    public boolean isValidEmail(String emailInput){
-        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        Pattern pattern = Pattern.compile( EMAIL_PATTERN );
-        Matcher matcher = pattern.matcher( emailInput );
-        return matcher.matches();
-    }
+
+
+
+
 
     public void showPass(View view) {
         if (showPass.getVisibility() == View.VISIBLE) {
@@ -374,7 +373,6 @@ public class NewUser_Activity extends AppCompatActivity {
 
     }
 
-
     // maybe need to delete the super
     // this func is getting value from other activities.
     // it get pattern from PatternLockActivity              ( requestCode 1 )
@@ -407,6 +405,17 @@ public class NewUser_Activity extends AppCompatActivity {
         }
 
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public boolean isValidEmail(String emailInput){
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile( EMAIL_PATTERN );
+        Matcher matcher = pattern.matcher( emailInput );
+        return matcher.matches();
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 
 
