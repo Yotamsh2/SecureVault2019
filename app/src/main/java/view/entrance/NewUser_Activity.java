@@ -57,7 +57,7 @@ import view.records.RecordRecycler_Activity;
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 @SuppressLint("Registered")
-public class NewUser_Activity extends AppCompatActivity {
+public class NewUser_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private String returnedPattern;
     private String returnedSecurityLevel;
@@ -67,10 +67,10 @@ public class NewUser_Activity extends AppCompatActivity {
     private String verifyPasswordUser;
     private String lastNameUser;
     private String dateOfBirthUser;
-    private String optionalQuestion;
-    private String optionalAnswer;
+    private String optionalQuestionUser;
+    private String optionalAnswerUser;
     private Cryptography cryptography;
-
+    private EditText calendarBtn;
 
 //    private static final Pattern PASSWORD_PATTERN =
 //            Pattern.compile("^" +
@@ -94,7 +94,7 @@ public class NewUser_Activity extends AppCompatActivity {
     private Typeface myFont;
     private EditText password_EditText, userName_EditText, email_EditText, verifyPassword_EditText;
     //////////////////////////// for YOTAM ////////////////////////////
-    private EditText lastName_editText, dateOfBirth_EditText, optionalQuestion_EditText, optionalAnswer_EditText;
+    private EditText lastName_EditText, dateOfBirth_EditText, optionalQuestion_EditText, optionalAnswer_EditText;
     ///////////////////////////////////////////////////////////////////
 
     private LinearLayout userName, password, email;
@@ -121,9 +121,12 @@ public class NewUser_Activity extends AppCompatActivity {
         password_EditText = findViewById(R.id.password_EditText);
         email = findViewById(R.id.email);
         userName_EditText = findViewById(R.id.username_EditText);
+        lastName_EditText = findViewById(R.id.lastName_EditText);
         email_EditText = findViewById(R.id.email_EditText);
         verifyPassword_EditText = findViewById(R.id.verifyPassword_EditText);
-
+        dateOfBirth_EditText = findViewById(R.id.dateOfBirth_EditText);
+        optionalQuestion_EditText = findViewById(R.id.optionalAnswer_EditText);
+        optionalAnswer_EditText = findViewById(R.id.optionalAnswer_EditText);
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(NewUser_Activity.this, R.anim.zoomin);
         animation2 = AnimationUtils.loadAnimation(NewUser_Activity.this, R.anim.zoomin_fade);
@@ -197,10 +200,6 @@ public class NewUser_Activity extends AppCompatActivity {
 //
 
 
-
-
-
-
     public void showPass(View view) {
         if (showPass.getVisibility() == View.VISIBLE) {
             password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -254,6 +253,8 @@ public class NewUser_Activity extends AppCompatActivity {
 
     }
 
+
+    // the choosePattern methos public because we want to make changes here from Setting
     public void choosePattern(View view) {
 
 //        Intent intent = new Intent(this, PatternLockView_Activity.class);
@@ -263,7 +264,7 @@ public class NewUser_Activity extends AppCompatActivity {
         startActivityForResult(intent, 1);
 
     }
-
+    // the chhoseSecurityLevel methos public because we want to make changes here from Setting
     public void chooseSecurityLevel(View view) {
 //        Intent intent = new Intent(this, SecurityLevel_Activity.class);
 //        this.startActivity(intent);
@@ -273,27 +274,43 @@ public class NewUser_Activity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     public void createNewAccount(View view) {           // onClick func
+        mediaPlayer.start();
+        saveBtn.startAnimation(animation3);
 
+        if (returnedPattern == null) {
+            // checking if the user entered Pattern
+            // if not, make a Toast to reminde him.
 
-        if (returnedSecurityLevel == null || returnedPattern == null) {
-
-            // check if the user is sure that he saving his account without secureLevel and pattern!
-            // maybe warning window.
+            Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_LONG).show();
+            Log.d("returnedPattern", "chosedPattern ");
         }
+        if (returnedSecurityLevel == null) {
+            // if user didnt chose secureLevel
+            // as default, security Level set to 2
+            returnedSecurityLevel = "2";
+            Log.d("returnedPattern", "chosedPattern ");
+        } else {
+            saveUserDetails(view);
+        }
+
+
+    }
+
+
+    @SuppressLint("StaticFieldLeak")            //preventing memory leak
+    protected void saveUserDetails(View view) {
+
 
         cryptography = new Cryptography();
         firstNameUser = userName_EditText.getText().toString();
         emailUser = email_EditText.getText().toString();
         masterPasswordUser = password_EditText.getText().toString();
         verifyPasswordUser = verifyPassword_EditText.getText().toString();
+        lastNameUser = lastName_EditText.getText().toString();
+        dateOfBirthUser = dateOfBirth_EditText.getText().toString();
+        optionalQuestionUser = optionalQuestion_EditText.getText().toString();
+        optionalAnswerUser = optionalAnswer_EditText.getText().toString();
 
-        // when there will be field ready for it. open this comment.
-
-//        lastNameUser = lastName_editText.getText().toString();
-//        dateOfBirthUser = dateOfBirth_EditText.getText().toString();
-//        optionalQuestion = optionalAnswer_EditText.getText().toString();
-//        optionalAnswer = optionalAnswer_EditText.getText().toString();
-        /////////////////////////////////////////////////////////////////////
         // checking if the password and the verify password are the same
         if ((!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals(""))) {
             Toast.makeText(getApplicationContext(), "Password is not verified", Toast.LENGTH_LONG).show();
@@ -308,13 +325,10 @@ public class NewUser_Activity extends AppCompatActivity {
             encryptedEmail = cryptography.encryptWithKey(firstNameUser, emailUser);
             encryptedPattenr = cryptography.encryptWithKey(firstNameUser, returnedPattern);
             encryptedSecurityLevel = cryptography.encryptWithKey(firstNameUser, returnedSecurityLevel);
-
-            // to be change after Yotam make XML fields for lastName,DateOfBirth,Question,Answer.
-            encryptedLastName = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
-            encryptedDateOfBirth = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
-            encryptedOptionalQuestion = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
-            encryptedOptionalAnswer = cryptography.encryptWithKey(firstNameUser, "CHANGE_ME!");
-
+            encryptedLastName = cryptography.encryptWithKey(firstNameUser, lastNameUser);
+            encryptedDateOfBirth = cryptography.encryptWithKey(firstNameUser, dateOfBirthUser);
+            encryptedOptionalQuestion = cryptography.encryptWithKey(firstNameUser, optionalQuestionUser);
+            encryptedOptionalAnswer = cryptography.encryptWithKey(firstNameUser, optionalAnswerUser);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -325,13 +339,9 @@ public class NewUser_Activity extends AppCompatActivity {
         } else {
 
 
-            // @SuppressLint("StaticFieldLeak") preventing memory leak
+            //@SuppressLint("StaticFieldLeak") //preventing memory leak
             new AsyncTask<Void, Void, Void>() {
-
-                // here you should run of the BD and check for userName.
-                // if the userName all ready exists, Toast a message
                 private int flag = 0;
-
 
                 @Override
                 protected Void doInBackground(Void... voids) {
@@ -342,6 +352,7 @@ public class NewUser_Activity extends AppCompatActivity {
                         Log.d("enteredCatch", "enteredTRY");
                         flag = 1;
                     } catch (Exception e) {
+                        // if the userName allready exists, we will get Exception and flag will be  flag == 0;
                         Log.d("enteredCatch", "enteredCatch");
                         e.printStackTrace();
                     }
@@ -367,10 +378,6 @@ public class NewUser_Activity extends AppCompatActivity {
             }.execute();
 
         }
-        mediaPlayer.start();
-        saveBtn.startAnimation(animation3);
-
-
     }
 
     // maybe need to delete the super
@@ -407,14 +414,38 @@ public class NewUser_Activity extends AppCompatActivity {
     }
 
 
+    public void openCalendarUser(View view) {
+
+        mediaPlayer.start();
+        dateOfBirth_EditText.startAnimation(animation3);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = month + "/" + dayOfMonth + "/" + year;
+        if (dateOfBirth_EditText.isFocused()) {
+            dateOfBirth_EditText.setText(date);
+        }
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public boolean isValidEmail(String emailInput){
+    public boolean isValidEmail(String emailInput) {
         String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        Pattern pattern = Pattern.compile( EMAIL_PATTERN );
-        Matcher matcher = pattern.matcher( emailInput );
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(emailInput);
         return matcher.matches();
     }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }
 

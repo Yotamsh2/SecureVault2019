@@ -35,6 +35,7 @@ import view.explorer.PatternLockView_Activity;
 @SuppressLint("Registered")
 public class MainActivity extends AppCompatActivity {
 
+    private String pattern;
     private int counter;
     private Button signup, buttonSignIn;
     private Animation animation2, animation3;
@@ -108,11 +109,6 @@ public class MainActivity extends AppCompatActivity {
         Log.e("test2", "" + flag);
 
         new AsyncTask<User, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                Log.e("test2", "" + flag);
-            }
 
             @Override
             protected Void doInBackground(User... users) {
@@ -120,26 +116,34 @@ public class MainActivity extends AppCompatActivity {
 
                 // searching for user //
                 try {
+                    // we are encrypting the text that the user entered and searching it in the DB
                     user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName, masterPassword));
+                    // getting the encrypted pattern!
+                    pattern = user.getPatternLock();
+                    flag = 1; // if user found.
+                    Log.d("patternLockFromUser ",pattern);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 // ------------------ //
 
 
-                if (user != null) {  // if user found.
-                    try {
-                        if ((firstName.equals(cryptography.decrypt(user.getFirstName(), firstName))) && (masterPassword.equals(cryptography.decrypt(user.getMasterPassword(), firstName)))) {
-                            flag = 1;
-                        } else {
-                            // one of the params are not correct
-                            //flag = 2;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else            // user not found, flag = 0;
-                    Log.e("phase5", "User = null ");
+
+                // can take this if out
+                // if user != null so we found match and should procced to the next Intent.
+//                if (user != null) {  // if user found.
+//                    try {
+//                        if ((firstName.equals(cryptography.decrypt(user.getFirstName(), firstName))) && (masterPassword.equals(cryptography.decrypt(user.getMasterPassword(), firstName)))) {
+//                            flag = 1;
+//                        } else {
+//                            // one of the params are not correct
+//                            //flag = 2;
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                } else            // user not found, flag = 0;
+//                    Log.e("phase5", "User = null ");
                 return null;
             }
 
@@ -150,8 +154,11 @@ public class MainActivity extends AppCompatActivity {
                 if (flag == 1) {
                     //  Toast.makeText(getApplicationContext(), " flag = " + flag, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent();
-                    intent.setClass(getApplicationContext(), CategoryList_Activity.class);
+                    //intent.setClass(getApplicationContext(), CategoryList_Activity.class);
+                    intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
                     String user = userName.getText().toString();
+                    Log.d("patternCheck",pattern);
+                    intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", user);
                     startActivity(intent);
                 } else {

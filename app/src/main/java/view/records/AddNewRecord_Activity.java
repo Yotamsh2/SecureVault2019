@@ -43,6 +43,7 @@ import java.util.Calendar;
 
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
+import view_model.records.Record_ViewModel;
 
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
@@ -729,6 +730,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
                             .daoRecord()
                             .insert(record);
+
+
 
                     return null;
                 }

@@ -255,6 +255,23 @@
                     </LinearLayout>
                     <!--userName-->
 
+                    <!-- lastName -->
+<LinearLayout
+    android:id="@+id/lastName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible">
+    <EditText
+        android:id="@+id/lastName_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/lastName"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_marginTop="10dp"/>
+</LinearLayout>
+                    <!-- lastName -->
                     <LinearLayout
                         android:id="@+id/email"
                         android:layout_width="match_parent"
@@ -272,10 +289,78 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/email"
-                            android:inputType="textEmailAddress"
-                            android:maxLines="1" />
+                            android:inputType="textEmailAddress" />
                     </LinearLayout>
                     <!--email-->
+
+ <LinearLayout
+     android:id="@+id/dateOfBirth"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:orientation="vertical">
+
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+              <EditText
+                  android:id="@+id/dateOfBirth_EditText"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:hint="@string/mmddyyyy"
+                  android:inputType="date"
+                  android:maxLines="1"
+                  android:textAlignment="center"
+                  android:onClick="openCalendarUser">
+              </EditText>
+<ImageButton
+              android:id="@+id/dateOfBirth_ImageButton"
+              android:layout_width="30dp"
+              android:layout_height="30dp"
+              android:layout_gravity="center_vertical"
+              android:background="@drawable/ic_date_range_black_24dp">
+
+</ImageButton>
+          </LinearLayout>
+
+
+ </LinearLayout>
+
+
+<LinearLayout
+    android:id="@+id/optionalQuestionAnswer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/optionalQuestion_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/Question"
+        android:inputType="text"
+        >
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/optionalAnswer_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/Answer"
+        android:inputType="text"
+        android:paddingEnd="100dp">
+
+    </EditText>
+
+</LinearLayout>
+
+
+
+
+
 
                     <LinearLayout
                         android:id="@+id/password"
@@ -370,6 +455,8 @@
 
                     </LinearLayout>
                     <!--password-->
+
+
 
 
                 </LinearLayout>

@@ -92,5 +92,9 @@
     <string name="yotam">יותם שובל</string>
     <string name="Pattern">אנא הכנס רצף </string>
     <string name="enterPatternAgain">הכנס רצף פעם נוספת</string>
+    <string name= "lastName">שם משפחה</string>
+    <string name="Question"> שאלה אופציונלית </string>
+    <string name="Answer">תשובה אופציונלית </string>
+    <string name="dateOfBirth">תאריך לידה</string>
     <string name="project_team">צוות הפרויקט</string>
 </resources>
