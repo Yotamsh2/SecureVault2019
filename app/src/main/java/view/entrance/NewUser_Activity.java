@@ -329,10 +329,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     @SuppressLint("StaticFieldLeak")            //preventing memory leak
     protected void saveUserDetails(View view) {
 
-
         cryptography = new Cryptography();
-
-
 
 
         try {

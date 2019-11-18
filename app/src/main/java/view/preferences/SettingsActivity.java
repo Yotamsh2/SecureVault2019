@@ -12,6 +12,8 @@ import androidx.preference.PreferenceManager;
 
 import com.securevault19.securevault2019.R;
 
+import view_model.records.User_ViewModel;
+
 public class SettingsActivity extends AppCompatActivity {
     private String MP;
 
