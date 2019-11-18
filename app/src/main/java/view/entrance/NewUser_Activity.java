@@ -159,7 +159,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                     return;
                 }
                 else {
-                    passwordCaculation();
+                    passwordCalculation();
                 }
             }
 
@@ -487,7 +487,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    protected void passwordCaculation() {
+    protected void passwordCalculation() {
         String temp = password_EditText.getText().toString();
         System.out.println(i + " current password is : " + temp);
         i = i + 1;
