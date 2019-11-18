@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:components="http://schemas.android.com/tools"
     android:background="@drawable/new_back"
     android:orientation="vertical">
 
@@ -439,7 +440,29 @@
 
                         </RelativeLayout>
                         <!--password edit text-->
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_marginLeft="2dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+                            <ProgressBar
+                                android:id="@+id/progressBar"
+                                style="@android:style/Widget.ProgressBar.Horizontal"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="1dp"
+                                android:max="100"
+                                android:maxHeight="5dp"
+                                android:minHeight="2dp"
+                                android:progress="0"
+                                android:progressDrawable="@drawable/progress_bar"
+                                android:secondaryProgress="100"
+                                components:textColor="@android:color/black"
+                                components:textSize="3dp" />
 
+                        </LinearLayout>
 
                         <RelativeLayout
                             android:layout_width="match_parent"
