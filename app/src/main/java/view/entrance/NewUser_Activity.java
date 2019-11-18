@@ -147,13 +147,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         // for testing
         userName_EditText.setText("A");
         password_EditText.setText("1");
-
     }
 
     @Override
     public void onBackPressed() {
         cancelWarningMessage(null);
-
     }
 
     //https://www.youtube.com/watch?v=cnD_7qFeZcY
@@ -291,21 +289,29 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void createNewAccount(View view) {           // onClick func
+    public void createNewAccount(View view) {
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
 
+        firstNameUser = userName_EditText.getText().toString();
+        emailUser = email_EditText.getText().toString();
+        masterPasswordUser = password_EditText.getText().toString();
+        verifyPasswordUser = verifyPassword_EditText.getText().toString();
+        lastNameUser = lastName_EditText.getText().toString();
+        dateOfBirthUser = dateOfBirth_EditText.getText().toString();
+        optionalQuestionUser = optionalQuestion_EditText.getText().toString();
+        optionalAnswerUser = optionalAnswer_EditText.getText().toString();
+
         // checking if the password and the verify password are the same
-        if ((!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals(""))) {
-            Toast.makeText(getApplicationContext(), "Password is not verified", Toast.LENGTH_LONG).show();
+        if (!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals("")) {
+            Toast.makeText(getApplicationContext(), "Password is not verified", Toast.LENGTH_SHORT).show();
             verifyPassword_EditText.requestFocus();
             return;
         }
 
         if (returnedPattern == null) {
             // checking if the user entered Pattern
-            // if not, make a Toast to reminde him.
-
+            // if not, make a Toast to remind him.
             Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_LONG).show();
             Log.d("returnedPattern", "chosedPattern ");
         }
@@ -317,8 +323,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         } else {
             saveUserDetails(view);
         }
-
-
     }
 
 
@@ -327,14 +331,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
         cryptography = new Cryptography();
-        firstNameUser = userName_EditText.getText().toString();
-        emailUser = email_EditText.getText().toString();
-        masterPasswordUser = password_EditText.getText().toString();
-        verifyPasswordUser = verifyPassword_EditText.getText().toString();
-        lastNameUser = lastName_EditText.getText().toString();
-        dateOfBirthUser = dateOfBirth_EditText.getText().toString();
-        optionalQuestionUser = optionalQuestion_EditText.getText().toString();
-        optionalAnswerUser = optionalAnswer_EditText.getText().toString();
 
 
 
