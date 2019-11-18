@@ -132,9 +132,22 @@
                 android:text="@string/create_vault"
                 android:layout_marginTop="-20dp"
                 android:textSize="12sp" />
+            <Button
+                android:id="@+id/firebaseTest"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:onClick="firebaseTest"
+                android:background="@drawable/edit_text_noback_style"
+                android:text="Firebase Test"
+                android:textColor="#fff"
+                android:textAllCaps="false"/>
         </LinearLayout>
 
     </ScrollView>
+
 
 
 </LinearLayout>

@@ -242,6 +242,16 @@
                         android:layout_marginTop="4dp"
                         android:textSize="16sp"
                         android:textColor="#80000000"/>
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:background="@drawable/ic_delete_black"
+                        android:layout_marginStart="256dp"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/deleteTopBtn"
+                        android:onClick="deleteRecord"
+                        android:visibility="gone"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -417,25 +427,82 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
+
                     <LinearLayout
                         android:id="@+id/website"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="@string/website"-->
-<!--                            android:labelFor="@id/website_EditText"/>-->
+                        android:visibility="visible">
 
-                        <EditText
-                            android:id="@+id/website_EditText"
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+
+                            <EditText
+                                android:id="@+id/website_EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="start"
+                                android:inputType="text"
+                                android:hint="@string/website"
+                                android:paddingEnd="100dp"
+                                android:enabled="true"/>
+
+
+                            <RelativeLayout
+                                android:id="@+id/linkWebsite"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="end|bottom"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="10dp"
+                                >
+
+                                <ImageButton
+                                    android:id="@+id/openLink"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@drawable/ic_open_in_browser_black"
+                                    android:onClick="openWebsiteLink" />
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+                        <!--password edit text-->
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/website"
-                            android:inputType="text"
-                            android:maxLines="1" />
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+                            <!--                            <TextView-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:text="@string/password"-->
+                            <!--                                android:labelFor="@id/password_EditText"/>-->
+                            <!--                            <TextView-->
+                            <!--                                android:id="@+id/strength"-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:layout_marginStart="10dp"-->
+                            <!--                                android:text="strong"-->
+                            <!--                                android:textColor="#07CE00"-->
+                            <!--                                android:visibility="visible"/>-->
+                            <!--                            <ImageButton-->
+                            <!--                                android:id="@+id/passInfo"-->
+                            <!--                                android:layout_width="20dp"-->
+                            <!--                                android:layout_height="20dp"-->
+                            <!--                                android:layout_marginStart="10dp"-->
+                            <!--                                android:background="@drawable/ic_info_black"/>-->
+                        </LinearLayout>
+                        <!--title and strength-->
+
                     </LinearLayout>
                     <!--website-->
 
@@ -1379,7 +1446,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="10dp"
+                    >
 
                     <ImageButton
                         android:id="@+id/cancelBtn"
@@ -1394,6 +1462,17 @@
                         android:src="@drawable/ic_close" />
 
                     <ImageButton
+                        android:id="@+id/deleteBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="2"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/btn_delete_style"
+                        android:onClick="deleteRecord"
+                        android:src="@drawable/ic_delete_white"
+                        android:visibility="gone"/>
+
+                    <ImageButton
                         android:id="@+id/saveBtn"
                         android:layout_width="0dp"
                         android:layout_height="44dp"
@@ -1404,7 +1483,8 @@
                         android:src="@drawable/ic_done"
                         />
 
-                    </LinearLayout>
+
+                </LinearLayout>
                 <!--Buttons-->
 
             </LinearLayout>

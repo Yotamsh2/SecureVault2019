@@ -8,41 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:210215557918:android:3fb8db02e285a3bc",
-        "android_client_info": {
-          "package_name": "com.example.gridlayouttestbucky"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDnbDvrPUpno6esEGCTkI9fyTctOu_Hdo8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:210215557918:android:5c7f479863f2385a19070f",
         "android_client_info": {
           "package_name": "com.securevault19.securevault2019"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "210215557918-aj5bnuj8eo77jfb41rupg0qc7d2klla4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.securevault19.securevault2019",
+            "certificate_hash": "bf323bee5a9ff30fd74933b7c94e75fb807a516f"
+          }
+        },
         {
           "client_id": "210215557918-r9tbfr0c8elobs37f0jqt0taumtfhu7o.apps.googleusercontent.com",
           "client_type": 3

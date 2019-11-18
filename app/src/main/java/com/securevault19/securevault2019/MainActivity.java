@@ -26,6 +26,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
+import view.entrance.FirebaseTest_Activity;
+import view.entrance.FirebaseTest_SignIn_Activity;
 import view.entrance.NewUser_Activity;
 import view.entrance.SignUp_Activity;
 import view.explorer.CategoryList_Activity;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String pattern;
     private int counter;
-    private Button signup, buttonSignIn;
+    private Button signup,buttonSignIn,firebaseTest;
     private Animation animation2, animation3;
     private MediaPlayer mediaPlayer;
     // added for testing //
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         ImageView logo = findViewById(R.id.logo);
         Button forgotPass = findViewById((R.id.forgotPass));
+        firebaseTest = findViewById(R.id.firebaseTest);
         signup = findViewById(R.id.signUp);
         LinearLayout signInForm = findViewById(R.id.signInForm);
         final EditText userName = findViewById(R.id.userName);
@@ -83,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.start();
         Intent intent = new Intent(this, NewUser_Activity.class);
         this.startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 
     public void forgotPass(View view) {
@@ -99,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View view) {
         buttonSignIn.startAnimation(animation3);
         mediaPlayer.start();
-
         final EditText userName = findViewById(R.id.userName);
         final EditText password = findViewById(R.id.password_EditText);
         final String firstName = userName.getText().toString();
@@ -117,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
                 // searching for user //
                 try {
                     // we are encrypting the text that the user entered and searching it in the DB
-                    user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName, masterPassword));
+                    user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser()
+                            .LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName, masterPassword));
                     // getting the encrypted pattern!
                     pattern = user.getPatternLock();
                     flag = 1; // if user found.
@@ -161,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", user);
                     startActivity(intent);
+                    overridePendingTransition(0, 0);
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong UserName or Password", Toast.LENGTH_LONG).show();
                 }
@@ -168,5 +174,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }.execute();
 
+
+    }
+
+    public void firebaseTest(View view) {
+        Intent intent = new Intent();
+        intent.setClass(getApplicationContext(), FirebaseTest_SignIn_Activity.class);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
     }
 }

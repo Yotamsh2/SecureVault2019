@@ -34,6 +34,10 @@ public class User {
         this.patternLock = patternLock;
 
     }
+
+    public User(){}
+
+
     //Setters
 
 //    public void setID(int ID) {

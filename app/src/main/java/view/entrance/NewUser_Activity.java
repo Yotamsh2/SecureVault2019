@@ -98,8 +98,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     ///////////////////////////////////////////////////////////////////
 
     private LinearLayout userName, password, email;
-    private String encryptedPassword, encryptedUserName, encryptedEmail, encryptedPattenr, encryptedSecurityLevel, encryptedLastName, encryptedDateOfBirth, encryptedOptionalQuestion, encryptedOptionalAnswer;
+    private String encryptedPassword, encryptedUserName, encryptedEmail, encryptedPattern, encryptedSecurityLevel, encryptedLastName,
+            encryptedDateOfBirth, encryptedOptionalQuestion, encryptedOptionalAnswer;
     private User user = null;
+    private ImageButton showVerPass, hideVerPass;
+
 
 
     @Override
@@ -127,6 +130,8 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         dateOfBirth_EditText = findViewById(R.id.dateOfBirth_EditText);
         optionalQuestion_EditText = findViewById(R.id.optionalAnswer_EditText);
         optionalAnswer_EditText = findViewById(R.id.optionalAnswer_EditText);
+        showVerPass = findViewById(R.id.showVerPass);
+        hideVerPass = findViewById(R.id.hideVerPass);
         //Animation Sets
         animation1 = AnimationUtils.loadAnimation(NewUser_Activity.this, R.anim.zoomin);
         animation2 = AnimationUtils.loadAnimation(NewUser_Activity.this, R.anim.zoomin_fade);
@@ -201,20 +206,40 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
     public void showPass(View view) {
-        if (showPass.getVisibility() == View.VISIBLE) {
-            password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            hidePass.setVisibility(View.VISIBLE);
-            showPass.setVisibility(View.GONE);
-            showPass.startAnimation(animation3);
-        } else {
-            password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            hidePass.setVisibility(View.GONE);
-            showPass.setVisibility(View.VISIBLE);
-            hidePass.startAnimation(animation3);
-        }
-        password_EditText.requestFocus();
-        password_EditText.setSelection(password_EditText.getText().length());
+        if (view == showPass || view == hidePass){
 
+            if (showPass.getVisibility() == View.VISIBLE) {
+                password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                hidePass.setVisibility(View.VISIBLE);
+                showPass.setVisibility(View.GONE);
+                showPass.startAnimation(animation3);
+            } else {
+                password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                hidePass.setVisibility(View.GONE);
+                showPass.setVisibility(View.VISIBLE);
+                hidePass.startAnimation(animation3);
+            }
+            password_EditText.requestFocus();
+            password_EditText.setSelection(password_EditText.getText().length());
+        }
+
+
+        if (view == showVerPass || view == hideVerPass){
+
+            if (showVerPass.getVisibility() == View.VISIBLE) {
+                verifyPassword_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                hideVerPass.setVisibility(View.VISIBLE);
+                showVerPass.setVisibility(View.GONE);
+                showVerPass.startAnimation(animation3);
+            } else {
+                verifyPassword_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                hideVerPass.setVisibility(View.GONE);
+                showVerPass.setVisibility(View.VISIBLE);
+                hideVerPass.startAnimation(animation3);
+            }
+            verifyPassword_EditText.requestFocus();
+            verifyPassword_EditText.setSelection(verifyPassword_EditText.getText().length());
+        }
     }
 
     public void cancelWarningMessage(final View view) {
@@ -228,7 +253,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Data Not saved", Toast.LENGTH_LONG).show();
-                back(view);
+                back();
             }
         });
         alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -240,7 +265,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         alert.create().show();
     }
 
-    public void back(View view) {
+    public void back() {
         finish();
     }
 
@@ -249,25 +274,18 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         copyPass.startAnimation(animation3);
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         clipboardManager.setText(password_EditText.getText().toString());
-        Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Password Copied", Toast.LENGTH_LONG).show();
 
     }
 
 
     // the choosePattern methos public because we want to make changes here from Setting
     public void choosePattern(View view) {
-
-//        Intent intent = new Intent(this, PatternLockView_Activity.class);
-//        this.startActivity(intent);
-//        //view.setBackground(R.drawable.ic_dialpad_green);
         Intent intent = new Intent(this, PatternLockView_Activity.class);
         startActivityForResult(intent, 1);
-
     }
-    // the chhoseSecurityLevel methos public because we want to make changes here from Setting
+    // the choseSecurityLevel method public because we want to make changes here from Setting
     public void chooseSecurityLevel(View view) {
-//        Intent intent = new Intent(this, SecurityLevel_Activity.class);
-//        this.startActivity(intent);
         Intent intent = new Intent(this, SecurityLevel_Activity.class);
         startActivityForResult(intent, 2);
     }
@@ -277,6 +295,13 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
 
+        // checking if the password and the verify password are the same
+        if ((!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals(""))) {
+            Toast.makeText(getApplicationContext(), "Password is not verified", Toast.LENGTH_LONG).show();
+            verifyPassword_EditText.requestFocus();
+            return;
+        }
+
         if (returnedPattern == null) {
             // checking if the user entered Pattern
             // if not, make a Toast to reminde him.
@@ -284,7 +309,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_LONG).show();
             Log.d("returnedPattern", "chosedPattern ");
         }
-        if (returnedSecurityLevel == null) {
+        else if (returnedSecurityLevel == null) {
             // if user didnt chose secureLevel
             // as default, security Level set to 2
             returnedSecurityLevel = "2";
@@ -311,19 +336,14 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         optionalQuestionUser = optionalQuestion_EditText.getText().toString();
         optionalAnswerUser = optionalAnswer_EditText.getText().toString();
 
-        // checking if the password and the verify password are the same
-        if ((!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals(""))) {
-            Toast.makeText(getApplicationContext(), "Password is not verified", Toast.LENGTH_LONG).show();
-            verifyPassword_EditText.requestFocus();
-            return;
 
-        }
+
 
         try {
+            encryptedPattern = cryptography.encryptWithKey(firstNameUser, returnedPattern);
             encryptedUserName = cryptography.encrypt(firstNameUser);
             encryptedPassword = cryptography.encryptWithKey(firstNameUser, masterPasswordUser);
             encryptedEmail = cryptography.encryptWithKey(firstNameUser, emailUser);
-            encryptedPattenr = cryptography.encryptWithKey(firstNameUser, returnedPattern);
             encryptedSecurityLevel = cryptography.encryptWithKey(firstNameUser, returnedSecurityLevel);
             encryptedLastName = cryptography.encryptWithKey(firstNameUser, lastNameUser);
             encryptedDateOfBirth = cryptography.encryptWithKey(firstNameUser, dateOfBirthUser);
@@ -337,7 +357,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             Toast.makeText(this, "Name is Empty", Toast.LENGTH_LONG).show();
             return;
         } else {
-
+            findViewById(R.id.ProgressBar).setVisibility(View.VISIBLE);
 
             //@SuppressLint("StaticFieldLeak") //preventing memory leak
             new AsyncTask<Void, Void, Void>() {
@@ -346,7 +366,8 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 @Override
                 protected Void doInBackground(Void... voids) {
 
-                    user = new User(encryptedUserName, encryptedLastName, encryptedDateOfBirth, encryptedEmail, encryptedOptionalQuestion, encryptedOptionalAnswer, encryptedPassword, encryptedSecurityLevel, encryptedPattenr);
+                    user = new User(encryptedUserName, encryptedLastName, encryptedDateOfBirth, encryptedEmail, encryptedOptionalQuestion,
+                            encryptedOptionalAnswer, encryptedPassword, encryptedSecurityLevel, encryptedPattern);
                     try {
                         DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
                         Log.d("enteredCatch", "enteredTRY");
@@ -356,7 +377,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                         Log.d("enteredCatch", "enteredCatch");
                         e.printStackTrace();
                     }
-
                     return null;
                 }
 
@@ -368,16 +388,17 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "User all ready exists", Toast.LENGTH_LONG).show();
+                        findViewById(R.id.ProgressBar).setVisibility(View.GONE);
                         return;
                     }
-
-
                 }
-
-
             }.execute();
-
         }
+        mediaPlayer.start();
+        saveBtn.startAnimation(animation3);
+        findViewById(R.id.ProgressBar).setVisibility(View.GONE);
+
+
     }
 
     // maybe need to delete the super
@@ -390,11 +411,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 returnedPattern = returnedIntent.getStringExtra("PATTERN_LOCK");
-                Log.d("patterenGotBack", "" + returnedPattern);
+                Log.d("patternGotBack", "" + returnedPattern);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "You didnt chose Patternt", Toast.LENGTH_LONG).show();
-                Log.d("patterenGotBack", "no pattern came back");
+                Toast.makeText(getApplicationContext(), "You didnt chose Pattern", Toast.LENGTH_LONG).show();
+                Log.d("patternGotBack", "no pattern came back");
             }
 
         }

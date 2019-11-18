@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import cryptography.Cryptography;
 import local_database.DatabaseClient;
 import repository.RecordRepository;
 import view.explorer.CategoryList_Activity;
@@ -70,6 +74,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     RecyclerView recyclerView;
     String searchString;
     FloatingActionButton button_add_record;
+    ImageView clearSearch;
+
+
+    String encryptedSearchString;
+    Cryptography cryptography = new Cryptography();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +95,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         search_bar = findViewById(R.id.search_bar);
         activityTitle = findViewById(R.id.activityTitle);
         button_add_record = findViewById(R.id.button_add_record);
+        clearSearch = findViewById(R.id.clearSearch);
+
 
         //Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
@@ -96,16 +108,39 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.buttonpush_anim);
 
         //////////////////////////////////////////////////////////
-
         user = getIntent().getStringExtra("CRYPTO_KEY");
+
         Log.d("userTest2Get", "" + user);
         //////////////////////////////////////////////////////////
         recycler();
 
         floatingActionButton();
 
+
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.VISIBLE);}
+                else if (search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.GONE); }
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.VISIBLE);}
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.GONE);}
+            }
+        });
     }
 
+
+
+    @SuppressLint("StaticFieldLeak")
     public void recycler() {
 
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this, user);
@@ -138,7 +173,20 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 } else if (nameOfFolder.equals("Search")) {
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
-                    viewModel.getSearchRecords(searchString).observe(this, new Observer<List<Record>>() {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override  //try for Encryption
+                        protected Void doInBackground(Void... voids) {
+                            try {
+                                encryptedSearchString = cryptography.encryptWithKey(user, searchString);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            return null;
+                        }
+                    };
+                    Toast.makeText(this, encryptedSearchString, Toast.LENGTH_LONG).show();
+                    viewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
+
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
@@ -188,6 +236,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 finish();
+                overridePendingTransition(0, 0);
+
             }
         });
 
@@ -226,7 +276,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
         Log.d("onRecordClick", "clicked " + records.get(position).getRecordID());
         // ------------------------------------------------------------------------------- //
-        Toast.makeText(this, "clicked.", Toast.LENGTH_SHORT).show();
         // records.get(position);
         final String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
         //  String type;
@@ -290,7 +339,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
             @Override
             protected Void doInBackground(Void... voids) {
-                record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord().getRecordDetails(records.get(position).getRecordID());
+                record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord()
+                        .getRecordDetails(records.get(position).getRecordID());
 //                titleRecord = record.getTitle();
 //                dateCreatedRecord = record.getDateCreated();
 //                lastModifiedRecord = record.getLastModified();
@@ -335,10 +385,11 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     intent.putExtra(EXTRA_TYPE, type);
                 }
 
-                //passing to Add_New_Record where we came from - to decide what type of screen to show.
-                intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
-               // Log.e("userNameRecord", "before " + userNameRecord);
-                startActivity(intent);
+        //passing to Add_New_Record where we came from - to decide what type of screen to show.
+        intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+
 
             }
 
@@ -353,6 +404,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     public void back(View view) {
         mediaPlayer.start();
         finish();
+        overridePendingTransition(0, 0);
+
     }
 
 
@@ -374,11 +427,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         overridePendingTransition(0, 0);
         finish();
         overridePendingTransition(0, 0);
-
-
     }
 
     public void openMenu(View view) {
     }
 
+    public void clearSearch(View view) {
+        search_bar.setText("");
+    }
 }

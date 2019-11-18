@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +53,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     EditText search_bar;
     TextView activityTitle;
     String nameOfFolder;
+    ImageView clearSearch;
 
 
     @Override
@@ -80,6 +84,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         search_bar = findViewById(R.id.search_bar);
         search_icon = findViewById(R.id.search_icon);
         activityTitle = findViewById(R.id.activityTitle);
+        clearSearch = findViewById(R.id.clearSearch);
 
 
         mainGrid = findViewById(R.id.mainGrid);
@@ -116,6 +121,26 @@ public class CategoryList_Activity extends AppCompatActivity {
         category10.setTypeface(myFont);
 
         floatingActionButton();
+
+        search_bar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.VISIBLE);}
+                else if (search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.GONE); }
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.VISIBLE);}
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (search_bar.getText().toString().equals("")){
+                    clearSearch.setVisibility(View.GONE);}
+            }
+        });
     }
 
 
@@ -133,6 +158,7 @@ public class CategoryList_Activity extends AppCompatActivity {
                 intent.putExtra("CRYPTO_KEY",user);    // passing the userName for the KEY encryption
                 Toast.makeText(CategoryList_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
+                overridePendingTransition(0, 0);
             }
         });
     }
@@ -172,6 +198,7 @@ public class CategoryList_Activity extends AppCompatActivity {
         Log.d("userCheck", "!!!" + user);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
+        overridePendingTransition(0, 0);
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
 
     }
@@ -220,5 +247,10 @@ public class CategoryList_Activity extends AppCompatActivity {
 //        Intent intent = new Intent(this, SecurityLevel_Activity.class);
         Intent intent = new Intent(this, SettingsActivity.class);
         this.startActivity(intent);
+        overridePendingTransition(0, 0);
+    }
+
+    public void clearSearch(View view) {
+        search_bar.setText("");
     }
 }

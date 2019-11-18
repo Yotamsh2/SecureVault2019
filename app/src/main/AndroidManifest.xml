@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.securevault19.securevault2019">
+    <uses-permission android:name = "android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -13,9 +15,12 @@
         <activity
             android:name="view.preferences.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="view.explorer.CategoryList_Activity">
+            android:parentActivityName="view.explorer.CategoryList_Activity"
+            >
         </activity>
         <activity android:name="view.explorer.Team_Activity"/>
+        <activity android:name="view.entrance.FirebaseTest_Activity"/>
+        <activity android:name="view.entrance.FirebaseTest_SignIn_Activity"/>
         <activity android:name="view.entrance.SignUp_Activity" />
         <activity
             android:name="view.records.ChooseIcon_PopupActivity"
@@ -43,6 +48,5 @@
         <activity android:name="view.preferences.SecurityLevel_Activity" />
     </application>
 
-    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

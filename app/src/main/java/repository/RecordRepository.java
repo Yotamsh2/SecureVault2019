@@ -45,7 +45,6 @@ public class RecordRepository {
         return DaoRecord.getRecordDetails(recordID);    }
 
 
-
     public LiveData<List<Record>> getFavoritesRecords() {
         return DaoRecord.getFavoritesRecords();    }
 

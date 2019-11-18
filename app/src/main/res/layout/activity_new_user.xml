@@ -8,7 +8,6 @@
     android:background="@drawable/new_back"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -229,6 +228,23 @@
                 </LinearLayout>
                 <!--Title--> <!--Always Visible-->
 
+
+                <LinearLayout
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:visibility="visible">
+                    <EditText
+                        android:id="@+id/email_EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress" />
+                </LinearLayout>
+                <!--email-->
+
                 <LinearLayout
                     android:id="@+id/registerDetails"
                     android:layout_width="match_parent"
@@ -248,7 +264,7 @@
                             android:id="@+id/username_EditText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/user_name"
+                            android:hint="First Name"
                             android:inputType="text"
                             android:maxLines="1"
                             android:layout_marginTop="10dp"/>
@@ -262,6 +278,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:visibility="visible">
+
     <EditText
         android:id="@+id/lastName_EditText"
         android:layout_width="match_parent"
@@ -272,26 +289,6 @@
         android:layout_marginTop="10dp"/>
 </LinearLayout>
                     <!-- lastName -->
-                    <LinearLayout
-                        android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="visible">
-                        <!--                        <TextView-->
-                        <!--                            android:layout_width="match_parent"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:text="@string/email"-->
-                        <!--                            android:labelFor="@id/email_EditText"/>-->
-
-                        <EditText
-                            android:id="@+id/email_EditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="@string/email"
-                            android:inputType="textEmailAddress" />
-                    </LinearLayout>
-                    <!--email-->
 
  <LinearLayout
      android:id="@+id/dateOfBirth"
@@ -313,6 +310,7 @@
                   android:inputType="date"
                   android:maxLines="1"
                   android:textAlignment="center"
+                  android:layout_marginTop="10dp"
                   android:onClick="openCalendarUser">
               </EditText>
 <ImageButton
@@ -341,6 +339,7 @@
         android:layout_height="match_parent"
         android:hint="@string/Question"
         android:inputType="text"
+        android:layout_marginTop="10dp"
         >
 
     </EditText>
@@ -351,7 +350,7 @@
         android:layout_height="match_parent"
         android:hint="@string/Answer"
         android:inputType="text"
-        android:paddingEnd="100dp">
+        android:layout_marginTop="10dp">
 
     </EditText>
 
@@ -381,7 +380,7 @@
                                 android:ellipsize="start"
                                 android:inputType="textPassword"
                                 android:hint="@string/masterPass"
-                                android:paddingEnd="100dp"
+                                android:paddingEnd="80dp"
                                 android:enabled="true"/>
 
 
@@ -442,16 +441,61 @@
                         <!--password edit text-->
 
 
-
-                        <EditText
-                            android:id="@+id/verifyPassword_EditText"
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="start"
-                            android:inputType="textPassword"
-                            android:hint="@string/verifyPass"
-                            android:paddingEnd="100dp"
-                            android:enabled="true"/>
+                                android:layout_height="wrap_content">
+                            <EditText
+                                android:id="@+id/verifyPassword_EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="start"
+                                android:inputType="textPassword"
+                                android:hint="@string/verifyPass"
+                                android:paddingEnd="80dp"
+                                android:enabled="true"/>
+
+                            <RelativeLayout
+                                android:id="@+id/showHideVerPass"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:gravity="end|bottom"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginTop="10dp">
+
+                                <TextView
+                                    android:id="@+id/verStrength"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="34dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:text="strength"
+                                    android:textColor="#07CE00"
+                                    android:visibility="gone"/>
+
+                                <ImageButton
+                                    android:id="@+id/showVerPass"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@drawable/ic_show_pass"
+                                    android:onClick="showPass" />
+
+                                <ImageButton
+                                    android:id="@+id/hideVerPass"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="bottom"
+                                    android:layout_alignParentEnd="true"
+                                    android:background="@drawable/ic_hide_pass"
+                                    android:onClick="showPass"
+                                    android:visibility="gone" />
+
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
 
                     </LinearLayout>
                     <!--password-->
@@ -472,14 +516,14 @@
                     <ImageButton
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/ic_dialpad_black"
+                        android:background="@drawable/pattern_icon"
                         android:layout_marginEnd="10dp"
                         android:onClick="choosePattern"/>
 
                     <ImageButton
                         android:layout_width="60dp"
                         android:layout_height="60dp"
-                        android:background="@drawable/ic_security_black"
+                        android:background="@drawable/level2_logo"
                         android:onClick="chooseSecurityLevel"/>
                 </LinearLayout>
                 <!--Patern, SecurityLevel-->
@@ -554,4 +598,14 @@
         <!--Form-->
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/ProgressBar"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progress="25"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

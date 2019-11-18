@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
@@ -89,7 +90,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
     //////////////////////////////////////////////////////////////////////////////////
 
-    //    private EditText custom1_EditText, custom2_EditText, custom3_EditText, password, note;
+    private String folder, type, origin;
     private TextView custom1_EditText_title, custom2_EditText_title, custom3_EditText_title, note_title;
     private TextView licenceExpiringDate_EditText;
     private TextView issuanceDate_EditText;
@@ -99,7 +100,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private ImageView logo;
     private Button addFields, addNote, addExpiringDate;
     private ImageButton saveBtn, cancelBtn;
-    private ImageButton showPass, hidePass, copyPass, showCategory, showTypeOfRecord;
+    private ImageButton showPass, hidePass, copyPass, showCategory, showTypeOfRecord, linkWebsite;
     private MediaPlayer mediaPlayer;
     private Animation animation1, animation2, animation3;
     private ScrollView scrollView;
@@ -110,7 +111,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
     // for simplisity and exampling:
-    private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText, email_EditText, accountNumber_EditText, IBAN_EditText, bankNumber_EditText, bankAddress_EditText, cardNumber_EditText, cvv_EditText, cardExpiringMonth_EditText, cardExpiringYear_EditText, publicKey_EditText, privateKey_EditText, walletGenerationSeed_EditText, licenceNumber_EditText, issuancePlace_EditText, passportNumber_EditText;
+    private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText,
+            email_EditText, accountNumber_EditText, IBAN_EditText, bankNumber_EditText, bankAddress_EditText,
+            cardNumber_EditText, cvv_EditText, cardExpiringMonth_EditText, cardExpiringYear_EditText, publicKey_EditText,
+            privateKey_EditText, walletGenerationSeed_EditText, licenceNumber_EditText, issuancePlace_EditText, passportNumber_EditText;
     private TextView licenceExpiringDate_title;
     //String outputString;
 
@@ -124,7 +128,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
     ArrayList<Drawable> drawableResources = new ArrayList<>();
     //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
-    int drawabaleID = 2131230959; //Default Icon(Secure Vault Black)
+    int drawabaleID = R.drawable.logo_black; //Default Icon(Secure Vault Black)
     Drawable mChooseicon;
     private Drawable currentDrawable;
 
@@ -164,6 +168,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         expiringDate_title = findViewById(R.id.expiringDate_title);
         calendarBtn = findViewById(R.id.calendarBtn);
         addExpiringDate = findViewById(R.id.addExpiringDateBtn);
+        linkWebsite = findViewById(R.id.openLink);
         showPass = findViewById(R.id.showPass);
         hidePass = findViewById(R.id.hidePass);
         copyPass = findViewById(R.id.copyPass);
@@ -177,13 +182,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         scrollView = findViewById(R.id.frame);
         addNote = findViewById(R.id.addNoteBtn);
         note = findViewById(R.id.note_editText);
-//        note_title =  findViewById(R.id.note_title);
         category_Spinner = findViewById(R.id.category_Spinner); //Folder
         typeOfRecord_Spinner = findViewById(R.id.typeOfRecord_Spinner);
         title_EditText = findViewById(R.id.title_EditText);
         username_EditText = findViewById(R.id.username_EditText);
         password_EditText = findViewById(R.id.password_EditText);
         website_EditText = findViewById(R.id.website_EditText);
+        //website_EditText.setText("https://");
         email_EditText = findViewById(R.id.email_EditText);
         accountNumber_EditText = findViewById(R.id.accountNumber_EditText);
         IBAN_EditText = findViewById(R.id.iban_EditText);
@@ -245,7 +250,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         //Getting all the EXTRAS from all the 'intent.puExtra()'s
         Bundle extras = getIntent().getExtras();
-        String folder, type, origin;
 
 
         if (extras != null) {
@@ -259,6 +263,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     if (folder != null) {
                         if (type != null) {
                             fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
+                            findViewById(R.id.deleteTopBtn).setVisibility(View.VISIBLE);
                             switch (type) {
                                 case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
@@ -466,8 +471,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     });
             }
         }
-
-
     }
 
     public void fieldsVisibility(String type) {
@@ -578,6 +581,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     void DisplayRecordDetails(Record record) {
         try {
             title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
+            activityTitle.setText(title_EditText.getText().toString());
             password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
             email_EditText.setText(cryptography.decrypt(record.getEmail(), user));
             website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
@@ -619,17 +623,31 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     @SuppressLint({"RestrictedApi", "StaticFieldLeak"})
     public void openNewRecord(View view) {                     // the onClick func (save Button)
-        //cryptography = new Cryptography();                      // making argument of Cryptography which is private!
+        //cryptography = new Cryptography();                   // making argument of Cryptography which is private!
         //Setting the details from the Activity to send to the Record constructor
-        final String title = title_EditText.getText().toString();
-        // final String userName = username_EditText.getText().toString().trim();
-        //final String password = password_EditText.getText().toString().trim();
-        final String website = website_EditText.getText().toString().trim();
-        final String email = email_EditText.getText().toString().trim();
-        final String expiringDate = expiringDate_EditText.getText().toString().trim();
         final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString();
         final String folder = category_Spinner.getSelectedItem().toString();
-
+        final String title = title_EditText.getText().toString().trim();
+        final String username = username_EditText.getText().toString().trim();
+        final String password = password_EditText.getText().toString().trim();
+        final String accountNumber = accountNumber_EditText.getText().toString().trim();
+        final String IBAN = IBAN_EditText.getText().toString().trim();
+        final String bankNumber = bankNumber_EditText.getText().toString().trim();
+        final String bankAddress = bankAddress_EditText.getText().toString().trim();
+        final String cardNumber = cardNumber_EditText.getText().toString().trim();
+        final String cvv = cvv_EditText.getText().toString().trim();
+        final String cardExpiringMonth = cardExpiringMonth_EditText.getText().toString().trim();
+        final String cardExpiringYear = cardExpiringYear_EditText.getText().toString().trim();
+        final String website = website_EditText.getText().toString().trim();
+        final String email = email_EditText.getText().toString().trim();
+        final String publicKey = publicKey_EditText.getText().toString().trim();
+        final String privateKey = privateKey_EditText.getText().toString().trim();
+        final String walletGenerationSeed = walletGenerationSeed_EditText.getText().toString().trim();
+        final String licenceNumber = licenceNumber_EditText.getText().toString().trim();
+        final String licenceExpiringDate = licenceExpiringDate_EditText.getText().toString().trim();
+        final String passportNumber = passportNumber_EditText.getText().toString().trim();
+        final String issuanceDate = issuanceDate_EditText.getText().toString().trim();
+        final String issuancePlace = issuancePlace_EditText.getText().toString().trim();
 
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
@@ -667,26 +685,26 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         // encrypthing the password and the username(username for test)
                         //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
                         encryptedTitle = cryptography.encryptWithKey(user, title);
-                        encryptedUsername = cryptography.encryptWithKey(user, username_EditText.getText().toString());
-                        encryptedPassword = cryptography.encryptWithKey(user, password_EditText.getText().toString());
-                        encryptedAccountNumber = cryptography.encryptWithKey(user, accountNumber_EditText.getText().toString());
-                        encryptedIBAN = cryptography.encryptWithKey(user, IBAN_EditText.getText().toString());
-                        encryptedBankNumber = cryptography.encryptWithKey(user, bankNumber_EditText.getText().toString());
-                        encryptedBankAddress = cryptography.encryptWithKey(user, bankAddress_EditText.getText().toString());
-                        encryptedCardNumber = cryptography.encryptWithKey(user, cardNumber_EditText.getText().toString());
-                        encryptedCVV = cryptography.encryptWithKey(user, cvv_EditText.getText().toString());
-                        encryptedCardExpireMonth = cryptography.encryptWithKey(user, cardExpiringMonth_EditText.getText().toString());
-                        encryptedCardExpireYear = cryptography.encryptWithKey(user, cardExpiringYear_EditText.getText().toString());
-                        encryptedWebsite = cryptography.encryptWithKey(user, website_EditText.getText().toString());
-                        encryptedEmail = cryptography.encryptWithKey(user, email_EditText.getText().toString());
-                        encryptedPublicKey = cryptography.encryptWithKey(user, publicKey_EditText.getText().toString());
-                        encryptedPrivateKey = cryptography.encryptWithKey(user, privateKey_EditText.getText().toString());
-                        encryptedWalletGenerationSeed = cryptography.encryptWithKey(user, walletGenerationSeed_EditText.getText().toString());
-                        encryptedLicenceNumber = cryptography.encryptWithKey(user, licenceNumber_EditText.getText().toString());
-                        encryptedLicenceExpireDate = cryptography.encryptWithKey(user, licenceExpiringDate_EditText.getText().toString());
-                        encryptedPassportNumber = cryptography.encryptWithKey(user, passportNumber_EditText.getText().toString());
-                        encryptedIssuanceDate = cryptography.encryptWithKey(user, issuanceDate_EditText.getText().toString());
-                        encryptedIssuancePlase = cryptography.encryptWithKey(user, issuancePlace_EditText.getText().toString());
+                        encryptedUsername = cryptography.encryptWithKey(user, username);
+                        encryptedPassword = cryptography.encryptWithKey(user, password);
+                        encryptedAccountNumber = cryptography.encryptWithKey(user, accountNumber);
+                        encryptedIBAN = cryptography.encryptWithKey(user, IBAN);
+                        encryptedBankNumber = cryptography.encryptWithKey(user, bankNumber);
+                        encryptedBankAddress = cryptography.encryptWithKey(user, bankAddress);
+                        encryptedCardNumber = cryptography.encryptWithKey(user, cardNumber);
+                        encryptedCVV = cryptography.encryptWithKey(user, cvv);
+                        encryptedCardExpireMonth = cryptography.encryptWithKey(user, cardExpiringMonth);
+                        encryptedCardExpireYear = cryptography.encryptWithKey(user, cardExpiringYear);
+                        encryptedWebsite = cryptography.encryptWithKey(user, website);
+                        encryptedEmail = cryptography.encryptWithKey(user, email);
+                        encryptedPublicKey = cryptography.encryptWithKey(user, publicKey);
+                        encryptedPrivateKey = cryptography.encryptWithKey(user, privateKey);
+                        encryptedWalletGenerationSeed = cryptography.encryptWithKey(user, walletGenerationSeed);
+                        encryptedLicenceNumber = cryptography.encryptWithKey(user, licenceNumber);
+                        encryptedLicenceExpireDate = cryptography.encryptWithKey(user, licenceExpiringDate);
+                        encryptedPassportNumber = cryptography.encryptWithKey(user, passportNumber);
+                        encryptedIssuanceDate = cryptography.encryptWithKey(user, issuanceDate);
+                        encryptedIssuancePlase = cryptography.encryptWithKey(user, issuancePlace);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -726,24 +744,32 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setIcon(String.valueOf(drawabaleID));
                     Log.d("default icon", ""+ drawabaleID);
 
+
                     // inserting record to DB
-                    DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
-                            .daoRecord()
-                            .insert(record);
+                    if (origin.equals("onRecordClick")){
+                        DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
+                                .daoRecord()
+                                .update(record);
+                        Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
 
-
-
+                    }
+                    else {
+                        DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
+                                .daoRecord()
+                                .insert(record);
+                    }
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
-                    Toast.makeText(getApplicationContext(), "record created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
 // after the save button is clicked and finished all his jobs, before exiting completely,
 // finishing the activity and open 'new' (refreshed ) RecyclerView with Website Category
 
                     finish();
+                    overridePendingTransition(0, 0);
                     //Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
                     //intent.putExtra(EXTRA_FOLDER, folder);
                     //////////intent.putExtra("CRYPTO_KEY", user);
@@ -859,19 +885,22 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void showPass(View view) {
 //        password.requestFocus();
 //        password.setSelection(password.getText().length());
-        if (showPass.getVisibility() == View.VISIBLE) {
-            password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            hidePass.setVisibility(View.VISIBLE);
-            showPass.setVisibility(View.GONE);
-            showPass.startAnimation(animation3);
-        } else {
-            password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            hidePass.setVisibility(View.GONE);
-            showPass.setVisibility(View.VISIBLE);
-            hidePass.startAnimation(animation3);
+        if (view == showPass || view == hidePass){
+
+            if (showPass.getVisibility() == View.VISIBLE) {
+                password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                hidePass.setVisibility(View.VISIBLE);
+                showPass.setVisibility(View.GONE);
+                showPass.startAnimation(animation3);
+            } else {
+                password_EditText.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                hidePass.setVisibility(View.GONE);
+                showPass.setVisibility(View.VISIBLE);
+                hidePass.startAnimation(animation3);
+            }
+            password_EditText.requestFocus();
+            password_EditText.setSelection(password_EditText.getText().length());
         }
-        password_EditText.requestFocus();
-        password_EditText.setSelection(password_EditText.getText().length());
 
     }
 
@@ -919,7 +948,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void back(View view) {
-        finish(); //finishing current activity
+        finish();
+        overridePendingTransition(0, 0);
 //
 //        //get EXTRA_FOLDER that we know where to navigate(which folder we want to return)
 //        Bundle extras = getIntent().getExtras();
@@ -1045,6 +1075,17 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         //calculate "points" and shows current strength level
 
+
+    }
+
+    public void openWebsiteLink(View view) {
+        Intent i = new Intent();
+        i.setAction(Intent.ACTION_VIEW);
+        i.setData(Uri.parse("http://" + website_EditText.getText().toString()));
+        startActivity(i);
+    }
+
+    public void deleteRecord(View view) {
 
     }
 
