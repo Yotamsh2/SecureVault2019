@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView logo = findViewById(R.id.logo);
         Button forgotPass = findViewById((R.id.forgotPass));
         firebaseTest = findViewById(R.id.firebaseTest);
-        signup = findViewById(R.id.signUp);
+        signup = findViewById(R.id.newAccount);
         LinearLayout signInForm = findViewById(R.id.signInForm);
         final EditText userName = findViewById(R.id.userName);
         final EditText password = findViewById(R.id.password_EditText);

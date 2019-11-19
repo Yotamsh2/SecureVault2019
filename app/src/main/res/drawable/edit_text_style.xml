@@ -6,7 +6,7 @@
         <!--android:angle="90"/>-->
     <stroke android:color="#fff"
         android:width="2dp"/>
-    <corners android:radius="20sp"/>
+    <corners android:radius="40dp"/>
     <solid android:color="@color/transparent" />
 
 </shape>

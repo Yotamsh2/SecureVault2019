@@ -3,6 +3,6 @@
     <gradient android:endColor="@color/btn_firstColor"
         android:startColor="@color/btn_secondColor"/>
     <size android:height="40dp"/>
-    <corners android:radius="20sp"/>
+    <corners android:radius="40dp"/>
 
 </shape>
