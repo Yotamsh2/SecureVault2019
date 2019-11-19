@@ -132,7 +132,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         email_EditText = findViewById(R.id.email_EditText);
         verifyPassword_EditText = findViewById(R.id.verifyPassword_EditText);
         dateOfBirth_EditText = findViewById(R.id.dateOfBirth_EditText);
-        optionalQuestion_EditText = findViewById(R.id.optionalAnswer_EditText);
+        optionalQuestion_EditText = findViewById(R.id.optionalQuestion_EditText);
         optionalAnswer_EditText = findViewById(R.id.optionalAnswer_EditText);
         showVerPass = findViewById(R.id.showVerPass);
         hideVerPass = findViewById(R.id.hideVerPass);
@@ -430,6 +430,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK) {
                 returnedPattern = returnedIntent.getStringExtra("PATTERN_LOCK");
+                findViewById(R.id.patternBtn).setBackground(getDrawable(R.drawable.pattern_icon_done));
                 Log.d("patternGotBack", "" + returnedPattern);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
