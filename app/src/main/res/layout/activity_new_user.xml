@@ -272,8 +272,7 @@
                     </LinearLayout>
                     <!--userName-->
 
-                    <!-- lastName -->
-<LinearLayout
+                    <LinearLayout
     android:id="@+id/lastName"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -291,11 +290,12 @@
 </LinearLayout>
                     <!-- lastName -->
 
- <LinearLayout
+                    <LinearLayout
      android:id="@+id/dateOfBirth"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:orientation="vertical">
+     android:orientation="vertical"
+     android:visibility="gone">
 
 
           <LinearLayout
@@ -326,45 +326,11 @@
 
 
  </LinearLayout>
-
-
-<LinearLayout
-    android:id="@+id/optionalQuestionAnswer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/optionalQuestion_EditText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/Question"
-        android:inputType="text"
-        android:layout_marginTop="10dp"
-        >
-
-    </EditText>
-
-    <EditText
-        android:id="@+id/optionalAnswer_EditText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/Answer"
-        android:inputType="text"
-        android:layout_marginTop="10dp">
-
-    </EditText>
-
-</LinearLayout>
-
-
-
-
-
+                    <!-- dateOfBirth -->
 
                     <LinearLayout
-                        android:id="@+id/password"
-                        android:layout_width="match_parent"
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="visible">
@@ -524,7 +490,35 @@
                     </LinearLayout>
                     <!--password-->
 
+                    <LinearLayout
+                        android:id="@+id/optionalQuestionAnswer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
+                        <EditText
+                            android:id="@+id/optionalQuestion_EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/Question"
+                            android:inputType="text"
+                            android:layout_marginTop="10dp"
+                            >
+
+                        </EditText>
+
+                        <EditText
+                            android:id="@+id/optionalAnswer_EditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="@string/Answer"
+                            android:inputType="text"
+                            android:layout_marginTop="10dp">
+
+                        </EditText>
+
+                    </LinearLayout>
+                    <!-- optionalQuestion -->
 
 
                 </LinearLayout>
@@ -546,6 +540,7 @@
                         android:onClick="choosePattern"/>
 
                     <ImageButton
+                        android:id="@+id/securityLevelBtn"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:background="@drawable/level2_logo"

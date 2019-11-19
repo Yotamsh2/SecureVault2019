@@ -434,7 +434,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 Log.d("patternGotBack", "" + returnedPattern);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "You didnt chose Pattern", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Pattern not saved", Toast.LENGTH_LONG).show();
                 Log.d("patternGotBack", "no pattern came back");
             }
 
@@ -444,10 +444,16 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 returnedSecurityLevel = returnedIntent.getStringExtra("SECURITY_LEVEL");
                 Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_LONG).show();
                 Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
+                if(returnedSecurityLevel.equals("1")){
+                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));}
+                else if(returnedSecurityLevel.equals("2")){
+                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level2_logo));}
+                else if(returnedSecurityLevel.equals("3")){
+                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level3_logo));}
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "You didnt chose Secure Level", Toast.LENGTH_LONG).show();
-                Log.d("returnedSecurityLevel ", "no patteren returned");
+                Toast.makeText(getApplicationContext(), "Security level not saved", Toast.LENGTH_LONG).show();
+                Log.d("returnedSecurityLevel ", "no pattern returned");
             }
 
         }
