@@ -155,22 +155,17 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         password_EditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(password_EditText.getText().toString().equals("")){
-                    return;
-                }
-                else {
-                    passwordCalculation();
-                }
+                passwordCalculation();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                passwordCalculation();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                passwordCalculation();
             }
         });
     }
@@ -497,7 +492,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     protected void passwordCalculation() {
         String temp = password_EditText.getText().toString();
         System.out.println(i + " current password is : " + temp);
-        i = i + 1;
+        i++;
 
         int length = 0, uppercase = 0, lowercase = 0, digits = 0, symbols = 0, bonus = 0, requirements = 0;
 

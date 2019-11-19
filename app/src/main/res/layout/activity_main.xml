@@ -67,7 +67,7 @@
                     android:textColor="#fff"
                     android:textAlignment="center"
                     android:inputType="textPassword"
-                    android:ellipsize="start"/>
+                    android:ellipsize="start" />
 
 
 
