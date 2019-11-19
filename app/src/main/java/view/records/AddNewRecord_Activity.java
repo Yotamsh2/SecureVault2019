@@ -482,25 +482,19 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         password_EditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(password_EditText.getText().toString().equals("")){
-                    return;
-                }
-                else {
-                    passwordCalculation();
-                }
+                passwordCalculation();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                passwordCalculation();
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                passwordCalculation();
             }
         });
-
     }
 
     public void fieldsVisibility(String type) {
