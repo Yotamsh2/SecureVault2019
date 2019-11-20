@@ -5,6 +5,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 
 import com.securevault19.securevault2019.user.User;
 
@@ -17,8 +18,9 @@ import local_database.dao.DaoUser;
 
 public class UserRepository {
 
-
     private DaoUser DaoUser;
+    private LiveData<List<User>> allUsers;
+
 
 
     public UserRepository(Application application) {
@@ -38,6 +40,16 @@ public class UserRepository {
         new InsertAsyncTask(DaoUser).execute(user);
     }
 
+    public void update(User user){
+        new UpdateAsyncTask(DaoUser).execute(user);
+    }
+    public LiveData<List<User>> getAllUsers(){ return allUsers;}
+
+    public void updateSecureLevel(String secureLevel, String currentUser) {
+        new UpdateSecureLevel(DaoUser, secureLevel, currentUser).execute();
+    }
+
+
     private class InsertAsyncTask extends AsyncTask<User, Void, Void> {
         private DaoUser daoUser;
 
@@ -48,6 +60,38 @@ public class UserRepository {
         @Override
         protected Void doInBackground(User... users) {
             daoUser.insert(users[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateAsyncTask extends AsyncTask<User, Void, Void> {
+        private DaoUser daoUser;
+
+        private UpdateAsyncTask(DaoUser daoUser){
+            this.daoUser = daoUser;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            daoUser.update(users[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateSecureLevel extends AsyncTask<User, Void, Void> {
+        private DaoUser daoUser;
+        String secureLevel;
+        String currentUser;
+
+        private UpdateSecureLevel(DaoUser daoUser, String secureLevel, String currentUser){
+            this.daoUser = daoUser;
+            this.currentUser = currentUser;
+            this.secureLevel = secureLevel;
+        }
+
+        @Override
+        protected Void doInBackground(User... users) {
+            daoUser.updateSecureLevel(secureLevel, currentUser);
             return null;
         }
     }

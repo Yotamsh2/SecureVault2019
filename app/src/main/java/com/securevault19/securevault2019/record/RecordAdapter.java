@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.securevault19.securevault2019.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     private OnRecordListener mOnRecordListener;
     private Cryptography cryptography;
     private String userKey;
+    Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
+
 
     public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener,String userKey) {
         this.userKey = userKey;
@@ -66,9 +69,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
             e.printStackTrace();
         }
 
+        //        String iconID = currentRecord.getIcon();  //TO DELETE
+//        holder.recordIcon.setImageResource(Integer.valueOf(iconID)); TO DELETE
 
-        String iconID = currentRecord.getIcon();
-        holder.recordIcon.setImageResource(Integer.valueOf(iconID));
+        String iconName = currentRecord.getIcon();
+        int iconID = convertIconNameToID(iconName);
+        holder.recordIcon.setImageResource(iconID);
 
 
 
@@ -122,5 +128,20 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         void onRecordClick(int position, List<Record> records);
     }
 
+    private int convertIconNameToID(String iconName) {
+        int iconID;                        //for loop to get the proper drawable's id
+        for (Field field : allDrawablesfromRes_drawable) {
+            //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
 
+            if (field.getName().equals(iconName)) {
+                try {
+                    iconID = field.getInt(null);
+                    return iconID;
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0;
+    }
 }
