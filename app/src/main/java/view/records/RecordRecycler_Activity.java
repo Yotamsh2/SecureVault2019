@@ -60,7 +60,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
 
-
     private Record_ViewModel viewModel;
     private List<Record> records = new ArrayList<>();
     private TextView activityTitle;
@@ -184,7 +183,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             return null;
                         }
                     };
-                    Toast.makeText(this, encryptedSearchString, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(this, encryptedSearchString, Toast.LENGTH_LONG).show();
                     viewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
 
                         @Override
@@ -249,24 +248,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         back(null);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ADD_RECORD_REQUEST && resultCode == RESULT_OK) {
-            String title = data.getStringExtra(AddNewRecord_Activity.EXTRA_TITLE);
-            String userName = data.getStringExtra(AddNewRecord_Activity.EXTRA_USERNAME);
-            String password = data.getStringExtra(AddNewRecord_Activity.EXTRA_PASSWORD);
-            String email = data.getStringExtra(AddNewRecord_Activity.EXTRA_EMAIL);
-            String website = data.getStringExtra(AddNewRecord_Activity.EXTRA_WEBSITE);
-            String expiringDateDay = data.getStringExtra(AddNewRecord_Activity.EXTRA_EXPIRING_DATE_DAY);
-            String expiringDateMonth = data.getStringExtra(AddNewRecord_Activity.EXTRA_EXPIRING_DATE_MONTH);
-            String expiringDateyear = data.getStringExtra(AddNewRecord_Activity.EXTRA_EXPIRING_DATE_YEAR);
-            String other = data.getStringExtra(AddNewRecord_Activity.EXTRA_OTHER);
-
-
-        }
-    }
 
     //Creating new Record
     @Override
@@ -339,8 +320,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
             @Override
             protected Void doInBackground(Void... voids) {
-                record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord()
-                        .getRecordDetails(records.get(position).getRecordID());
+                record = viewModel.getRecordDetails(records.get(position).getRecordID());
 //                titleRecord = record.getTitle();
 //                dateCreatedRecord = record.getDateCreated();
 //                lastModifiedRecord = record.getLastModified();
@@ -375,7 +355,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                 intent.putExtra(EXTRA_FOLDER, folder);
-                //intent.putExtra("userNameRecord", userNameRecord);
                 intent.putExtra("recordClassDB",  record);
 
                 if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.

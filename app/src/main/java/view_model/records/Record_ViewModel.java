@@ -22,6 +22,15 @@ public class Record_ViewModel extends AndroidViewModel {
         repository = new RecordRepository(application);
     }
 
+    public void insert(Record record) {
+        repository.insert(record);     }
+
+    public void update(Record record) {
+        repository.update(record);     }
+
+    public void delete(Record record) {
+        repository.delete(record);     }
+
     public LiveData<List<Record>> getAllRecords() {
         return repository.getAllRecords();    }
 
@@ -33,7 +42,6 @@ public class Record_ViewModel extends AndroidViewModel {
 
     public Record getRecordDetails(int recordID) {
         return repository.getRecordDetails(recordID);    }
-
 
     public LiveData<List<Record>> getFavoritesRecords() {
         return repository.getFavoritesRecords();    }

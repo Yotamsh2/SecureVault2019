@@ -39,7 +39,7 @@ public class CategoryList_Activity extends AppCompatActivity {
     public static final String EXTRA_SEARCH =
             "com.securevault19.securevault2019.EXTRA_SEARCH";
     public static final String EXTRA_ORIGIN =
-            "com.example.architectureexample.EXTRA_ORIGIN";
+            "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
     Typeface myFont;
     TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;

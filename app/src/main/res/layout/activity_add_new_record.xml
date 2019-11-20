@@ -225,11 +225,15 @@
                 <!--Category & Type--> <!--NOT Visible-->
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_marginTop="10dp">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -243,17 +247,19 @@
                         android:layout_marginTop="4dp"
                         android:textSize="16sp"
                         android:textColor="#80000000"/>
+                    </LinearLayout>
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/ic_delete_black"
-                        android:layout_marginStart="256dp"
-                        android:layout_marginTop="4dp"
                         android:id="@+id/deleteTopBtn"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/ic_delete_black"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="6dp"
+                        android:layout_marginTop="6dp"
                         android:onClick="deleteRecord"
                         android:visibility="gone"/>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/title"
@@ -1460,16 +1466,6 @@
                         android:onClick="cancelWarningMessage"
                         android:src="@drawable/ic_close" />
 
-                    <ImageButton
-                        android:id="@+id/deleteBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="44dp"
-                        android:layout_weight="2"
-                        android:layout_marginBottom="6dp"
-                        android:background="@drawable/btn_delete_style"
-                        android:onClick="deleteRecord"
-                        android:src="@drawable/ic_delete_white"
-                        android:visibility="gone"/>
 
                     <ImageButton
                         android:id="@+id/saveBtn"

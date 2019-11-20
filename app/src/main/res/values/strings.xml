@@ -3,7 +3,7 @@
     <string name="sign_in">Sign In</string>
     <string name="user_name">User Name</string>
     <string name="password">Password</string>
-    <string name="create_vault">Create Your Own SECURE VAULT Account</string>
+    <string name="create_vault">Create your own SECURE VAULT account</string>
     <string name="add_record">+ Add Record</string>
     <string name="forgot_pass">Forgot Password</string>
     <string name="category">Category</string>
@@ -109,14 +109,16 @@
     <string name="sync_title">Sync email periodically</string>
 
     <!-- Sync Preferences -->
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    <string name="attachment_title" translatable="false">Download incoming attachments</string>
+    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
     </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
     <string name="ori">Ori Even Hen</string>
     <string name="yotam">Yotam Shoval</string>
     <string name="evgeni">Evgeni Iseev</string>
     <string name="idan">Idan Bardugo</string>
     <string name="project_team">Project Team</string>
+    <string name="delete_request">Delete request</string>
+    <string name="delete_message">Are you sure you want to delete permanently?</string>
 
 </resources>

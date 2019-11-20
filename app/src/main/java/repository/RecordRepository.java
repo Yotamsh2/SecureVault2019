@@ -21,16 +21,20 @@ import view.records.RecordRecycler_Activity;
 public class RecordRepository {
 
     private DaoRecord DaoRecord;
-
-
     public RecordRepository(Application application) {
         RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the single ton database
         DaoRecord = database2.daoRecord();
     }
 
+
     public void insert(Record record) {
-        new InsertRecordAsyncTask(DaoRecord).execute(record);
-    }
+        new InsertRecordAsyncTask(DaoRecord).execute(record);    }
+
+    public void update(Record record) {
+        new UpdateRecordAsyncTask(DaoRecord).execute(record);    }
+
+    public void delete(Record record) {
+        new DeleteRecordAsyncTask(DaoRecord).execute(record);    }
 
     public LiveData<List<Record>> getAllRecords() {
         return DaoRecord.getAllRecords();    }
@@ -44,29 +48,10 @@ public class RecordRepository {
     public Record getRecordDetails(int recordID) {
         return DaoRecord.getRecordDetails(recordID);    }
 
-
     public LiveData<List<Record>> getFavoritesRecords() {
         return DaoRecord.getFavoritesRecords();    }
 
 
-    public void show(Record record) {
-        new ShowRecordAsyncTask(DaoRecord).execute(record);
-    }
-
-    private static class ShowRecordAsyncTask extends AsyncTask<Record, Void, Void> {
-        private DaoRecord DaoRecord;
-
-        private ShowRecordAsyncTask(DaoRecord daoRecord) {
-            this.DaoRecord = DaoRecord;
-        }
-
-        @Override
-        protected Void doInBackground(Record... records) {
-            DaoRecord.delete(records[0]);
-            return null;
-        }
-
-    }
 
     private static class InsertRecordAsyncTask extends AsyncTask<Record, Void, Void> {
         private DaoRecord daoRecord;
@@ -80,6 +65,38 @@ public class RecordRepository {
         @Override
         protected Void doInBackground(Record... records) {
             daoRecord.insert(records[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateRecordAsyncTask extends AsyncTask<Record, Void, Void> {
+        private DaoRecord daoRecord;
+
+
+        private UpdateRecordAsyncTask(DaoRecord daoRecord) {
+            this.daoRecord = daoRecord;
+        } //Constructor because we cannot access the dao of the repository direcly.
+        // (because here it's a class by itself)
+
+        @Override
+        protected Void doInBackground(Record... records) {
+            daoRecord.update(records[0]);
+            return null;
+        }
+    }
+
+    private static class DeleteRecordAsyncTask extends AsyncTask<Record, Void, Void> {
+        private DaoRecord daoRecord;
+
+
+        private DeleteRecordAsyncTask(DaoRecord daoRecord) {
+            this.daoRecord = daoRecord;
+        } //Constructor because we cannot access the dao of the repository direcly.
+        // (because here it's a class by itself)
+
+        @Override
+        protected Void doInBackground(Record... records) {
+            daoRecord.delete(records[0]);
             return null;
         }
     }

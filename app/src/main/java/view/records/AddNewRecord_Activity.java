@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
@@ -52,6 +53,8 @@ import view_model.records.Record_ViewModel;
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, Serializable {
+    private Record_ViewModel viewModel;
+
     private Cryptography cryptography;
 
     private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber, encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate, encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed, encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber, encryptedIssuanceDate, encryptedIssuancePlace,encryptedNote,encryptedExpireDateNote,encryptedTagsNote;
@@ -60,38 +63,16 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private String userNameRecord;
 
 
-    // --- test for checking why the recycler view dosent show any thing --- //
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
     public static final String EXTRA_TYPE =
             "com.securevault19.securevault2019.EXTRA_TYPE";
     // -------------------------------------------------------------------- //
-    //Used by the RecyclerView ////////////////////////////////////////////////////
-    public static final String EXTRA_TITLE =
-            "com.example.architectureexample.EXTRA_TITLE";
-    public static final String EXTRA_USERNAME =
-            "com.example.architectureexample.EXTRA_USERNAME";
-    public static final String EXTRA_PASSWORD =
-            "com.example.architectureexample.EXTRA_PASSWORD";
-    public static final String EXTRA_WEBSITE =
-            "com.example.architectureexample.EXTRA_WEBSITE";
-    public static final String EXTRA_EMAIL =
-            "com.example.architectureexample.EXTRA_EMAIL";
-    public static final String EXTRA_EXPIRING_DATE_DAY =
-            "com.example.architectureexample.EXTRA_EXPIRING_DATE_DAY";
-    public static final String EXTRA_EXPIRING_DATE_MONTH =
-            "com.example.architectureexample.EXTRA_EXPIRING_DATE_MONTH";
-    public static final String EXTRA_EXPIRING_DATE_YEAR =
-            "com.example.architectureexample.EXTRA_EXPIRING_DATE_YEAR";
-    public static final String EXTRA_OTHER =
-            "com.example.architectureexample.EXTRA_OTHER";
-    //////////////////////////////////////////////////////////////////////////////////
 
     private Button addChooseIconBtn;
     private ImageView chooseIcon;
     private Button starBtn, starFullBtn;
     private EditText custom1_EditText, custom2_EditText, custom3_EditText, note_EditText,expireDateNote_EditText,tagsNote_EditText;
-    //////////////////////////////////////////////////////////////////////////////////
 
     private static int i = 1;
     private String folder, type, origin;
@@ -128,7 +109,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private HorizontalScrollView listOfIcons;
     private ProgressBar progressBar;
 
-
+    Record currentRecord;
     private boolean isFavorite = false; //as default, a record is not a favorite.
 
     Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
@@ -153,10 +134,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         //Log.d("userNameRecord", "the userNameRecord passed => " + userNameRecord);
 
         cryptography = new Cryptography();
-        // getting the object ( Record ) from RecordRecycler_activiry line 326
+        // getting the object ( Record ) from RecordRecycler_activity line 326
         Intent i = getIntent();
-        Record record = (Record) i.getSerializableExtra("recordClassDB");
+        currentRecord = (Record) i.getSerializableExtra("recordClassDB");
 
+        viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
         progressBar = findViewById(R.id.progressBar);
         listOfIcons = findViewById(R.id.listOfIcons);
         addChooseIconBtn = findViewById(R.id.addChooseIconBtn);
@@ -263,14 +245,14 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             //Check where we came from:  (Recycler).onRecordClick  OR  (Recycler).buttonAddRecord
             origin = extras.getString(EXTRA_ORIGIN);
             folder = extras.getString(EXTRA_FOLDER);            // name of the folder
-            type = extras.getString(EXTRA_TYPE);            // name of the type ( record )
+            type = extras.getString(EXTRA_TYPE);            // name of the type ( currentRecord )
             folder_name.setText(folder);
             switch (origin) {
                 case "onRecordClick":           // clicked from recycler view
                     if (folder != null) {
                         if (type != null) {
-                            fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
                             findViewById(R.id.deleteTopBtn).setVisibility(View.VISIBLE);
+                            fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
                             switch (type) {
                                 case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
@@ -279,7 +261,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                     //addExpiringDate(addExpiringDate);
                                     //addFields(addFields);
 
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //
 //                                    try {
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
@@ -296,7 +278,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Credit Cards":
                                     typeOfRecord_Spinner.setSelection(4);
                                     category_Spinner.setSelection(4);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try {
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
@@ -313,7 +295,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Social Media":                // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(1);
                                     category_Spinner.setSelection(1);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try{
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
@@ -325,7 +307,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Website & Email":             // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(0);
                                     category_Spinner.setSelection(0);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try {
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
@@ -337,7 +319,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Online Shopping":             // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(2);
                                     category_Spinner.setSelection(2);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try {
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
@@ -349,7 +331,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Cryptocurrency":
                                     typeOfRecord_Spinner.setSelection(6);
                                     category_Spinner.setSelection(6);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try{
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        publicKey_EditText.setText(cryptography.decrypt(record.getPublicKey(),user));
@@ -362,7 +344,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Driving Licence":
                                     typeOfRecord_Spinner.setSelection(7);
                                     category_Spinner.setSelection(7);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try{
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), user));
@@ -373,7 +355,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Passports":
                                     typeOfRecord_Spinner.setSelection(5);
                                     category_Spinner.setSelection(5);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
 //                                    try{
 //                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
 //                                        passportNumber_EditText.setText(cryptography.decrypt(record.getPassportNumber(),user));
@@ -386,7 +368,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 default:  //FOR EXAMPLE
                                     typeOfRecord_Spinner.setSelection(8);
                                     category_Spinner.setSelection(8);
-                                    DisplayRecordDetails(record);
+                                    DisplayRecordDetails(currentRecord);
                                     break;
                             }
                         }
@@ -501,6 +483,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         });
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     public void fieldsVisibility(String type) {
         switch (type) {
             case "Bank Accounts": //shows the relevant fields of the clicked Record.
@@ -609,11 +594,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     void DisplayRecordDetails(Record record) {
 
         try {
-            title_EditText.setText(cryptography.decrypt(record.getTitle(), CRYPTO_KEY));
-            activityTitle.setText(title_EditText.getText().toString());
+            title_EditText.setText(cryptography.decrypt(record.getTitle().trim(), CRYPTO_KEY));
+            activityTitle.setText(title_EditText.getText().toString().trim());
             password_EditText.setText(cryptography.decrypt(record.getPassword(), CRYPTO_KEY));
-            email_EditText.setText(cryptography.decrypt(record.getEmail(), CRYPTO_KEY));
-            website_EditText.setText(cryptography.decrypt(record.getWebsite(), CRYPTO_KEY));
+            email_EditText.setText(cryptography.decrypt(record.getEmail().trim(), CRYPTO_KEY));
+            website_EditText.setText(cryptography.decrypt(record.getWebsite().trim(), CRYPTO_KEY));
             cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), CRYPTO_KEY));
             username_EditText.setText(cryptography.decrypt(record.getUserName(), CRYPTO_KEY));
             accountNumber_EditText.setText(cryptography.decrypt(record.getAccountNumber(), CRYPTO_KEY));
@@ -663,7 +648,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void openNewRecord(View view) {                     // the onClick func (save Button)
         //cryptography = new Cryptography();                   // making argument of Cryptography which is private!
         //Setting the details from the Activity to send to the Record constructor
-        final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString();
+        final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString().trim();
         final String folder = category_Spinner.getSelectedItem().toString();
         final String title = title_EditText.getText().toString().trim();
         final String username = username_EditText.getText().toString().trim();
@@ -762,7 +747,14 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     // the KEY will be the userName                 //
 
                     // opening Record to insert the TextFields and insert to DB
-                    Record record = new Record();
+
+                    Record record;
+                    if (origin.equals("onRecordClick")) {
+                        record = currentRecord;
+                    }
+                    else{
+                        record = new Record();
+                    }
                     record.setType(typeOfRecord);
                     record.setFolder(folder);
                     record.setTitle(encryptedTitle);
@@ -796,16 +788,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                     // inserting record to DB
                     if (origin.equals("onRecordClick")){
-                        DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
-                                .daoRecord()
-                                .update(record);
-                     //   Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
-
+                        viewModel.update(record);
                     }
                     else {
-                        DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
-                                .daoRecord()
-                                .insert(record);
+
+                        viewModel.insert(record);
+
                     }
                     return null;
                 }
@@ -1046,7 +1034,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
 
     }
-//
+
     public void chooseIcon(View view) {
         //startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
         mediaPlayer.start();
@@ -1136,7 +1124,28 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         startActivity(i);
     }
 
-    public void deleteRecord(View view) {
+    public void deleteRecord(final View view) {
+        mediaPlayer.start();
+        findViewById(R.id.deleteTopBtn).startAnimation(animation3);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.delete_request);
+        alert.setMessage(R.string.delete_message);
+        alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Permanently deleted", Toast.LENGTH_LONG).show();
+                viewModel.delete(currentRecord);
+                back(view);
+            }
+        });
+        alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.create().show();
 
     }
 

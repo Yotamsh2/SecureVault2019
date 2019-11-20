@@ -64,9 +64,9 @@ public class Record implements Serializable {
         this.icon = icon;
     }
 
-    //public void setRecordID(int recordID) {
-    //    this.recordID = recordID;
-    //}
+    public void setRecordID(int recordID) {
+        this.recordID = recordID;
+    }
     public void setTitle(String title) {
         this.title = title;
     }

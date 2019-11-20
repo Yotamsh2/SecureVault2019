@@ -41,15 +41,17 @@
 
             <EditText
                 android:id="@+id/userName"
-                android:layout_width="250dp"
-                android:layout_height="45dp"
+                android:layout_width="260dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/edit_text_style"
-                android:hint="@string/user_name"
+                android:hint="@string/email"
                 android:textColorHint="#80FFFFFF"
                 android:textColor="#fff"
                 android:textAlignment="center"
-                android:inputType="text"/>
+                android:padding="6dp"
+                android:ellipsize="start"
+                android:inputType="textEmailAddress|text"/>
 
 
             <RelativeLayout
@@ -59,13 +61,14 @@
                 android:layout_marginTop="10dp">
                 <EditText
                     android:id="@+id/password_EditText"
-                    android:layout_width="250dp"
-                    android:layout_height="45dp"
+                    android:layout_width="260dp"
+                    android:layout_height="40dp"
                     android:background="@drawable/edit_text_style"
                     android:hint="@string/password"
                     android:textColorHint="#80FFFFFF"
                     android:textColor="#fff"
                     android:textAlignment="center"
+                    android:padding="6dp"
                     android:inputType="textPassword"
                     android:ellipsize="start" />
 
@@ -100,7 +103,7 @@
             <Button
                 android:id="@+id/signIn"
                 android:layout_width="130dp"
-                android:layout_height="45dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:onClick="signIn"

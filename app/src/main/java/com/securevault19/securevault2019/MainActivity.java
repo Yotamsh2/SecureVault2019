@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         animation3 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.buttonpush_anim);
         logo.startAnimation(animation1);
         signInForm.startAnimation(animation2);
+        signup.startAnimation(animation2);
+
 
 
     }
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.start();
         final EditText userName = findViewById(R.id.userName);              // userName is email
         final EditText password = findViewById(R.id.password_EditText);
-        final String email = userName.getText().toString();
+        final String email = userName.getText().toString().trim();
         final String masterPassword = password.getText().toString();
         Log.e("check2", " " + email + " " + masterPassword);
         //user =  new User("Test", null, null, null, null, null, null, null);

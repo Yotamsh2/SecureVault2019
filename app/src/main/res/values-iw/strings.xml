@@ -97,4 +97,6 @@
     <string name="Answer">תשובה אופציונלית </string>
     <string name="dateOfBirth">תאריך לידה</string>
     <string name="project_team">צוות הפרויקט</string>
+    <string name="delete_message">האם למחוק לצמיתות?</string>
+    <string name="delete_request">מחיקה</string>
 </resources>
