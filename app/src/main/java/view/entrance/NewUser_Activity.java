@@ -62,6 +62,8 @@ import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 @SuppressLint("Registered")
 public class NewUser_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    private String CRYPTO_KEY;
+
     private String returnedPattern;
     private String returnedSecurityLevel;
     private String firstNameUser;
@@ -149,7 +151,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
         // for testing
-        userName_EditText.setText("A");
+        //userName_EditText.setText("A");
         password_EditText.setText("1");
 
         password_EditText.addTextChangedListener(new TextWatcher() {
@@ -225,7 +227,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
     public void showPass(View view) {
-        if (view == showPass || view == hidePass){
+        if (view == showPass || view == hidePass) {
 
             if (showPass.getVisibility() == View.VISIBLE) {
                 password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -243,7 +245,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         }
 
 
-        if (view == showVerPass || view == hideVerPass){
+        if (view == showVerPass || view == hideVerPass) {
 
             if (showVerPass.getVisibility() == View.VISIBLE) {
                 verifyPassword_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -303,6 +305,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         Intent intent = new Intent(this, PatternLockView_Activity.class);
         startActivityForResult(intent, 1);
     }
+
     // the choseSecurityLevel method public because we want to make changes here from Setting
     public void chooseSecurityLevel(View view) {
         Intent intent = new Intent(this, SecurityLevel_Activity.class);
@@ -310,18 +313,20 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     }
 
     @SuppressLint("StaticFieldLeak")
-    public void createNewAccount(View view) {
+    public void createNewAccount(View view) {               // onClick func
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
 
-        firstNameUser = userName_EditText.getText().toString();
         emailUser = email_EditText.getText().toString();
+        firstNameUser = userName_EditText.getText().toString();
+        lastNameUser = lastName_EditText.getText().toString();
         masterPasswordUser = password_EditText.getText().toString();
         verifyPasswordUser = verifyPassword_EditText.getText().toString();
-        lastNameUser = lastName_EditText.getText().toString();
         dateOfBirthUser = dateOfBirth_EditText.getText().toString();
         optionalQuestionUser = optionalQuestion_EditText.getText().toString();
         optionalAnswerUser = optionalAnswer_EditText.getText().toString();
+
+        CRYPTO_KEY = emailUser;
 
         // checking if the password and the verify password are the same
         if (!masterPasswordUser.equals(verifyPasswordUser) || masterPasswordUser.equals("")) {
@@ -335,13 +340,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             // if not, make a Toast to remind him.
             Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_LONG).show();
             Log.d("returnedPattern", "chosedPattern ");
-        }
-        else if (returnedSecurityLevel == null) {
-            // if user didnt chose secureLevel
-            // as default, security Level set to 2
-            returnedSecurityLevel = "2";
-            Log.d("returnedPattern", "chosedPattern ");
         } else {
+            if (returnedSecurityLevel == null) {
+                returnedSecurityLevel = "2";
+            }
+            Log.d("returnedSecurityLevel", returnedSecurityLevel);
             saveUserDetails(view);
         }
     }
@@ -351,24 +354,22 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     protected void saveUserDetails(View view) {
 
         cryptography = new Cryptography();
-
-
         try {
-            encryptedPattern = cryptography.encryptWithKey(firstNameUser, returnedPattern);
-            encryptedUserName = cryptography.encrypt(firstNameUser);
-            encryptedPassword = cryptography.encryptWithKey(firstNameUser, masterPasswordUser);
-            encryptedEmail = cryptography.encryptWithKey(firstNameUser, emailUser);
-            encryptedSecurityLevel = cryptography.encryptWithKey(firstNameUser, returnedSecurityLevel);
-            encryptedLastName = cryptography.encryptWithKey(firstNameUser, lastNameUser);
-            encryptedDateOfBirth = cryptography.encryptWithKey(firstNameUser, dateOfBirthUser);
-            encryptedOptionalQuestion = cryptography.encryptWithKey(firstNameUser, optionalQuestionUser);
-            encryptedOptionalAnswer = cryptography.encryptWithKey(firstNameUser, optionalAnswerUser);
+            encryptedEmail = cryptography.encrypt(CRYPTO_KEY);
+            encryptedPattern = cryptography.encryptWithKey(CRYPTO_KEY, returnedPattern);
+            encryptedUserName = cryptography.encryptWithKey(CRYPTO_KEY,firstNameUser);
+            encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, masterPasswordUser);
+            encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);
+            encryptedLastName = cryptography.encryptWithKey(CRYPTO_KEY, lastNameUser);
+            encryptedDateOfBirth = cryptography.encryptWithKey(CRYPTO_KEY, dateOfBirthUser);
+            encryptedOptionalQuestion = cryptography.encryptWithKey(CRYPTO_KEY, optionalQuestionUser);
+            encryptedOptionalAnswer = cryptography.encryptWithKey(CRYPTO_KEY, optionalAnswerUser);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (firstNameUser.isEmpty()) {
-            Toast.makeText(this, "Name is Empty", Toast.LENGTH_LONG).show();
+        if (emailUser.isEmpty()) {
+            Toast.makeText(this, "Email is Empty", Toast.LENGTH_LONG).show();
             return;
         } else {
             findViewById(R.id.ProgressBar).setVisibility(View.VISIBLE);
@@ -387,7 +388,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                         Log.d("enteredCatch", "enteredTRY");
                         flag = 1;
                     } catch (Exception e) {
-                        // if the userName allready exists, we will get Exception and flag will be  flag == 0;
+                        // if the email allready exists, we will get Exception and flag will be  flag == 0;
                         Log.d("enteredCatch", "enteredCatch");
                         e.printStackTrace();
                     }
@@ -398,10 +399,10 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
                     if (flag == 1) {
-                        Toast.makeText(getApplicationContext(), "" + firstNameUser + " Created!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "" + emailUser + " Created!", Toast.LENGTH_LONG).show();
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "User all ready exists", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Email all ready exists", Toast.LENGTH_LONG).show();
                         findViewById(R.id.ProgressBar).setVisibility(View.GONE);
                         return;
                     }
@@ -439,12 +440,13 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 returnedSecurityLevel = returnedIntent.getStringExtra("SECURITY_LEVEL");
                 Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_LONG).show();
                 Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
-                if(returnedSecurityLevel.equals("1")){
-                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));}
-                else if(returnedSecurityLevel.equals("2")){
-                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level2_logo));}
-                else if(returnedSecurityLevel.equals("3")){
-                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level3_logo));}
+                if (returnedSecurityLevel.equals("1")) {
+                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));
+                } else if (returnedSecurityLevel.equals("2")) {
+                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level2_logo));
+                } else if (returnedSecurityLevel.equals("3")) {
+                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level3_logo));
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Security level not saved", Toast.LENGTH_LONG).show();
@@ -601,31 +603,21 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
         int Total = (length * 4) + ((length - uppercase) * 2)
                 + ((length - lowercase) * 2) + (digits * 4) + (symbols * 6)
-                + (bonus * 2) + (requirements * 2) - (lettersonly * length*2)
-                - (numbersonly * length*3) - (cuc * 2) - (clc * 2);
+                + (bonus * 2) + (requirements * 2) - (lettersonly * length * 2)
+                - (numbersonly * length * 3) - (cuc * 2) - (clc * 2);
 
         System.out.println("Total" + Total);
 
-        if(Total<30){
-            progressBar.setProgress(Total-15);
-        }
-
-        else if (Total>=40 && Total <50)
-        {
-            progressBar.setProgress(Total-20);
-        }
-
-        else if (Total>=56 && Total <70)
-        {
-            progressBar.setProgress(Total-25);
-        }
-
-        else if (Total>=76)
-        {
-            progressBar.setProgress(Total-30);
-        }
-        else{
-            progressBar.setProgress(Total-20);
+        if (Total < 30) {
+            progressBar.setProgress(Total - 15);
+        } else if (Total >= 40 && Total < 50) {
+            progressBar.setProgress(Total - 20);
+        } else if (Total >= 56 && Total < 70) {
+            progressBar.setProgress(Total - 25);
+        } else if (Total >= 76) {
+            progressBar.setProgress(Total - 30);
+        } else {
+            progressBar.setProgress(Total - 20);
         }
 
     }

@@ -31,7 +31,7 @@ import view.records.RecordRecycler_Activity;
 
 public class CategoryList_Activity extends AppCompatActivity {
     //-----------------//
-    private String user;
+    private String CRYPTO_KEY;
     //----------------//
     public static final int ADD_RECORD_REQUEST = 1;
     public static final String EXTRA_FOLDER =
@@ -63,8 +63,8 @@ public class CategoryList_Activity extends AppCompatActivity {
 // ----------------------------------------------------------- //
 // drawing the user name from the log in activity ( the user is out KEY as encryptedWIthKey method.
 
-        user = getIntent().getStringExtra("CRYPTO_KEY");
-        Log.d("userTest1Get",""+user);
+        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
+        Log.d("userTest1Get"," "+CRYPTO_KEY);
 // ----------------------------------------------------------- //
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
@@ -155,7 +155,7 @@ public class CategoryList_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
-                intent.putExtra("CRYPTO_KEY",user);    // passing the userName for the KEY encryption
+                intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);    // passing the userName for the KEY encryption
                 Toast.makeText(CategoryList_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 overridePendingTransition(0, 0);
@@ -193,9 +193,9 @@ public class CategoryList_Activity extends AppCompatActivity {
         view.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
         // pass extra the name of the folder that clicked
-        Log.d("userTest2Send",""+user);
-        intent.putExtra("CRYPTO_KEY",user);
-        Log.d("userCheck", "!!!" + user);
+        Log.d("userTest2Send",""+CRYPTO_KEY);
+        intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);
+        Log.d("userCheck", "!!!" + CRYPTO_KEY);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
         overridePendingTransition(0, 0);

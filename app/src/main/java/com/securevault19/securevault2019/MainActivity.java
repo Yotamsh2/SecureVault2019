@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
 import java.util.regex.Matcher;
@@ -37,6 +38,7 @@ import view.explorer.PatternLockView_Activity;
 @SuppressLint("Registered")
 public class MainActivity extends AppCompatActivity {
 
+    private String CRYPTO_KEY;
     private String pattern;
     private int counter;
     private Button signup,buttonSignIn,firebaseTest;
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private User user;
     private int flag = 0;
     private Cryptography cryptography = new Cryptography();
-
     //                  //
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -103,11 +104,11 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View view) {
         buttonSignIn.startAnimation(animation3);
         mediaPlayer.start();
-        final EditText userName = findViewById(R.id.userName);
+        final EditText userName = findViewById(R.id.userName);              // userName is email
         final EditText password = findViewById(R.id.password_EditText);
-        final String firstName = userName.getText().toString();
+        final String email = userName.getText().toString();
         final String masterPassword = password.getText().toString();
-        Log.e("check2", " " + firstName + " " + masterPassword);
+        Log.e("check2", " " + email + " " + masterPassword);
         //user =  new User("Test", null, null, null, null, null, null, null);
         Log.e("test2", "" + flag);
 
@@ -119,13 +120,16 @@ public class MainActivity extends AppCompatActivity {
 
                 // searching for user //
                 try {
+                    Log.d("emailTest","user: " + cryptography.encrypt(email) + " password: " + cryptography.encryptWithKey(email, masterPassword) );
                     // we are encrypting the text that the user entered and searching it in the DB
                     user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser()
-                            .LogInConfirmation(cryptography.encrypt(firstName), cryptography.encryptWithKey(firstName, masterPassword));
+                            .LogInConfirmation(cryptography.encrypt(email), cryptography.encryptWithKey(email, masterPassword));
                     // getting the encrypted pattern!
                     pattern = user.getPatternLock();
                     flag = 1; // if user found.
                     Log.d("patternLockFromUser ",pattern);
+                    Log.d("emailTest","user -" + cryptography.encrypt(email) + " password " + cryptography.encryptWithKey(email, masterPassword) );
+                    new CurrentUser(cryptography.decrypt(user.getFirstName(),email));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -160,10 +164,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     //intent.setClass(getApplicationContext(), CategoryList_Activity.class);
                     intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
-                    String user = userName.getText().toString();
+                    CRYPTO_KEY = userName.getText().toString();
                     Log.d("patternCheck",pattern);
                     intent.putExtra("PATTERN",pattern);
-                    intent.putExtra("CRYPTO_KEY", user);
+                    intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
 

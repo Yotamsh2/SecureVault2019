@@ -43,12 +43,16 @@ public class Record implements Serializable {
     private String issuanceDate;
     //to add expiring date
     private String issuancePlace;
-    private String secret_question;
+    private String secret_question;         // not in use at the record Activity... //
+    private String note;
+    private String expitingDateNote;
+    private String tagsNote;
     //    private String note;
     private String folder; //folder = category
     private boolean favorite;
 
     private String icon;
+
 
 
     public void setUserTable(String userTable) {
@@ -179,6 +183,20 @@ public class Record implements Serializable {
         this.favorite = favorite;
     }
 
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+
+    public void setExpitingDateNote(String expitingDateNote) {
+        this.expitingDateNote = expitingDateNote;
+    }
+
+    public void setTagsNote(String tagsNote) {
+        this.tagsNote = tagsNote;
+    }
+
     public int getRecordID() {
         return recordID;
     }
@@ -307,5 +325,16 @@ public class Record implements Serializable {
         return icon;
     }
 
+    public String getNote() {
+        return note;
+    }
+
+    public String getExpitingDateNote() {
+        return expitingDateNote;
+    }
+
+    public String getTagsNote() {
+        return tagsNote;
+    }
 }
 

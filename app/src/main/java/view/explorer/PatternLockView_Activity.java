@@ -34,7 +34,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
     private String patternLock;
     private String verifyedLock;
     private Intent returnIntent;
-    private String user = null;
+    private String CRYPTO_KEY = null;
     private String patternFromUser;
     private int verifyedPattern = 0;
     private User userCheck;
@@ -50,12 +50,12 @@ public class PatternLockView_Activity extends AppCompatActivity {
         patternTextView = findViewById(R.id.patternTextView);
 
         cryptography = new Cryptography();
-        user = getIntent().getStringExtra("CRYPTO_KEY");
+        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
         patternFromUser = getIntent().getStringExtra("PATTERN");
         Log.d("patternLockFromUser",patternFromUser+ "  passed " );
         returnIntent = new Intent();
 
-        if (user != null) {             // if user passed from other activity
+        if (CRYPTO_KEY != null) {             // if user passed from other activity
             Log.d("patternCheck", "filled PatternTextView");
             patternTextView.setText(getString(R.string.Pattern));
         }
@@ -85,12 +85,12 @@ public class PatternLockView_Activity extends AppCompatActivity {
             @Override
             public void onComplete(final List pattern) {
                 // if we came from SignIn activity
-                if (user != null) {
+                if (CRYPTO_KEY != null) {
 
                     String currentPattern = PatternLockUtils.patternToString(patternLockView, pattern);
                     String encryptedPattern=null;
                     try {
-                        encryptedPattern=cryptography.encryptWithKey(user,currentPattern);
+                        encryptedPattern=cryptography.encryptWithKey(CRYPTO_KEY,currentPattern);
                         Log.d("encryptedPattern","reched encryptedPattern");
                         Log.d("---------",encryptedPattern + "     -----      " + patternFromUser);
                     } catch (Exception e) {
@@ -100,7 +100,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     if(encryptedPattern.equals(patternFromUser)){
                         Log.d("encryptedPattern","entered if ");
                         Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
-                        intent.putExtra("CRYPTO_KEY", user);
+                        intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                         startActivity(intent);
                         finish();
                     }

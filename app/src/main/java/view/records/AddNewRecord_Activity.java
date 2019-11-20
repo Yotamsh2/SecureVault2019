@@ -53,9 +53,9 @@ import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, Serializable {
     private Cryptography cryptography;
-    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber, encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate, encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed, encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber, encryptedIssuanceDate, encryptedIssuancePlase;
 
-    private String user;
+    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber, encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate, encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed, encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber, encryptedIssuanceDate, encryptedIssuancePlace,encryptedNote,encryptedExpireDateNote,encryptedTagsNote;
+    private String CRYPTO_KEY;
     private String nameOfFolder;
     private String userNameRecord;
 
@@ -90,7 +90,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private Button addChooseIconBtn;
     private ImageView chooseIcon;
     private Button starBtn, starFullBtn;
-    private EditText custom1_EditText, custom2_EditText, custom3_EditText, note;
+    private EditText custom1_EditText, custom2_EditText, custom3_EditText, note_EditText,expireDateNote_EditText,tagsNote_EditText;
     //////////////////////////////////////////////////////////////////////////////////
 
     private static int i = 1;
@@ -144,10 +144,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_add_new_record);
-        user = getIntent().getStringExtra("CRYPTO_KEY");
+        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
         nameOfFolder = getIntent().getStringExtra(EXTRA_FOLDER);
         //Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
-        Log.d("userCheck", "---" + user);
+        Log.d("userCheck", "---" + CRYPTO_KEY);
 
         //userNameRecord = getIntent().getStringExtra("userNameRecord");
         //Log.d("userNameRecord", "the userNameRecord passed => " + userNameRecord);
@@ -187,7 +187,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         addFields = findViewById(R.id.addFieldsBtn);
         scrollView = findViewById(R.id.frame);
         addNote = findViewById(R.id.addNoteBtn);
-        note = findViewById(R.id.note_editText);
+        note_EditText = findViewById(R.id.note_editText);
+        expireDateNote_EditText = findViewById(R.id.expiringDate_EditText);
         category_Spinner = findViewById(R.id.category_Spinner); //Folder
         typeOfRecord_Spinner = findViewById(R.id.typeOfRecord_Spinner);
         title_EditText = findViewById(R.id.title_EditText);
@@ -274,6 +275,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
                                     category_Spinner.setSelection(3);
+                                    //addNote(addNote);
+                                    //addExpiringDate(addExpiringDate);
+                                    //addFields(addFields);
+
                                     DisplayRecordDetails(record);
 //
 //                                    try {
@@ -382,7 +387,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                     typeOfRecord_Spinner.setSelection(8);
                                     category_Spinner.setSelection(8);
                                     DisplayRecordDetails(record);
-
                                     break;
                             }
                         }
@@ -532,7 +536,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 drivingLicence.setVisibility(View.GONE);
                 passport.setVisibility(View.GONE);
                 break;
-            case "Website & Email":
+            case "Website & Email":                                         // for simplicity of the code maybe merge with social media * website and online Shopping. they all the same
                 userName.setVisibility(View.VISIBLE);
                 password.setVisibility(View.VISIBLE);
                 website.setVisibility(View.VISIBLE);
@@ -603,31 +607,41 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     void DisplayRecordDetails(Record record) {
-        try {
-            title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-            activityTitle.setText(title_EditText.getText().toString());
-            password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
-            email_EditText.setText(cryptography.decrypt(record.getEmail(), user));
-            website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
-            cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), user));
-            username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
-            accountNumber_EditText.setText(cryptography.decrypt(record.getAccountNumber(), user));
-            IBAN_EditText.setText(cryptography.decrypt(record.getIBAN(), user));
-            bankNumber_EditText.setText(cryptography.decrypt(record.getBankNumber(), user));
-            bankAddress_EditText.setText(cryptography.decrypt(record.getAddress(), user));
-            cardNumber_EditText.setText(cryptography.decrypt(record.getCardNumber(), user));
-            cvv_EditText.setText(cryptography.decrypt(record.getCVV(), user));
-            cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), user));
-            cardExpiringYear_EditText.setText(cryptography.decrypt(record.getExpireYear(), user));
-            publicKey_EditText.setText(cryptography.decrypt(record.getPublicKey(), user));
-            privateKey_EditText.setText(cryptography.decrypt(record.getPrivateKey(), user));
-            walletGenerationSeed_EditText.setText(cryptography.decrypt(record.getWalletGenerationSeed(), user));
-            passportNumber_EditText.setText(cryptography.decrypt(record.getPassportNumber(), user));
-            issuanceDate_EditText.setText(cryptography.decrypt(record.getIssuanceDate(), user));
-            issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(), user));
-            licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), user));
-            licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(), user));
 
+        try {
+            title_EditText.setText(cryptography.decrypt(record.getTitle(), CRYPTO_KEY));
+            activityTitle.setText(title_EditText.getText().toString());
+            password_EditText.setText(cryptography.decrypt(record.getPassword(), CRYPTO_KEY));
+            email_EditText.setText(cryptography.decrypt(record.getEmail(), CRYPTO_KEY));
+            website_EditText.setText(cryptography.decrypt(record.getWebsite(), CRYPTO_KEY));
+            cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), CRYPTO_KEY));
+            username_EditText.setText(cryptography.decrypt(record.getUserName(), CRYPTO_KEY));
+            accountNumber_EditText.setText(cryptography.decrypt(record.getAccountNumber(), CRYPTO_KEY));
+            IBAN_EditText.setText(cryptography.decrypt(record.getIBAN(), CRYPTO_KEY));
+            bankNumber_EditText.setText(cryptography.decrypt(record.getBankNumber(), CRYPTO_KEY));
+            bankAddress_EditText.setText(cryptography.decrypt(record.getAddress(), CRYPTO_KEY));
+            cardNumber_EditText.setText(cryptography.decrypt(record.getCardNumber(), CRYPTO_KEY));
+            cvv_EditText.setText(cryptography.decrypt(record.getCVV(), CRYPTO_KEY));
+            cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(), CRYPTO_KEY));
+            cardExpiringYear_EditText.setText(cryptography.decrypt(record.getExpireYear(), CRYPTO_KEY));
+            publicKey_EditText.setText(cryptography.decrypt(record.getPublicKey(), CRYPTO_KEY));
+            privateKey_EditText.setText(cryptography.decrypt(record.getPrivateKey(), CRYPTO_KEY));
+            walletGenerationSeed_EditText.setText(cryptography.decrypt(record.getWalletGenerationSeed(), CRYPTO_KEY));
+            passportNumber_EditText.setText(cryptography.decrypt(record.getPassportNumber(), CRYPTO_KEY));
+            issuanceDate_EditText.setText(cryptography.decrypt(record.getIssuanceDate(), CRYPTO_KEY));
+            issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(), CRYPTO_KEY));
+            licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), CRYPTO_KEY));
+            licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(), CRYPTO_KEY));
+            note_EditText.setText(cryptography.decrypt(record.getNote(),CRYPTO_KEY));
+            if(!cryptography.decrypt(record.getNote(),CRYPTO_KEY).equals("")){
+                addNote(addNote);
+            }
+            expireDateNote_EditText.setText(cryptography.decrypt(record.getExpitingDateNote(),CRYPTO_KEY));
+            if(!cryptography.decrypt(record.getExpitingDateNote(),CRYPTO_KEY).equals("")){
+                addExpiringDate(addExpiringDate);
+            }
+            addChooseIcon(addChooseIconBtn);
+            tagNames_EditText.setText(cryptography.decrypt(record.getTagsNote(),CRYPTO_KEY));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -672,6 +686,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String passportNumber = passportNumber_EditText.getText().toString().trim();
         final String issuanceDate = issuanceDate_EditText.getText().toString().trim();
         final String issuancePlace = issuancePlace_EditText.getText().toString().trim();
+        final String note = note_EditText.getText().toString().trim();
+        final String expireDateNote = expireDateNote_EditText.getText().toString();
+        final String tagsNote = tagNames_EditText.getText().toString();
+
+
 
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
@@ -708,27 +727,31 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     try {
                         // encrypthing the password and the username(username for test)
                         //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
-                        encryptedTitle = cryptography.encryptWithKey(user, title);
-                        encryptedUsername = cryptography.encryptWithKey(user, username);
-                        encryptedPassword = cryptography.encryptWithKey(user, password);
-                        encryptedAccountNumber = cryptography.encryptWithKey(user, accountNumber);
-                        encryptedIBAN = cryptography.encryptWithKey(user, IBAN);
-                        encryptedBankNumber = cryptography.encryptWithKey(user, bankNumber);
-                        encryptedBankAddress = cryptography.encryptWithKey(user, bankAddress);
-                        encryptedCardNumber = cryptography.encryptWithKey(user, cardNumber);
-                        encryptedCVV = cryptography.encryptWithKey(user, cvv);
-                        encryptedCardExpireMonth = cryptography.encryptWithKey(user, cardExpiringMonth);
-                        encryptedCardExpireYear = cryptography.encryptWithKey(user, cardExpiringYear);
-                        encryptedWebsite = cryptography.encryptWithKey(user, website);
-                        encryptedEmail = cryptography.encryptWithKey(user, email);
-                        encryptedPublicKey = cryptography.encryptWithKey(user, publicKey);
-                        encryptedPrivateKey = cryptography.encryptWithKey(user, privateKey);
-                        encryptedWalletGenerationSeed = cryptography.encryptWithKey(user, walletGenerationSeed);
-                        encryptedLicenceNumber = cryptography.encryptWithKey(user, licenceNumber);
-                        encryptedLicenceExpireDate = cryptography.encryptWithKey(user, licenceExpiringDate);
-                        encryptedPassportNumber = cryptography.encryptWithKey(user, passportNumber);
-                        encryptedIssuanceDate = cryptography.encryptWithKey(user, issuanceDate);
-                        encryptedIssuancePlase = cryptography.encryptWithKey(user, issuancePlace);
+                        encryptedTitle = cryptography.encryptWithKey(CRYPTO_KEY, title);
+                        encryptedUsername = cryptography.encryptWithKey(CRYPTO_KEY, username);
+                        encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, password);
+                        encryptedAccountNumber = cryptography.encryptWithKey(CRYPTO_KEY, accountNumber);
+                        encryptedIBAN = cryptography.encryptWithKey(CRYPTO_KEY, IBAN);
+                        encryptedBankNumber = cryptography.encryptWithKey(CRYPTO_KEY, bankNumber);
+                        encryptedBankAddress = cryptography.encryptWithKey(CRYPTO_KEY, bankAddress);
+                        encryptedCardNumber = cryptography.encryptWithKey(CRYPTO_KEY, cardNumber);
+                        encryptedCVV = cryptography.encryptWithKey(CRYPTO_KEY, cvv);
+                        encryptedCardExpireMonth = cryptography.encryptWithKey(CRYPTO_KEY, cardExpiringMonth);
+                        encryptedCardExpireYear = cryptography.encryptWithKey(CRYPTO_KEY, cardExpiringYear);
+                        encryptedWebsite = cryptography.encryptWithKey(CRYPTO_KEY, website);
+                        encryptedEmail = cryptography.encryptWithKey(CRYPTO_KEY, email);
+                        encryptedPublicKey = cryptography.encryptWithKey(CRYPTO_KEY, publicKey);
+                        encryptedPrivateKey = cryptography.encryptWithKey(CRYPTO_KEY, privateKey);
+                        encryptedWalletGenerationSeed = cryptography.encryptWithKey(CRYPTO_KEY, walletGenerationSeed);
+                        encryptedLicenceNumber = cryptography.encryptWithKey(CRYPTO_KEY, licenceNumber);
+                        encryptedLicenceExpireDate = cryptography.encryptWithKey(CRYPTO_KEY, licenceExpiringDate);
+                        encryptedPassportNumber = cryptography.encryptWithKey(CRYPTO_KEY, passportNumber);
+                        encryptedIssuanceDate = cryptography.encryptWithKey(CRYPTO_KEY, issuanceDate);
+                        encryptedIssuancePlace = cryptography.encryptWithKey(CRYPTO_KEY, issuancePlace);
+                        encryptedNote = cryptography.encryptWithKey(CRYPTO_KEY,note);
+                        encryptedExpireDateNote = cryptography.encryptWithKey(CRYPTO_KEY,expireDateNote);
+                        encryptedTagsNote = cryptography.encryptWithKey(CRYPTO_KEY,tagsNote);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -763,7 +786,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setExpiringDate(encryptedLicenceExpireDate);
                     record.setPassportNumber(encryptedPassportNumber);
                     record.setIssuanceDate(encryptedIssuanceDate);
-                    record.setIssuancePlace(encryptedIssuancePlase);
+                    record.setIssuancePlace(encryptedIssuancePlace);
+                    record.setNote(encryptedNote);
+                    record.setExpitingDateNote(encryptedExpireDateNote);
+                    record.setTagsNote(encryptedTagsNote);
                     record.setFavorite(isFavorite);
                     record.setIcon(String.valueOf(drawabaleID));
                     Log.d("default icon", ""+ drawabaleID);
@@ -774,7 +800,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2()
                                 .daoRecord()
                                 .update(record);
-                        Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
+                     //   Toast.makeText(getApplicationContext(), "update", Toast.LENGTH_SHORT).show();
 
                     }
                     else {
@@ -831,7 +857,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         custom2_EditText.setFocusable(false);
         custom3_EditText.setFocusable(false);
         calendarBtn.setFocusable(false);
-        note.setFocusable(false);
+        note_EditText.setFocusable(false);
         tagNames_EditText.setFocusable(false);
         saveBtn.setVisibility(View.GONE);
         cancelBtn.setVisibility(View.GONE);
@@ -867,18 +893,20 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void addNote(View view) {
-        if (note.getVisibility() == View.GONE) {
-            note.setVisibility(View.VISIBLE);
+        if (note_EditText.getVisibility() == View.GONE) {
+            note_EditText.setVisibility(View.VISIBLE);
             //note_title.setVisibility(View.VISIBLE);
             addNote.setVisibility(View.GONE);
-            note.requestFocus();
+            note_EditText.requestFocus();
         }
         if (typeOfRecord_Spinner.getSelectedItemPosition() == 8) {
             title_EditText.requestFocus();
-            note.setMinHeight(800);
+            note_EditText.setMinHeight(800);
         } else {
-            note.setMinHeight(200);
+            note_EditText.setMinHeight(200);
         }
+
+
     }
 
     public void openCalendar(View view) {
@@ -965,7 +993,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         custom2_EditText.setEnabled(true);
         custom3_EditText.setEnabled(true);
         calendarBtn.setEnabled(true);
-        note.setEnabled(true);
+        note_EditText.setEnabled(true);
         saveBtn.setVisibility(View.VISIBLE);
         cancelBtn.setVisibility(View.VISIBLE);
         editForm.setVisibility(View.GONE);

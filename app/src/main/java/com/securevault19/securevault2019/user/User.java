@@ -12,10 +12,10 @@ public class User {
 
     @PrimaryKey         // no need?
     @NonNull
+    @ColumnInfo(name = "email")private String email;                // email is primary key
     @ColumnInfo(name = "first_name") private String firstName;
     @ColumnInfo(name = "lastName") private String lastName;
     @ColumnInfo(name = "DateOfBirth") private String DateOfBirth;
-    @ColumnInfo(name = "email")private String email;
     @ColumnInfo(name = "optionalQuestion")private String optionalQuestion;
     @ColumnInfo(name = "optionalAnswer") private String optionalAnswer;
     @ColumnInfo(name = "master_password") private String masterPassword;
