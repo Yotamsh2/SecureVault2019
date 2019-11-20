@@ -1047,7 +1047,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
 
     }
-
+//
     public void chooseIcon(View view) {
         //startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
         mediaPlayer.start();
