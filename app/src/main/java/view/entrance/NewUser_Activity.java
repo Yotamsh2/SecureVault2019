@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.User;
@@ -42,6 +43,7 @@ import cryptography.Cryptography;
 import local_database.DatabaseClient;
 import view.explorer.PatternLockView_Activity;
 import view.preferences.SecurityLevel_Activity;
+import view_model.records.User_ViewModel;
 
 @SuppressLint("Registered")
 public class NewUser_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -73,6 +75,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 //                    "$");
 
     private static int i = 1;
+    private User_ViewModel viewModel;
     private ImageView logo;
     private ImageButton saveBtn, cancelBtn;
     private ImageButton showPass, hidePass, copyPass;
@@ -96,6 +99,8 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_new_user);
+
+        viewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         progressBar = findViewById(R.id.progressBar);
@@ -208,14 +213,14 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Data Not saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Not saved", Toast.LENGTH_SHORT).show();
                 back();
             }
         });
         alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Not Canceled", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Not Canceled", Toast.LENGTH_SHORT).show();
             }
         });
         alert.create().show();
@@ -230,7 +235,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         copyPass.startAnimation(animation3);
         ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         clipboardManager.setText(password_EditText.getText().toString());
-        Toast.makeText(this, "Password Copied", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -273,7 +278,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         if (returnedPattern == null) {
             // checking if the user entered Pattern
             // if not, make a Toast to remind him.
-            Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_SHORT).show();
             Log.d("returnedPattern", "chosedPattern ");
         } else {
             if (returnedSecurityLevel == null) {
@@ -304,7 +309,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             e.printStackTrace();
         }
         if (emailUser.isEmpty()) {
-            Toast.makeText(this, "Email is Empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Email is Empty", Toast.LENGTH_SHORT).show();
             return;
         } else {
             findViewById(R.id.ProgressBar).setVisibility(View.VISIBLE);
@@ -320,10 +325,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                             encryptedOptionalAnswer, encryptedPassword, encryptedSecurityLevel, encryptedPattern);
                     try {
                         DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
+                        //viewModel.insert(user);
                         Log.d("enteredCatch", "enteredTRY");
                         flag = 1;
                     } catch (Exception e) {
-                        // if the email allready exists, we will get Exception and flag will be  flag == 0;
+                        // if the email all ready exists, we will get Exception and flag will be  flag == 0;
                         Log.d("enteredCatch", "enteredCatch");
                         e.printStackTrace();
                     }
@@ -334,10 +340,10 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
                     if (flag == 1) {
-                        Toast.makeText(getApplicationContext(), "" + emailUser + " Created!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "" + emailUser + " Created!", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Email all ready exists", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Email all ready exists", Toast.LENGTH_SHORT).show();
                         findViewById(R.id.ProgressBar).setVisibility(View.GONE);
                         return;
                     }
@@ -365,7 +371,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 Log.d("patternGotBack", "" + returnedPattern);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "Pattern not saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Pattern not saved", Toast.LENGTH_SHORT).show();
                 Log.d("patternGotBack", "no pattern came back");
             }
 
@@ -373,7 +379,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 returnedSecurityLevel = returnedIntent.getStringExtra("SECURITY_LEVEL");
-                Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_SHORT).show();
                 Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
                 if (returnedSecurityLevel.equals("1")) {
                     findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));
@@ -384,7 +390,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(getApplicationContext(), "Security level not saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Security level not saved", Toast.LENGTH_SHORT).show();
                 Log.d("returnedSecurityLevel ", "no pattern returned");
             }
 

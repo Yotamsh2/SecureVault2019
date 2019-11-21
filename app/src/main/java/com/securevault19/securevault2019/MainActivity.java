@@ -103,14 +103,6 @@ public class MainActivity extends AppCompatActivity {
         //user =  new User("Test", null, null, null, null, null, null, null);
         Log.e("test2", "" + flag);
 
-        String userExists = viewModel.CheckForUserName(email);
-        //Toast.makeText(this, userExists, Toast.LENGTH_SHORT).show();
-
-        /*if (!userExists.equals("")){
-        }
-        else {
-            Toast.makeText(this, "userExists: "+userExists, Toast.LENGTH_SHORT).show();
-        }*/
 
         new AsyncTask<User, Void, Void>() {
 
@@ -123,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("emailTest","user: " + cryptography.encrypt(email) + " password: " +
                             cryptography.encryptWithKey(email, masterPassword) );
                     // we are encrypting the text that the user entered and searching it in the DB
-                    user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser()
-                            .LogInConfirmation(cryptography.encrypt(email), cryptography.encryptWithKey(email, masterPassword));
+                    user = viewModel.LogInConfirmation(cryptography.encrypt(email), cryptography.encryptWithKey(email, masterPassword));
                     // getting the encrypted pattern!
                     pattern = user.getPatternLock();
                     flag = 1; // if user found.
@@ -162,11 +153,11 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (flag == 1) {
-                    //  Toast.makeText(getApplicationContext(), " flag = " + flag, Toast.LENGTH_LONG).show();
                     Intent intent = new Intent();
                     //intent.setClass(getApplicationContext(), CategoryList_Activity.class);
                     intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
                     CRYPTO_KEY = MainActivity.this.email_EditText.getText().toString();
+
                     Log.d("patternCheck",pattern);
                     intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);

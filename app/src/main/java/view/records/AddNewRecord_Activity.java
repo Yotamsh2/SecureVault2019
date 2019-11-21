@@ -43,6 +43,7 @@ import com.securevault19.securevault2019.record.Record;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -57,7 +58,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     private Cryptography cryptography;
 
-    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber, encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate, encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed, encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber, encryptedIssuanceDate, encryptedIssuancePlace,encryptedNote,encryptedExpireDateNote,encryptedTagsNote;
+    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber,
+            encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate,
+            encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed,
+            encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber,
+            encryptedIssuanceDate, encryptedIssuancePlace,encryptedNote,encryptedExpireDateNote,encryptedTagsNote;
     private String CRYPTO_KEY;
     private String nameOfFolder;
     private String userNameRecord;
@@ -120,7 +125,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
 
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "RestrictedApi"})
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
@@ -251,6 +256,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 case "onRecordClick":           // clicked from recycler view
                     if (folder != null) {
                         if (type != null) {
+                            setEditMode(false);
+                            findViewById(R.id.listOfIcons).setVisibility(View.GONE);
+                            editForm.setVisibility(View.VISIBLE);
                             findViewById(R.id.deleteTopBtn).setVisibility(View.VISIBLE);
                             fieldsVisibility(type);  //shows the relevant fields of the clicked Record.
                             switch (type) {
@@ -831,25 +839,70 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
-        //Set all fields not focusable
-        typeOfRecord_Spinner.setFocusable(false);
-        category_Spinner.setFocusable(false);
-        title_EditText.setFocusable(false);
-        username_EditText.setFocusable(false);
-        password_EditText.setFocusable(false);
-        website_EditText.setFocusable(false);
-        email_EditText.setFocusable(false);
-        expiringDate_EditText.setFocusable(false);
-        custom1_EditText.setFocusable(false);
-        custom2_EditText.setFocusable(false);
-        custom3_EditText.setFocusable(false);
-        calendarBtn.setFocusable(false);
-        note_EditText.setFocusable(false);
-        tagNames_EditText.setFocusable(false);
-        saveBtn.setVisibility(View.GONE);
-        cancelBtn.setVisibility(View.GONE);
-        editForm.setVisibility(View.VISIBLE);
 
+    }
+
+    public void setEditMode(Boolean editable){
+        //typeOfRecord_Spinner.setFocusable(editable);
+        //category_Spinner.setFocusable(editable);
+        int color = 0xff000000;
+        title_EditText.setEnabled(editable);
+        title_EditText.setTextColor(color);
+        username_EditText.setEnabled(editable);
+        username_EditText.setTextColor(color);
+        password_EditText.setEnabled(editable);
+        password_EditText.setTextColor(color);
+        accountNumber_EditText.setEnabled(editable);
+        accountNumber_EditText.setTextColor(color);
+        IBAN_EditText.setEnabled(editable);
+        IBAN_EditText.setTextColor(color);
+        bankNumber_EditText.setEnabled(editable);
+        bankNumber_EditText.setTextColor(color);
+        bankAddress_EditText.setEnabled(editable);
+        bankAddress_EditText.setTextColor(color);
+        cardNumber_EditText.setEnabled(editable);
+        cardNumber_EditText.setTextColor(color);
+        cvv_EditText.setEnabled(editable);
+        cvv_EditText.setTextColor(color);
+        cardExpiringMonth_EditText.setEnabled(editable);
+        cardExpiringMonth_EditText.setTextColor(color);
+        cardExpiringYear_EditText.setEnabled(editable);
+        cardExpiringYear_EditText.setTextColor(color);
+        website_EditText.setEnabled(editable);
+        website_EditText.setTextColor(color);
+        email_EditText.setEnabled(editable);
+        email_EditText.setTextColor(color);
+        publicKey_EditText.setEnabled(editable);
+        publicKey_EditText.setTextColor(color);
+        privateKey_EditText.setEnabled(editable);
+        privateKey_EditText.setTextColor(color);
+        walletGenerationSeed_EditText.setEnabled(editable);
+        walletGenerationSeed_EditText.setTextColor(color);
+        licenceNumber_EditText.setEnabled(editable);
+        licenceNumber_EditText.setTextColor(color);
+        licenceExpiringDate_EditText.setEnabled(editable);
+        licenceExpiringDate_EditText.setTextColor(color);
+        passportNumber_EditText.setEnabled(editable);
+        passportNumber_EditText.setTextColor(color);
+        issuanceDate_EditText.setEnabled(editable);
+        issuanceDate_EditText.setTextColor(color);
+        issuancePlace_EditText.setEnabled(editable);
+        issuancePlace_EditText.setTextColor(color);
+        calendarBtn.setClickable(editable);
+        expireDateNote_EditText.setEnabled(editable);
+        note_EditText.setEnabled(editable);
+        note_EditText.setTextColor(color);
+        tagNames_EditText.setEnabled(editable);
+        chooseIcon.setClickable(editable);
+        if (editable){
+            copyPass.setVisibility(View.GONE);
+            saveBtn.setVisibility(View.VISIBLE);
+            cancelBtn.setVisibility(View.VISIBLE);
+        } else {
+            copyPass.setVisibility(View.VISIBLE);
+            saveBtn.setVisibility(View.GONE);
+            cancelBtn.setVisibility(View.GONE);
+        }
     }
 
     public void addFields(View view) {
@@ -947,20 +1000,23 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         mediaPlayer.start();
         cancelBtn.startAnimation(animation3);
 
+        if (editForm.getVisibility()==View.VISIBLE){
+            back(view);
+        }
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(R.string.cancelation_request);
         alert.setMessage(R.string.cancelation_message);
         alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Data Not saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Not saved", Toast.LENGTH_SHORT).show();
                 back(view);
             }
         });
         alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Not Canceled", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "Not Canceled", Toast.LENGTH_SHORT).show();
             }
         });
         alert.create().show();
@@ -969,20 +1025,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     @SuppressLint("RestrictedApi")
     public void editForm(View view) {
         mediaPlayer.start();
-        category_Spinner.setEnabled(true);
-        title_EditText.setEnabled(true);
-        username_EditText.setEnabled(true);
-        password_EditText.setEnabled(true);
-        website_EditText.setEnabled(true);
-        email_EditText.setEnabled(true);
-        expiringDate_EditText.setEnabled(true);
-        custom1_EditText.setEnabled(true);
-        custom2_EditText.setEnabled(true);
-        custom3_EditText.setEnabled(true);
-        calendarBtn.setEnabled(true);
-        note_EditText.setEnabled(true);
-        saveBtn.setVisibility(View.VISIBLE);
-        cancelBtn.setVisibility(View.VISIBLE);
+        setEditMode(true);
         editForm.setVisibility(View.GONE);
     }
 
@@ -1036,7 +1079,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void chooseIcon(View view) {
-        //startActivity(new Intent(getApplicationContext(), ChooseIcon_PopupActivity.class));
         mediaPlayer.start();
         if (listOfIcons.getVisibility() == View.GONE)
             listOfIcons.setVisibility(View.VISIBLE);
@@ -1071,7 +1113,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         mediaPlayer.start();
         listOfIcons.setVisibility(View.GONE);
-        //view.startAnimation(animation3);
     }
 
 
@@ -1079,7 +1120,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         addChooseIconBtn.setVisibility(View.GONE);
         chooseIcon.setVisibility(View.VISIBLE);
         chooseIcon(null);
-//        new getAllDrawablesResourcesAsyncTask().execute(); //inserts all drawables to ArrayList
+        if (editForm.getVisibility()==View.VISIBLE){
+            listOfIcons.setVisibility(View.GONE);
+        }
 
     }
 
@@ -1134,7 +1177,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Permanently deleted", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT).show();
                 viewModel.delete(currentRecord);
                 back(view);
             }

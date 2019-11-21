@@ -33,6 +33,10 @@ public class User_ViewModel extends AndroidViewModel {
         return userRepository.CheckForUserName(email);
     }
 
+    public void insert(User user) {
+        userRepository.insert(user);
+    }
+
     public void update(User user) {
         userRepository.update(user);
     }

@@ -1,9 +1,5 @@
 package local_database.dao;
 
-
-// updeted DaoUser                      // DaoUser is the correct
-// UserDao may be deleted.
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Ignore;
@@ -18,17 +14,14 @@ import java.util.List;
 @Dao
 public interface DaoUser {
 
-    // Insert
     @Insert
     void insert(User user);
 
     @Update
     void update(User user);
 
-
     @Query("SELECT * FROM user_table ORDER BY first_name DESC")
     LiveData<List<User>> getAllUsers();
-
 
     // check if LogIn is ok
     @Query("SELECT  * FROM user_table WHERE email = :email AND master_Password = :masterPassword")
@@ -41,6 +34,5 @@ public interface DaoUser {
     // updating User Details
     @Query("UPDATE user_table SET secureLevel = :newSecureLevel WHERE email = :email")
     void updateSecureLevel(String newSecureLevel, String email);
-
 
 }

@@ -43,6 +43,7 @@ public class UserRepository {
     public void update(User user){
         new UpdateAsyncTask(DaoUser).execute(user);
     }
+
     public LiveData<List<User>> getAllUsers(){ return allUsers;}
 
     public void updateSecureLevel(String secureLevel, String currentUser) {
@@ -50,7 +51,7 @@ public class UserRepository {
     }
 
 
-    private class InsertAsyncTask extends AsyncTask<User, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<User, Void, Void> {
         private DaoUser daoUser;
 
         private InsertAsyncTask(DaoUser daoUser) {

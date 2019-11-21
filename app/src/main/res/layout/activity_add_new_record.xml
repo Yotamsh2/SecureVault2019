@@ -383,11 +383,12 @@
                                 android:id="@+id/copyPass"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:layout_toStartOf="@id/showHidePass"
+                                android:layout_marginEnd="50dp"
+                                android:layout_marginTop="8dp"
+                                android:layout_alignParentEnd="true"
                                 android:background="@drawable/ic_copy_black"
                                 android:onClick="copyPass"
-                                android:visibility="gone"/>
+                                android:visibility="visible"/>
 
 
                         </RelativeLayout>

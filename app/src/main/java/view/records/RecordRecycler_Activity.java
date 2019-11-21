@@ -12,20 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ReportFragment;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.record.RecordAdapter;
+import com.securevault19.securevault2019.user.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,10 +36,8 @@ import java.util.List;
 import java.util.Objects;
 
 import cryptography.Cryptography;
-import local_database.DatabaseClient;
-import repository.RecordRepository;
-import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
+import view_model.records.User_ViewModel;
 
 import static com.securevault19.securevault2019.R.raw.button;
 import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
@@ -53,14 +46,14 @@ import static view.explorer.CategoryList_Activity.EXTRA_SEARCH;
 public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener,Serializable {
     private String CRYPTO_KEY;
     public static final int ADD_RECORD_REQUEST = 1;
-
     public static final String EXTRA_TYPE =
             "com.securevault19.securevault2019.EXTRA_TYPE";
     public static final String EXTRA_ORIGIN =
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
 
-    private Record_ViewModel viewModel;
+    private Record_ViewModel recordViewModel;
+    private User_ViewModel userViewModel;
     private List<Record> records = new ArrayList<>();
     private TextView activityTitle;
     private Typeface myFont;
@@ -108,13 +101,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
         //////////////////////////////////////////////////////////
         CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
-
         Log.d("userTest2Get", "" + CRYPTO_KEY);
         //////////////////////////////////////////////////////////
+
         recycler();
 
         floatingActionButton();
-
 
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,7 +137,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this, CRYPTO_KEY);
         recyclerView.setAdapter(recordAdapter);
 
-        viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
+        recordViewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
+        userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
         //showCurrentCategory(recordAdapter);
         //getting the String to know which Category to show
         Bundle extras = getIntent().getExtras();
@@ -159,7 +152,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Log.d("back", "folder is not null:  " + nameOfFolder);
 
                 if (nameOfFolder.equals("All Records")) {
-                    viewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
                         @Override
                         public void onChanged(List<Record> records) {
@@ -183,8 +176,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             return null;
                         }
                     };
-                    //Toast.makeText(this, encryptedSearchString, Toast.LENGTH_LONG).show();
-                    viewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
 
                         @Override
                         public void onChanged(List<Record> records) {
@@ -194,7 +186,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else if (nameOfFolder.equals("Favorites")) {
-                    viewModel.getFavoritesRecords().observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getFavoritesRecords().observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
                         @Override
                         public void onChanged(List<Record> records) {
@@ -205,7 +197,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else {
-                    viewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
@@ -232,7 +224,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
                 Log.d("userTest3Send", "" + CRYPTO_KEY);
                 intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
-                Toast.makeText(RecordRecycler_Activity.this, nameOfFolder, Toast.LENGTH_SHORT).show();
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 finish();
                 overridePendingTransition(0, 0);
@@ -259,99 +250,23 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         // ------------------------------------------------------------------------------- //
         // records.get(position);
         final String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
-        //  String type;
-        int clickedRecordIdPosition = records.get(position).getRecordID();
 
-        // the class is Record and not LiveData because we just want to show the details in fileds and not use them as Live Data
-
-        // Record record = viewModel.getRecordDetails(records.get(position).getRecordID());
-        //Log.d("recordTest321","" +record.getUserName());
-//        new AsyncTask<Void, Void, Void>() {
-//
-//            String recordUserName;
-//
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                Record record = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoRecord().getRecordDetails(records.get(position).getRecordID());
-//                recordUserName = record.getUserName();
-//                Log.d("recordTest", "" + record.getUserName() + " " + record.getPassword());
-//                return null;
-//            }
-//            @Override
-//            protected void onPostExecute(Void aVoid) {
-//                super.onPostExecute(aVoid);
-//
-//
-//            }
-//
-//
-//        }.execute();
 
 
         new AsyncTask<Void, Void, Void>() {
 
             Record record;
-
-//            String titleRecord;
-//            String dateCreatedRecord;
-//            String lastModifiedRecord;
-//            String passwordRecord;
-//            String emailRecord;
-//            String websiteRecord;
-//            String expiringDate;
-//            String userNameRecord;
-//            String accountNumberRecord;
-//            String IBANRecord;
-//            int bankNumberRecord;
-//            String adressRecord;
-//            int cardNumberRecord;
-//            int CVVRecord;
-//            int expireYearRecord;
-//            int expireMonthRecord;
-//            int expireDayRecord;
-//            String publicKeyRecord;
-//            String privateKeyRecord;
-//            String walletGenerationSeedRecord;
-//            int licenceNumberRecord;
-//            String serviceNameRecord; //email
-//            int passportNumberRecord;
-//            String issuanceDateRecord;
-                 String type;
+            String type;
 
             @Override
             protected Void doInBackground(Void... voids) {
-                record = viewModel.getRecordDetails(records.get(position).getRecordID());
-//                titleRecord = record.getTitle();
-//                dateCreatedRecord = record.getDateCreated();
-//                lastModifiedRecord = record.getLastModified();
-//                passwordRecord = record.getPassword();
-//                emailRecord = record.getEmail();
-//                websiteRecord = record.getWebsite();
-//                expiringDate = record.getExpiringDate();
-//                userNameRecord = record.getUserName();
-//                accountNumberRecord = record.getAccountNumber();
-//                IBANRecord = record.getIBAN();
-//                bankNumberRecord = record.getBankNumber();
-//                adressRecord = record.getAddress();
-//                cardNumberRecord = record.getCardNumber();
-//                CVVRecord = record.getCVV();
-//                expireYearRecord = record.getExpireYear();
-//                expireMonthRecord = record.getExpireMonth();
-//                expireDayRecord = record.getExpireDay();
-//                publicKeyRecord = record.getPublicKey();
-//                privateKeyRecord = record.getPrivateKey();
-//                walletGenerationSeedRecord = record.getWalletGenerationSeed();
-//                licenceNumberRecord = record.getLicenceNumber();
-//                serviceNameRecord = record.getServiceName();
-//                passportNumberRecord = record.getPassportNumber();
-//                issuanceDateRecord = record.getIssuanceDate();
+                record = recordViewModel.getRecordDetails(records.get(position).getRecordID());
                 return null;
             }
 
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                mediaPlayer.start();
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                 intent.putExtra(EXTRA_FOLDER, folder);
