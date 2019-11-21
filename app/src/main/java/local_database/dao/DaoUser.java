@@ -35,8 +35,8 @@ public interface DaoUser {
     User LogInConfirmation(String email,String masterPassword);
 
     // getting the userName name for check if one all ready exists.
-    @Query("SELECT * from user_table WHERE first_name = :firstName")
-    User CheckForUserName(String firstName);
+    @Query("SELECT email from user_table WHERE email = :email")
+    String CheckForUserName(String email);
 
     // updating User Details
     @Query("UPDATE user_table SET secureLevel = :newSecureLevel WHERE email = :email")

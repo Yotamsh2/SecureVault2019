@@ -8,24 +8,24 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "user_table")
 public class User {
 
-    //    private int ID;   // no need ? because there is only one user to the app.
-
-    @PrimaryKey         // no need?
+    //    private int ID;
+    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "email")private String email;                // email is primary key
+    @ColumnInfo(name = "email")private String email = "not specified";                // email is primary key
     @ColumnInfo(name = "first_name") private String firstName;
     @ColumnInfo(name = "lastName") private String lastName;
-    @ColumnInfo(name = "DateOfBirth") private String DateOfBirth;
+    @ColumnInfo(name = "DateOfRegistration",defaultValue = "CURRENT_TIMESTAMP") private String DateOfRegistration;
     @ColumnInfo(name = "optionalQuestion")private String optionalQuestion;
     @ColumnInfo(name = "optionalAnswer") private String optionalAnswer;
     @ColumnInfo(name = "master_password") private String masterPassword;
     @ColumnInfo(name = "secureLevel")  private String secureLevel;
     @ColumnInfo(name = "PatternLock") private String patternLock;
 
-    public User(String firstName, String lastName, String DateOfBirth, String email, String optionalQuestion, String optionalAnswer, String masterPassword, String secureLevel,String patternLock) {
+    public User(String firstName, String lastName, String DateOfRegistration, String email, String optionalQuestion,
+                String optionalAnswer, String masterPassword, String secureLevel,String patternLock) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.DateOfBirth = DateOfBirth;
+        this.DateOfRegistration = DateOfRegistration;
         this.email = email;
         this.optionalQuestion = optionalQuestion;
         this.optionalAnswer = optionalAnswer;
@@ -40,10 +40,6 @@ public class User {
 
     //Setters
 
-//    public void setID(int ID) {
-//        this.ID = ID;
-//    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -52,17 +48,13 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        DateOfBirth = dateOfBirth;
-    }
+    public void setDateOfRegistration(String DateOfRegistration) { this.DateOfRegistration = DateOfRegistration; }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public void setOptionalQuestion(String optionalQuestion) {
-        this.optionalQuestion = optionalQuestion;
-    }
+    public void setOptionalQuestion(String optionalQuestion) { this.optionalQuestion = optionalQuestion; }
 
     public void setOptionalAnswer(String optionalAnswer) {
         this.optionalAnswer = optionalAnswer;
@@ -75,6 +67,7 @@ public class User {
     public void setSecureLevel(String secureLevel) {
         this.secureLevel = secureLevel;
     }
+
     public void setPatternLock(String patternLock) {
         this.patternLock = patternLock;
     }
@@ -94,8 +87,8 @@ public class User {
         return lastName;
     }
 
-    public String getDateOfBirth() {
-        return DateOfBirth;
+    public String getDateOfRegistration() {
+        return DateOfRegistration;
     }
 
     public String getEmail() {
@@ -117,6 +110,7 @@ public class User {
     public String getSecureLevel() {
         return secureLevel;
     }
+
     public String getPatternLock() {
         return patternLock;
     }

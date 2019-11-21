@@ -13,7 +13,6 @@ import java.util.List;
 import repository.UserRepository;
 
 
-// dont think i need it
 public class User_ViewModel extends AndroidViewModel {
 
     private UserRepository userRepository;
@@ -24,12 +23,16 @@ public class User_ViewModel extends AndroidViewModel {
         super(application);
         userRepository = new UserRepository(application);
         allUsers = userRepository.getAllUsers();
-
     }
 
     public User LogInConfirmation(String name, String password){
         return userRepository.LogInConfirmation(name,password);
     }
+
+    public String CheckForUserName(String email){
+        return userRepository.CheckForUserName(email);
+    }
+
     public void update(User user) {
         userRepository.update(user);
     }

@@ -32,8 +32,8 @@ public class UserRepository {
         return DaoUser.LogInConfirmation(firstName,masterPassword);
     }
 
-    public User CheckForUserName(String firstName){
-        return DaoUser.CheckForUserName(firstName);
+    public String CheckForUserName(String email){
+        return DaoUser.CheckForUserName(email);
     }
 
     public void insert(User user) {

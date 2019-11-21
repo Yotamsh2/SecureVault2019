@@ -16,23 +16,18 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.crypto.spec.SecretKeySpec;
-
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
-import view.entrance.FirebaseTest_Activity;
 import view.entrance.FirebaseTest_SignIn_Activity;
 import view.entrance.NewUser_Activity;
-import view.entrance.SignUp_Activity;
-import view.explorer.CategoryList_Activity;
 import view.explorer.PatternLockView_Activity;
+import view_model.records.Record_ViewModel;
+import view_model.records.User_ViewModel;
 
 
 @SuppressLint("Registered")
@@ -44,10 +39,13 @@ public class MainActivity extends AppCompatActivity {
     private Button signup,buttonSignIn,firebaseTest;
     private Animation animation2, animation3;
     private MediaPlayer mediaPlayer;
+    private EditText email_EditText, password;
     // added for testing //
     private User user;
     private int flag = 0;
     private Cryptography cryptography = new Cryptography();
+    private User_ViewModel viewModel;
+
     //                  //
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -60,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
         firebaseTest = findViewById(R.id.firebaseTest);
         signup = findViewById(R.id.newAccount);
         LinearLayout signInForm = findViewById(R.id.signInForm);
-        final EditText userName = findViewById(R.id.userName);
-        final EditText password = findViewById(R.id.password_EditText);
+        email_EditText = findViewById(R.id.email);
+        password = findViewById(R.id.password_EditText);
         buttonSignIn = findViewById(R.id.signIn);
         counter = 3;
+        viewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
 
-        // for testing //
-        userName.setText("A");
-        password.setText("1");
-        //------------//
+        //////////////// for testing only ///////////////////////
+        email_EditText.setText("securevault2019@gmail.com");
+        password.setText("111222333");
 
 
         //Animation Sets
@@ -79,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
         logo.startAnimation(animation1);
         signInForm.startAnimation(animation2);
         signup.startAnimation(animation2);
-
-
-
     }
 
     public void signUp(View view) {
@@ -90,10 +85,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NewUser_Activity.class);
         this.startActivity(intent);
         overridePendingTransition(0, 0);
-    }
-
-    public void forgotPass(View view) {
-        // still in progress
     }
 
     // At this onClick method
@@ -106,13 +97,20 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(View view) {
         buttonSignIn.startAnimation(animation3);
         mediaPlayer.start();
-        final EditText userName = findViewById(R.id.userName);              // userName is email
-        final EditText password = findViewById(R.id.password_EditText);
-        final String email = userName.getText().toString().trim();
+        final String email = this.email_EditText.getText().toString().trim();
         final String masterPassword = password.getText().toString();
         Log.e("check2", " " + email + " " + masterPassword);
         //user =  new User("Test", null, null, null, null, null, null, null);
         Log.e("test2", "" + flag);
+
+        String userExists = viewModel.CheckForUserName(email);
+        //Toast.makeText(this, userExists, Toast.LENGTH_SHORT).show();
+
+        /*if (!userExists.equals("")){
+        }
+        else {
+            Toast.makeText(this, "userExists: "+userExists, Toast.LENGTH_SHORT).show();
+        }*/
 
         new AsyncTask<User, Void, Void>() {
 
@@ -122,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // searching for user //
                 try {
-                    Log.d("emailTest","user: " + cryptography.encrypt(email) + " password: " + cryptography.encryptWithKey(email, masterPassword) );
+                    Log.d("emailTest","user: " + cryptography.encrypt(email) + " password: " +
+                            cryptography.encryptWithKey(email, masterPassword) );
                     // we are encrypting the text that the user entered and searching it in the DB
                     user = DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser()
                             .LogInConfirmation(cryptography.encrypt(email), cryptography.encryptWithKey(email, masterPassword));
@@ -130,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
                     pattern = user.getPatternLock();
                     flag = 1; // if user found.
                     Log.d("patternLockFromUser ",pattern);
-                    Log.d("emailTest","user -" + cryptography.encrypt(email) + " password " + cryptography.encryptWithKey(email, masterPassword) );
+                    Log.d("emailTest","user -" + cryptography.encrypt(email) + " password " +
+                            cryptography.encryptWithKey(email, masterPassword) );
                     new CurrentUser(cryptography.decrypt(user.getFirstName(),email));
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     //intent.setClass(getApplicationContext(), CategoryList_Activity.class);
                     intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
-                    CRYPTO_KEY = userName.getText().toString();
+                    CRYPTO_KEY = MainActivity.this.email_EditText.getText().toString();
                     Log.d("patternCheck",pattern);
                     intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);

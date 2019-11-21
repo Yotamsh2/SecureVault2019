@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,37 +15,25 @@ import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridLayout;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Database;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.securevault19.securevault2019.MainActivity;
 import com.securevault19.securevault2019.R;
-import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.user.User;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -55,9 +42,6 @@ import cryptography.Cryptography;
 import local_database.DatabaseClient;
 import view.explorer.PatternLockView_Activity;
 import view.preferences.SecurityLevel_Activity;
-import view.records.RecordRecycler_Activity;
-
-import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
 
 @SuppressLint("Registered")
 public class NewUser_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -98,9 +82,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     private TextView activityTitle;
     private Typeface myFont;
     private EditText password_EditText, userName_EditText, email_EditText, verifyPassword_EditText;
-    //////////////////////////// for YOTAM ////////////////////////////
-    private EditText lastName_EditText, dateOfBirth_EditText, optionalQuestion_EditText, optionalAnswer_EditText;
-    ///////////////////////////////////////////////////////////////////
+    private EditText lastName_EditText, dateOfRegistration_EditText, optionalQuestion_EditText, optionalAnswer_EditText;
 
     private LinearLayout userName, password, email;
     private String encryptedPassword, encryptedUserName, encryptedEmail, encryptedPattern, encryptedSecurityLevel, encryptedLastName,
@@ -133,7 +115,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         lastName_EditText = findViewById(R.id.lastName_EditText);
         email_EditText = findViewById(R.id.email_EditText);
         verifyPassword_EditText = findViewById(R.id.verifyPassword_EditText);
-        dateOfBirth_EditText = findViewById(R.id.dateOfBirth_EditText);
+        dateOfRegistration_EditText = findViewById(R.id.dateOfBirth_EditText);
         optionalQuestion_EditText = findViewById(R.id.optionalQuestion_EditText);
         optionalAnswer_EditText = findViewById(R.id.optionalAnswer_EditText);
         showVerPass = findViewById(R.id.showVerPass);
@@ -150,9 +132,9 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         activityTitle.setTypeface(myFont);
 
 
-        // for testing
-        //userName_EditText.setText("A");
-        password_EditText.setText("1");
+        //////////////// for testing only ///////////////////////
+        email_EditText.setText("securevault2019@gmail.com");
+        password_EditText.setText("111222333");
 
         password_EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -177,53 +159,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         cancelWarningMessage(null);
     }
 
-    //https://www.youtube.com/watch?v=cnD_7qFeZcY
-
-//    private boolean validatePassword() {
-//        String passwordInput = password_EditText.getText().toString().trim();
-//
-//        if (passwordInput.isEmpty()) {
-//            password_EditText.setError("Field can't be empty");
-//            return false;
-//        } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-//            password_EditText.setError("Password too weak");
-//            return false;
-//        } else {
-//            password_EditText.setError(null);
-//            return true;
-//        }
-//    }
-
-//    private boolean validateEmail() {
-//        String emailInput = email_EditText.getText().toString().trim();
-//
-//        if (emailInput.isEmpty()) {
-//            email_EditText.setError("Field can't be empty");
-//            return false;
-//        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-//            email_EditText.setError("Please enter a valid email address");
-//            return false;
-//        } else {
-//            email_EditText.setError(null);
-//            return true;
-//        }
-//    }
-
-//    private boolean validateUsername() {
-//        String usernameInput = userName_EditText.getText().toString().trim();
-//
-//        if (usernameInput.isEmpty()) {
-//            userName_EditText.setError("Field can't be empty");
-//            return false;
-//        } else if (usernameInput.length() > 15) {
-//            userName_EditText.setError("Username too long");
-//            return false;
-//        } else {
-//            userName_EditText.setError(null);
-//            return true;
-//        }
-//    }
-//
 
 
     public void showPass(View view) {
@@ -322,7 +257,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         lastNameUser = lastName_EditText.getText().toString();
         masterPasswordUser = password_EditText.getText().toString();
         verifyPasswordUser = verifyPassword_EditText.getText().toString();
-        dateOfBirthUser = dateOfBirth_EditText.getText().toString();
+        dateOfBirthUser = dateOfRegistration_EditText.getText().toString();
         optionalQuestionUser = optionalQuestion_EditText.getText().toString();
         optionalAnswerUser = optionalAnswer_EditText.getText().toString();
 
@@ -461,7 +396,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     public void openCalendarUser(View view) {
 
         mediaPlayer.start();
-        dateOfBirth_EditText.startAnimation(animation3);
+        dateOfRegistration_EditText.startAnimation(animation3);
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 this,
@@ -474,8 +409,8 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = month + "/" + dayOfMonth + "/" + year;
-        if (dateOfBirth_EditText.isFocused()) {
-            dateOfBirth_EditText.setText(date);
+        if (dateOfRegistration_EditText.isFocused()) {
+            dateOfRegistration_EditText.setText(date);
         }
     }
 
