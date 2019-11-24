@@ -3,6 +3,7 @@ package view.records;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,7 +11,9 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
@@ -33,6 +36,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -57,7 +61,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private Record_ViewModel viewModel;
 
     private Cryptography cryptography;
-
+    private CountDownTimer timer;
     private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber,
             encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate,
             encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed,
@@ -489,6 +493,37 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 passwordCalculation();
             }
         });
+
+        timer = new CountDownTimer(15 *60 * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished == 60*1000){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(AddNewRecord_Activity.this);
+                    alert.setTitle("Logout timer");
+                    alert.setMessage("No action detected. App will be closed in 1 minute.");
+                    alert.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
+                            System.exit(0);
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            timer.cancel();
+                        }
+                    });
+                    alert.create().show();                }
+            }
+
+            public void onFinish() {
+                Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
+                System.exit(0);
+            }
+        };
+        timer.start();
+
     }
 
 
@@ -842,6 +877,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     }
 
+    @SuppressLint("RestrictedApi")
     public void setEditMode(Boolean editable){
         //typeOfRecord_Spinner.setFocusable(editable);
         //category_Spinner.setFocusable(editable);
@@ -898,10 +934,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             copyPass.setVisibility(View.GONE);
             saveBtn.setVisibility(View.VISIBLE);
             cancelBtn.setVisibility(View.VISIBLE);
+            editForm.setVisibility(View.GONE);
         } else {
             copyPass.setVisibility(View.VISIBLE);
             saveBtn.setVisibility(View.GONE);
             cancelBtn.setVisibility(View.GONE);
+            editForm.setVisibility(View.VISIBLE);
+
         }
     }
 
@@ -1010,7 +1049,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Not saved", Toast.LENGTH_SHORT).show();
-                back(view);
+                setEditMode(false);
             }
         });
         alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -1026,7 +1065,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void editForm(View view) {
         mediaPlayer.start();
         setEditMode(true);
-        editForm.setVisibility(View.GONE);
     }
 
     public void back(View view) {
@@ -1076,6 +1114,18 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         clipboardManager.setText(password_EditText.getText().toString());
         Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
 
+        CountDownTimer timer = new CountDownTimer(1 *60 * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) { }
+
+            @RequiresApi(api = Build.VERSION_CODES.P)
+            public void onFinish() {
+                ClipboardManager mCbm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                mCbm.clearPrimaryClip();
+                Toast.makeText(getApplicationContext(), "Clipboard cleared", Toast.LENGTH_SHORT).show();
+            }
+        };
+        timer.start();
     }
 
     public void chooseIcon(View view) {
@@ -1143,22 +1193,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         isFavorite = true;
     }
 
-
-    public void checkPassword(String password) {
-        //check if there's minimum 8 characters.
-
-        // check if at least 1 capital letters
-
-        //check if at least 4 numbers
-
-        //check if there's space
-
-        //check if there are "other" characters - like: * , # , < , % ,  etc.
-
-        //calculate "points" and shows current strength level
-
-
-    }
 
     public void openWebsiteLink(View view) {
         Intent i = new Intent();

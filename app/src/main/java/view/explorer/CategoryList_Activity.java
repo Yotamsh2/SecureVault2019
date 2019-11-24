@@ -1,9 +1,11 @@
 package view.explorer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -43,6 +46,7 @@ public class CategoryList_Activity extends AppCompatActivity {
 
 
     Typeface myFont;
+    CountDownTimer timer;
     TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
     GridLayout mainGrid;
     CardView bankAccounts, creditCard, socialMedia, webAccounts, onlineShopping, cryptocurrency, drivingLicence, passports, allRecords, notes;
@@ -142,6 +146,36 @@ public class CategoryList_Activity extends AppCompatActivity {
                     clearSearch.setVisibility(View.GONE);}
             }
         });
+
+        timer = new CountDownTimer(10 *60 * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished == 60*1000){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(CategoryList_Activity.this);
+                    alert.setTitle("Logout timer");
+                    alert.setMessage("No action detected. App will be closed in 1 minute.");
+                    alert.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
+                            System.exit(0);
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            timer.cancel();
+                        }
+                    });
+                    alert.create().show();                }
+            }
+
+            public void onFinish() {
+                Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
+                System.exit(0);
+            }
+        };
+        timer.start();
     }
 
 
@@ -190,6 +224,8 @@ public class CategoryList_Activity extends AppCompatActivity {
             nameOfFolder = "Favorites";
 
 
+        timer.cancel();
+        timer.start();
         mediaPlayer.start();
         view.startAnimation(animation3);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
@@ -204,6 +240,8 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
     public void search(View view) {
+        timer.cancel();
+        timer.start();
         mediaPlayer.start();
         search_btn.startAnimation(animation3);
         if (search_bar.getText().toString().equals("")) {
@@ -253,4 +291,8 @@ public class CategoryList_Activity extends AppCompatActivity {
     public void clearSearch(View view) {
         search_bar.setText("");
     }
+
+
+
+
 }

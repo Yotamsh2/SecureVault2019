@@ -1,11 +1,13 @@
 package view.records;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,7 +19,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -36,6 +40,7 @@ import java.util.List;
 import java.util.Objects;
 
 import cryptography.Cryptography;
+import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 import view_model.records.User_ViewModel;
 
@@ -57,16 +62,17 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     private List<Record> records = new ArrayList<>();
     private TextView activityTitle;
     private Typeface myFont;
-    String nameOfFolder;
-    MediaPlayer mediaPlayer;
-    RelativeLayout search_layout;
-    ImageButton search_btn;
-    EditText search_bar;
-    Animation animation3;
-    RecyclerView recyclerView;
-    String searchString;
-    FloatingActionButton button_add_record;
-    ImageView clearSearch;
+    private CountDownTimer timer;
+    private String nameOfFolder;
+    private MediaPlayer mediaPlayer;
+    private RelativeLayout search_layout;
+    private ImageButton search_btn;
+    private EditText search_bar;
+    private Animation animation3;
+    private RecyclerView recyclerView;
+    private String searchString;
+    private FloatingActionButton button_add_record;
+    private ImageView clearSearch;
 
 
     String encryptedSearchString;
@@ -127,6 +133,36 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     clearSearch.setVisibility(View.GONE);}
             }
         });
+
+        timer = new CountDownTimer(10 *60 * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                if (millisUntilFinished == 60*1000){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(RecordRecycler_Activity.this);
+                    alert.setTitle("Logout timer");
+                    alert.setMessage("No action detected. App will be closed in 1 minute.");
+                    alert.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
+                            System.exit(0);
+                        }
+                    });
+                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            timer.cancel();
+                        }
+                    });
+                    alert.create().show();                }
+            }
+
+            public void onFinish() {
+                Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
+                System.exit(0);
+            }
+        };
+        timer.start();
     }
 
 
@@ -225,7 +261,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Log.d("userTest3Send", "" + CRYPTO_KEY);
                 intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
-                finish();
                 overridePendingTransition(0, 0);
 
             }
@@ -279,11 +314,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     intent.putExtra(EXTRA_TYPE, type);
                 }
 
-        //passing to Add_New_Record where we came from - to decide what type of screen to show.
-        intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
-        startActivity(intent);
-        overridePendingTransition(0, 0);
-
+                timer.cancel();
+                timer.start();
+                //passing to Add_New_Record where we came from - to decide what type of screen to show.
+                intent.putExtra(EXTRA_ORIGIN, "onRecordClick"); //EXTRA_ORIGIN gets the current position in the code
+                startActivity(intent);
+                overridePendingTransition(0, 0);
 
             }
 
@@ -304,6 +340,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
 
     public void search(View view) {
+        timer.cancel();
+        timer.start();
         mediaPlayer.start();
         search_btn.startAnimation(animation3);
         if (search_bar.getText().toString().equals(searchString)) {
