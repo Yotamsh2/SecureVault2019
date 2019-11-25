@@ -35,9 +35,11 @@ import com.securevault19.securevault2019.record.RecordAdapter;
 import com.securevault19.securevault2019.user.User;
 
 import java.io.Serializable;
+import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 import cryptography.Cryptography;
 import view.explorer.CategoryList_Activity;
@@ -168,8 +170,10 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
 
     @SuppressLint("StaticFieldLeak")
-    public void recycler() {
+    public void recycler(){
 
+        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
+        Log.d("CRYPTO_KEYTest", "CRYPTO KEY: " + CRYPTO_KEY);
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this, CRYPTO_KEY);
         recyclerView.setAdapter(recordAdapter);
 
@@ -183,10 +187,11 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         if (extras != null) {
             nameOfFolder = extras.getString(EXTRA_FOLDER);
             searchString = extras.getString(EXTRA_SEARCH);
-
+            encryptedSearchString = extras.getString("encryptedSearchString");
+            Log.d("getSearchRecords","entered extras");
             if (nameOfFolder != null) {
                 Log.d("back", "folder is not null:  " + nameOfFolder);
-
+                Log.d("getSearchRecords","entered name of folder ");
                 if (nameOfFolder.equals("All Records")) {
                     recordViewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
@@ -199,21 +204,11 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else if (nameOfFolder.equals("Search")) {
+                    Log.d("getSearchRecords","entered if of search");
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override  //try for Encryption
-                        protected Void doInBackground(Void... voids) {
-                            try {
-                                encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY, searchString);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            return null;
-                        }
-                    };
+                    Log.d("encryptedSearchString", "the encryptedSearchString seach bar " + searchString);
                     recordViewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
-
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);

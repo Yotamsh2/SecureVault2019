@@ -40,10 +40,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.room.Database;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
+import com.securevault19.securevault2019.user.CurrentUser;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -664,14 +666,20 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             if(!cryptography.decrypt(record.getNote(),CRYPTO_KEY).equals("")){
                 addNote(addNote);
             }
+         //   chooseIcon.setVisibility(View.VISIBLE);
+           // record.getIcon();
             expireDateNote_EditText.setText(cryptography.decrypt(record.getExpitingDateNote(),CRYPTO_KEY));
             if(!cryptography.decrypt(record.getExpitingDateNote(),CRYPTO_KEY).equals("")){
                 addExpiringDate(addExpiringDate);
             }
-            addChooseIcon(addChooseIconBtn);
+            //addChooseIcon(addChooseIconBtn);
             tagNames_EditText.setText(cryptography.decrypt(record.getTagsNote(),CRYPTO_KEY));
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if(record.getFavorite() == true){
+            fillStarBtn();
         }
 
     }
@@ -745,6 +753,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             Toast.makeText(this, "Please fill 'title' field", Toast.LENGTH_SHORT).show();
             return;
         } else {
+
+
+
             // If all fields are good, opening AsyncTask
             // We have to use AsyncTask for RecyclerView
             new AsyncTask<Void, Void, Void>() {
@@ -835,6 +846,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     }
                     else {
 
+
+                        // test for current User  //
+                        Log.d("CurrentUserTest",CurrentUser.getInstance().getEmail());
+                        ///////////////////////////
                         viewModel.insert(record);
 
                     }
@@ -1181,16 +1196,23 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void addToFavorites(View view) {
         if (starBtn.getVisibility() == View.VISIBLE) {
             starBtn.setVisibility(View.GONE);
-            starFullBtn.setVisibility(View.VISIBLE);
+            fillStarBtn();
             isFavorite();
         } else {
             starBtn.setVisibility(View.VISIBLE);
             starFullBtn.setVisibility(View.GONE);
+            isNotFavorite();
         }
     }
 
     public void isFavorite() {
         isFavorite = true;
+    }
+    public void isNotFavorite(){
+        isFavorite = false;
+    }
+    public void fillStarBtn(){
+        starFullBtn.setVisibility(View.VISIBLE);
     }
 
 

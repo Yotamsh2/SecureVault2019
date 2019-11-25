@@ -122,7 +122,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("patternLockFromUser ",pattern);
                     Log.d("emailTest","user -" + cryptography.encrypt(email) + " password " +
                             cryptography.encryptWithKey(email, masterPassword) );
-                    new CurrentUser(cryptography.decrypt(user.getFirstName(),email));
+                   // new CurrentUser(cryptography.decrypt(user.getFirstName(),email));
+                  //  CurrentUser.getInstance(user);
+                    //Log.d("CurrentUserTest","Current UserMail is: "+ CurrentUser.getInstance().getEmail());
+
+
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -157,10 +162,10 @@ public class MainActivity extends AppCompatActivity {
                     //intent.setClass(getApplicationContext(), CategoryList_Activity.class);
                     intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
                     CRYPTO_KEY = MainActivity.this.email_EditText.getText().toString();
-
                     Log.d("patternCheck",pattern);
                     intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
+                    CurrentUser.getInstance(user);
                     startActivity(intent);
                     overridePendingTransition(0, 0);
 

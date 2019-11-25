@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.securevault19.securevault2019.R;
+import com.securevault19.securevault2019.user.CurrentUser;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -26,12 +27,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 
     private OnRecordListener mOnRecordListener;
     private Cryptography cryptography;
-    private String userKey;
+    private String CRYPTO_KEY;
     Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
 
 
-    public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener,String userKey) {
-        this.userKey = userKey;
+    public RecordAdapter(ArrayList<Record> records, OnRecordListener onRecordListener,String CRYPTO_KEY) {
+        this.CRYPTO_KEY = CRYPTO_KEY;
         this.records = records;
         this.mOnRecordListener = onRecordListener;
 
@@ -51,7 +52,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 
 
         Record currentRecord = records.get(position);
-        holder.textViewTitle.setText(currentRecord.getTitle());
+      holder.textViewTitle.setText(currentRecord.getTitle());
+
 //        final String userName = currentRecord.getUserName(); //decrypting username
 //        Log.d("crypto", "1: "+ userName + " and: " + currentRecord.getUserName());
 //        try {
@@ -63,8 +65,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
 //        holder.textViewRecord.setText(userName);
 
         try {
-            holder.textViewTitle.setText(cryptography.decrypt(currentRecord.getTitle(),userKey));
-            holder.textViewRecord.setText(cryptography.decrypt(currentRecord.getUserName(),userKey));
+            Log.d("holferTest","entered try");
+            Log.d("holferTest","key " + CRYPTO_KEY);
+            holder.textViewTitle.setText(cryptography.decrypt(currentRecord.getTitle(),CRYPTO_KEY));
+            Log.d("holferTest","passed first decryption");
+            holder.textViewRecord.setText(cryptography.decrypt(currentRecord.getUserName(),CRYPTO_KEY));
+            Log.d("holferTest","passed second decryption");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -75,6 +81,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         String iconName = currentRecord.getIcon();
         int iconID = convertIconNameToID(iconName);
         holder.recordIcon.setImageResource(iconID);
+
 
 
 

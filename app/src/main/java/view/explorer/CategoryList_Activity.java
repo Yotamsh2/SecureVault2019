@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -27,7 +28,9 @@ import androidx.cardview.widget.CardView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
+import com.securevault19.securevault2019.user.CurrentUser;
 
+import cryptography.Cryptography;
 import view.preferences.SettingsActivity;
 import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
@@ -44,6 +47,9 @@ public class CategoryList_Activity extends AppCompatActivity {
     public static final String EXTRA_ORIGIN =
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
+
+    String encryptedSearchString;
+    String searchString;
 
     Typeface myFont;
     CountDownTimer timer;
@@ -239,7 +245,8 @@ public class CategoryList_Activity extends AppCompatActivity {
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
     }
 
-    public void search(View view) {
+    public void search(View view) {                                             // on click method
+        final Cryptography cryptography = new Cryptography();
         timer.cancel();
         timer.start();
         mediaPlayer.start();
@@ -247,13 +254,33 @@ public class CategoryList_Activity extends AppCompatActivity {
         if (search_bar.getText().toString().equals("")) {
             goToFolderRecords(allRecords);
         } else {
-            String searchString = search_bar.getText().toString();
-            Intent intent = new Intent(this, RecordRecycler_Activity.class);
-            intent.putExtra(EXTRA_SEARCH, searchString);
-            intent.putExtra(EXTRA_FOLDER, "Search");
-            this.startActivity(intent);
-            overridePendingTransition(0, 0);
+             searchString = search_bar.getText().toString();
+             new AsyncTask<Void,Void,Void>(){
 
+                 @Override
+                 protected Void doInBackground(Void... voids) {
+                     try {
+                         Log.d("encryptedSearchString", "before encryption");
+                         encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString);
+                         Log.d("encryptedSearchString", "after encryption");
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                     }
+                     return null;
+                 }
+                 @Override
+                 protected void onPostExecute(Void aVoid) {
+                     super.onPostExecute(aVoid);
+                     Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
+                     intent.putExtra("encryptedSearchString", encryptedSearchString);
+                     intent.putExtra(EXTRA_SEARCH, searchString);
+                     intent.putExtra(EXTRA_FOLDER, "Search");
+                     intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);
+                     Log.d("encryptedSearchString", "entering to next Activity With " + encryptedSearchString);
+                     startActivity(intent);
+                     overridePendingTransition(0, 0);
+                 }
+             }.execute();
         }
     }
 
@@ -291,8 +318,4 @@ public class CategoryList_Activity extends AppCompatActivity {
     public void clearSearch(View view) {
         search_bar.setText("");
     }
-
-
-
-
 }
