@@ -99,4 +99,11 @@
     <string name="project_team">צוות הפרויקט</string>
     <string name="delete_message">האם למחוק לצמיתות?</string>
     <string name="delete_request">מחיקה</string>
+    <string name="about">עלינו</string>
+    <string name="account">חשבון</string>
+    <string name="log_out">התנתקות</string>
+    <string name="no_result_message">נסה לחפש את כותרת הרשומה במדויק</string>
+    <string name="profile">פרופיל אישי</string>
+    <string name="save_record">שמור רשומה</string>
+    <string name="settings">הגדרות</string>
 </resources>

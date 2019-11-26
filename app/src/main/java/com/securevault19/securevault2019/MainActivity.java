@@ -22,11 +22,8 @@ import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
 import cryptography.Cryptography;
-import local_database.DatabaseClient;
-import view.entrance.FirebaseTest_SignIn_Activity;
 import view.entrance.NewUser_Activity;
 import view.explorer.PatternLockView_Activity;
-import view_model.records.Record_ViewModel;
 import view_model.records.User_ViewModel;
 
 
@@ -55,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         ImageView logo = findViewById(R.id.logo);
         Button forgotPass = findViewById((R.id.forgotPass));
-        firebaseTest = findViewById(R.id.firebaseTest);
         signup = findViewById(R.id.newAccount);
         LinearLayout signInForm = findViewById(R.id.signInForm);
         email_EditText = findViewById(R.id.email);
@@ -179,10 +175,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void firebaseTest(View view) {
-        Intent intent = new Intent();
-        intent.setClass(getApplicationContext(), FirebaseTest_SignIn_Activity.class);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
-    }
 }

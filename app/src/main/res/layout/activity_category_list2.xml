@@ -47,18 +47,6 @@
                 android:background="@drawable/icon_menu"
                 android:onClick="openMenu" />
 
-<!--
-            <Button
-                android:id="@+id/search_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="14dp"
-                android:background="@drawable/icon_search"
-                android:onClick="openSearch" />
--->
-
             <Button
                 android:id="@+id/options_icon"
                 android:layout_width="25dp"

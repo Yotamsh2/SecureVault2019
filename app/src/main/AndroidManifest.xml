@@ -19,8 +19,6 @@
             >
         </activity>
         <activity android:name="view.explorer.Team_Activity"/>
-        <activity android:name="view.entrance.FirebaseTest_Activity"/>
-        <activity android:name="view.entrance.FirebaseTest_SignIn_Activity"/>
         <activity
             android:name="view.records.ChooseIcon_PopupActivity"
             android:theme="@style/AppTheme.PopupWindow" />

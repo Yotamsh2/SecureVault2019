@@ -139,6 +139,16 @@
         <!--Search-->
 
 
+        <TextView
+            android:id="@+id/no_result_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:text="@string/no_result_message"
+            android:textColor="#CCFFFFFF"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"

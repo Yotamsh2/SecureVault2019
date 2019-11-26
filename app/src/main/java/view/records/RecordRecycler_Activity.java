@@ -213,22 +213,10 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     Log.d("getSearchRecords", "entered if of search");
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
-                    Log.d("encryptedSearchString", "the encryptedSearchString seach bar " + searchString);
-                    Log.d("encryptedSearchString", "the encryptedSearchString seach bar " + encryptedSearchString);
-
-//                    if (encryptedSearchString == null) {
-//                        try {
-//                            Log.d("encryptedSearchString", "entered try ");
-//                            Log.d("encryptedSearchString", "crypto key " + CRYPTO_KEY);
-//                            Log.d("encryptedSearchString", "searchString " + searchString);
-//                            Log.d("encryptedSearchString", "encryptedSearchString  " + encryptedSearchString);
-//                            encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY, searchString);
-//                            Log.d("encryptedSearchString", "exiting try ");
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
+                    Log.d("encryptedSearchString", "the encryptedSearchString search bar " + searchString);
+                    Log.d("encryptedSearchString", "the encryptedSearchString search bar " + encryptedSearchString);
                     Log.d("encryptedSearchString", "after encryption " + encryptedSearchString);
+
                     recordViewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
@@ -381,12 +369,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         Log.d("recordTestActivity","CRYPTO_KEY " + CRYPTO_KEY);
         try {
             // encrypting the new searchString that entered
-            encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString);
+            encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString.trim());
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.d("cryptoTest1","new enryption " + encryptedSearchString);
-        intent.putExtra(EXTRA_SEARCH, searchString);
+        intent.putExtra(EXTRA_SEARCH, searchString.trim());
         intent.putExtra(EXTRA_FOLDER, "Search");
         intent.putExtra("encryptedSearchString",encryptedSearchString);
         intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);

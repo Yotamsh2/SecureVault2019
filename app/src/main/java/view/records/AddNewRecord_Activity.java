@@ -40,7 +40,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.room.Database;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
@@ -49,12 +48,10 @@ import com.securevault19.securevault2019.user.CurrentUser;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import cryptography.Cryptography;
-import local_database.DatabaseClient;
 import view_model.records.Record_ViewModel;
 
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
@@ -678,10 +675,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             e.printStackTrace();
         }
 
-        if(record.getFavorite() == true){
-            fillStarBtn();
+        if(record.getFavorite()){
+            setFavorite(true);
         }
-
     }
 
 
@@ -945,6 +941,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         note_EditText.setTextColor(color);
         tagNames_EditText.setEnabled(editable);
         chooseIcon.setClickable(editable);
+        starBtn.setClickable(editable);
+        starFullBtn.setClickable(editable);
         if (editable){
             copyPass.setVisibility(View.GONE);
             saveBtn.setVisibility(View.VISIBLE);
@@ -1192,27 +1190,24 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 
-    //Add to favorites. WORKS
+    //Add to favorites
     public void addToFavorites(View view) {
-        if (starBtn.getVisibility() == View.VISIBLE) {
-            starBtn.setVisibility(View.GONE);
-            fillStarBtn();
-            isFavorite();
+        if (!isFavorite) {
+            setFavorite(true);
         } else {
-            starBtn.setVisibility(View.VISIBLE);
-            starFullBtn.setVisibility(View.GONE);
-            isNotFavorite();
+            setFavorite(false);
         }
     }
 
-    public void isFavorite() {
-        isFavorite = true;
-    }
-    public void isNotFavorite(){
-        isFavorite = false;
-    }
-    public void fillStarBtn(){
-        starFullBtn.setVisibility(View.VISIBLE);
+    public void setFavorite(Boolean status) {
+        isFavorite = status;
+        if (status){
+            starFullBtn.setVisibility(View.VISIBLE);
+            starBtn.setVisibility(View.GONE);
+        } else {
+            starFullBtn.setVisibility(View.GONE);
+            starBtn.setVisibility(View.VISIBLE);
+        }
     }
 
 

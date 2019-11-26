@@ -262,7 +262,7 @@ public class CategoryList_Activity extends AppCompatActivity {
                  protected Void doInBackground(Void... voids) {
                      try {
                          Log.d("encryptedSearchString", "before encryption");
-                         encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString);
+                         encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString.trim());
                          Log.d("encryptedSearchString", "after encryption");
                      } catch (Exception e) {
                          e.printStackTrace();
@@ -274,7 +274,7 @@ public class CategoryList_Activity extends AppCompatActivity {
                      super.onPostExecute(aVoid);
                      Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
                      intent.putExtra("encryptedSearchString", encryptedSearchString);
-                     intent.putExtra(EXTRA_SEARCH, searchString);
+                     intent.putExtra(EXTRA_SEARCH, searchString.trim());
                      intent.putExtra(EXTRA_FOLDER, "Search");
                      intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);
                      Log.d("encryptedSearchString", "entering to next Activity With " + encryptedSearchString);
@@ -316,7 +316,6 @@ public class CategoryList_Activity extends AppCompatActivity {
 //        Intent intent = new Intent(this, SecurityLevel_Activity.class);
         Intent intent = new Intent(this, SettingsActivity.class);
         this.startActivity(intent);
-        overridePendingTransition(0, 0);
     }
 
     public void clearSearch(View view) {
