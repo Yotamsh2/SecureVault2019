@@ -27,14 +27,11 @@ public class CurrentUser {
             currentUser = new CurrentUser(user);
         return currentUser;
     }
+
+
     public static synchronized User getInstance(){
         return user;
     }
-
-    public static String getCurrentUser() {
-        return currentUserr;
-    }
-
 
 
 

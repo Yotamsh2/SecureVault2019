@@ -32,6 +32,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.record.RecordAdapter;
+import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
 import java.io.Serializable;
@@ -199,7 +200,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Log.d("back", "folder is not null:  " + nameOfFolder);
                 Log.d("getSearchRecords", "entered name of folder ");
                 if (nameOfFolder.equals("All Records")) {
-                    recordViewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getAllRecords(CurrentUser.getInstance().getEmail()).observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
                         @Override
                         public void onChanged(List<Record> records) {
@@ -217,7 +218,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     Log.d("encryptedSearchString", "the encryptedSearchString search bar " + encryptedSearchString);
                     Log.d("encryptedSearchString", "after encryption " + encryptedSearchString);
 
-                    recordViewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getSearchRecords(encryptedSearchString,CurrentUser.getInstance().getEmail()).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
@@ -228,7 +229,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else if (nameOfFolder.equals("Favorites")) {
-                    recordViewModel.getFavoritesRecords().observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getFavoritesRecords(CurrentUser.getInstance().getEmail()).observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
                         @Override
                         public void onChanged(List<Record> records) {
@@ -239,7 +240,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else {
-                    recordViewModel.getAllFolder(nameOfFolder).observe(this, new Observer<List<Record>>() {
+                    recordViewModel.getAllFolder(nameOfFolder, CurrentUser.getInstance().getEmail()).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);

@@ -805,6 +805,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     else{
                         record = new Record();
                     }
+
+                    // setting the current userName to a record.
+                    // when you will try to see the record data, it will check if the user is the one who ca see the info.
+                    record.setUserTable(CurrentUser.getInstance().getEmail());
+
+
                     record.setType(typeOfRecord);
                     record.setFolder(folder);
                     record.setTitle(encryptedTitle);

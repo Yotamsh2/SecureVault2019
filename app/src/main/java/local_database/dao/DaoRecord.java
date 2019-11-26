@@ -26,14 +26,15 @@ public interface DaoRecord {
     @Query("DELETE FROM record_table")
     void deleteAllRecords();
 
-    @Query("SELECT * FROM record_table")
-    LiveData<List<Record>> getAllRecords();
-    @Query("SELECT * FROM record_table WHERE folder LIKE :nameOfFolder")   // '%' because we are looking for two words(and there's no duplicates with the folders names
-    LiveData<List<Record>> getAllFolder(String nameOfFolder);
-    @Query("SELECT * FROM record_table WHERE title LIKE :searchString")
-    LiveData<List<Record>> getSearchRecords(String searchString);
-    @Query("SELECT * FROM record_table WHERE favorite LIKE '1'")
-    LiveData<List<Record>> getFavoritesRecords();
+    @Query("SELECT * FROM record_table WHERE userTable =:userEmail")
+    LiveData<List<Record>> getAllRecords(String userEmail);
+    @Query("SELECT * FROM record_table WHERE folder LIKE :nameOfFolder AND userTable =:userEmail")   // '%' because we are looking for two words(and there's no duplicates with the folders names
+    LiveData<List<Record>> getAllFolder(String nameOfFolder,String userEmail);
+    @Query("SELECT * FROM record_table WHERE title LIKE :searchString AND userTable =:userEmail")
+    LiveData<List<Record>> getSearchRecords(String searchString,String userEmail);
+    @Query("SELECT * FROM record_table WHERE favorite LIKE '1' AND userTable =:userEmail")
+    LiveData<List<Record>> getFavoritesRecords(String userEmail);
+    // dont think we need to add the userEmail here, because its drawing according to the record position in the List. so there is no way for errors and mixing with other users.
     @Query("SELECT * FROM record_table WHERE recordID =:recordID")
     Record getRecordDetails(int recordID);
 

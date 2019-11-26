@@ -256,7 +256,7 @@ public class CategoryList_Activity extends AppCompatActivity {
             goToFolderRecords(allRecords);
         } else {
              searchString = search_bar.getText().toString();
-             new AsyncTask<Void,Void,Void>(){
+              new AsyncTask<Void,Void,Void>(){
 
                  @Override
                  protected Void doInBackground(Void... voids) {

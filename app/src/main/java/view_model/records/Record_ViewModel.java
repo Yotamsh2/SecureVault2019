@@ -31,19 +31,19 @@ public class Record_ViewModel extends AndroidViewModel {
     public void delete(Record record) {
         repository.delete(record);     }
 
-    public LiveData<List<Record>> getAllRecords() {
-        return repository.getAllRecords();    }
+    public LiveData<List<Record>> getAllRecords(String userEmail) {
+        return repository.getAllRecords(userEmail);    }
 
-    public LiveData<List<Record>> getAllFolder(String nameOfFolder) {
-        return repository.getAllFolder(nameOfFolder);    }
+    public LiveData<List<Record>> getAllFolder(String nameOfFolder,String userEmail) {
+        return repository.getAllFolder(nameOfFolder,userEmail);    }
 
-    public LiveData<List<Record>> getSearchRecords(String searchString) {
-        return repository.getSearchRecords(searchString);    }
+    public LiveData<List<Record>> getSearchRecords(String searchString,String userEmail) {
+        return repository.getSearchRecords(searchString,userEmail);    }
 
     public Record getRecordDetails(int recordID) {
         return repository.getRecordDetails(recordID);    }
 
-    public LiveData<List<Record>> getFavoritesRecords() {
-        return repository.getFavoritesRecords();    }
+    public LiveData<List<Record>> getFavoritesRecords(String userEmail) {
+        return repository.getFavoritesRecords(userEmail);    }
 
 }

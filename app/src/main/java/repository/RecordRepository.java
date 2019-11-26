@@ -36,20 +36,20 @@ public class RecordRepository {
     public void delete(Record record) {
         new DeleteRecordAsyncTask(DaoRecord).execute(record);    }
 
-    public LiveData<List<Record>> getAllRecords() {
-        return DaoRecord.getAllRecords();    }
+    public LiveData<List<Record>> getAllRecords(String userEmail) {
+        return DaoRecord.getAllRecords(userEmail);    }
 
-    public LiveData<List<Record>> getAllFolder(String nameOfFolder) {
-        return DaoRecord.getAllFolder(nameOfFolder);    }
+    public LiveData<List<Record>> getAllFolder(String nameOfFolder,String userEmail) {
+        return DaoRecord.getAllFolder(nameOfFolder,userEmail);    }
 
-    public LiveData<List<Record>> getSearchRecords(String searchString) {
-        return DaoRecord.getSearchRecords(searchString);    }
+    public LiveData<List<Record>> getSearchRecords(String searchString,String userEmail) {
+        return DaoRecord.getSearchRecords(searchString,userEmail);    }
 
     public Record getRecordDetails(int recordID) {
         return DaoRecord.getRecordDetails(recordID);    }
 
-    public LiveData<List<Record>> getFavoritesRecords() {
-        return DaoRecord.getFavoritesRecords();    }
+    public LiveData<List<Record>> getFavoritesRecords(String userEmail) {
+        return DaoRecord.getFavoritesRecords(userEmail);    }
 
 
 
