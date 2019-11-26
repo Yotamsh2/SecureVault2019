@@ -31,8 +31,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.room.Database;
 
 import com.securevault19.securevault2019.R;
+import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
 import java.util.Calendar;

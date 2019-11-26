@@ -50,7 +50,7 @@ import static com.securevault19.securevault2019.R.raw.button;
 import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.explorer.CategoryList_Activity.EXTRA_SEARCH;
 
-public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener,Serializable {
+public class RecordRecycler_Activity extends AppCompatActivity implements RecordAdapter.OnRecordListener, Serializable {
     private String CRYPTO_KEY;
     public static final int ADD_RECORD_REQUEST = 1;
     public static final String EXTRA_TYPE =
@@ -119,27 +119,32 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!search_bar.getText().toString().equals("")){
-                    clearSearch.setVisibility(View.VISIBLE);}
-                else if (search_bar.getText().toString().equals("")){
-                    clearSearch.setVisibility(View.GONE); }
+                if (!search_bar.getText().toString().equals("")) {
+                    clearSearch.setVisibility(View.VISIBLE);
+                } else if (search_bar.getText().toString().equals("")) {
+                    clearSearch.setVisibility(View.GONE);
+                }
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (search_bar.getText().toString().equals("")){
-                    clearSearch.setVisibility(View.VISIBLE);}
+                if (search_bar.getText().toString().equals("")) {
+                    clearSearch.setVisibility(View.VISIBLE);
+                }
             }
+
             @Override
             public void afterTextChanged(Editable editable) {
-                if (search_bar.getText().toString().equals("")){
-                    clearSearch.setVisibility(View.GONE);}
+                if (search_bar.getText().toString().equals("")) {
+                    clearSearch.setVisibility(View.GONE);
+                }
             }
         });
 
-        timer = new CountDownTimer(10 *60 * 1000, 1000) {
+        timer = new CountDownTimer(10 * 60 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished == 60*1000){
+                if (millisUntilFinished == 60 * 1000) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(RecordRecycler_Activity.this);
                     alert.setTitle("Logout timer");
                     alert.setMessage("No action detected. App will be closed in 1 minute.");
@@ -156,7 +161,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                             timer.cancel();
                         }
                     });
-                    alert.create().show();                }
+                    alert.create().show();
+                }
             }
 
             public void onFinish() {
@@ -168,11 +174,10 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     }
 
 
-
     @SuppressLint("StaticFieldLeak")
-    public void recycler(){
+    public void recycler() {
 
-        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
+       // CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
         Log.d("CRYPTO_KEYTest", "CRYPTO KEY: " + CRYPTO_KEY);
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this, CRYPTO_KEY);
         recyclerView.setAdapter(recordAdapter);
@@ -188,10 +193,11 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
             nameOfFolder = extras.getString(EXTRA_FOLDER);
             searchString = extras.getString(EXTRA_SEARCH);
             encryptedSearchString = extras.getString("encryptedSearchString");
-            Log.d("getSearchRecords","entered extras");
+            Log.d("encryptedSearchString", "got the encryptedSearchString" + encryptedSearchString);
+            Log.d("getSearchRecords", "entered extras");
             if (nameOfFolder != null) {
                 Log.d("back", "folder is not null:  " + nameOfFolder);
-                Log.d("getSearchRecords","entered name of folder ");
+                Log.d("getSearchRecords", "entered name of folder ");
                 if (nameOfFolder.equals("All Records")) {
                     recordViewModel.getAllRecords().observe(this, new Observer<List<Record>>() {
                         @SuppressLint("RestrictedApi")
@@ -204,15 +210,32 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else if (nameOfFolder.equals("Search")) {
-                    Log.d("getSearchRecords","entered if of search");
+                    Log.d("getSearchRecords", "entered if of search");
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
                     Log.d("encryptedSearchString", "the encryptedSearchString seach bar " + searchString);
+                    Log.d("encryptedSearchString", "the encryptedSearchString seach bar " + encryptedSearchString);
+
+//                    if (encryptedSearchString == null) {
+//                        try {
+//                            Log.d("encryptedSearchString", "entered try ");
+//                            Log.d("encryptedSearchString", "crypto key " + CRYPTO_KEY);
+//                            Log.d("encryptedSearchString", "searchString " + searchString);
+//                            Log.d("encryptedSearchString", "encryptedSearchString  " + encryptedSearchString);
+//                            encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY, searchString);
+//                            Log.d("encryptedSearchString", "exiting try ");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+                    Log.d("encryptedSearchString", "after encryption " + encryptedSearchString);
                     recordViewModel.getSearchRecords(encryptedSearchString).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
+                            Log.d("notifyDataSetChanged", "before notifying");
                             recordAdapter.notifyDataSetChanged();
+                            Log.d("notifyDataSetChanged", "after notifying");
                             activityTitle.setText(nameOfFolder);
                         }
                     });
@@ -300,7 +323,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                 intent.putExtra(EXTRA_FOLDER, folder);
-                intent.putExtra("recordClassDB",  record);
+                intent.putExtra("recordClassDB", record);
+
 
                 if (!records.isEmpty()) {       //we have to check if the 'records' ArrayList is not empty.
 
@@ -335,6 +359,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
 
     public void search(View view) {
+        Log.d("cryptoTest1","old searchString " + searchString);
         timer.cancel();
         timer.start();
         mediaPlayer.start();
@@ -342,14 +367,29 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         if (search_bar.getText().toString().equals(searchString)) {
             return;
         } else if (search_bar.getText().toString().equals("")) {
-            searchString = "%";
+            searchString = "";
         } else {
             searchString = search_bar.getText().toString();
         }
 
+        Log.d("cryptoTest1","new searchString " + searchString);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
+        Log.d("recordTestActivity","searchString " + searchString );
+        Log.d("recordTestActivity","encryptedSearchString " + encryptedSearchString);
+
+        Log.d("cryptoTest1","old enryption " + encryptedSearchString);
+        Log.d("recordTestActivity","CRYPTO_KEY " + CRYPTO_KEY);
+        try {
+            // encrypting the new searchString that entered
+            encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("cryptoTest1","new enryption " + encryptedSearchString);
         intent.putExtra(EXTRA_SEARCH, searchString);
         intent.putExtra(EXTRA_FOLDER, "Search");
+        intent.putExtra("encryptedSearchString",encryptedSearchString);
+        intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);
         this.startActivity(intent);
         overridePendingTransition(0, 0);
         finish();

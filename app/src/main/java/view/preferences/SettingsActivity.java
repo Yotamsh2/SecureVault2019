@@ -10,10 +10,12 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.room.Database;
 
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
 
+import local_database.DatabaseClient;
 import view_model.records.User_ViewModel;
 
 public class SettingsActivity extends AppCompatActivity {

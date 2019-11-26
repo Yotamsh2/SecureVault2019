@@ -31,6 +31,7 @@ import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
 
 import cryptography.Cryptography;
+import local_database.DatabaseClient;
 import view.preferences.SettingsActivity;
 import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
@@ -306,6 +307,9 @@ public class CategoryList_Activity extends AppCompatActivity {
     }
 
     public void openMenu(View view) {
+
+
+
     }
 
     public void openOptions(View view) {
