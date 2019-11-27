@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import cryptography.Cryptography;
+import view.explorer.PatternLockView_Activity;
 import view_model.records.Record_ViewModel;
 
 import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
@@ -65,22 +66,27 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate,
             encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed,
             encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber,
-            encryptedIssuanceDate, encryptedIssuancePlace,encryptedNote,encryptedExpireDateNote,encryptedTagsNote;
+            encryptedIssuanceDate, encryptedIssuancePlace, encryptedNote, encryptedExpireDateNote, encryptedTagsNote;
     private String CRYPTO_KEY;
     private String nameOfFolder;
     private String userNameRecord;
+    private int userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
 
 
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
     public static final String EXTRA_TYPE =
             "com.securevault19.securevault2019.EXTRA_TYPE";
+    public static final String EXTRA_ORIGIN =
+            "com.securevault19.securevault2019.EXTRA_ORIGIN";
+    public static final String EXTRA_PATTERN =
+            "com.securevault19.securevault2019.EXTRA_PATTERN";
     // -------------------------------------------------------------------- //
 
     private Button addChooseIconBtn;
     private ImageView chooseIcon;
     private Button starBtn, starFullBtn;
-    private EditText custom1_EditText, custom2_EditText, custom3_EditText, note_EditText,expireDateNote_EditText,tagsNote_EditText;
+    private EditText custom1_EditText, custom2_EditText, custom3_EditText, note_EditText, expireDateNote_EditText, tagsNote_EditText;
 
     private static int i = 1;
     private String folder, type, origin;
@@ -125,7 +131,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
     int drawabaleID; //Default Icon(Secure Vault Black)
     String drawableName;
-
 
 
     @SuppressLint({"WrongViewCast", "RestrictedApi"})
@@ -493,10 +498,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             }
         });
 
-        timer = new CountDownTimer(15 *60 * 1000, 1000) {
+        timer = new CountDownTimer(15 * 60 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished == 60*1000){
+                if (millisUntilFinished == 60 * 1000) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(AddNewRecord_Activity.this);
                     alert.setTitle("Logout timer");
                     alert.setMessage("No action detected. App will be closed in 1 minute.");
@@ -513,7 +518,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             timer.cancel();
                         }
                     });
-                    alert.create().show();                }
+                    alert.create().show();
+                }
             }
 
             public void onFinish() {
@@ -659,23 +665,23 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(), CRYPTO_KEY));
             licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), CRYPTO_KEY));
             licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(), CRYPTO_KEY));
-            note_EditText.setText(cryptography.decrypt(record.getNote(),CRYPTO_KEY));
-            if(!cryptography.decrypt(record.getNote(),CRYPTO_KEY).equals("")){
+            note_EditText.setText(cryptography.decrypt(record.getNote(), CRYPTO_KEY));
+            if (!cryptography.decrypt(record.getNote(), CRYPTO_KEY).equals("")) {
                 addNote(addNote);
             }
-         //   chooseIcon.setVisibility(View.VISIBLE);
-           // record.getIcon();
-            expireDateNote_EditText.setText(cryptography.decrypt(record.getExpitingDateNote(),CRYPTO_KEY));
-            if(!cryptography.decrypt(record.getExpitingDateNote(),CRYPTO_KEY).equals("")){
+            //   chooseIcon.setVisibility(View.VISIBLE);
+            // record.getIcon();
+            expireDateNote_EditText.setText(cryptography.decrypt(record.getExpitingDateNote(), CRYPTO_KEY));
+            if (!cryptography.decrypt(record.getExpitingDateNote(), CRYPTO_KEY).equals("")) {
                 addExpiringDate(addExpiringDate);
             }
             //addChooseIcon(addChooseIconBtn);
-            tagNames_EditText.setText(cryptography.decrypt(record.getTagsNote(),CRYPTO_KEY));
+            tagNames_EditText.setText(cryptography.decrypt(record.getTagsNote(), CRYPTO_KEY));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(record.getFavorite()){
+        if (record.getFavorite()) {
             setFavorite(true);
         }
     }
@@ -723,7 +729,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String tagsNote = tagNames_EditText.getText().toString();
 
 
-
         //final String note = this.note.getText().toString();
 //        final int accountNumber;
 //        final long IBAN;
@@ -751,13 +756,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         } else {
 
 
-
             // If all fields are good, opening AsyncTask
             // We have to use AsyncTask for RecyclerView
             new AsyncTask<Void, Void, Void>() {
 
                 @Override
-                    //try for Encryption
+                //try for Encryption
                 protected Void doInBackground(Void... voids) {
                     try {
                         // encrypthing the password and the username(username for test)
@@ -783,9 +787,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         encryptedPassportNumber = cryptography.encryptWithKey(CRYPTO_KEY, passportNumber);
                         encryptedIssuanceDate = cryptography.encryptWithKey(CRYPTO_KEY, issuanceDate);
                         encryptedIssuancePlace = cryptography.encryptWithKey(CRYPTO_KEY, issuancePlace);
-                        encryptedNote = cryptography.encryptWithKey(CRYPTO_KEY,note);
-                        encryptedExpireDateNote = cryptography.encryptWithKey(CRYPTO_KEY,expireDateNote);
-                        encryptedTagsNote = cryptography.encryptWithKey(CRYPTO_KEY,tagsNote);
+                        encryptedNote = cryptography.encryptWithKey(CRYPTO_KEY, note);
+                        encryptedExpireDateNote = cryptography.encryptWithKey(CRYPTO_KEY, expireDateNote);
+                        encryptedTagsNote = cryptography.encryptWithKey(CRYPTO_KEY, tagsNote);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -801,8 +805,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     Record record;
                     if (origin.equals("onRecordClick")) {
                         record = currentRecord;
-                    }
-                    else{
+                    } else {
                         record = new Record();
                     }
 
@@ -843,14 +846,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
 
                     // inserting record to DB
-                    if (origin.equals("onRecordClick")){
+                    if (origin.equals("onRecordClick")) {
                         viewModel.update(record);
-                    }
-                    else {
+                    } else {
 
 
                         // test for current User  //
-                        Log.d("CurrentUserTest",CurrentUser.getInstance().getEmail());
+                        Log.d("CurrentUserTest", CurrentUser.getInstance().getEmail());
                         ///////////////////////////
                         viewModel.insert(record);
 
@@ -895,7 +897,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     @SuppressLint("RestrictedApi")
-    public void setEditMode(Boolean editable){
+    public void setEditMode(Boolean editable) {
         //typeOfRecord_Spinner.setFocusable(editable);
         //category_Spinner.setFocusable(editable);
         int color = 0xff000000;
@@ -949,7 +951,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         chooseIcon.setClickable(editable);
         starBtn.setClickable(editable);
         starFullBtn.setClickable(editable);
-        if (editable){
+        if (editable) {
             copyPass.setVisibility(View.GONE);
             saveBtn.setVisibility(View.VISIBLE);
             cancelBtn.setVisibility(View.VISIBLE);
@@ -1035,7 +1037,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void showPass(View view) {
 //        password.requestFocus();
 //        password.setSelection(password.getText().length());
-        if (view == showPass || view == hidePass){
+        if (view == showPass || view == hidePass) {
 
             if (showPass.getVisibility() == View.VISIBLE) {
                 password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -1058,7 +1060,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         mediaPlayer.start();
         cancelBtn.startAnimation(animation3);
 
-        if (editForm.getVisibility()==View.VISIBLE){
+        if (editForm.getVisibility() == View.VISIBLE) {
             back(view);
         }
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -1083,7 +1085,25 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     @SuppressLint("RestrictedApi")
     public void editForm(View view) {
         mediaPlayer.start();
-        setEditMode(true);
+        Intent intent = new Intent();
+
+        if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
+            Log.d("secureLevel_pattern", "userSecurityLevel: "+ userSecurityLevel);
+            intent.setClass(getApplicationContext(), PatternLockView_Activity.class);
+            intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
+            intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
+
+            startActivity(intent);
+
+            setEditMode(true);
+        }
+        else{
+            setEditMode(true);
+        }
+
+
+
+
     }
 
     public void back(View view) {
@@ -1133,9 +1153,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         clipboardManager.setText(password_EditText.getText().toString());
         Toast.makeText(this, "Password Copied", Toast.LENGTH_SHORT).show();
 
-        CountDownTimer timer = new CountDownTimer(1 *60 * 1000, 1000) {
+        CountDownTimer timer = new CountDownTimer(1 * 60 * 1000, 1000) {
 
-            public void onTick(long millisUntilFinished) { }
+            public void onTick(long millisUntilFinished) {
+            }
 
             @RequiresApi(api = Build.VERSION_CODES.P)
             public void onFinish() {
@@ -1189,7 +1210,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         addChooseIconBtn.setVisibility(View.GONE);
         chooseIcon.setVisibility(View.VISIBLE);
         chooseIcon(null);
-        if (editForm.getVisibility()==View.VISIBLE){
+        if (editForm.getVisibility() == View.VISIBLE) {
             listOfIcons.setVisibility(View.GONE);
         }
 
@@ -1207,7 +1228,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     public void setFavorite(Boolean status) {
         isFavorite = status;
-        if (status){
+        if (status) {
             starFullBtn.setVisibility(View.VISIBLE);
             starBtn.setVisibility(View.GONE);
         } else {
@@ -1274,7 +1295,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     }
                     Log.d("icon", "drawabaleID: " + drawabaleID);
                 }
-            Log.d("icon", "drawableName: "+ drawableName);
+                Log.d("icon", "drawableName: " + drawableName);
 
             }
             return null;
@@ -1331,8 +1352,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
 
     }
-
-
 
 
     protected void passwordCalculation() {
@@ -1447,31 +1466,21 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         int Total = (length * 4) + ((length - uppercase) * 2)
                 + ((length - lowercase) * 2) + (digits * 4) + (symbols * 6)
-                + (bonus * 2) + (requirements * 2) - (lettersonly * length*2)
-                - (numbersonly * length*3) - (cuc * 2) - (clc * 2);
+                + (bonus * 2) + (requirements * 2) - (lettersonly * length * 2)
+                - (numbersonly * length * 3) - (cuc * 2) - (clc * 2);
 
         System.out.println("Total" + Total);
 
-        if(Total<30){
-            progressBar.setProgress(Total-15);
-        }
-
-        else if (Total>=40 && Total <50)
-        {
-            progressBar.setProgress(Total-20);
-        }
-
-        else if (Total>=56 && Total <70)
-        {
-            progressBar.setProgress(Total-25);
-        }
-
-        else if (Total>=76)
-        {
-            progressBar.setProgress(Total-30);
-        }
-        else{
-            progressBar.setProgress(Total-20);
+        if (Total < 30) {
+            progressBar.setProgress(Total - 15);
+        } else if (Total >= 40 && Total < 50) {
+            progressBar.setProgress(Total - 20);
+        } else if (Total >= 56 && Total < 70) {
+            progressBar.setProgress(Total - 25);
+        } else if (Total >= 76) {
+            progressBar.setProgress(Total - 30);
+        } else {
+            progressBar.setProgress(Total - 20);
         }
 
     }

@@ -1,8 +1,10 @@
 package view_model.records;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -40,8 +42,11 @@ public class User_ViewModel extends AndroidViewModel {
     public void update(User user) {
         userRepository.update(user);
     }
+@Nullable
+    public void updateSecureLevel(String secureLevel, String currentUser) {
+        Log.d("secureLevel", "(viewModel) currentUser: "+currentUser);
 
-    public void updateSecureLevel(String secureLevel, String currentUser) { userRepository.updateSecureLevel(secureLevel, currentUser);}
+        userRepository.updateSecureLevel(secureLevel, currentUser);}
 
     public LiveData<List<User>> getAllUsers(){
         return allUsers;

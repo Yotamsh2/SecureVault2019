@@ -28,9 +28,21 @@
     <string-array name="autofill_values">
         <item>email</item>
         <item>username</item>
-
-
-
     </string-array>
+
+        <string-array name="security_level">
+            <item>Minimum</item>
+            <item>Medium</item>
+            <item>Maximum</item>
+        </string-array>
+
+        <string-array name="security_level_values">
+            <item>1</item>
+            <item>2</item>
+            <item>3</item>
+        </string-array>
+
+
+
 
 </resources>

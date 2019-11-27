@@ -47,6 +47,8 @@ public class CategoryList_Activity extends AppCompatActivity {
             "com.securevault19.securevault2019.EXTRA_SEARCH";
     public static final String EXTRA_ORIGIN =
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
+    public static final String EXTRA_PATTERN =
+            "com.securevault19.securevault2019.EXTRA_PATTERN";
 
 
     String encryptedSearchString;
@@ -76,6 +78,8 @@ public class CategoryList_Activity extends AppCompatActivity {
 // drawing the user name from the log in activity ( the user is out KEY as encryptedWIthKey method.
 
         CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
+
+
         Log.d("userTest1Get"," "+CRYPTO_KEY);
 // ----------------------------------------------------------- //
 

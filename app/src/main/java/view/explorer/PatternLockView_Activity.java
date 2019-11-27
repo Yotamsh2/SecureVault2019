@@ -18,6 +18,7 @@ import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
 import com.securevault19.securevault2019.R;
+import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
 import java.util.List;
@@ -31,6 +32,9 @@ import static com.andrognito.patternlockview.PatternLockView.*;
 
 public class PatternLockView_Activity extends AppCompatActivity {
 
+    public static final String EXTRA_ORIGIN =
+            "com.securevault19.securevault2019.EXTRA_ORIGIN";
+
     private String patternLock;
     private String verifyedLock;
     private Intent returnIntent;
@@ -40,6 +44,8 @@ public class PatternLockView_Activity extends AppCompatActivity {
     private User userCheck;
     private Cryptography cryptography;
     private String encryptedPatternLock;
+    private String origin; //which Activity we came from
+
 
     private TextView patternTextView;
 
@@ -52,8 +58,12 @@ public class PatternLockView_Activity extends AppCompatActivity {
         cryptography = new Cryptography();
         CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
         patternFromUser = getIntent().getStringExtra("PATTERN");
-        Log.d("patternLockFromUser",patternFromUser+ "  passed " );
+        Log.d("patternLockFromUser", patternFromUser + "  passed ");
         returnIntent = new Intent();
+
+        final Bundle extras = getIntent().getExtras();
+        origin = extras.getString(EXTRA_ORIGIN);
+
 
         if (CRYPTO_KEY != null) {             // if user passed from other activity
             Log.d("patternCheck", "filled PatternTextView");
@@ -84,55 +94,49 @@ public class PatternLockView_Activity extends AppCompatActivity {
             @SuppressLint("StaticFieldLeak")            // ignoring memory leak
             @Override
             public void onComplete(final List pattern) {
+
                 // if we came from SignIn activity
                 if (CRYPTO_KEY != null) {
+                    Log.d("encryptedPattern", "extras: " + extras + ", origin: " + origin);
 
                     String currentPattern = PatternLockUtils.patternToString(patternLockView, pattern);
-                    String encryptedPattern=null;
+                    String encryptedPattern = null;
                     try {
-                        encryptedPattern=cryptography.encryptWithKey(CRYPTO_KEY,currentPattern);
-                        Log.d("encryptedPattern","reched encryptedPattern");
-                        Log.d("---------",encryptedPattern + "     -----      " + patternFromUser);
+                        encryptedPattern = cryptography.encryptWithKey(CRYPTO_KEY, currentPattern);
+                        Log.d("encryptedPattern", "reched encryptedPattern");
+                        Log.d("---------", encryptedPattern + "     -----      " + patternFromUser);
                     } catch (Exception e) {
-                        Log.d("encryption","encryption problem");
+                        Log.d("encryption", "encryption problem");
                         e.printStackTrace();
                     }
-                    if(encryptedPattern.equals(patternFromUser)){
-                        Log.d("encryptedPattern","entered if ");
+                    if (extras != null) {
+                        if (origin != null) {  //To avoid NullPointerException
+                            if (origin.equals("AddNewRecord_Activity")) { //if we came from this activity
+                                Log.d("encryptedPattern", " origin: " + origin);
+                                if (encryptedPattern.equals(CurrentUser.getInstance().getPatternLock())) {
+                                    returnIntent.putExtra("PATTERN", 1);
+                                    finish();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                    if (encryptedPattern.equals(patternFromUser)) {
+                        Log.d("encryptedPattern", "entered if ");
+
+
                         Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
                         intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                         startActivity(intent);
                         finish();
-                    }
-                    else{
+
+                    } else {
                         incorrectPattern(patternLockView);
                         clearPattern(patternLockView);
-                     //Toast.makeText(getApplicationContext(),"Wrong Pattern!",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(),"Wrong Pattern!",Toast.LENGTH_LONG).show();
                     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                }
 
 
 //
@@ -214,9 +218,10 @@ public class PatternLockView_Activity extends AppCompatActivity {
 //                        return;
 //                    }
 
-                }
+//                }
                 // if we came from SingUp activity
                 else {
+
                     if (verifyedPattern == 0) {
                         verifyedLock = PatternLockUtils.patternToString(patternLockView, pattern);
                         clearPattern(patternLockView);
@@ -237,8 +242,6 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     }
 
                 }
-
-
 
 
 //
@@ -303,7 +306,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
 
     private void incorrectPattern(PatternLockView patternLockView) {
-       Toast.makeText(PatternLockView_Activity.this, "PATTERN INCORRECT!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(PatternLockView_Activity.this, "PATTERN INCORRECT!", Toast.LENGTH_SHORT).show();
         clearPattern(patternLockView);
         patternLockView.setViewMode(PatternViewMode.WRONG); //Pattern's Color becomes red
 

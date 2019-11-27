@@ -301,7 +301,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             encryptedPattern = cryptography.encryptWithKey(CRYPTO_KEY, returnedPattern);
             encryptedUserName = cryptography.encryptWithKey(CRYPTO_KEY,firstNameUser);
             encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, masterPasswordUser);
-            encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);
+//            encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);
             encryptedLastName = cryptography.encryptWithKey(CRYPTO_KEY, lastNameUser);
             encryptedDateOfBirth = cryptography.encryptWithKey(CRYPTO_KEY, dateOfBirthUser);
             encryptedOptionalQuestion = cryptography.encryptWithKey(CRYPTO_KEY, optionalQuestionUser);
@@ -324,7 +324,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                 protected Void doInBackground(Void... voids) {
 
                     user = new User(encryptedUserName, encryptedLastName, encryptedDateOfBirth, encryptedEmail, encryptedOptionalQuestion,
-                            encryptedOptionalAnswer, encryptedPassword, encryptedSecurityLevel, encryptedPattern);
+                            encryptedOptionalAnswer, encryptedPassword, returnedSecurityLevel, encryptedPattern);
                     try {
                         DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
                         //viewModel.insert(user);

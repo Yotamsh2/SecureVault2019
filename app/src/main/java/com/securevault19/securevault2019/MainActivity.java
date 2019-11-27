@@ -23,6 +23,7 @@ import com.securevault19.securevault2019.user.User;
 
 import cryptography.Cryptography;
 import view.entrance.NewUser_Activity;
+import view.explorer.CategoryList_Activity;
 import view.explorer.PatternLockView_Activity;
 import view_model.records.User_ViewModel;
 
@@ -156,12 +157,23 @@ public class MainActivity extends AppCompatActivity {
                 if (flag == 1) {
                     Intent intent = new Intent();
                     //intent.setClass(getApplicationContext(), CategoryList_Activity.class);
-                    intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
+//                    intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
                     CRYPTO_KEY = MainActivity.this.email_EditText.getText().toString();
                     Log.d("patternCheck",pattern);
                     intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                     CurrentUser.getInstance(user);
+
+                    int userSecurityLevel = Integer.parseInt(user.getSecureLevel());
+
+                    //if security level is higher than 1, open PatternLock Activity
+                    if(userSecurityLevel > 1)
+                        intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
+                    else         //if security level is at the lowest level(level 1) -> jump straight to CategoryList Activity
+                        intent.setClass(getApplicationContext(), CategoryList_Activity.class);
+
+
+//                    if(user.getSecureLevel().equals(cryptography.decrypt(user.getSecureLevel(), CRYPTO_KEY)))
                     startActivity(intent);
                     overridePendingTransition(0, 0);
 

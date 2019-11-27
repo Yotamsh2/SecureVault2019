@@ -17,110 +17,84 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="Upgrade to Premium">
 
-        <ListPreference
-            app:defaultValue="okay"
-            app:entries="@array/upgrade"
-            app:entryValues="@array/upgrade_values"
-            app:key="upgrade"
-            app:title="Upgrade to premium"
-            />
-
-
-    </PreferenceCategory>
 
     <PreferenceCategory app:title="Your Account">
 
         <EditTextPreference
             app:key="change_mp"
-            app:title="Change MasterPassword"
-
-            />
-        <ListPreference
-            app:dialogMessage="getMasterPassword"
-            app:key="accout"
-            app:title="Master Password(do not choose)"/>
+            app:title="Change MasterPassword" />
 
         <MultiSelectListPreference
-            app:key="autofill"
-            app:title="Autofill"
             app:dialogTitle="Autofill"
-            app:entryValues="@array/autofill_values"
             app:entries="@array/autofill"
-            />
+            app:entryValues="@array/autofill_values"
+            app:key="autofill1"
+            app:summary="Press to show list"
+            app:title="Autofill(cancelled)" />
 
 
     </PreferenceCategory>
-    <PreferenceCategory app:title="AutoFill(2nd option)">
+
+
+    <PreferenceCategory app:title="Autofill">
+        <SwitchPreferenceCompat
+            app:key="allow_autofill"
+            app:summary="will fill automatically your frequently used details while creating a new Record."
+            app:title="Allow autofill" />
 
         <CheckBoxPreference
+            app:dependency="allow_autofill"
             app:key="email"
-            app:summary="while creating a new record"
             app:title="Email" />
 
+        <CheckBoxPreference
+            app:dependency="allow_autofill"
+            app:key="username"
+            app:title="Username" />
 
         <CheckBoxPreference
-            app:key="userName"
-            app:summary="let you choose from your recent used usernames"
-            app:title="User name" />
+            app:dependency="allow_autofill"
+            app:key="password"
+            app:title="Password" />
+
 
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Security Level">
 
-    <PreferenceCategory app:title="@string/sync_header">
-
-        <CheckBoxPreference
-            app:summary="2nd option"
-            app:title="Allow sync to Cloud" />
-
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
-
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:summary="1st option"
-            app:title="Allow sync to Cloud" />
+        <ListPreference
+            app:key="security_level"
+            app:title="Change Security Level"
+            app:entries="@array/security_level"
+            app:entryValues="@array/security_level_values"
+            app:defaultValue="Medium"/>
 
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="Notifications">
 
-
-<PreferenceCategory app:title="Notifications">
-
-
-</PreferenceCategory>
+    </PreferenceCategory>
     <PreferenceCategory app:title="About">
-        <EditTextPreference
+        <Preference
+            android:fragment="view.preferences.About_Fragment"
             app:key="about"
             app:summary="1.0.0"
             app:title="version" />
 
 
-    </PreferenceCategory>
+        <PreferenceScreen
+            android:summary="press to see About"
+            android:title="Header about(will be moved to AufoFill?)">
 
-    <PreferenceCategory app:title="@string/messages_header">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+        </PreferenceScreen>
 
     </PreferenceCategory>
-</PreferenceScreen><!--            app:dialogMessage="aaa"  text below title inside where we clicked(like editText)-->
+
+
+</PreferenceScreen>
+

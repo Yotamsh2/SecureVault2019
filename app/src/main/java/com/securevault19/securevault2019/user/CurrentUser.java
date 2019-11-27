@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class CurrentUser {
     public static String currentUserr;
-    public static String secureLevel;
+    public static int secureLevel;
 
     private static CurrentUser currentUser = null;
 
@@ -15,6 +15,7 @@ public class CurrentUser {
         //Log.d("userr", "CurrentUser class:  "+currentUserr);
 
         this.user = user;
+        secureLevel = Integer.parseInt(user.getSecureLevel());
         Log.d("CurrentUserTest","entered c'tor");
         Log.d("CurrentUserTest", "this: " + this.user.getEmail() + " user: " + user.getEmail() );
     }
@@ -32,6 +33,8 @@ public class CurrentUser {
     public static synchronized User getInstance(){
         return user;
     }
+
+
 
 
 
