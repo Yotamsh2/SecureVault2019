@@ -55,21 +55,18 @@ import cryptography.Cryptography;
 import view.explorer.PatternLockView_Activity;
 import view_model.records.Record_ViewModel;
 
-import static view.records.RecordRecycler_Activity.EXTRA_ORIGIN;
-
 public class AddNewRecord_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, Serializable {
     private Record_ViewModel viewModel;
 
     private Cryptography cryptography;
     private CountDownTimer timer;
-    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedBankAccount, encryptedAccountNumber,
-            encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV, encryptedCardExpireDate,
+    private String encryptedTitle, encryptedUsername, encryptedPassword, encryptedAccountNumber,
+            encryptedIBAN, encryptedBankNumber, encryptedBankAddress, encryptedCardNumber, encryptedCVV,
             encryptedCardExpireMonth, encryptedCardExpireYear, encryptedWebsite, encryptedEmail, encryptedWalletGenerationSeed,
             encryptedPrivateKey, encryptedPublicKey, encryptedLicenceNumber, encryptedLicenceExpireDate, encryptedPassportNumber,
             encryptedIssuanceDate, encryptedIssuancePlace, encryptedNote, encryptedExpireDateNote, encryptedTagsNote;
     private String CRYPTO_KEY;
     private String nameOfFolder;
-    private String userNameRecord;
     private int userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
 
 
@@ -79,8 +76,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             "com.securevault19.securevault2019.EXTRA_TYPE";
     public static final String EXTRA_ORIGIN =
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
-    public static final String EXTRA_PATTERN =
-            "com.securevault19.securevault2019.EXTRA_PATTERN";
+
     // -------------------------------------------------------------------- //
 
     private Button addChooseIconBtn;
@@ -131,6 +127,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
     int drawabaleID; //Default Icon(Secure Vault Black)
     String drawableName;
+    int currentRecordDrawabaleID;
+    String currentRecordDrawableName;
 
 
     @SuppressLint({"WrongViewCast", "RestrictedApi"})
@@ -150,6 +148,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         // getting the object ( Record ) from RecordRecycler_activity line 326
         Intent i = getIntent();
         currentRecord = (Record) i.getSerializableExtra("recordClassDB");
+
 
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
         progressBar = findViewById(R.id.progressBar);
@@ -273,112 +272,56 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                 case "Bank Accounts":
                                     typeOfRecord_Spinner.setSelection(3);
                                     category_Spinner.setSelection(3);
-                                    //addNote(addNote);
-                                    //addExpiringDate(addExpiringDate);
-                                    //addFields(addFields);
-
                                     DisplayRecordDetails(currentRecord);
-//
-//                                    try {
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
-//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
-//                                        accountNumber_EditText.setText(cryptography.decrypt(record.getAccountNumber(), user));
-//                                        IBAN_EditText.setText(cryptography.decrypt(record.getIBAN(), user));
-//                                        bankNumber_EditText.setText(cryptography.decrypt(record.getBankNumber(), user));
-//                                        bankAddress_EditText.setText(cryptography.decrypt(record.getAddress(),user));
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
+
                                     break;
+
                                 case "Credit Cards":
                                     typeOfRecord_Spinner.setSelection(4);
                                     category_Spinner.setSelection(4);
                                     DisplayRecordDetails(currentRecord);
-//                                    try {
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
-//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
-//                                        cardNumber_EditText.setText(cryptography.decrypt(record.getCardNumber(), user));
-//                                        cvv_EditText.setText(cryptography.decrypt(record.getCVV(),user));
-//                                        cardExpiringMonth_EditText.setText(cryptography.decrypt(record.getExpireMonth(),user));
-//                                        cardExpiringYear_EditText.setText(cryptography.decrypt(record.getExpireYear(),user));
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                    }
 
                                     break;
                                 case "Social Media":                // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(1);
                                     category_Spinner.setSelection(1);
                                     DisplayRecordDetails(currentRecord);
-//                                    try{
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
-//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
-//                                        website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
-//                                        email_EditText.setText(cryptography.decrypt(record.getEmail(),user));
-//                                    }catch(Exception e) {e.printStackTrace();}
+
                                     break;
+
                                 case "Website & Email":             // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(0);
                                     category_Spinner.setSelection(0);
                                     DisplayRecordDetails(currentRecord);
-//                                    try {
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
-//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
-//                                        website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
-//                                        email_EditText.setText(cryptography.decrypt(record.getEmail(),user));
-//                                    }catch(Exception e){e.printStackTrace();}
+
                                     break;
+
                                 case "Online Shopping":             // social media && website & email && online shopping all the same
                                     typeOfRecord_Spinner.setSelection(2);
                                     category_Spinner.setSelection(2);
                                     DisplayRecordDetails(currentRecord);
-//                                    try {
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        username_EditText.setText(cryptography.decrypt(record.getUserName(), user));
-//                                        password_EditText.setText(cryptography.decrypt(record.getPassword(), user));
-//                                        website_EditText.setText(cryptography.decrypt(record.getWebsite(), user));
-//                                        email_EditText.setText(cryptography.decrypt(record.getEmail(),user));
-//                                    }catch(Exception e){e.printStackTrace();}
+
                                     break;
+
                                 case "Cryptocurrency":
                                     typeOfRecord_Spinner.setSelection(6);
                                     category_Spinner.setSelection(6);
                                     DisplayRecordDetails(currentRecord);
-//                                    try{
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        publicKey_EditText.setText(cryptography.decrypt(record.getPublicKey(),user));
-//                                        privateKey_EditText.setText(cryptography.decrypt(record.getPrivateKey(),user));;
-//                                        walletGenerationSeed_EditText.setText(cryptography.decrypt(record.getWalletGenerationSeed(),user));
-//
-//
-//                                    }catch(Exception e ){e.printStackTrace();}
+
                                     break;
+
                                 case "Driving Licence":
                                     typeOfRecord_Spinner.setSelection(7);
                                     category_Spinner.setSelection(7);
                                     DisplayRecordDetails(currentRecord);
-//                                    try{
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        licenceNumber_EditText.setText(cryptography.decrypt(record.getLicenceNumber(), user));
-//                                        licenceExpiringDate_EditText.setText(cryptography.decrypt(record.getExpiringDate(),user));
-//
-//                                    }catch(Exception e){e.printStackTrace();}
+
                                     break;
+
                                 case "Passports":
                                     typeOfRecord_Spinner.setSelection(5);
                                     category_Spinner.setSelection(5);
                                     DisplayRecordDetails(currentRecord);
-//                                    try{
-//                                        title_EditText.setText(cryptography.decrypt(record.getTitle(), user));
-//                                        passportNumber_EditText.setText(cryptography.decrypt(record.getPassportNumber(),user));
-//                                        issuanceDate_EditText.setText(cryptography.decrypt(record.getIssuanceDate(),user));
-//                                        issuancePlace_EditText.setText(cryptography.decrypt(record.getIssuancePlace(),user));
-//
-//                                    }catch(Exception e){e.printStackTrace();}
+
                                     break;
 
                                 default:  //FOR EXAMPLE
@@ -394,9 +337,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 //If we came from buttonAddRecord
                 default:
-// ---------------------------------------------------------------------------- //
-// for testing,
-
 
                     // looks on which folder we clicked and set the spinner in the correct position.
                     fieldsVisibility(nameOfFolder);
@@ -430,7 +370,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     }
 
 
-// ---------------------------------------------------------------------------- //
                     //Show fields after selecting item in spinner
                     typeOfRecord_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
@@ -569,7 +508,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 drivingLicence.setVisibility(View.GONE);
                 passport.setVisibility(View.GONE);
                 break;
-            case "Website & Email":                                         // for simplicity of the code maybe merge with social media * website and online Shopping. they all the same
+            case "Website & Email":
                 userName.setVisibility(View.VISIBLE);
                 password.setVisibility(View.VISIBLE);
                 website.setVisibility(View.VISIBLE);
@@ -669,13 +608,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             if (!cryptography.decrypt(record.getNote(), CRYPTO_KEY).equals("")) {
                 addNote(addNote);
             }
-            //   chooseIcon.setVisibility(View.VISIBLE);
-            // record.getIcon();
+
             expireDateNote_EditText.setText(cryptography.decrypt(record.getExpitingDateNote(), CRYPTO_KEY));
+
             if (!cryptography.decrypt(record.getExpitingDateNote(), CRYPTO_KEY).equals("")) {
                 addExpiringDate(addExpiringDate);
             }
-            //addChooseIcon(addChooseIconBtn);
+
             tagNames_EditText.setText(cryptography.decrypt(record.getTagsNote(), CRYPTO_KEY));
         } catch (Exception e) {
             e.printStackTrace();
@@ -699,8 +638,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     @SuppressLint({"RestrictedApi", "StaticFieldLeak"})
     public void openNewRecord(View view) {                     // the onClick func (save Button)
-        //cryptography = new Cryptography();                   // making argument of Cryptography which is private!
-        //Setting the details from the Activity to send to the Record constructor
+
         final String typeOfRecord = typeOfRecord_Spinner.getSelectedItem().toString().trim();
         final String folder = category_Spinner.getSelectedItem().toString();
         final String title = title_EditText.getText().toString().trim();
@@ -727,26 +665,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         final String note = note_EditText.getText().toString().trim();
         final String expireDateNote = expireDateNote_EditText.getText().toString();
         final String tagsNote = tagNames_EditText.getText().toString();
-
-
-        //final String note = this.note.getText().toString();
-//        final int accountNumber;
-//        final long IBAN;
-//        final int bankNumber;
-//        final String address;
-//        final int cardNumber;
-//        final int CVV;
-//        final int expireYear;
-//        final int expireMonth;
-//        final int expireDay;
-//        final String publicKey;
-//        final String privateKey;
-//        final String walletGenerationSeed;
-//        final int licenceNumber = Integer.parseInt(licenceExpiringDate_EditText.toString());
-//        final int passportNumber;
-//        final String issuanceDate = issuanceDate_EditText.getText().toString().trim();
-//        final String issuancePlace;
-//        final String secret_question;
 
 
         //Check if all the needed details are typed.
@@ -800,7 +718,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     // the encryption we using is EncryptWithKey();!//
                     // the KEY will be the userName                 //
 
-                    // opening Record to insert the TextFields and insert to DB
+                    // creating Record to insert the TextFields and insert to DB
 
                     Record record;
                     if (origin.equals("onRecordClick")) {
@@ -825,7 +743,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setAddress(encryptedBankAddress);
                     record.setCardNumber(encryptedCardNumber);
                     record.setCVV(encryptedCVV);
-                    //record.setExpiringDate(encryptedCardExpireDate);
                     record.setExpireMonth(encryptedCardExpireMonth);
                     record.setExpireYear(encryptedCardExpireYear);
                     record.setWebsite(encryptedWebsite);
@@ -849,13 +766,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     if (origin.equals("onRecordClick")) {
                         viewModel.update(record);
                     } else {
-
-
-                        // test for current User  //
-                        Log.d("CurrentUserTest", CurrentUser.getInstance().getEmail());
-                        ///////////////////////////
                         viewModel.insert(record);
-
                     }
                     return null;
                 }
@@ -869,27 +780,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                     finish();
                     overridePendingTransition(0, 0);
-                    //Intent intent = new Intent(getApplicationContext(), RecordRecycler_Activity.class);
-                    //intent.putExtra(EXTRA_FOLDER, folder);
-                    //////////intent.putExtra("CRYPTO_KEY", user);
-                    //startActivity(intent);
+
                 }
             }.execute();                // execute for starting the AsyncTask
 
-
-            // ------------------------- decypher func --------------------------- //
-            // ---------------- use in case you need to decypher ---------------- //
-//            try {
-//                decryptedPassword = decrypt(encryptedPassword, username_EditText.getText().toString());
-//                Log.d("decript", decryptedPassword);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-            // ------------------------------------------------------------------- //
-
-
         }
-
 
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
@@ -898,8 +793,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     @SuppressLint("RestrictedApi")
     public void setEditMode(Boolean editable) {
-        //typeOfRecord_Spinner.setFocusable(editable);
-        //category_Spinner.setFocusable(editable);
+
         int color = 0xff000000;
         title_EditText.setEnabled(editable);
         title_EditText.setTextColor(color);
@@ -995,7 +889,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void addNote(View view) {
         if (note_EditText.getVisibility() == View.GONE) {
             note_EditText.setVisibility(View.VISIBLE);
-            //note_title.setVisibility(View.VISIBLE);
             addNote.setVisibility(View.GONE);
             note_EditText.requestFocus();
         }
@@ -1035,8 +928,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     public void showPass(View view) {
-//        password.requestFocus();
-//        password.setSelection(password.getText().length());
+
         if (view == showPass || view == hidePass) {
 
             if (showPass.getVisibility() == View.VISIBLE) {
@@ -1076,7 +968,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(getApplicationContext(), "Not Canceled", Toast.LENGTH_SHORT).show();
             }
         });
         alert.create().show();
@@ -1088,7 +979,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         Intent intent = new Intent();
 
         if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
-            Log.d("secureLevel_pattern", "userSecurityLevel: "+ userSecurityLevel);
+            Log.d("secureLevel_pattern", "userSecurityLevel: " + userSecurityLevel);
             intent.setClass(getApplicationContext(), PatternLockView_Activity.class);
             intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
             intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
@@ -1096,12 +987,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             startActivity(intent);
 
             setEditMode(true);
-        }
-        else{
+        } else {
             setEditMode(true);
         }
-
-
 
 
     }
@@ -1109,26 +997,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void back(View view) {
         finish();
         overridePendingTransition(0, 0);
-//
-//        //get EXTRA_FOLDER that we know where to navigate(which folder we want to return)
-//        Bundle extras = getIntent().getExtras();
-//        String folder;
-//        if (extras != null) {
-//            Log.d("back", "inside if ");
-//
-//            folder = extras.getString(EXTRA_FOLDER);
-//            Intent intent = new Intent(this, RecordRecycler_Activity.class);
-//            Log.d("back", "folder is :  " + folder);
-//
-//            intent.putExtra(EXTRA_FOLDER, folder);
-//            this.startActivity(intent);
-//
-//        } else {       //just in case
-//            Log.d("back", "inside else ");
-//
-//            Intent intent = new Intent(this, CategoryList_Activity.class);
-//            this.startActivity(intent);
-//        }
+
     }
 
     public void showCategory(View view) {
@@ -1168,24 +1037,21 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         timer.start();
     }
 
-    public void chooseIcon(View view) {
+    public void chooseIcon(View view) {     //makes icons visible
         mediaPlayer.start();
-        if (listOfIcons.getVisibility() == View.GONE)
+        if (listOfIcons.getVisibility() == View.GONE) {
             listOfIcons.setVisibility(View.VISIBLE);
-        else
+        } else
             listOfIcons.setVisibility(View.GONE);
 
     }
 
-    public void changeIcon(View view) throws IllegalAccessException {
-
-        chooseIcon.setBackground(view.getBackground());
+    public void changeIcon(View view) throws IllegalAccessException {    //after CLICKING an icon
+        chooseIcon.setBackground(view.getBackground()); //sets the icon after clicking it
 
         if (chooseIcon != null) {
-            //            Log.d("icon", "view.getBackground().getConstantState(): " + view.getBackground().getConstantState());
             for (Drawable drawables : drawableResources) {
 
-                //if view's background found in Drawables Resources
                 if (view.getBackground() != null &&
                         view.getBackground().getConstantState()
                                 .equals(drawables.getCurrent().getConstantState())) {
@@ -1194,8 +1060,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                     //get the needed drawable id
                     new getDrawableIDAsyncTask(drawables.getCurrent(), drawableResources).execute(); //Initializing 'drawableID' inside doInBackGround() method.
-                    //getDrawableIDAsyncTask was:
-                    //drawabaleID = getDrawabaleID(drawables.getCurrent(), drawableResources);
 
                 }
             }
@@ -1206,10 +1070,16 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 
-    public void addChooseIcon(View view) {
+    public void addChooseIcon(View view) {  //Opens the option to choose icon - shows all the icons
         addChooseIconBtn.setVisibility(View.GONE);
         chooseIcon.setVisibility(View.VISIBLE);
-        chooseIcon(null);
+        try {
+            Drawable drawable = getDrawable(currentRecordDrawabaleID);
+            chooseIcon.setBackground(drawable);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (editForm.getVisibility() == View.VISIBLE) {
             listOfIcons.setVisibility(View.GONE);
         }
@@ -1287,17 +1157,27 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 }
                 if (field.getName().equals("logo_black")) {  //Initializing "logo_black" as default icon for a every Record
                     try {
-                        Log.d("icon", "field.getName(): " + field.getName() + " field.getInt(): " + field.getInt(null));
                         drawabaleID = field.getInt(null);
                         drawableName = field.getName();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                    Log.d("icon", "drawabaleID: " + drawabaleID);
                 }
-                Log.d("icon", "drawableName: " + drawableName);
+
+                if (currentRecord != null) {
+                    if (field.getName().equals(currentRecord.getIcon())) {
+                        try {
+                            currentRecordDrawabaleID = field.getInt(null);
+
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
 
             }
+
             return null;
         }
     }
@@ -1322,26 +1202,19 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                     //for loop to get the proper drawable's id
                     for (Field field : allDrawablesfromRes_drawable) {
-                        //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
+
                         Drawable d = null;
                         try {
                             d = getResources().getDrawable(field.getInt(null));
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
-                        // Log.d("icon", "d.getConstantState(): " + d.getConstantState()); //TO DELETE
+
                         int id;
                         if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
-//                            try {
-//                                id = field.getInt(null);
-//                                drawabaleID = id;
                             Log.d("icon", "getName().....: " + field.getName());
                             drawableName = field.getName();
-//                            } catch (IllegalAccessException e) {
-//                                e.printStackTrace();
-//                            }
 
-//                        }
                         }
                     }
                 }
