@@ -33,18 +33,19 @@ import static com.andrognito.patternlockview.PatternLockView.*;
 public class PatternLockView_Activity extends AppCompatActivity {
 
     public static final String EXTRA_ORIGIN =
-            "com.securevault19.securevault2019.EXTRA_ORIGIN";
+          "com.securevault19.securevault2019.EXTRA_ORIGIN";
 
     private String patternLock;
     private String verifyedLock;
     private Intent returnIntent;
+    private Intent returnIntentToRecord;
     private String CRYPTO_KEY = null;
     private String patternFromUser;
     private int verifyedPattern = 0;
     private User userCheck;
     private Cryptography cryptography;
     private String encryptedPatternLock;
-    private String origin; //which Activity we came from
+    private String origin=null; //which Activity we came from
 
 
     private TextView patternTextView;
@@ -60,7 +61,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
         patternFromUser = getIntent().getStringExtra("PATTERN");
         Log.d("patternLockFromUser", patternFromUser + "  passed ");
         returnIntent = new Intent();
-
+        returnIntentToRecord = new Intent();
         final Bundle extras = getIntent().getExtras();
         origin = extras.getString(EXTRA_ORIGIN);
 
@@ -114,17 +115,18 @@ public class PatternLockView_Activity extends AppCompatActivity {
                             if (origin.equals("AddNewRecord_Activity")) { //if we came from this activity
                                 Log.d("encryptedPattern", " origin: " + origin);
                                 if (encryptedPattern.equals(CurrentUser.getInstance().getPatternLock())) {
-                                    returnIntent.putExtra("PATTERN", 1);
+                                  //  returnIntent.putExtra("PATTERN", 1);
+                                    setResult(Activity.RESULT_OK,returnIntentToRecord);
+                                    returnIntentToRecord.putExtra("recordEditForm","1");
                                     finish();
                                     return;
+
                                 }
                             }
                         }
                     }
                     if (encryptedPattern.equals(patternFromUser)) {
                         Log.d("encryptedPattern", "entered if ");
-
-
                         Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
                         intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                         startActivity(intent);

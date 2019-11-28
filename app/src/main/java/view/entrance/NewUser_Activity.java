@@ -245,6 +245,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     // the choosePattern methos public because we want to make changes here from Setting
     public void choosePattern(View view) {
         Intent intent = new Intent(this, PatternLockView_Activity.class);
+        intent.putExtra("EXTRA_ORIGIN","NewUser_Activity");
         startActivityForResult(intent, 1);
     }
 

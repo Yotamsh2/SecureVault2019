@@ -1,6 +1,7 @@
 package view.records;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -67,16 +68,19 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             encryptedIssuanceDate, encryptedIssuancePlace, encryptedNote, encryptedExpireDateNote, encryptedTagsNote;
     private String CRYPTO_KEY;
     private String nameOfFolder;
-    private int userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
+    private String userNameRecord;
+    private int userSecurityLevel;
 
 
+    String resultFromRecordEditForm = "0";
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
     public static final String EXTRA_TYPE =
             "com.securevault19.securevault2019.EXTRA_TYPE";
     public static final String EXTRA_ORIGIN =
             "com.securevault19.securevault2019.EXTRA_ORIGIN";
-
+    public static final String EXTRA_PATTERN =
+            "com.securevault19.securevault2019.EXTRA_PATTERN";
     // -------------------------------------------------------------------- //
 
     private Button addChooseIconBtn;
@@ -246,6 +250,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 //            e.printStackTrace();
 //        }
 
+
+
+        //userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
         new getAllDrawablesResourcesAsyncTask().execute();
 
 
@@ -974,25 +981,78 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     @SuppressLint("RestrictedApi")
-    public void editForm(View view) {
+    public void editForm(View view) {                           // The edit circle
         mediaPlayer.start();
-        Intent intent = new Intent();
-
-        if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
-            Log.d("secureLevel_pattern", "userSecurityLevel: " + userSecurityLevel);
-            intent.setClass(getApplicationContext(), PatternLockView_Activity.class);
+        Intent intent = new Intent(this, PatternLockView_Activity.class);
+        Log.d("patternCheck1","secure level " + userSecurityLevel);
+        //if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
+        userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
+        Log.d("resultFromRecord","-> "+ "userSecurityLevel " + userSecurityLevel);
+        Log.d("resultFromRecord","-> "+ "before if userSecureLevel > 2 ");
+        if(userSecurityLevel > 2) {         // currentUser is copy of user and not pointer
+            Log.d("resultFromRecord","-> "+ "inside the if userSecureLevel > 2 ");
             intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
             intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
-
-            startActivity(intent);
-
-            setEditMode(true);
-        } else {
-            setEditMode(true);
+            Log.d("patternCheck1", "before startActivityForResult");
+            startActivityForResult(intent, 3);
+            Log.d("patternCheck1", "after startActivityForResult");
+            //setEditMode(true);
         }
+        else
+            setEditMode(true);
+
+
+//        Intent intent = new Intent();
+//        //      Log.d("secureLevel_pattern", "before if" );
+//        if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
+//            Log.d("secureLevel_pattern", "userSecurityLevel: " + userSecurityLevel);
+//            intent.setClass(getApplicationContext(), PatternLockView_Activity.class);
+//            intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
+//            intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
+
+           // startActivity(intent);
+
+
+//            setEditMode(true);
+//        } else {
+//            setEditMode(true);
+//        }
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent returnIntentToRecord) {
+        super.onActivityResult(requestCode, resultCode, returnIntentToRecord);
+             Log.d("patternCheck1","entered the if ");
+             if(returnIntentToRecord== null){
+                 Log.d("returnIntentToRecord", " returnIntentToRecord is null? ");
+                 setEditMode(false);
+                 return;
+             }
+             if (requestCode == 3) {
+                 resultFromRecordEditForm = returnIntentToRecord.getStringExtra("recordEditForm");
+                 Log.d("resultFromRecord","resultFromRecordEditForm  "+ resultFromRecordEditForm);
+                 if (resultCode == Activity.RESULT_OK) {
+                     if(resultFromRecordEditForm.equals("1")) {
+                         setEditMode(true);
+                     }else{
+                         Log.d("resultFromRecord","resultFromRecordEditForm1  "+ resultFromRecordEditForm);
+                         setEditMode(false);
+                     }
+
+                 }
+                 if (resultCode == Activity.RESULT_CANCELED) {
+                     Log.d("resultFromRecord","resultFromRecordEditForm2  "+ resultFromRecordEditForm);
+                     setEditMode(false);
+                 }
+             }
+//         if(resultFromRecordEditForm.equals("0")){
+//             Log.d("patternCheck1","entered else if ");
+//             setEditMode(false);
+//         }
+    }
+
 
     public void back(View view) {
         finish();
@@ -1359,6 +1419,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 }
+
 
 
 

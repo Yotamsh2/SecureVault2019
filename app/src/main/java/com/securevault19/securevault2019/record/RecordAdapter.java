@@ -78,6 +78,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         //        String iconID = currentRecord.getIcon();  //TO DELETE
 //        holder.recordIcon.setImageResource(Integer.valueOf(iconID)); TO DELETE
 
+        Log.d("iconCheck",""+currentRecord.getIcon());
         String iconName = currentRecord.getIcon();
         int iconID = convertIconNameToID(iconName);
         holder.recordIcon.setImageResource(iconID);
