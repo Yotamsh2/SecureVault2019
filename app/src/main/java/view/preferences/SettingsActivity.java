@@ -119,7 +119,7 @@ userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
             Log.d("secureLevel", "constructor: " + currentUser + " , "+ newSecurityLevel);
 
         }
-//
+
         @Override
         protected Void doInBackground(Void... voids)
         {
