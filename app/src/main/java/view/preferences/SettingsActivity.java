@@ -124,6 +124,8 @@ userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
         protected Void doInBackground(Void... voids)
         {
             userViewModel.updateSecureLevel(newSecurityLevel, currentUser);
+            CurrentUser.getInstance().setSecureLevel(newSecurityLevel);
+            userViewModel.update(CurrentUser.getInstance());
                 return null;
         }
     }
