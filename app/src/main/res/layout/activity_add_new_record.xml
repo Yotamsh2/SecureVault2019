@@ -1049,12 +1049,6 @@
                             android:onClick="addChooseIcon"
                             android:text="@string/addChooseIcon" />
 
-<!--                        <TextView-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="@string/chooseIcon"-->
-<!--                            android:labelFor="@id/chooseIcon"/>-->
-
                         <ImageView
                             android:id="@+id/chooseIcon"
                             android:layout_width="60dp"
@@ -1064,6 +1058,16 @@
                             android:layout_marginBottom="10dp"
                             android:background="@drawable/logo_black"
                             android:onClick="chooseIcon"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@+id/currentIcon"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="start"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/logo_black"
                             android:visibility="gone"/>
                     </LinearLayout>
                     <!--Choose Icon-->

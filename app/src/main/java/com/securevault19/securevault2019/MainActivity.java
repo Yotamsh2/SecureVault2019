@@ -35,6 +35,7 @@ import view_model.records.User_ViewModel;
 public class MainActivity extends AppCompatActivity {
 
     private String CRYPTO_KEY;
+    private String ORIGIN = "MainActivity";
     private String pattern;
     private int counter;
     private Button signup,buttonSignIn,firebaseTest;
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("patternCheck",pattern);
                     intent.putExtra("PATTERN",pattern);
                     intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
+                    intent.putExtra("ORIGIN",ORIGIN);
                     CurrentUser.getInstance(user);
 
                     int userSecurityLevel = Integer.parseInt(user.getSecureLevel());

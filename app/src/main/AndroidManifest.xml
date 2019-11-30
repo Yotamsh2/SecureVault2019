@@ -15,18 +15,13 @@
         <activity
             android:name="view.preferences.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="view.explorer.CategoryList_Activity"
-            >
+            android:parentActivityName="view.explorer.CategoryList_Activity">
         </activity>
         <activity android:name="view.explorer.Team_Activity"/>
-        <activity
-            android:name="view.records.ChooseIcon_PopupActivity"
-            android:theme="@style/AppTheme.PopupWindow" />
         <activity android:name="view.records.RecordRecycler_Activity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,9 +30,12 @@
             android:parentActivityName="view.explorer.CategoryList_Activity" />
         <activity
             android:name="view.entrance.NewUser_Activity"
-            android:parentActivityName="view.explorer.CategoryList_Activity" />
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name="view.explorer.CategoryList_Activity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name="view.explorer.CategoryList_ActivityTRY"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name="view.explorer.PatternLockView_Activity"

@@ -39,6 +39,7 @@ import view.records.RecordRecycler_Activity;
 public class CategoryList_Activity extends AppCompatActivity {
     //-----------------//
     private String CRYPTO_KEY;
+    private String pattern;
     //----------------//
     public static final int ADD_RECORD_REQUEST = 1;
     public static final String EXTRA_FOLDER =
@@ -51,23 +52,24 @@ public class CategoryList_Activity extends AppCompatActivity {
             "com.securevault19.securevault2019.EXTRA_PATTERN";
 
 
-    String encryptedSearchString;
-    String searchString;
+    private String encryptedSearchString;
+    private String searchString;
 
-    Typeface myFont;
-    CountDownTimer timer;
-    TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
-    GridLayout mainGrid;
-    CardView bankAccounts, creditCard, socialMedia, webAccounts, onlineShopping, cryptocurrency, drivingLicence, passports, allRecords, notes;
-    Animation animation1, animation2, animation3, animation4;
-    MediaPlayer mediaPlayer;
-    RelativeLayout search_layout;
-    Button search_icon;
-    ImageButton search_btn, favorites;
-    EditText search_bar;
-    TextView activityTitle;
-    String nameOfFolder;
-    ImageView clearSearch;
+    private Typeface myFont;
+    public CountDownTimer timer;
+    private TextView category1, category2, category3, category4, category5, category6, category7, category8, category9, category10;
+    private GridLayout mainGrid;
+    private CardView bankAccounts, creditCard, socialMedia, webAccounts, onlineShopping, cryptocurrency, drivingLicence, passports, allRecords, notes;
+    private Animation animation1, animation2, animation3, animation4;
+    private MediaPlayer mediaPlayer;
+    private RelativeLayout search_layout;
+    private Button search_icon;
+    private ImageButton search_btn, favorites;
+    private EditText search_bar;
+    private TextView activityTitle;
+    private String nameOfFolder, firstName;
+    private ImageView clearSearch;
+    private Cryptography cryptography;
 
 
     @Override
@@ -81,6 +83,14 @@ public class CategoryList_Activity extends AppCompatActivity {
 
 
         Log.d("userTest1Get"," "+CRYPTO_KEY);
+        pattern = CurrentUser.getInstance().getPatternLock();
+        cryptography = new Cryptography();
+        try {
+            firstName = cryptography.decrypt(CurrentUser.getInstance().getFirstName(), CRYPTO_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 // ----------------------------------------------------------- //
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
@@ -115,6 +125,10 @@ public class CategoryList_Activity extends AppCompatActivity {
 //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
+        if (!firstName.equals(null))
+            activityTitle.setText(firstName);
+        else
+            activityTitle.setText("Welcome");
         category1 = findViewById(R.id.category1);
         category2 = findViewById(R.id.category2);
         category3 = findViewById(R.id.category3);
@@ -158,37 +172,30 @@ public class CategoryList_Activity extends AppCompatActivity {
             }
         });
 
-        timer = new CountDownTimer(10 *60 * 1000, 1000) {
+        timer = new CountDownTimer(5 *60 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished == 60*1000){
-                    AlertDialog.Builder alert = new AlertDialog.Builder(CategoryList_Activity.this);
-                    alert.setTitle("Logout timer");
-                    alert.setMessage("No action detected. App will be closed in 1 minute.");
-                    alert.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
-                            System.exit(0);
-                        }
-                    });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            timer.cancel();
-                        }
-                    });
-                    alert.create().show();                }
+
             }
 
             public void onFinish() {
-                Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
-                System.exit(0);
+                Toast.makeText(getApplicationContext(), "No activity detected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),PatternLockView_Activity.class);
+                intent.putExtra("PATTERN",pattern);
+                intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
             }
         };
         timer.start();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(getApplicationContext(), "Resumed", Toast.LENGTH_SHORT).show();
+
+    }
 
     public void floatingActionButton() {
 
@@ -318,7 +325,7 @@ public class CategoryList_Activity extends AppCompatActivity {
 
     public void openOptions(View view) {
 //        Intent intent = new Intent(this, SecurityLevel_Activity.class);
-        Intent intent = new Intent(this, SettingsActivity.class);
+        Intent intent = new Intent(this, Team_Activity.class);
         this.startActivity(intent);
     }
 

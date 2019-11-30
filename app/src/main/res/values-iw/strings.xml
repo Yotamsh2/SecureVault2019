@@ -107,4 +107,7 @@
     <string name="profile">פרופיל אישי</string>
     <string name="save_record">שמור רשומה</string>
     <string name="settings">הגדרות</string>
+    <string name="fetch_data">משוך נתונים</string>
+    <string name="navigation_drawer_close">סגור תפריט</string>
+    <string name="navigation_drawer_open">פתח תפריט</string>
 </resources>

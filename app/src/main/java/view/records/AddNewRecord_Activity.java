@@ -515,28 +515,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 drivingLicence.setVisibility(View.GONE);
                 passport.setVisibility(View.GONE);
                 break;
-            case "Website & Email":
-                userName.setVisibility(View.VISIBLE);
-                password.setVisibility(View.VISIBLE);
-                website.setVisibility(View.VISIBLE);
-                email.setVisibility(View.VISIBLE);
-                bankAccount.setVisibility(View.GONE);
-                creditCard.setVisibility(View.GONE);
-                cryptocurrency.setVisibility(View.GONE);
-                drivingLicence.setVisibility(View.GONE);
-                passport.setVisibility(View.GONE);
-                break;
-            case "Online Shopping":
-                userName.setVisibility(View.VISIBLE);
-                password.setVisibility(View.VISIBLE);
-                website.setVisibility(View.VISIBLE);
-                email.setVisibility(View.VISIBLE);
-                bankAccount.setVisibility(View.GONE);
-                creditCard.setVisibility(View.GONE);
-                cryptocurrency.setVisibility(View.GONE);
-                drivingLicence.setVisibility(View.GONE);
-                passport.setVisibility(View.GONE);
-                break;
             case "Cryptocurrency":
                 userName.setVisibility(View.GONE);
                 password.setVisibility(View.GONE);
@@ -636,10 +614,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     @Override
     public void onBackPressed() {
         cancelWarningMessage(null);
-    }
-
-
-    public void openMenu(View view) {
     }
 
 
@@ -790,12 +764,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 }
             }.execute();                // execute for starting the AsyncTask
-
         }
 
         saveBtn.startAnimation(animation3);
         mediaPlayer.start();
-
     }
 
     @SuppressLint("RestrictedApi")
@@ -862,7 +834,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             saveBtn.setVisibility(View.GONE);
             cancelBtn.setVisibility(View.GONE);
             editForm.setVisibility(View.VISIBLE);
-
         }
     }
 
@@ -890,7 +861,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         expiringDate_title.setVisibility(View.VISIBLE);
         addExpiringDate.setVisibility(View.GONE);
         expiringDate_EditText.requestFocus();
-
     }
 
     public void addNote(View view) {
@@ -905,8 +875,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         } else {
             note_EditText.setMinHeight(200);
         }
-
-
     }
 
     public void openCalendar(View view) {
@@ -931,12 +899,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         } else if (issuanceDate_EditText.isFocused()) {
             issuanceDate_EditText.setText(date);
         }
-
     }
 
+    //Show or hide the password by clicking the eye icon
     public void showPass(View view) {
-
-        if (view == showPass || view == hidePass) {
+        if (view == showPass || view == hidePass){
 
             if (showPass.getVisibility() == View.VISIBLE) {
                 password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -1053,13 +1020,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 //         }
     }
 
-
+    //Finish activity
     public void back(View view) {
         finish();
         overridePendingTransition(0, 0);
-
     }
 
+    //NOT IN USE
     public void showCategory(View view) {
         mediaPlayer.start();
         if (showCategory.getVisibility() == View.VISIBLE) {
@@ -1075,6 +1042,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
     }
 
+    //Copy the password to clipboard
     public void copyPass(View view) {
         mediaPlayer.start();
         copyPass.startAnimation(animation3);
@@ -1097,6 +1065,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         timer.start();
     }
 
+    //Open the icon list to choose icon
     public void chooseIcon(View view) {     //makes icons visible
         mediaPlayer.start();
         if (listOfIcons.getVisibility() == View.GONE) {
@@ -1106,6 +1075,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     }
 
+    //Select icon from the list and change the record's icon
     public void changeIcon(View view) throws IllegalAccessException {    //after CLICKING an icon
         chooseIcon.setBackground(view.getBackground()); //sets the icon after clicking it
 
@@ -1147,7 +1117,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 
-    //Add to favorites
+    //Add record to favorites
     public void addToFavorites(View view) {
         if (!isFavorite) {
             setFavorite(true);
@@ -1156,6 +1126,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
     }
 
+    //Set status of favorite
     public void setFavorite(Boolean status) {
         isFavorite = status;
         if (status) {
@@ -1167,7 +1138,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         }
     }
 
-
+    //Open the website link in browser
     public void openWebsiteLink(View view) {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_VIEW);
@@ -1175,6 +1146,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         startActivity(i);
     }
 
+    //Delete the record permanently from the database
     public void deleteRecord(final View view) {
         mediaPlayer.start();
         findViewById(R.id.deleteTopBtn).startAnimation(animation3);
@@ -1201,6 +1173,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     }
 
+/////////////// Get the current icon from database and choose new icon ///////////////
 
     public class getAllDrawablesResourcesAsyncTask extends AsyncTask<Void, Void, Void> {
 
@@ -1282,12 +1255,11 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             }
             return drawableName;
-
         }
-
     }
 
 
+    /////////////// Calculates the strength of the password ///////////////
     protected void passwordCalculation() {
         String temp = password_EditText.getText().toString();
         System.out.println(i + " current password is : " + temp);
@@ -1420,7 +1392,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 }
-
 
 
 

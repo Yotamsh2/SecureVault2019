@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.explorer.CategoryList_Activity">
+    tools:context="view.explorer.Team_Activity">
 
 
 
@@ -34,30 +34,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="14dp"
-                android:background="@drawable/icon_menu"
-                android:onClick="openMenu" />
-
-<!--
-            <Button
-                android:id="@+id/search_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="14dp"
-                android:background="@drawable/icon_search"
-                android:onClick="openSearch" />
--->
-
-            <Button
-                android:id="@+id/options_icon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="14dp"
-                android:background="@drawable/ic_more_vert_white"
-                android:onClick="openOptions" />
+                android:background="@drawable/ic_back_white"
+                android:onClick="back" />
         </RelativeLayout>
         <!--menu and search buttons-->
 
@@ -106,12 +84,12 @@
                 >
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/bankAccount"
+                    android:id="@+id/ori"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToFolderRecords"
+                    android:onClick="showDetails"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
 
@@ -144,12 +122,12 @@
                 <!--Ori-->
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/creditCard"
+                    android:id="@+id/evgeni"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToFolderRecords"
+                    android:onClick="showDetails"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp">
@@ -183,14 +161,14 @@
                 <!--Evgeni-->
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/socialMedia"
+                    android:id="@+id/yotam"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToFolderRecords"
+                    android:onClick="showDetails"
                     android:background="@drawable/category_btn_style"
-                    app:cardBackgroundColor="#A2F3FF"
+                    app:cardBackgroundColor="#ffffff"
                     app:cardCornerRadius="20dp">
 
                     <LinearLayout
@@ -223,12 +201,12 @@
                 <!--Yotam-->
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/webAccounts"
+                    android:id="@+id/idan"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToFolderRecords"
+                    android:onClick="showDetails"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp"
@@ -265,12 +243,12 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/Details"
+                    android:id="@+id/details"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_columnWeight="1"
                     android:layout_margin="4dp"
-                    android:onClick="goToFolderRecords"
+                    android:onClick="showDetails"
                     android:background="@drawable/category_btn_style"
                     app:cardBackgroundColor="@color/category_cardView"
                     app:cardCornerRadius="20dp"
@@ -299,7 +277,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:layout_marginStart="6dp"
-                            android:text="@string/yotam"
+                            android:text="Secure Vault Team"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
                             android:textSize="18sp" />
@@ -324,7 +302,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:layout_marginStart="6dp"
-                            android:text="yotamsh2@gmail.com"
+                            android:text="SecureVault2019@gmail.com"
                             android:textAlignment="center"
                             android:textColor="@color/category_text"
                             android:textSize="18sp" />
@@ -349,7 +327,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:layout_marginStart="6dp"
-                                android:text="301811915"
+                                android:text=""
                                 android:textAlignment="center"
                                 android:textColor="@color/category_text"
                                 android:textSize="18sp" />
