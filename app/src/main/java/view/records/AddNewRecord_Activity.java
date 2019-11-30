@@ -444,33 +444,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             }
         });
 
-        timer = new CountDownTimer(15 * 60 * 1000, 1000) {
+        timer = new CountDownTimer(5 * 60 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                if (millisUntilFinished == 60 * 1000) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(AddNewRecord_Activity.this);
-                    alert.setTitle("Logout timer");
-                    alert.setMessage("No action detected. App will be closed in 1 minute.");
-                    alert.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
-                            System.exit(0);
-                        }
-                    });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            timer.cancel();
-                        }
-                    });
-                    alert.create().show();
-                }
             }
 
             public void onFinish() {
-                Toast.makeText(getApplicationContext(), "Account log out", Toast.LENGTH_SHORT).show();
-                System.exit(0);
             }
         };
         timer.start();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="200dp"
     android:background="@drawable/background_style"
     android:gravity="bottom"
     android:padding="16dp"
@@ -15,17 +15,21 @@
         android:layout_gravity="center"/>
 
     <TextView
+        android:id="@+id/nav_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="First Name"
+        android:text="@string/FirstName"
         android:textColor="#fff"
         android:layout_gravity="center"
-        android:textSize="22sp"/>
+        android:layout_marginBottom="4dp"
+        android:textSize="20sp"
+        android:textAllCaps="true"/>
 
     <TextView
+        android:id="@+id/nav_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="yotamsh2@gmail.com"
+        android:text="@string/email"
         android:textColor="#fff"
         android:layout_gravity="center"
         android:textSize="12sp"/>

@@ -35,7 +35,7 @@
             android:name="view.explorer.CategoryList_Activity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name="view.explorer.CategoryList_ActivityTRY"
+            android:name="view.explorer.MainScreen_Activity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name="view.explorer.PatternLockView_Activity"

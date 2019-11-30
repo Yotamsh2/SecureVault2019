@@ -10,10 +10,6 @@
             android:icon="@drawable/ic_security_black"
             android:title="@string/security_level" />
         <item
-            android:id="@+id/settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/settings" />
-        <item
             android:id="@+id/profile"
             android:icon="@drawable/ic_person"
             android:title="@string/profile" />

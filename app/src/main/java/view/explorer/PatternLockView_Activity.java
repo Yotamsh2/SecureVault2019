@@ -3,23 +3,19 @@ package view.explorer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.andrognito.patternlockview.PatternLockView;
 import com.andrognito.patternlockview.listener.PatternLockViewListener;
 import com.andrognito.patternlockview.utils.PatternLockUtils;
-import com.securevault19.securevault2019.MainActivity;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
@@ -29,7 +25,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import cryptography.Cryptography;
-import local_database.DatabaseClient;
 
 import static com.andrognito.patternlockview.PatternLockView.*;
 
@@ -130,7 +125,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
                     }
                     if (encryptedPattern.equals(patternFromUser)) {
                         Log.d("encryptedPattern", "entered if ");
-                        Intent intent = new Intent(getApplicationContext(), CategoryList_Activity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainScreen_Activity.class);
                         intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                         startActivity(intent);
                         finish();
