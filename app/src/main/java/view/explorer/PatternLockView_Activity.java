@@ -87,12 +87,12 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
             @Override
             public void onStarted() {
-                Log.d("patterntTesting", "onCStart");
+                Log.d("patternTesting", "onCStart");
             }
 
             @Override
             public void onProgress(List progressPattern) {
-                Log.d("patterntTesting", "onProgress");
+                Log.d("patternTesting", "onProgress");
             }
 
             @SuppressLint("StaticFieldLeak")            // ignoring memory leak
@@ -237,7 +237,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
                         patternLock = PatternLockUtils.patternToString(patternLockView, pattern);
                         if (patternLock.equals(verifyedLock)) {
                             setResult(Activity.RESULT_OK, returnIntent);
-                            Toast.makeText(PatternLockView_Activity.this, "pattenrLockSet" + patternLock, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PatternLockView_Activity.this, "Pattern Saved", Toast.LENGTH_SHORT).show();
                             returnIntent.putExtra("PATTERN_LOCK", patternLock);
                             finish();
                         } else {
@@ -311,7 +311,6 @@ public class PatternLockView_Activity extends AppCompatActivity {
 
 
     private void incorrectPattern(PatternLockView patternLockView) {
-        Toast.makeText(PatternLockView_Activity.this, "PATTERN INCORRECT!", Toast.LENGTH_SHORT).show();
         clearPattern(patternLockView);
         patternLockView.setViewMode(PatternViewMode.WRONG); //Pattern's Color becomes red
 
