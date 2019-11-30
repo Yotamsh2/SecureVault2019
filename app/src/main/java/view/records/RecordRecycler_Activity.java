@@ -175,7 +175,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     }
 
 
-    @SuppressLint("StaticFieldLeak")
+    @SuppressLint({"StaticFieldLeak", "RestrictedApi"})
     public void recycler() {
 
        // CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
@@ -214,6 +214,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                     Log.d("getSearchRecords", "entered if of search");
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
+                    button_add_record.setVisibility(View.GONE);
                     Log.d("encryptedSearchString", "the encryptedSearchString search bar " + searchString);
                     Log.d("encryptedSearchString", "the encryptedSearchString search bar " + encryptedSearchString);
                     Log.d("encryptedSearchString", "after encryption " + encryptedSearchString);
