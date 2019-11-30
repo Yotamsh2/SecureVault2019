@@ -1,6 +1,5 @@
 package view.explorer;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -22,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -31,8 +29,6 @@ import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
 
 import cryptography.Cryptography;
-import local_database.DatabaseClient;
-import view.preferences.SettingsActivity;
 import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
 

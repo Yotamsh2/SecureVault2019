@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -20,10 +22,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.securevault19.securevault2019.R;
+import com.securevault19.securevault2019.user.CurrentUser;
 
 import view.records.RecordRecycler_Activity;
+import view_model.records.User_ViewModel;
 
 public class SecurityLevel_Activity extends AppCompatActivity {
 
@@ -38,6 +43,8 @@ private String securityLevel;
     Drawable level1_chosen,level2_chosen, level3_chosen,level1_notchosen,level2_notchosen, level3_notchosen;
     Drawable boxStyle, boxChosenStyle;
     ImageButton cancelBtn, saveBtn;
+
+    private static User_ViewModel userViewModel;
 
 
     @Override
@@ -82,6 +89,9 @@ private String securityLevel;
 //        Set logo's font to category's text
         myFont = Typeface.createFromAsset(this.getAssets(), "fonts/OutlierRail.ttf");
         activityTitle.setTypeface(myFont);
+
+        userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
+
 
     }
 
@@ -177,12 +187,34 @@ private String securityLevel;
 //        }
     }
 
-    public void chooseLevel(View view) {                // button on click method
+    public void chooseLevel(View view) {                // button onclick method
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
+        new changeSecurityLevelAsyncTask(securityLevel, CurrentUser.getInstance().getEmail()).execute();
         Toast.makeText(SecurityLevel_Activity.this, "Security Level Saved", Toast.LENGTH_SHORT).show();
         returnedResult.putExtra("SECURITY_LEVEL",securityLevel);
         setResult(Activity.RESULT_OK,returnedResult);
         finish();
+    }
+
+    public static class changeSecurityLevelAsyncTask extends AsyncTask<Void, Void, Void> { //experiment
+        private String newSecurityLevel;
+        private String currentUser;
+
+        changeSecurityLevelAsyncTask(String newSecurityLevel, String currentUser){
+            this.newSecurityLevel = newSecurityLevel;
+            this.currentUser = currentUser;
+            Log.d("secureLevel", "constructor: " + currentUser + " , "+ newSecurityLevel);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids)
+        {
+            userViewModel.updateSecureLevel(newSecurityLevel, currentUser);
+            CurrentUser.getInstance().setSecureLevel(newSecurityLevel);
+            userViewModel.update(CurrentUser.getInstance());
+            return null;
+        }
     }
 }

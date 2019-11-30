@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.securevault19.securevault2019.R;
-import com.securevault19.securevault2019.user.CurrentUser;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -54,16 +53,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         Record currentRecord = records.get(position);
       holder.textViewTitle.setText(currentRecord.getTitle());
 
-//        final String userName = currentRecord.getUserName(); //decrypting username
-//        Log.d("crypto", "1: "+ userName + " and: " + currentRecord.getUserName());
-//        try {
-//            cryptography.decrypt(userName, currentRecord.getUserName());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        Log.d("crypto", "2: "+ userName + " and: " + currentRecord.getUserName());
-//        holder.textViewRecord.setText(userName);
-
         try {
             Log.d("holferTest","entered try");
             Log.d("holferTest","key " + CRYPTO_KEY);
@@ -75,18 +64,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
             e.printStackTrace();
         }
 
-        //        String iconID = currentRecord.getIcon();  //TO DELETE
-//        holder.recordIcon.setImageResource(Integer.valueOf(iconID)); TO DELETE
 
         Log.d("iconCheck",""+currentRecord.getIcon());
         String iconName = currentRecord.getIcon();
         int iconID = convertIconNameToID(iconName);
         holder.recordIcon.setImageResource(iconID);
 
-
-
-
-       // holder.textViewType.setText(currentRecord.getType());
     }
 
     @Override
@@ -139,7 +122,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     private int convertIconNameToID(String iconName) {
         int iconID;                        //for loop to get the proper drawable's id
         for (Field field : allDrawablesfromRes_drawable) {
-            //   Log.d("icon", "currentDrawable.getConstantState(): " + currentDrawable.getConstantState()); //TO DELETE
 
             if (field.getName().equals(iconName)) {
                 try {

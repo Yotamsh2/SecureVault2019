@@ -1,48 +1,4 @@
 <resources>
-    <!-- Reply Preference -->
-    <string-array name="reply">
-        <item>Reply</item>
-        <item>Reply to all</item>
-    </string-array>
-
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
-    </string-array>
-
-    <string-array name="upgrade">
-        <item>Yes (Only for 1000$)</item>
-        <item>No</item>
-    </string-array>
-
-    <string-array name="upgrade_values">
-        <item>true</item>
-        <item>false</item>
-    </string-array>
-
-    <string-array name="autofill">
-        <item>Email</item>
-        <item>Username</item>
-    </string-array>
-
-    <string-array name="autofill_values">
-        <item>email</item>
-        <item>username</item>
-    </string-array>
-
-        <string-array name="security_level">
-            <item>Minimum</item>
-            <item>Medium</item>
-            <item>Maximum</item>
-        </string-array>
-
-        <string-array name="security_level_values">
-            <item>1</item>
-            <item>2</item>
-            <item>3</item>
-        </string-array>
-
-
 
 
 </resources>

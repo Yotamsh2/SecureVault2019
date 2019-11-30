@@ -189,7 +189,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         //getting the String to know which Category to show
         Bundle extras = getIntent().getExtras();
 
-//////////checking the extras is not null -> to get rid of "null object reference"/////////////////////////////////////
+        //checking the extras is not null -> to get rid of "null object reference"
         if (extras != null) {
             nameOfFolder = extras.getString(EXTRA_FOLDER);
             searchString = extras.getString(EXTRA_SEARCH);
@@ -286,12 +286,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     //Creating new Record
     @Override
     public void onRecordClick(final int position, final List<Record> records) {   // clicked or exiting record
-        Log.d("onRecordClick", "clicked. " + position);
-        // ------------------------------------------------------------------------------- //
-        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
-        Log.d("onRecordClick", "clicked " + records.get(position).getRecordID());
-        // ------------------------------------------------------------------------------- //
-        // records.get(position);
+
         final String folder = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRA_FOLDER);
 
 

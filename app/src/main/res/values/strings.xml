@@ -97,24 +97,7 @@
     <string name="newAccount">New Account</string>
     <string name="verifyPass">Verify Password</string>
     <string name="masterPass">Master Password</string>
-
-    <string name="title_activity_settings">Settings</string>
-    <string name="messages_header">Messages</string>
-
-    <!-- Preference Titles -->
-    <string name="sync_header">Sync</string>
-    <string name="signature_title">Your signature</string>
-
-    <!-- Messages Preferences -->
-    <string name="reply_title">Default reply action</string>
-    <string name="sync_title">Sync email periodically</string>
-
-    <!-- Sync Preferences -->
-    <string name="attachment_title" translatable="false">Download incoming attachments</string>
-    <string name="attachment_summary_on" translatable="false">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off" translatable="false">Only download attachments when manually requested</string>
-    <string name="ori">Ori Even Hen</string>
+    <string name="ori">Ori Even Chen</string>
     <string name="yotam">Yotam Shoval</string>
     <string name="evgeni">Evgeni Iseev</string>
     <string name="idan">Idan Bardugo</string>

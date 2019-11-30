@@ -251,7 +251,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 //        }
 
 
-
         //userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
         new getAllDrawablesResourcesAsyncTask().execute();
 
@@ -453,7 +452,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             }
         };
         timer.start();
-
     }
 
 
@@ -676,7 +674,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                     // PAY ATTENTION!                                //
                     // the encryption we using is EncryptWithKey();!//
-                    // the KEY will be the userName                 //
+                    // the KEY will be the Email                 //
 
                     // creating Record to insert the TextFields and insert to DB
 
@@ -688,7 +686,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     }
 
                     // setting the current userName to a record.
-                    // when you will try to see the record data, it will check if the user is the one who ca see the info.
+                    // when you will try to see the record data, it will check if the user is the one who can see the info.
                     record.setUserTable(CurrentUser.getInstance().getEmail());
 
 
@@ -884,6 +882,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void showPass(View view) {
         if (view == showPass || view == hidePass){
 
+
             if (showPass.getVisibility() == View.VISIBLE) {
                 password_EditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                 hidePass.setVisibility(View.VISIBLE);
@@ -898,6 +897,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             password_EditText.requestFocus();
             password_EditText.setSelection(password_EditText.getText().length());
         }
+
 
     }
 
@@ -931,69 +931,51 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void editForm(View view) {                           // The edit circle
         mediaPlayer.start();
         Intent intent = new Intent(this, PatternLockView_Activity.class);
-        Log.d("patternCheck1","secure level " + userSecurityLevel);
+//        Log.d("patternCheck1","secure level " + userSecurityLevel);
         //if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
         userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
-        Log.d("resultFromRecord","-> "+ "userSecurityLevel " + userSecurityLevel);
-        Log.d("resultFromRecord","-> "+ "before if userSecureLevel > 2 ");
+//        Log.d("resultFromRecord","-> "+ "userSecurityLevel " + userSecurityLevel);
+//        Log.d("resultFromRecord","-> "+ "before if userSecureLevel > 2 ");
         if(userSecurityLevel > 2) {         // currentUser is copy of user and not pointer
-            Log.d("resultFromRecord","-> "+ "inside the if userSecureLevel > 2 ");
+//            Log.d("resultFromRecord","-> "+ "inside the if userSecureLevel > 2 ");
             intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
             intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
-            Log.d("patternCheck1", "before startActivityForResult");
+//            Log.d("patternCheck1", "before startActivityForResult");
             startActivityForResult(intent, 3);
-            Log.d("patternCheck1", "after startActivityForResult");
+//            Log.d("patternCheck1", "after startActivityForResult");
             //setEditMode(true);
         }
         else
             setEditMode(true);
-
-
-//        Intent intent = new Intent();
-//        //      Log.d("secureLevel_pattern", "before if" );
-//        if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
-//            Log.d("secureLevel_pattern", "userSecurityLevel: " + userSecurityLevel);
-//            intent.setClass(getApplicationContext(), PatternLockView_Activity.class);
-//            intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
-//            intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
-
-           // startActivity(intent);
-
-
-//            setEditMode(true);
-//        } else {
-//            setEditMode(true);
-//        }
-
-
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent returnIntentToRecord) {
         super.onActivityResult(requestCode, resultCode, returnIntentToRecord);
-             Log.d("patternCheck1","entered the if ");
-             if(returnIntentToRecord== null){
-                 Log.d("returnIntentToRecord", " returnIntentToRecord is null? ");
-                 setEditMode(false);
-                 return;
-             }
-             if (requestCode == 3) {
-                 resultFromRecordEditForm = returnIntentToRecord.getStringExtra("recordEditForm");
-                 Log.d("resultFromRecord","resultFromRecordEditForm  "+ resultFromRecordEditForm);
-                 if (resultCode == Activity.RESULT_OK) {
-                     if(resultFromRecordEditForm.equals("1")) {
-                         setEditMode(true);
-                     }else{
-                         Log.d("resultFromRecord","resultFromRecordEditForm1  "+ resultFromRecordEditForm);
-                         setEditMode(false);
-                     }
+//             Log.d("patternCheck1","entered the if ");
+        if (returnIntentToRecord == null) {
+//                 Log.d("returnIntentToRecord", " returnIntentToRecord is null? ");
+            setEditMode(false);
+            return;
+        }
+        if (requestCode == 3) {
+            resultFromRecordEditForm = returnIntentToRecord.getStringExtra("recordEditForm");
+//                 Log.d("resultFromRecord","resultFromRecordEditForm  "+ resultFromRecordEditForm);
+            if (resultCode == Activity.RESULT_OK) {
+                if (resultFromRecordEditForm.equals("1")) {
+                    setEditMode(true);
+                } else {
+//                         Log.d("resultFromRecord","resultFromRecordEditForm1  "+ resultFromRecordEditForm);
+                    setEditMode(false);
+                }
 
-                 }
-                 if (resultCode == Activity.RESULT_CANCELED) {
-                     Log.d("resultFromRecord","resultFromRecordEditForm2  "+ resultFromRecordEditForm);
-                     setEditMode(false);
-                 }
-             }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+//                     Log.d("resultFromRecord","resultFromRecordEditForm2  "+ resultFromRecordEditForm);
+                setEditMode(false);
+            }
+        }
 //         if(resultFromRecordEditForm.equals("0")){
 //             Log.d("patternCheck1","entered else if ");
 //             setEditMode(false);
@@ -1048,9 +1030,9 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     //Open the icon list to choose icon
     public void chooseIcon(View view) {     //makes icons visible
         mediaPlayer.start();
-        if (listOfIcons.getVisibility() == View.GONE) {
+        if (listOfIcons.getVisibility() == View.GONE)
             listOfIcons.setVisibility(View.VISIBLE);
-        } else
+        else
             listOfIcons.setVisibility(View.GONE);
 
     }
@@ -1058,21 +1040,19 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     //Select icon from the list and change the record's icon
     public void changeIcon(View view) throws IllegalAccessException {    //after CLICKING an icon
         chooseIcon.setBackground(view.getBackground()); //sets the icon after clicking it
+        for (Drawable drawables : drawableResources) {
 
-        if (chooseIcon != null) {
-            for (Drawable drawables : drawableResources) {
+            if (view.getBackground() != null &&
+                    view.getBackground().getConstantState()
+                            .equals(drawables.getCurrent().getConstantState())) {
 
-                if (view.getBackground() != null &&
-                        view.getBackground().getConstantState()
-                                .equals(drawables.getCurrent().getConstantState())) {
+                Log.d("icon", "found(.getConstantState()): " + drawables.getCurrent().getConstantState());
 
-                    Log.d("icon", "found(.getConstantState()): " + drawables.getCurrent().getConstantState());
+                //get the needed drawable id
+                new getDrawableIDAsyncTask(drawables.getCurrent(), drawableResources).execute(); //Initializing 'drawableID' inside doInBackGround() method.
 
-                    //get the needed drawable id
-                    new getDrawableIDAsyncTask(drawables.getCurrent(), drawableResources).execute(); //Initializing 'drawableID' inside doInBackGround() method.
-
-                }
             }
+
         }
 
         mediaPlayer.start();
@@ -1080,8 +1060,15 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 
-    public void addChooseIcon(View view) {  //Opens the option to choose icon - shows all the icons
+    public void addChooseIcon(View view) {  //Opens the option to choose icon & shows the current icon of the Record.
+        try {
+            drawableName = currentRecord.getIcon();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("icon", "drawableName: " + drawableName);
         addChooseIconBtn.setVisibility(View.GONE);
+
         chooseIcon.setVisibility(View.VISIBLE);
         try {
             Drawable drawable = getDrawable(currentRecordDrawabaleID);
@@ -1093,9 +1080,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         if (editForm.getVisibility() == View.VISIBLE) {
             listOfIcons.setVisibility(View.GONE);
         }
-
     }
-
 
     //Add record to favorites
     public void addToFavorites(View view) {
@@ -1150,7 +1135,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         });
 
         alert.create().show();
-
     }
 
 /////////////// Get the current icon from database and choose new icon ///////////////
@@ -1182,16 +1166,12 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     if (field.getName().equals(currentRecord.getIcon())) {
                         try {
                             currentRecordDrawabaleID = field.getInt(null);
-
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
                     }
                 }
-
-
             }
-
             return null;
         }
     }
@@ -1224,7 +1204,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                             e.printStackTrace();
                         }
 
-                        int id;
                         if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
                             Log.d("icon", "getName().....: " + field.getName());
                             drawableName = field.getName();

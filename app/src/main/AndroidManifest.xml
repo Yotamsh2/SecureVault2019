@@ -12,11 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name="view.preferences.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName="view.explorer.CategoryList_Activity">
-        </activity>
         <activity android:name="view.explorer.Team_Activity"/>
         <activity android:name="view.records.RecordRecycler_Activity" />
         <activity android:name=".MainActivity">

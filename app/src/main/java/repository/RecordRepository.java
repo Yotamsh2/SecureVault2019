@@ -22,7 +22,7 @@ public class RecordRepository {
 
     private DaoRecord DaoRecord;
     public RecordRepository(Application application) {
-        RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the single ton database
+        RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the singleton database
         DaoRecord = database2.daoRecord();
     }
 

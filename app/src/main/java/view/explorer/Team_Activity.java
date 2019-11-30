@@ -1,30 +1,18 @@
 package view.explorer;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
-
-import view.preferences.SettingsActivity;
-import view.records.AddNewRecord_Activity;
-import view.records.RecordRecycler_Activity;
 
 public class Team_Activity extends AppCompatActivity {
     Typeface myFont;
@@ -70,7 +58,7 @@ public class Team_Activity extends AppCompatActivity {
 
     public void showDetails(View view) {               // on click func       // the view is what appears on top of the recycler view
         if (view == ori){
-            details_name.setText("Ori Evan Hen");
+            details_name.setText("Ori Even Chen");
             details_email.setText("Oriech90@gmail.com");
             details_id.setText("305683534");
         }
