@@ -1196,6 +1196,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             }
         });
+
         alert.create().show();
 
     }

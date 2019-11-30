@@ -21,6 +21,9 @@ import androidx.lifecycle.ViewModelProviders;
 import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import cryptography.Cryptography;
 import view.entrance.NewUser_Activity;
 import view.explorer.CategoryList_Activity;
@@ -44,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
     private Cryptography cryptography = new Cryptography();
     private User_ViewModel viewModel;
 
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +                        //at least 1 digit
+                    "(?=\\S+$)" );                        //no white spaces
+//                    "(?=.*[a-z])" +                    //at least 1 lower case letter
+//                    "(?=.*[A-Z])" +                   //at least 1 upper case letter
+//                    //"(?=.*[a-zA-Z])" +             //any letter
+//                    "(?=.*[!@,)#&_'$*(%~$%^&+=])" + //at least 1 special character
+//                    ".{8,24}" +                   //at least 8 characters, less than 24
+//                    "$");
+
     //                  //
     @Override
     protected void onCreate(Bundle saveBtndInstanceState) {
@@ -63,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         //////////////// for testing only ///////////////////////
-        email_EditText.setText("securevault2019@gmail.com");
-        password.setText("111222333");
+//        email_EditText.setText("securevault2019@gmail.com");
+//        password.setText("111222333");
 
 
         //Animation Sets
@@ -185,6 +199,37 @@ public class MainActivity extends AppCompatActivity {
         }.execute();
 
 
+    }
+
+    public boolean validatePassword(String Password) {
+        String passwordInput = Password;
+
+        if (passwordInput.isEmpty()) {
+            return false;
+        }
+        if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isValidEmail(String emailInput) {
+        String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(emailInput);
+        return matcher.matches();
+    }
+
+    public void goToCategoryActivity(){
+        Intent intent = new Intent(this, PatternLockView_Activity.class);
+        startActivity( intent );
+    }
+
+    public void goToNewUserActivity(){
+        Intent intent = new Intent(this,NewUser_Activity.class);
+        startActivity( intent );
     }
 
 }

@@ -1,10 +1,7 @@
 package com.securevault19.securevault2019;
-
-import android.app.Instrumentation;
 import android.widget.EditText;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.After;
@@ -14,11 +11,7 @@ import org.junit.Test;
 
 import view.entrance.NewUser_Activity;
 
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.action.ViewActions.typeTextIntoFocusedView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.*;
 
@@ -27,83 +20,186 @@ public class NewUser_ActivityTest {
     private NewUser_Activity newUser_activity;
     private EditText editText, editText2, editText3, editText4;
 
-
-    //This rule provides functional testing of a single activity.
-    //When launchActivity is set to true in the constructor, the activity under test will be launched
-    //before each test annotated with Test and before methods annotated with Before, and it will be terminated
-    //after the test is completed and methods annotated with After are finished.
     @Rule
     public ActivityTestRule<NewUser_Activity> activityActivityTestRule = new ActivityTestRule<>( NewUser_Activity.class );
-    public Instrumentation instr = InstrumentationRegistry.getInstrumentation();
-
-    Instrumentation.ActivityMonitor monitor = instr.addMonitor( NewUser_Activity.class.getName(), null, false );
 
     @Before
     public void setUp() throws Exception {
 
         newUser_activity = activityActivityTestRule.getActivity();
-        editText = newUser_activity.findViewById( R.id.username_EditText ); //username_EditText belongs to the sign_up screen
+        editText = newUser_activity.findViewById( R.id.username_EditText ); //username_EditText belongs to the NewUser_Activity
         editText2 = newUser_activity.findViewById( R.id.password_EditText );
         editText3 = newUser_activity.findViewById( R.id.verifyPassword_EditText );
         editText4 = newUser_activity.findViewById( R.id.email_EditText );
     }
 
+    //#######################################################################
+    // Username Inputs Tests:
+    //#######################################################################
+
     @Test
-    public void testUsername() {
+    public void testValidUsername() {
 
-//        Espresso.onView( withId( R.id.signUp ) ).perform( click() );
-
+        // Enter a valid username
         Espresso.onView( withId( R.id.username_EditText ) ).perform( typeText( "test" ) );
+
+        // Checks if the username is valid
         assertEquals( "test", editText.getText().toString() );
-        Espresso.closeSoftKeyboard();
 
-//        Espresso.onView( withId(R.id.signUp) ).perform( click() );
-//        Espresso.onView( withId(R.id.userName)).check( matches(hasErrorText( "please enter username" )) );
-//        Espresso.onView( withId(R.id.userName)).perform( typeText( "test" ));
-//        Espresso.closeSoftKeyboard();
-    }
-
-    @Test
-    public void testPassword() {
-
-//        Espresso.onView( withId( R.id.signUp ) ).perform( click() );
-
-        Espresso.onView( withId( R.id.password_EditText ) ).perform( typeText( "123456" ) );
-        assertEquals( "123456", editText2.getText().toString() );
         Espresso.closeSoftKeyboard();
     }
 
     @Test
-    public void testVerifyPasswordSucceed() {
+    public void testNotValidUsername(){
 
+        // Enter too long username
+        Espresso.onView( withId( R.id.username_EditText ) ).perform( typeText("fdsjhfdsjkhfsjkhfsjkdfhsjkddhasjk") );
+
+        // Checks if the username is valid
+        assertFalse( newUser_activity.validateUsername(editText.getText().toString()));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testNotValidUsername2(){
+
+        // Enter an empty username
+        Espresso.onView( withId( R.id.username_EditText ) ).perform( typeText("") );
+
+        // Checks if the username is valid
+        assertFalse( newUser_activity.validateUsername(editText.getText().toString()));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testNotValidUsername3(){
+
+        // Enter username with space
+        Espresso.onView( withId( R.id.username_EditText ) ).perform( typeText("hit 1969") );
+
+        // Checks if the username is valid
+        assertFalse( newUser_activity.validateUsername(editText.getText().toString()));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    //#######################################################################
+    // Password Inputs Tests:
+    //#######################################################################
+
+    @Test
+    public void testNotValidPassword() {
+
+        // Enter an empty password
+        Espresso.onView( withId( R.id.password_EditText ) ).perform( typeText( "" ) );
+
+        // Checks if the password is valid
+        assertFalse(editText2.getText().toString(), newUser_activity.validatePassword( editText2.getText().toString() ));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testNotValidPassword2() {
+
+        // Enter password with space
+        Espresso.onView( withId( R.id.password_EditText ) ).perform( typeText( "pass   word" ) );
+
+        // Checks if the password is valid
+        assertFalse(editText2.getText().toString(), newUser_activity.validatePassword( editText2.getText().toString() ));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testVerifyPasswordCorrect() {
+
+        // Enter a password and matched verified password
         Espresso.onView( withId( R.id.password_EditText ) ).perform( typeText( "123456" ) );
         Espresso.onView( withId( R.id.verifyPassword_EditText ) ).perform( typeText( "123456" ) );
-        assertEquals( editText3.getText().toString(), editText2.getText().toString() );
+
+        // Checks if the password is valid
+        assertEquals(editText2.getText().toString(), editText3.getText().toString() );
+
         Espresso.closeSoftKeyboard();
     }
 
     @Test
-    public void testVerifyPasswordFailed() {
+    public void testVerifyPasswordIncorrect() {
 
-        Espresso.onView( withId( R.id.password_EditText ) ).perform( typeText( "123456" ) );
+        // Enter a password and unmatched verified password
+        Espresso.onView( withId( R.id.password_EditText ) ).perform( typeText( "23456" ) );
         Espresso.onView( withId( R.id.verifyPassword_EditText ) ).perform( typeText( "12345678" ) );
+
+        // Checks if the password is valid
         assertNotSame(editText3.getText().toString(), editText2.getText().toString() );
+
         Espresso.closeSoftKeyboard();
     }
+
+    //#######################################################################
+    // Email Inputs Tests:
+    //#######################################################################
 
     @Test
     public void testValidEmail() {
 
-        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "aa@gmail.com" ) );
+        // Enter a valid email
+        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "abc@gmail.com" ) );
+
+        // Checks if the email is valid
         assertTrue( editText4.getText().toString(), newUser_activity.isValidEmail( editText4.getText().toString() ));
+
         Espresso.closeSoftKeyboard();
     }
 
     @Test
     public void testNotValidEmail() {
 
-        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "HIT69" ) );
+        // Enter email without @
+        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "HIT1969" ) );
+
+        // Checks if the email is valid
         assertFalse(editText4.getText().toString(), newUser_activity.isValidEmail( editText4.getText().toString() ));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testNotValidEmail2() {
+
+        // Enter email without .com
+        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "securevault@gmail" ) );
+
+        // Checks if the email is valid
+        assertFalse(editText4.getText().toString(), newUser_activity.isValidEmail( editText4.getText().toString() ));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testNotValidEmail3() {
+
+        // Enter an empty email
+        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "" ) );
+
+        // Checks if the email is valid
+        assertFalse(editText4.getText().toString(), newUser_activity.isValidEmail( editText4.getText().toString() ));
+
+        Espresso.closeSoftKeyboard();
+    }
+
+    @Test
+    public void testNotValidEmail4() {
+
+        // Enter email with space
+        Espresso.onView( withId( R.id.email_EditText ) ).perform( typeText( "securevault@g mail.com" ) );
+
+        // Checks if the email is valid
+        assertFalse(editText4.getText().toString(), newUser_activity.isValidEmail( editText4.getText().toString() ));
+
         Espresso.closeSoftKeyboard();
     }
 

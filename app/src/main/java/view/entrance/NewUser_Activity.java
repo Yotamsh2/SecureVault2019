@@ -65,14 +65,14 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     private Cryptography cryptography;
     private EditText calendarBtn;
 
-//    private static final Pattern PASSWORD_PATTERN =
-//            Pattern.compile("^" +
-//                    "(?=.*[0-9])" +                     //at least 1 digit
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[0-9])" +                        //at least 1 digit
+                    "(?=\\S+$)" );                        //no white spaces
 //                    "(?=.*[a-z])" +                    //at least 1 lower case letter
 //                    "(?=.*[A-Z])" +                   //at least 1 upper case letter
 //                    //"(?=.*[a-zA-Z])" +             //any letter
 //                    "(?=.*[!@,)#&_'$*(%~$%^&+=])" + //at least 1 special character
-//                    "(?=\\S+$)" +                  //no white spaces
 //                    ".{8,24}" +                   //at least 8 characters, less than 24
 //                    "$");
 
@@ -140,8 +140,8 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
         //////////////// for testing only ///////////////////////
-        email_EditText.setText("securevault2019@gmail.com");
-        password_EditText.setText("111222333");
+//        email_EditText.setText("securevault2019@gmail.com");
+//        password_EditText.setText("111222333");
 
         password_EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -421,6 +421,34 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         if (dateOfRegistration_EditText.isFocused()) {
             dateOfRegistration_EditText.setText(date);
         }
+    }
+
+
+    public boolean validateUsername(String userName) {
+        String usernameInput = userName;
+
+        if (usernameInput.isEmpty()) {
+            return false;
+        } else if (usernameInput.length() > 15) {
+            return false;
+        } else if (usernameInput.contains( " " )){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public boolean validatePassword(String Password) {
+        String passwordInput = Password;
+
+        if (passwordInput.isEmpty()) {
+            return false;
+        }
+        if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
+            return false;
+        }
+
+        return true;
     }
 
 
