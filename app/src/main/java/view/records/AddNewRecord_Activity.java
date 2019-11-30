@@ -928,23 +928,24 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
         if (editForm.getVisibility() == View.VISIBLE) {
             back(view);
+        } else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle(R.string.cancelation_request);
+            alert.setMessage(R.string.cancelation_message);
+            alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(getApplicationContext(), "Not saved", Toast.LENGTH_SHORT).show();
+                    setEditMode(false);
+                }
+            });
+            alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alert.create().show();
         }
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(R.string.cancelation_request);
-        alert.setMessage(R.string.cancelation_message);
-        alert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Not saved", Toast.LENGTH_SHORT).show();
-                setEditMode(false);
-            }
-        });
-        alert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alert.create().show();
     }
 
     @SuppressLint("RestrictedApi")
