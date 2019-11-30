@@ -175,7 +175,6 @@ public class CategoryList_Activity extends AppCompatActivity {
         timer = new CountDownTimer(5 *60 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-
             }
 
             public void onFinish() {
@@ -188,13 +187,6 @@ public class CategoryList_Activity extends AppCompatActivity {
             }
         };
         timer.start();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Toast.makeText(getApplicationContext(), "Resumed", Toast.LENGTH_SHORT).show();
-
     }
 
     public void floatingActionButton() {
