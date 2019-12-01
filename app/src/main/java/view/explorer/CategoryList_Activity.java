@@ -32,7 +32,7 @@ import cryptography.Cryptography;
 import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
 
-public class CategoryList_Activity extends AppCompatActivity {
+public class CategoryList_Activity extends AppCompatActivity {          // not revevante!
     //-----------------//
     private String CRYPTO_KEY;
     private String pattern;

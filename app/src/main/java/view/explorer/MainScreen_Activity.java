@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ import view.entrance.NewUser_Activity;
 import view.preferences.SecurityLevel_Activity;
 
 public class MainScreen_Activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private String ORIGIN= "MainScreen";
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
@@ -32,6 +34,7 @@ public class MainScreen_Activity extends AppCompatActivity implements Navigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        Log.d("CurrentUserCheck", CurrentUser.getInstance().getEmail());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -58,6 +61,7 @@ public class MainScreen_Activity extends AppCompatActivity implements Navigation
                 break;
             case R.id.securityLevel:
                 Intent intent2 = new Intent(getApplicationContext(), SecurityLevel_Activity.class);
+                intent2.putExtra("ORIGIN",ORIGIN);
                 startActivity(intent2);
                 overridePendingTransition(0, 0);
                 break;

@@ -64,7 +64,7 @@
     <string name="discard">Discard</string>
     <string name="publicKey">Public Key</string>
     <string name="privateKey">Private Key</string>
-    <string name="walletGenerationSeed">Wallet Generation Seed</string>
+    <string name="walletGenerationSeed">nav_title</string>
     <string name="licenceNumber">Licence Number</string>
     <string name="licenceExpiringDate">Licence Expiring Date</string>
     <string name="webAccountsAndEmail"><![CDATA[Website & Email]]></string>

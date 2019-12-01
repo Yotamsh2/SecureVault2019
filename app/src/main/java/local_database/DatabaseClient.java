@@ -19,7 +19,7 @@ public class DatabaseClient {
         recordDatabase2 = Room.databaseBuilder(mCtx, RecordDatabase2.class, "RecordsDatabse2.db").fallbackToDestructiveMigration().build();
     }
 
-    public static synchronized DatabaseClient getInstance(Context mCtx) {
+        public static synchronized DatabaseClient getInstance(Context mCtx) {
         if (mInstance == null) {
             mInstance = new DatabaseClient(mCtx);
         }

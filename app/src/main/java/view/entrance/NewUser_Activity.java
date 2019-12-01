@@ -50,8 +50,9 @@ import view_model.records.User_ViewModel;
 @SuppressLint("Registered")
 public class NewUser_Activity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private String CRYPTO_KEY;
 
+    private String ORIGIN;
+    private String CRYPTO_KEY;
     private String returnedPattern;
     private String returnedSecurityLevel;
     private String firstNameUser;
@@ -68,7 +69,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +                        //at least 1 digit
-                    "(?=\\S+$)" );                        //no white spaces
+                    "(?=\\S+$)");                        //no white spaces
 //                    "(?=.*[a-z])" +                    //at least 1 lower case letter
 //                    "(?=.*[A-Z])" +                   //at least 1 upper case letter
 //                    //"(?=.*[a-zA-Z])" +             //any letter
@@ -101,6 +102,9 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_new_user);
+
+        ORIGIN = getIntent().getStringExtra("ORIGIN");
+
 
         viewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
@@ -165,7 +169,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     public void onBackPressed() {
         cancelWarningMessage(null);
     }
-
 
 
     public void showPass(View view) {
@@ -245,13 +248,14 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     // the choosePattern methos public because we want to make changes here from Setting
     public void choosePattern(View view) {
         Intent intent = new Intent(this, PatternLockView_Activity.class);
-        intent.putExtra("EXTRA_ORIGIN","NewUser_Activity");
+        intent.putExtra("EXTRA_ORIGIN", "NewUser_Activity");
         startActivityForResult(intent, 1);
     }
 
     // the choseSecurityLevel method public because we want to make changes here from Setting
     public void chooseSecurityLevel(View view) {
         Intent intent = new Intent(this, SecurityLevel_Activity.class);
+        intent.putExtra("ORIGIN", ORIGIN);
         startActivityForResult(intent, 2);
     }
 
@@ -300,9 +304,9 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         try {
             encryptedEmail = cryptography.encrypt(CRYPTO_KEY);
             encryptedPattern = cryptography.encryptWithKey(CRYPTO_KEY, returnedPattern);
-            encryptedUserName = cryptography.encryptWithKey(CRYPTO_KEY,firstNameUser);
+            encryptedUserName = cryptography.encryptWithKey(CRYPTO_KEY, firstNameUser);
             encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, masterPasswordUser);
-//            encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);
+//            encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);      //  not encrypted
             encryptedLastName = cryptography.encryptWithKey(CRYPTO_KEY, lastNameUser);
             encryptedDateOfBirth = cryptography.encryptWithKey(CRYPTO_KEY, dateOfBirthUser);
             encryptedOptionalQuestion = cryptography.encryptWithKey(CRYPTO_KEY, optionalQuestionUser);
@@ -383,13 +387,19 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             if (resultCode == Activity.RESULT_OK) {
                 returnedSecurityLevel = returnedIntent.getStringExtra("SECURITY_LEVEL");
                 //Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_SHORT).show();
-                Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
-                if (returnedSecurityLevel.equals("1")) {
-                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));
-                } else if (returnedSecurityLevel.equals("2")) {
-                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level2_logo));
-                } else if (returnedSecurityLevel.equals("3")) {
-                    findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level3_logo));
+                if (returnedSecurityLevel == null) {
+                    // didn't choose pattern!
+                    returnedSecurityLevel = "2";
+                    Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
+                } else {
+                    Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
+                    if (returnedSecurityLevel.equals("1")) {
+                        findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));
+                    } else if (returnedSecurityLevel.equals("2")) {
+                        findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level2_logo));
+                    } else if (returnedSecurityLevel.equals("3")) {
+                        findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level3_logo));
+                    }
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -431,9 +441,9 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             return false;
         } else if (usernameInput.length() > 15) {
             return false;
-        } else if (usernameInput.contains( " " )){
+        } else if (usernameInput.contains(" ")) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }

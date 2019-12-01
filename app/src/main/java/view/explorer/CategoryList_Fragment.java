@@ -39,6 +39,8 @@ import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
 
 public class CategoryList_Fragment extends Fragment implements View.OnClickListener {
+
+    // mainScreenActivity shows the categotyListFragment
     //-----------------//
     private String CRYPTO_KEY;
     private String pattern;

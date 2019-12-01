@@ -110,7 +110,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         }
 
         @Override
-        public void onClick(View view) {
+            public void onClick(View view) {
             onRecordListener.onRecordClick(getAdapterPosition(), records);
         }
     }

@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         signup.startAnimation(animation3);
         mediaPlayer.start();
         Intent intent = new Intent(this, NewUser_Activity.class);
+        intent.putExtra("ORIGIN",ORIGIN);
         this.startActivity(intent);
         overridePendingTransition(0, 0);
     }
@@ -139,9 +140,8 @@ public class MainActivity extends AppCompatActivity {
                   //  CurrentUser.getInstance(user);
                     //Log.d("CurrentUserTest","Current UserMail is: "+ CurrentUser.getInstance().getEmail());
 
-
-
-                } catch (Exception e) {
+                } catch (Exception e) { // user not found!
+                    Log.d("userCheckIfFound", "entered catch");
                     e.printStackTrace();
                 }
                 // ------------------ //
@@ -171,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (flag == 1) {
+                    flag = 0;               // maing the flag 0 again for the case
+                                            // if the user will come back from the app to the MainActivity, and re-enter user.
                     Intent intent = new Intent();
                     CRYPTO_KEY = MainActivity.this.email_EditText.getText().toString();
                     Log.d("patternCheck",pattern);

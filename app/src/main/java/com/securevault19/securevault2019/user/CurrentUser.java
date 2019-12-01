@@ -23,7 +23,7 @@ public class CurrentUser {
     public static synchronized CurrentUser getInstance(User user){
         // currentUser = null is for the moment when you entered with one user, and exited, and entered with another user.
         // so the currentUser make it null and put the new user in to the currentUser.
-        currentUser = null;
+      currentUser = null;
         if(currentUser == null)
             currentUser = new CurrentUser(user);
         return currentUser;
