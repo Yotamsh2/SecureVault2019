@@ -83,6 +83,7 @@
     <string name="Answer">Optional Answer </string>
     <string name="dateOfBirth">Date of Birth</string>
     <string name="enterPatternAgain">Plese enter your Pattern again</string>
+    <string name="myProfile">My profile</string>
     <string-array name="typesOfRecord">
         <item><![CDATA[Website & Email]]></item>
         <item>Social Media</item>

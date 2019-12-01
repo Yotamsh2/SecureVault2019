@@ -68,7 +68,7 @@ public class PatternLockView_Activity extends AppCompatActivity {
             Log.d("patternCheck", "filled PatternTextView");
             patternTextView.setText(getString(R.string.Pattern));
         }
-        // https://stackoverflow.com/questions/10407159/how-to-manage-startactivityforresult-on-android
+
 
         final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.button);
 

@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,6 +47,7 @@ import cryptography.Cryptography;
 import local_database.DatabaseClient;
 import view.explorer.PatternLockView_Activity;
 import view.preferences.SecurityLevel_Activity;
+import view_model.records.Record_ViewModel;
 import view_model.records.User_ViewModel;
 
 @SuppressLint("Registered")
@@ -65,7 +68,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     private String optionalAnswerUser;
     private Cryptography cryptography;
     private EditText calendarBtn;
-
+    private int updateUserMode = 0;
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +                        //at least 1 digit
@@ -89,10 +92,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     private Typeface myFont;
     private EditText password_EditText, userName_EditText, email_EditText, verifyPassword_EditText;
     private EditText lastName_EditText, dateOfRegistration_EditText, optionalQuestion_EditText, optionalAnswer_EditText;
-
+    private ImageButton securityLevelBtn;
     private LinearLayout userName, password, email;
     private String encryptedPassword, encryptedUserName, encryptedEmail, encryptedPattern, encryptedSecurityLevel, encryptedLastName,
             encryptedDateOfBirth, encryptedOptionalQuestion, encryptedOptionalAnswer;
+    private String decryptedPassword, decryptedUserName, decryptedEmail, decryptedPattern, decryptedLastName, decryptedDateOfBirth, decryptedOptionalQuestion, decryptedOptionalAnswer;
     private User user = null;
     private ImageButton showVerPass, hideVerPass;
     private ProgressBar progressBar;
@@ -102,15 +106,18 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     protected void onCreate(Bundle saveBtndInstanceState) {
         super.onCreate(saveBtndInstanceState);
         setContentView(R.layout.activity_new_user);
+        viewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
         ORIGIN = getIntent().getStringExtra("ORIGIN");
-
+        cryptography = new Cryptography();
 
         viewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
+
 
         mediaPlayer = MediaPlayer.create(this, R.raw.button);
         progressBar = findViewById(R.id.progressBar);
         logo = findViewById(R.id.logo);
+        securityLevelBtn = findViewById(R.id.securityLevelBtn);
         saveBtn = findViewById(R.id.saveBtn);
         cancelBtn = findViewById(R.id.cancelBtn);
         showPass = findViewById(R.id.showPass);
@@ -146,6 +153,15 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         //////////////// for testing only ///////////////////////
 //        email_EditText.setText("securevault2019@gmail.com");
 //        password_EditText.setText("111222333");
+        Log.d("profielUserTest", "origin " + ORIGIN);
+        if (ORIGIN.equals("MainScreen")) {
+            email_EditText.setClickable(false);
+            email_EditText.setFocusable(false);
+            Log.d("profielUserTest", "origin " + ORIGIN);
+            displayUserInfo();
+            setSecureLevelIcon();
+        }
+
 
         password_EditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -170,6 +186,45 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         cancelWarningMessage(null);
     }
 
+    public void displayUserInfo() {
+        securityLevelBtn.setClickable(false);
+        activityTitle.setText(getString(R.string.myProfile));
+        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
+        Log.d("profielUserTest", "CRYPTO_KEY -> " + CRYPTO_KEY);
+        try {
+            Log.d("profielUserTest", "entered try ");
+            email_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getEmail(), CRYPTO_KEY));
+            userName_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getFirstName(), CRYPTO_KEY));
+            lastName_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getLastName(), CRYPTO_KEY));
+            password_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getMasterPassword(), CRYPTO_KEY));
+            optionalQuestion_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getOptionalQuestion(), CRYPTO_KEY));
+            optionalAnswer_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getOptionalAnswer(), CRYPTO_KEY));
+            Log.d("profielUserTest", "finished try ");
+        } catch (Exception e) {
+            Log.d("profielUserTest", "entered catch ");
+            e.printStackTrace();
+        }
+
+        try {
+            Log.d("returnedPattern1", "entered try ");
+            returnedPattern = cryptography.decrypt(CurrentUser.getInstance().getPatternLock(), CRYPTO_KEY);
+            Log.d("returnedPattern1", "finished try ");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public void setSecureLevelIcon() {
+        String secureLevel = CurrentUser.getInstance().getSecureLevel();
+        if (secureLevel.equals("1")) {
+            findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));
+        } else if (secureLevel.equals("3")) {
+            findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level3_logo));
+        } else
+            findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level2_logo));
+    }
 
     public void showPass(View view) {
         if (view == showPass || view == hidePass) {
@@ -263,7 +318,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     public void createNewAccount(View view) {               // onClick func
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
-
         emailUser = email_EditText.getText().toString();
         firstNameUser = userName_EditText.getText().toString();
         lastNameUser = lastName_EditText.getText().toString();
@@ -283,13 +337,27 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         }
 
         if (returnedPattern == null) {
-            // checking if the user entered Pattern
-            // if not, make a Toast to remind him.
-            Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_SHORT).show();
-            Log.d("returnedPattern", "chosedPattern ");
+            if (ORIGIN.equals("MainScreen")) {
+                try {
+                    Log.d("returnedPattern1", "entered try ");
+                    returnedPattern = cryptography.decrypt(CurrentUser.getInstance().getPatternLock(), CRYPTO_KEY);
+                    Log.d("returnedPattern1", "finished try ");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else {// checking if the user entered Pattern
+                // if not, make a Toast to remind him.
+                Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_SHORT).show();
+                Log.d("returnedPattern", "chosedPattern ");
+            }
+
         } else {
             if (returnedSecurityLevel == null) {
-                returnedSecurityLevel = "2";
+                if (ORIGIN.equals("MainScreen")) {
+                    returnedSecurityLevel = CurrentUser.getInstance().getSecureLevel();
+                } else
+                    returnedSecurityLevel = "2";
             }
             Log.d("returnedSecurityLevel", returnedSecurityLevel);
             saveUserDetails(view);
@@ -300,13 +368,13 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
     @SuppressLint("StaticFieldLeak")            //preventing memory leak
     protected void saveUserDetails(View view) {
 
-        cryptography = new Cryptography();
+
         try {
             encryptedEmail = cryptography.encrypt(CRYPTO_KEY);
             encryptedPattern = cryptography.encryptWithKey(CRYPTO_KEY, returnedPattern);
             encryptedUserName = cryptography.encryptWithKey(CRYPTO_KEY, firstNameUser);
             encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, masterPasswordUser);
-//            encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);      //  not encrypted
+//          encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);      //  not encrypted
             encryptedLastName = cryptography.encryptWithKey(CRYPTO_KEY, lastNameUser);
             encryptedDateOfBirth = cryptography.encryptWithKey(CRYPTO_KEY, dateOfBirthUser);
             encryptedOptionalQuestion = cryptography.encryptWithKey(CRYPTO_KEY, optionalQuestionUser);
@@ -330,16 +398,24 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
                     user = new User(encryptedUserName, encryptedLastName, encryptedDateOfBirth, encryptedEmail, encryptedOptionalQuestion,
                             encryptedOptionalAnswer, encryptedPassword, returnedSecurityLevel, encryptedPattern);
-                    try {
-                        DatabaseClient.getInstance(getApplication()).getRecordDatabase2().daoUser().insert(user);
-                        //viewModel.insert(user);
-                        Log.d("enteredCatch", "enteredTRY");
-                        flag = 1;
-                    } catch (Exception e) {
-                        // if the email all ready exists, we will get Exception and flag will be  flag == 0;
-                        Log.d("enteredCatch", "enteredCatch");
-                        e.printStackTrace();
-                    }
+                    if (ORIGIN.equals("MainScreen")) {
+                        Log.d("update1","before update1");
+                        viewModel.update(user);
+                        Log.d("update1","after update1");
+                        CurrentUser.getInstance(user);
+                        flag = 2;
+                    } else
+                        try {  Log.d("enteredCatch", "enteredTRY123");
+                            //viewModel.insert(user);       // dosent go to catch if fails
+                            DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2().daoUser().insert(user);
+                            Log.d("enteredCatch", "enteredTRY");
+                            flag = 1;
+                        } catch (Exception e) {
+                            // if the email all ready exists, we will get Exception and flag will be  flag == 0;
+                            Log.d("enteredCatch", "enteredCatch");
+                            e.printStackTrace();
+                        }
+
                     return null;
                 }
 
@@ -348,6 +424,9 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                     super.onPostExecute(aVoid);
                     if (flag == 1) {
                         Toast.makeText(getApplicationContext(), "" + emailUser + " Created!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else if (flag == 2) {
+                        Toast.makeText(getApplicationContext(), "" + emailUser + " Updated!", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "Email all ready exists", Toast.LENGTH_SHORT).show();

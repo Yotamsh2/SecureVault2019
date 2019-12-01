@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.setClass(getApplicationContext(), MainScreen_Activity.class);
 
                     password.setText("");
+                    Log.d("profielUserTest","userFirstName " + user.getFirstName());
                     startActivity(intent);
                     overridePendingTransition(0, 0);
 

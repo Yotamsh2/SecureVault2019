@@ -28,12 +28,13 @@ public class MainScreen_Activity extends AppCompatActivity implements Navigation
     private String ORIGIN= "MainScreen";
     private DrawerLayout drawer;
     private NavigationView navigationView;
-
+private String CRYPTO_KEY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
+        CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
         Log.d("CurrentUserCheck", CurrentUser.getInstance().getEmail());
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,6 +68,8 @@ public class MainScreen_Activity extends AppCompatActivity implements Navigation
                 break;
             case R.id.profile:
                 Intent intent3 = new Intent(getApplicationContext(), NewUser_Activity.class);
+                intent3.putExtra("ORIGIN",ORIGIN);
+                intent3.putExtra("CRYPTO_KEY",CRYPTO_KEY);
                 startActivity(intent3);
                 overridePendingTransition(0, 0);
                 break;
