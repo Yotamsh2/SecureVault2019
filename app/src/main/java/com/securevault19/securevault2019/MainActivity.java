@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 
 import cryptography.Cryptography;
 import view.entrance.NewUser_Activity;
-import view.explorer.CategoryList_Activity;
 import view.explorer.MainScreen_Activity;
 import view.explorer.PatternLockView_Activity;
 import view_model.records.User_ViewModel;
@@ -39,11 +38,10 @@ public class MainActivity extends AppCompatActivity {
     private String ORIGIN = "MainActivity";
     private String pattern;
     private int counter;
-    private Button signup,buttonSignIn,firebaseTest;
+    private Button signup, buttonSignIn, firebaseTest;
     private Animation animation2, animation3;
     private MediaPlayer mediaPlayer;
     private EditText email_EditText, password;
-    // added for testing //
     private User user;
     private int flag = 0;
     private Cryptography cryptography = new Cryptography();
@@ -52,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[0-9])" +                        //at least 1 digit
-                    "(?=\\S+$)" );                        //no white spaces
+                    "(?=\\S+$)");                        //no white spaces
 //                    "(?=.*[a-z])" +                    //at least 1 lower case letter
 //                    "(?=.*[A-Z])" +                   //at least 1 upper case letter
 //                    //"(?=.*[a-zA-Z])" +             //any letter
@@ -78,11 +76,6 @@ public class MainActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
 
-        //////////////// for testing only ///////////////////////
-//        email_EditText.setText("securevault2019@gmail.com");
-//        password.setText("111222333");
-
-
         //Animation Sets
         Animation animation1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.zoomin);
         animation2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.bottomtotop);
@@ -96,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         signup.startAnimation(animation3);
         mediaPlayer.start();
         Intent intent = new Intent(this, NewUser_Activity.class);
-        intent.putExtra("ORIGIN",ORIGIN);
+        intent.putExtra("ORIGIN", ORIGIN);
         this.startActivity(intent);
         overridePendingTransition(0, 0);
     }
@@ -113,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
         mediaPlayer.start();
         final String email = this.email_EditText.getText().toString().trim();
         final String masterPassword = password.getText().toString();
-        Log.e("check2", " " + email + " " + masterPassword);
-        //user =  new User("Test", null, null, null, null, null, null, null);
-        Log.e("test2", "" + flag);
-
 
         new AsyncTask<User, Void, Void>() {
 
@@ -126,43 +115,22 @@ public class MainActivity extends AppCompatActivity {
 
                 // searching for user //
                 try {
-                    Log.d("emailTest","user: " + cryptography.encrypt(email) + " password: " +
-                            cryptography.encryptWithKey(email, masterPassword) );
+                    Log.d("emailTest", "user: " + cryptography.encrypt(email) + " password: " +
+                            cryptography.encryptWithKey(email, masterPassword));
                     // we are encrypting the text that the user entered and searching it in the DB
                     user = viewModel.LogInConfirmation(cryptography.encrypt(email), cryptography.encryptWithKey(email, masterPassword));
                     // getting the encrypted pattern!
                     pattern = user.getPatternLock();
                     flag = 1; // if user found.
-                    Log.d("patternLockFromUser ",pattern);
-                    Log.d("emailTest","user -" + cryptography.encrypt(email) + " password " +
-                            cryptography.encryptWithKey(email, masterPassword) );
-                   // new CurrentUser(cryptography.decrypt(user.getFirstName(),email));
-                  //  CurrentUser.getInstance(user);
-                    //Log.d("CurrentUserTest","Current UserMail is: "+ CurrentUser.getInstance().getEmail());
+                    Log.d("patternLockFromUser ", pattern);
+                    Log.d("emailTest", "user -" + cryptography.encrypt(email) + " password " +
+                            cryptography.encryptWithKey(email, masterPassword));
 
                 } catch (Exception e) { // user not found!
                     Log.d("userCheckIfFound", "entered catch");
                     e.printStackTrace();
                 }
                 // ------------------ //
-
-
-
-                // can take this if out
-                // if user != null so we found match and should procced to the next Intent.
-//                if (user != null) {  // if user found.
-//                    try {
-//                        if ((firstName.equals(cryptography.decrypt(user.getFirstName(), firstName))) && (masterPassword.equals(cryptography.decrypt(user.getMasterPassword(), firstName)))) {
-//                            flag = 1;
-//                        } else {
-//                            // one of the params are not correct
-//                            //flag = 2;
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                } else            // user not found, flag = 0;
-//                    Log.e("phase5", "User = null ");
                 return null;
             }
 
@@ -171,26 +139,24 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 if (flag == 1) {
-                    flag = 0;               // maing the flag 0 again for the case
+                    flag = 0;               // making the flag 0 again for the case
                                             // if the user will come back from the app to the MainActivity, and re-enter user.
                     Intent intent = new Intent();
                     CRYPTO_KEY = MainActivity.this.email_EditText.getText().toString();
-                    Log.d("patternCheck",pattern);
-                    intent.putExtra("PATTERN",pattern);
+                    intent.putExtra("PATTERN", pattern);
                     intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
-                    intent.putExtra("ORIGIN",ORIGIN);
+                    intent.putExtra("ORIGIN", ORIGIN);
                     CurrentUser.getInstance(user);
 
                     int userSecurityLevel = Integer.parseInt(user.getSecureLevel());
 
-                    //if security level is higher than 1, open PatternLock Activity
-                    if(userSecurityLevel > 1)
-                        intent.setClass(getApplicationContext(),PatternLockView_Activity.class);
-                    else         //if security level is at the lowest level(level 1) -> jump straight to MainScreen Activity
+                                    //if security level is higher than 1, open PatternLock Activity
+                    if (userSecurityLevel > 1)
+                        intent.setClass(getApplicationContext(), PatternLockView_Activity.class);
+                    else            //if security level is at the lowest level(level 1) -> jump straight to MainScreen Activity
                         intent.setClass(getApplicationContext(), MainScreen_Activity.class);
 
                     password.setText("");
-                    Log.d("profielUserTest","userFirstName " + user.getFirstName());
                     startActivity(intent);
                     overridePendingTransition(0, 0);
 

@@ -20,33 +20,24 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.record.RecordAdapter;
 import com.securevault19.securevault2019.user.CurrentUser;
-import com.securevault19.securevault2019.user.User;
-
 import java.io.Serializable;
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-
 import cryptography.Cryptography;
-import view.explorer.CategoryList_Activity;
 import view_model.records.Record_ViewModel;
 import view_model.records.User_ViewModel;
-
 import static com.securevault19.securevault2019.R.raw.button;
 import static view.explorer.CategoryList_Activity.EXTRA_FOLDER;
 import static view.explorer.CategoryList_Activity.EXTRA_SEARCH;
@@ -108,10 +99,8 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         final Animation animation2 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.bottomtotop);
         animation3 = AnimationUtils.loadAnimation(RecordRecycler_Activity.this, R.anim.buttonpush_anim);
 
-        //////////////////////////////////////////////////////////
+  // passing the Key from activity to activity.
         CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
-        Log.d("userTest2Get", "" + CRYPTO_KEY);
-        //////////////////////////////////////////////////////////
 
         recycler();
 
@@ -178,14 +167,12 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
     @SuppressLint({"StaticFieldLeak", "RestrictedApi"})
     public void recycler() {
 
-       // CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
+
         Log.d("CRYPTO_KEYTest", "CRYPTO KEY: " + CRYPTO_KEY);
         final RecordAdapter recordAdapter = new RecordAdapter((ArrayList<Record>) records, this, CRYPTO_KEY);
         recyclerView.setAdapter(recordAdapter);
-
         recordViewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
         userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
-        //showCurrentCategory(recordAdapter);
         //getting the String to know which Category to show
         Bundle extras = getIntent().getExtras();
 
@@ -211,21 +198,14 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                         }
                     });
                 } else if (nameOfFolder.equals("Search")) {
-                    Log.d("getSearchRecords", "entered if of search");
                     search_layout.setVisibility(View.VISIBLE);
                     search_bar.setText(searchString);
                     button_add_record.setVisibility(View.GONE);
-                    Log.d("encryptedSearchString", "the encryptedSearchString search bar " + searchString);
-                    Log.d("encryptedSearchString", "the encryptedSearchString search bar " + encryptedSearchString);
-                    Log.d("encryptedSearchString", "after encryption " + encryptedSearchString);
-
                     recordViewModel.getSearchRecords(encryptedSearchString,CurrentUser.getInstance().getEmail()).observe(this, new Observer<List<Record>>() {
                         @Override
                         public void onChanged(List<Record> records) {
                             recordAdapter.setRecords(records);
-                            Log.d("notifyDataSetChanged", "before notifying");
                             recordAdapter.notifyDataSetChanged();
-                            Log.d("notifyDataSetChanged", "after notifying");
                             activityTitle.setText(nameOfFolder);
                         }
                     });
@@ -266,7 +246,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
                 Intent intent = new Intent(getApplicationContext(), AddNewRecord_Activity.class);
                 intent.putExtra(EXTRA_FOLDER, nameOfFolder); //to know which folder we came from
                 intent.putExtra(EXTRA_ORIGIN, "buttonAddRecord"); //EXTRA_ORIGIN gets the current position in the code
-                Log.d("userTest3Send", "" + CRYPTO_KEY);
                 intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
                 startActivityForResult(intent, ADD_RECORD_REQUEST);
                 overridePendingTransition(0, 0);
@@ -284,6 +263,7 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
 
     //Creating new Record
+    @SuppressLint("StaticFieldLeak")                // preventing memory leak
     @Override
     public void onRecordClick(final int position, final List<Record> records) {   // clicked or exiting record
 
@@ -344,7 +324,6 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
 
 
     public void search(View view) {
-        Log.d("cryptoTest1","old searchString " + searchString);
         timer.cancel();
         timer.start();
         mediaPlayer.start();
@@ -356,21 +335,13 @@ public class RecordRecycler_Activity extends AppCompatActivity implements Record
         } else {
             searchString = search_bar.getText().toString();
         }
-
-        Log.d("cryptoTest1","new searchString " + searchString);
         Intent intent = new Intent(this, RecordRecycler_Activity.class);
-        Log.d("recordTestActivity","searchString " + searchString );
-        Log.d("recordTestActivity","encryptedSearchString " + encryptedSearchString);
-
-        Log.d("cryptoTest1","old enryption " + encryptedSearchString);
-        Log.d("recordTestActivity","CRYPTO_KEY " + CRYPTO_KEY);
         try {
             // encrypting the new searchString that entered
             encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString.trim());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("cryptoTest1","new enryption " + encryptedSearchString);
         intent.putExtra(EXTRA_SEARCH, searchString.trim());
         intent.putExtra(EXTRA_FOLDER, "Search");
         intent.putExtra("encryptedSearchString",encryptedSearchString);

@@ -1,8 +1,6 @@
 package view_model.records;
 
 import android.app.Application;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,27 +21,35 @@ public class Record_ViewModel extends AndroidViewModel {
     }
 
     public void insert(Record record) {
-        repository.insert(record);     }
+        repository.insert(record);
+    }
 
     public void update(Record record) {
-        repository.update(record);     }
+        repository.update(record);
+    }
 
     public void delete(Record record) {
-        repository.delete(record);     }
+        repository.delete(record);
+    }
 
     public LiveData<List<Record>> getAllRecords(String userEmail) {
-        return repository.getAllRecords(userEmail);    }
+        return repository.getAllRecords(userEmail);
+    }
 
-    public LiveData<List<Record>> getAllFolder(String nameOfFolder,String userEmail) {
-        return repository.getAllFolder(nameOfFolder,userEmail);    }
+    public LiveData<List<Record>> getAllFolder(String nameOfFolder, String userEmail) {
+        return repository.getAllFolder(nameOfFolder, userEmail);
+    }
 
-    public LiveData<List<Record>> getSearchRecords(String searchString,String userEmail) {
-        return repository.getSearchRecords(searchString,userEmail);    }
+    public LiveData<List<Record>> getSearchRecords(String searchString, String userEmail) {
+        return repository.getSearchRecords(searchString, userEmail);
+    }
 
     public Record getRecordDetails(int recordID) {
-        return repository.getRecordDetails(recordID);    }
+        return repository.getRecordDetails(recordID);
+    }
 
     public LiveData<List<Record>> getFavoritesRecords(String userEmail) {
-        return repository.getFavoritesRecords(userEmail);    }
+        return repository.getFavoritesRecords(userEmail);
+    }
 
 }

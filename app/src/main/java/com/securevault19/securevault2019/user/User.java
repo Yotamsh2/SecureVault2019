@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "user_table")
 public class User {
 
-    //    private int ID;
+
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "email")private String email = "not specified";                // email is primary key
@@ -34,8 +34,6 @@ public class User {
         this.patternLock = patternLock;
 
     }
-
-   // public User(){}
 
 
     //Setters
@@ -75,9 +73,6 @@ public class User {
 
     //Getters
 
-//    public int getID() {
-//        return ID;
-//    }
 
     public String getFirstName() {
         return firstName;

@@ -36,22 +36,18 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.record.Record;
 import com.securevault19.securevault2019.user.CurrentUser;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import cryptography.Cryptography;
 import view.explorer.PatternLockView_Activity;
 import view_model.records.Record_ViewModel;
@@ -109,13 +105,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     private TextView folder_name;
 
     private Spinner category_Spinner, typeOfRecord_Spinner;
-    // for simplisity and exampling:
+    // for simplicity and exampling:
     private EditText category_EditText, title_EditText, username_EditText, password_EditText, website_EditText,
             email_EditText, accountNumber_EditText, IBAN_EditText, bankNumber_EditText, bankAddress_EditText,
             cardNumber_EditText, cvv_EditText, cardExpiringMonth_EditText, cardExpiringYear_EditText, publicKey_EditText,
             privateKey_EditText, walletGenerationSeed_EditText, licenceNumber_EditText, issuancePlace_EditText, passportNumber_EditText;
     private TextView licenceExpiringDate_title;
-    //String outputString;
+
 
     private LinearLayout category, typeOfRecord;
     private LinearLayout registerDetails;
@@ -141,11 +137,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         setContentView(R.layout.activity_add_new_record);
         CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
         nameOfFolder = getIntent().getStringExtra(EXTRA_FOLDER);
-        //Toast.makeText(getApplicationContext(), "folder Name clicked " + nameOfFolder, Toast.LENGTH_SHORT).show();
-        Log.d("userCheck", "---" + CRYPTO_KEY);
 
-        //userNameRecord = getIntent().getStringExtra("userNameRecord");
-        //Log.d("userNameRecord", "the userNameRecord passed => " + userNameRecord);
 
         cryptography = new Cryptography();
         // getting the object ( Record ) from RecordRecycler_activity line 326
@@ -192,7 +184,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         username_EditText = findViewById(R.id.username_EditText);
         password_EditText = findViewById(R.id.password_EditText);
         website_EditText = findViewById(R.id.website_EditText);
-        //website_EditText.setText("https://");
         email_EditText = findViewById(R.id.email_EditText);
         accountNumber_EditText = findViewById(R.id.accountNumber_EditText);
         IBAN_EditText = findViewById(R.id.iban_EditText);
@@ -278,21 +269,21 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                                     DisplayRecordDetails(currentRecord);
 
                                     break;
-                                case "Social Media":                // social media && website & email && online shopping all the same
+                                case "Social Media":
                                     typeOfRecord_Spinner.setSelection(1);
                                     category_Spinner.setSelection(1);
                                     DisplayRecordDetails(currentRecord);
 
                                     break;
 
-                                case "Website & Email":             // social media && website & email && online shopping all the same
+                                case "Website & Email":
                                     typeOfRecord_Spinner.setSelection(0);
                                     category_Spinner.setSelection(0);
                                     DisplayRecordDetails(currentRecord);
 
                                     break;
 
-                                case "Online Shopping":             // social media && website & email && online shopping all the same
+                                case "Online Shopping":
                                     typeOfRecord_Spinner.setSelection(2);
                                     category_Spinner.setSelection(2);
                                     DisplayRecordDetails(currentRecord);
@@ -445,7 +436,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     public void fieldsVisibility(String type) {
         switch (type) {
@@ -531,6 +522,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     }
 
     void DisplayRecordDetails(Record record) {
+// decrypting every thing and display every thing, but we will see only what is open for us.
 
         try {
             title_EditText.setText(cryptography.decrypt(record.getTitle().trim(), CRYPTO_KEY));
@@ -630,8 +622,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 //try for Encryption
                 protected Void doInBackground(Void... voids) {
                     try {
-                        // encrypthing the password and the username(username for test)
-                        //encryptedUsername = cryptography.encrypt(username_EditText.getText().toString());
+                     // encrypt everything even if the field is empty and invisible to us.
+                        // but that way we can user this func with every record!
                         encryptedTitle = cryptography.encryptWithKey(CRYPTO_KEY, title);
                         encryptedUsername = cryptography.encryptWithKey(CRYPTO_KEY, username);
                         encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, password);
@@ -661,10 +653,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         e.printStackTrace();
                     }
 
-
-                    // PAY ATTENTION!                                //
-                    // the encryption we using is EncryptWithKey();!//
-                    // the KEY will be the Email                 //
 
                     // creating Record to insert the TextFields and insert to DB
 
@@ -710,7 +698,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     record.setIcon(drawableName);
 
 
-                    // inserting record to DB
+                    // updating or inserting record to DB
                     if (origin.equals("onRecordClick")) {
                         viewModel.update(record);
                     } else {
@@ -723,8 +711,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
                     Toast.makeText(getApplicationContext(), "Data saved", Toast.LENGTH_SHORT).show();
-// after the save button is clicked and finished all his jobs, before exiting completely,
-// finishing the activity and open 'new' (refreshed ) RecyclerView with Website Category
+                    // after the save button is clicked and finished all his jobs, before exiting completely,
+                    // finishing the activity and open 'new' (refreshed ) RecyclerView
 
                     finish();
                     overridePendingTransition(0, 0);
@@ -921,54 +909,43 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
     public void editForm(View view) {                           // The edit circle
         mediaPlayer.start();
         Intent intent = new Intent(this, PatternLockView_Activity.class);
-//        Log.d("patternCheck1","secure level " + userSecurityLevel);
+        userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());     // currentUser is copy of user and not pointer
         //if (userSecurityLevel > 2) {  //if SecurityLevel is 3(the highest) then ask the user to draw the Pattern again for verification.
-        userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
-//        Log.d("resultFromRecord","-> "+ "userSecurityLevel " + userSecurityLevel);
-//        Log.d("resultFromRecord","-> "+ "before if userSecureLevel > 2 ");
-        if (userSecurityLevel > 2) {         // currentUser is copy of user and not pointer
-//            Log.d("resultFromRecord","-> "+ "inside the if userSecureLevel > 2 ");
+        if (userSecurityLevel > 2) {
             intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
             intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
-//            Log.d("patternCheck1", "before startActivityForResult");
             startActivityForResult(intent, 3);
-//            Log.d("patternCheck1", "after startActivityForResult");
-            //setEditMode(true);
         } else
             setEditMode(true);
     }
 
-
+// waiting for the result from the patternLock
+    // if the parrern Correct, you can edit,
+    // else you cennot edit
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent returnIntentToRecord) {
         super.onActivityResult(requestCode, resultCode, returnIntentToRecord);
-//             Log.d("patternCheck1","entered the if ");
         if (returnIntentToRecord == null) {
-//                 Log.d("returnIntentToRecord", " returnIntentToRecord is null? ");
             setEditMode(false);
             return;
         }
         if (requestCode == 3) {
             resultFromRecordEditForm = returnIntentToRecord.getStringExtra("recordEditForm");
-//                 Log.d("resultFromRecord","resultFromRecordEditForm  "+ resultFromRecordEditForm);
             if (resultCode == Activity.RESULT_OK) {
                 if (resultFromRecordEditForm.equals("1")) {
+                    // can edit
                     setEditMode(true);
                 } else {
-//                         Log.d("resultFromRecord","resultFromRecordEditForm1  "+ resultFromRecordEditForm);
+                    // cannot edit
                     setEditMode(false);
                 }
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-//                     Log.d("resultFromRecord","resultFromRecordEditForm2  "+ resultFromRecordEditForm);
+                // cannot edit
                 setEditMode(false);
             }
         }
-//         if(resultFromRecordEditForm.equals("0")){
-//             Log.d("patternCheck1","entered else if ");
-//             setEditMode(false);
-//         }
     }
 
     //Finish activity
@@ -977,21 +954,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         overridePendingTransition(0, 0);
     }
 
-    //NOT IN USE
-    public void showCategory(View view) {
-        mediaPlayer.start();
-        if (showCategory.getVisibility() == View.VISIBLE) {
-            category.setVisibility(View.VISIBLE);
-            showCategory.setVisibility(View.GONE);
-            typeOfRecord.setVisibility(View.GONE);
-            showTypeOfRecord.setVisibility(View.VISIBLE);
-        } else {
-            category.setVisibility(View.GONE);
-            showCategory.setVisibility(View.VISIBLE);
-            typeOfRecord.setVisibility(View.VISIBLE);
-            showTypeOfRecord.setVisibility(View.GONE);
-        }
-    }
+
 
     //Copy the password to clipboard
     public void copyPass(View view) {
@@ -1005,7 +968,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
             public void onTick(long millisUntilFinished) {
             }
-
+// cleaning the clipBoard after 60 sec.
             @RequiresApi(api = Build.VERSION_CODES.P)
             public void onFinish() {
                 ClipboardManager mCbm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
@@ -1048,25 +1011,19 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     public void addChooseIcon(View view) {  //Opens the option to choose icon & shows the current icon of the Record.
         chooseIcon.setVisibility(View.VISIBLE);
-
-//        new getDrawableIDAsyncTask(currentRecordDrawable, drawableResources);
         try {
             drawableName = currentRecord.getIcon();
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.d("icon", "drawableName: " + drawableName);
-////        chooseIcon.setVisibility(View.VISIBLE);
         addChooseIconBtn.setVisibility(View.GONE);
-
-
         try {
             Drawable drawable = getDrawable(currentRecordDrawabaleID);
             chooseIcon.setBackground(drawable);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         if (editForm.getVisibility() == View.VISIBLE) {
             listOfIcons.setVisibility(View.GONE);
         }
@@ -1171,13 +1128,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             }
             return null;
         }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            chooseIcon.setBackground(currentRecordDrawable);
-//            chooseIcon.setVisibility(View.VISIBLE);
-//        }
+
     }
 
     public class getDrawableIDAsyncTask extends AsyncTask<Void, Void, String> {

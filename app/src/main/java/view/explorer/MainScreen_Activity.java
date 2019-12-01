@@ -2,12 +2,9 @@ package view.explorer;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
@@ -15,12 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-
 import com.google.android.material.navigation.NavigationView;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
-
-import cryptography.Cryptography;
 import view.entrance.NewUser_Activity;
 import view.preferences.SecurityLevel_Activity;
 
@@ -55,17 +49,20 @@ private String CRYPTO_KEY;
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
+            // clicking on about
             case R.id.about:
                 Intent intent1 = new Intent(getApplicationContext(),Team_Activity.class);
                 startActivity(intent1);
                 overridePendingTransition(0, 0);
                 break;
+                // clicking on securityLevel
             case R.id.securityLevel:
                 Intent intent2 = new Intent(getApplicationContext(), SecurityLevel_Activity.class);
                 intent2.putExtra("ORIGIN",ORIGIN);
                 startActivity(intent2);
                 overridePendingTransition(0, 0);
                 break;
+                // clicking on profile
             case R.id.profile:
                 Intent intent3 = new Intent(getApplicationContext(), NewUser_Activity.class);
                 intent3.putExtra("ORIGIN",ORIGIN);
@@ -73,6 +70,7 @@ private String CRYPTO_KEY;
                 startActivity(intent3);
                 overridePendingTransition(0, 0);
                 break;
+                // clicking on sign out
             case R.id.log_out:
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Log out");

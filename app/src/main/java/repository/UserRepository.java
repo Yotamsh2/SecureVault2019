@@ -4,15 +4,10 @@ package repository;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-
 import com.securevault19.securevault2019.user.User;
-
 import java.util.List;
-
 import local_database.DatabaseClient;
 import local_database.RecordDatabase2;
 import local_database.dao.DaoUser;
@@ -92,13 +87,10 @@ public class UserRepository {
             this.daoUser = daoUser;
             this.currentUser = currentUser;
             this.secureLevel = secureLevel;
-            Log.d("secureLevel", "currentUser: " + currentUser);
         }
 
         @Override
         protected Void doInBackground(User... users) {
-            Log.d("secureLevel", "(doInBackground) currentUser: " + currentUser);
-
             daoUser.updateSecureLevel(secureLevel, currentUser);
             return null;
         }

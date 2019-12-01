@@ -9,7 +9,6 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,28 +22,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
-
 import cryptography.Cryptography;
-import view.records.AddNewRecord_Activity;
 import view.records.RecordRecycler_Activity;
 
 public class CategoryList_Fragment extends Fragment implements View.OnClickListener {
 
     // mainScreenActivity shows the categotyListFragment
-    //-----------------//
     private String CRYPTO_KEY;
     private String pattern;
-    //----------------//
     public static final String EXTRA_FOLDER =
             "com.securevault19.securevault2019.EXTRA_FOLDER";
     public static final String EXTRA_SEARCH =
@@ -82,22 +73,17 @@ public class CategoryList_Fragment extends Fragment implements View.OnClickListe
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-// ----------------------------------------------------------- //
-// drawing the user name from the log in activity ( the user is out KEY as encryptedWIthKey method.
+
 
         CRYPTO_KEY = getActivity().getIntent().getStringExtra("CRYPTO_KEY");
-
-        Log.d("userTest1Get", " " + CRYPTO_KEY);
         pattern = CurrentUser.getInstance().getPatternLock();
         cryptography = new Cryptography();
+        // welcomig the user
         try {
             firstName = cryptography.decrypt(CurrentUser.getInstance().getFirstName(), CRYPTO_KEY);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-// ----------------------------------------------------------- //
-
 
         v = getView();
         mediaPlayer = MediaPlayer.create(getActivity(), R.raw.button);
@@ -241,6 +227,7 @@ public class CategoryList_Fragment extends Fragment implements View.OnClickListe
     }
 
 
+    // sets the view as the name of the folder we choose
     public void goToFolderRecords(View view) {
         if (view == bankAccounts)
             nameOfFolder = "Bank Accounts";
@@ -272,12 +259,10 @@ public class CategoryList_Fragment extends Fragment implements View.OnClickListe
         view.startAnimation(animation3);
         Intent intent = new Intent(getActivity().getApplicationContext(), RecordRecycler_Activity.class);
         // pass extra the name of the folder that clicked
-        Log.d("userTest2Send",""+CRYPTO_KEY);
         intent.putExtra("CRYPTO_KEY",CRYPTO_KEY);
-        Log.d("userCheck", "!!!" + CRYPTO_KEY);
         intent.putExtra(EXTRA_FOLDER, nameOfFolder);
         this.startActivity(intent);
-//        startActivityForResult(intent, ADD_RECORD_REQUEST);
+
     }
 
     public void search(View view) {
@@ -289,15 +274,15 @@ public class CategoryList_Fragment extends Fragment implements View.OnClickListe
         if (search_bar.getText().toString().equals("")) {
             goToFolderRecords(allRecords);
         } else {
+            // searching the title that entered to the search bar.
+            // all the Database is encrypted so we encrypt the seachText and searching it encrypted
              searchString = search_bar.getText().toString();
               new AsyncTask<Void,Void,Void>(){
 
                  @Override
                  protected Void doInBackground(Void... voids) {
                      try {
-                         Log.d("encryptedSearchString", "before encryption");
                          encryptedSearchString = cryptography.encryptWithKey(CRYPTO_KEY,searchString.trim());
-                         Log.d("encryptedSearchString", "after encryption");
                      } catch (Exception e) {
                          e.printStackTrace();
                      }
@@ -321,7 +306,7 @@ public class CategoryList_Fragment extends Fragment implements View.OnClickListe
 
 
     public void openOptions(View view) {
-//        Intent intent = new Intent(this, SecurityLevel_Activity.class);
+
         Intent intent = new Intent(getActivity().getApplicationContext(), Team_Activity.class);
         this.startActivity(intent);
     }

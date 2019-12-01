@@ -2,21 +2,12 @@ package repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.Toast;
-
 import androidx.lifecycle.LiveData;
-
 import com.securevault19.securevault2019.record.Record;
-import com.securevault19.securevault2019.user.User;
-
 import java.util.List;
-
 import local_database.dao.DaoRecord;
-
 import local_database.DatabaseClient;
 import local_database.RecordDatabase2;
-import view.records.AddNewRecord_Activity;
-import view.records.RecordRecycler_Activity;
 
 public class RecordRepository {
 
@@ -25,7 +16,6 @@ public class RecordRepository {
         RecordDatabase2 database2 = DatabaseClient.getInstance(application).getRecordDatabase2();      // getting the singleton database
         DaoRecord = database2.daoRecord();
     }
-
 
     public void insert(Record record) {
         new InsertRecordAsyncTask(DaoRecord).execute(record);    }
@@ -56,11 +46,12 @@ public class RecordRepository {
     private static class InsertRecordAsyncTask extends AsyncTask<Record, Void, Void> {
         private DaoRecord daoRecord;
 
-
+        //Constructor because we cannot access the dao of the repository direcly.
+        // (because here it's a class by itself)
         private InsertRecordAsyncTask(DaoRecord daoRecord) {
             this.daoRecord = daoRecord;
-        } //Constructor because we cannot access the dao of the repository direcly.
-        // (because here it's a class by itself)
+        }
+
 
         @Override
         protected Void doInBackground(Record... records) {
@@ -72,11 +63,12 @@ public class RecordRepository {
     private static class UpdateRecordAsyncTask extends AsyncTask<Record, Void, Void> {
         private DaoRecord daoRecord;
 
-
+        //Constructor because we cannot access the dao of the repository direcly.
+        // (because here it's a class by itself)
         private UpdateRecordAsyncTask(DaoRecord daoRecord) {
             this.daoRecord = daoRecord;
-        } //Constructor because we cannot access the dao of the repository direcly.
-        // (because here it's a class by itself)
+        }
+
 
         @Override
         protected Void doInBackground(Record... records) {
@@ -88,11 +80,11 @@ public class RecordRepository {
     private static class DeleteRecordAsyncTask extends AsyncTask<Record, Void, Void> {
         private DaoRecord daoRecord;
 
-
+        //Constructor because we cannot access the dao of the repository direcly.
+        // (because here it's a class by itself)
         private DeleteRecordAsyncTask(DaoRecord daoRecord) {
             this.daoRecord = daoRecord;
-        } //Constructor because we cannot access the dao of the repository direcly.
-        // (because here it's a class by itself)
+        }
 
         @Override
         protected Void doInBackground(Record... records) {

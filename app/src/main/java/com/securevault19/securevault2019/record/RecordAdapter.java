@@ -51,18 +51,12 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
       holder.textViewTitle.setText(currentRecord.getTitle());
 
         try {
-            Log.d("holferTest","entered try");
-            Log.d("holferTest","key " + CRYPTO_KEY);
             holder.textViewTitle.setText(cryptography.decrypt(currentRecord.getTitle(),CRYPTO_KEY));
-            Log.d("holferTest","passed first decryption");
             holder.textViewRecord.setText(cryptography.decrypt(currentRecord.getUserName(),CRYPTO_KEY));
-            Log.d("holferTest","passed second decryption");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        Log.d("iconCheck",""+currentRecord.getIcon());
         String iconName = currentRecord.getIcon();
         int iconID = convertIconNameToID(iconName);
         holder.recordIcon.setImageResource(iconID);
@@ -75,7 +69,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
     }
 
     public void setRecords(List<Record> records) {
-        Log.d("type",""+ records);
         this.records = records;
         notifyDataSetChanged();
     }
@@ -97,9 +90,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
             textViewRecord = itemView.findViewById(R.id.record);
             recordIcon = itemView.findViewById(R.id.icon);
             textViewType = itemView.findViewById(R.id.typeOfRecord);
-
             this.onRecordListener = onRecordListener;
-
             itemView.setOnClickListener(this);
 
         }

@@ -187,7 +187,7 @@ public class SecurityLevel_Activity extends AppCompatActivity {
     public void chooseLevel(View view) {                // button onclick method
         mediaPlayer.start();
         saveBtn.startAnimation(animation3);
-        if (ORIGIN.equals("MainActivity")) {           // came from main activity
+        if (ORIGIN.equals("MainActivity")) {           // came from main activity (NewUser)
             returnAndFinish();
         } else if (ORIGIN.equals("MainScreen")) {     // came from menu -> change security level
             new changeSecurityLevelAsyncTask(securityLevel, CurrentUser.getInstance().getEmail()).execute();
@@ -204,7 +204,7 @@ public class SecurityLevel_Activity extends AppCompatActivity {
 
     }
 
-    public static class changeSecurityLevelAsyncTask extends AsyncTask<Void, Void, Void> { //experiment
+    public static class changeSecurityLevelAsyncTask extends AsyncTask<Void, Void, Void> {
         private String newSecurityLevel;
         private String currentUser;
 

@@ -7,7 +7,6 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,25 +27,19 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.room.Database;
-
 import com.securevault19.securevault2019.R;
 import com.securevault19.securevault2019.user.CurrentUser;
 import com.securevault19.securevault2019.user.User;
-
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import cryptography.Cryptography;
 import local_database.DatabaseClient;
 import view.explorer.PatternLockView_Activity;
 import view.preferences.SecurityLevel_Activity;
-import view_model.records.Record_ViewModel;
 import view_model.records.User_ViewModel;
 
 @SuppressLint("Registered")
@@ -150,10 +142,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         activityTitle.setTypeface(myFont);
 
 
-        //////////////// for testing only ///////////////////////
-//        email_EditText.setText("securevault2019@gmail.com");
-//        password_EditText.setText("111222333");
-        Log.d("profielUserTest", "origin " + ORIGIN);
+// if we came from the menu(Main Screen) and we are going to make update.
         if (ORIGIN.equals("MainScreen")) {
             email_EditText.setClickable(false);
             email_EditText.setFocusable(false);
@@ -190,32 +179,27 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         securityLevelBtn.setClickable(false);
         activityTitle.setText(getString(R.string.myProfile));
         CRYPTO_KEY = getIntent().getStringExtra("CRYPTO_KEY");
-        Log.d("profielUserTest", "CRYPTO_KEY -> " + CRYPTO_KEY);
         try {
-            Log.d("profielUserTest", "entered try ");
             email_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getEmail(), CRYPTO_KEY));
             userName_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getFirstName(), CRYPTO_KEY));
             lastName_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getLastName(), CRYPTO_KEY));
             password_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getMasterPassword(), CRYPTO_KEY));
             optionalQuestion_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getOptionalQuestion(), CRYPTO_KEY));
             optionalAnswer_EditText.setText(cryptography.decrypt(CurrentUser.getInstance().getOptionalAnswer(), CRYPTO_KEY));
-            Log.d("profielUserTest", "finished try ");
         } catch (Exception e) {
-            Log.d("profielUserTest", "entered catch ");
             e.printStackTrace();
         }
 
+        // the patterns dosent change if the user didn't touched it.
         try {
-            Log.d("returnedPattern1", "entered try ");
             returnedPattern = cryptography.decrypt(CurrentUser.getInstance().getPatternLock(), CRYPTO_KEY);
-            Log.d("returnedPattern1", "finished try ");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-
+// sets the icon of the secureLevel.
     public void setSecureLevelIcon() {
         String secureLevel = CurrentUser.getInstance().getSecureLevel();
         if (secureLevel.equals("1")) {
@@ -339,27 +323,27 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
         if (returnedPattern == null) {
             if (ORIGIN.equals("MainScreen")) {
                 try {
-                    Log.d("returnedPattern1", "entered try ");
+                    // verifying that the user wants to stay with his old pattern.
                     returnedPattern = cryptography.decrypt(CurrentUser.getInstance().getPatternLock(), CRYPTO_KEY);
-                    Log.d("returnedPattern1", "finished try ");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-            } else {// checking if the user entered Pattern
+            } else {
+                // checking if the user entered Pattern
                 // if not, make a Toast to remind him.
                 Toast.makeText(getApplicationContext(), "You must make Pattern!", Toast.LENGTH_SHORT).show();
                 Log.d("returnedPattern", "chosedPattern ");
             }
 
         } else {
+            // if the user didnt chose his secureLevel, the default will set it to 2.
             if (returnedSecurityLevel == null) {
                 if (ORIGIN.equals("MainScreen")) {
                     returnedSecurityLevel = CurrentUser.getInstance().getSecureLevel();
                 } else
                     returnedSecurityLevel = "2";
             }
-            Log.d("returnedSecurityLevel", returnedSecurityLevel);
             saveUserDetails(view);
         }
     }
@@ -370,11 +354,11 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
 
         try {
+            // encrypt al lthe data
             encryptedEmail = cryptography.encrypt(CRYPTO_KEY);
             encryptedPattern = cryptography.encryptWithKey(CRYPTO_KEY, returnedPattern);
             encryptedUserName = cryptography.encryptWithKey(CRYPTO_KEY, firstNameUser);
             encryptedPassword = cryptography.encryptWithKey(CRYPTO_KEY, masterPasswordUser);
-//          encryptedSecurityLevel = cryptography.encryptWithKey(CRYPTO_KEY, returnedSecurityLevel);      //  not encrypted
             encryptedLastName = cryptography.encryptWithKey(CRYPTO_KEY, lastNameUser);
             encryptedDateOfBirth = cryptography.encryptWithKey(CRYPTO_KEY, dateOfBirthUser);
             encryptedOptionalQuestion = cryptography.encryptWithKey(CRYPTO_KEY, optionalQuestionUser);
@@ -399,23 +383,20 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
                     user = new User(encryptedUserName, encryptedLastName, encryptedDateOfBirth, encryptedEmail, encryptedOptionalQuestion,
                             encryptedOptionalAnswer, encryptedPassword, returnedSecurityLevel, encryptedPattern);
                     if (ORIGIN.equals("MainScreen")) {
-                        Log.d("update1","before update1");
+                        // if we came from MainScrren, we probably want to update the users data.
                         viewModel.update(user);
-                        Log.d("update1","after update1");
                         CurrentUser.getInstance(user);
                         flag = 2;
                     } else
-                        try {  Log.d("enteredCatch", "enteredTRY123");
-                            //viewModel.insert(user);       // dosent go to catch if fails
+                        try {
+                            // useing the direct way to talk to the database, and not with viewModel.
+                            // even if the view model found same user, it igrore it.
                             DatabaseClient.getInstance(getApplicationContext()).getRecordDatabase2().daoUser().insert(user);
-                            Log.d("enteredCatch", "enteredTRY");
                             flag = 1;
                         } catch (Exception e) {
                             // if the email all ready exists, we will get Exception and flag will be  flag == 0;
-                            Log.d("enteredCatch", "enteredCatch");
                             e.printStackTrace();
                         }
-
                     return null;
                 }
 
@@ -443,7 +424,7 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
 
     }
 
-    // maybe need to delete the super
+
     // this func is getting value from other activities.
     // it get pattern from PatternLockActivity              ( requestCode 1 )
     // it get securityLevel from SecurityLevelActivity      ( requestCode 2 )
@@ -454,24 +435,19 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             if (resultCode == Activity.RESULT_OK) {
                 returnedPattern = returnedIntent.getStringExtra("PATTERN_LOCK");
                 findViewById(R.id.patternBtn).setBackground(getDrawable(R.drawable.pattern_icon_done));
-                Log.d("patternGotBack", "" + returnedPattern);
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Pattern not saved", Toast.LENGTH_SHORT).show();
-                Log.d("patternGotBack", "no pattern came back");
             }
-
         }
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK) {
                 returnedSecurityLevel = returnedIntent.getStringExtra("SECURITY_LEVEL");
-                //Toast.makeText(getApplicationContext(), "" + returnedSecurityLevel, Toast.LENGTH_SHORT).show();
                 if (returnedSecurityLevel == null) {
                     // didn't choose pattern!
                     returnedSecurityLevel = "2";
-                    Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
                 } else {
-                    Log.d("returnedSecurityLevel ", "" + returnedSecurityLevel);
+                    // setting the icon according to the selected secureLevel.
                     if (returnedSecurityLevel.equals("1")) {
                         findViewById(R.id.securityLevelBtn).setBackground(getDrawable(R.drawable.level1_logo));
                     } else if (returnedSecurityLevel.equals("2")) {
@@ -483,7 +459,6 @@ public class NewUser_Activity extends AppCompatActivity implements DatePickerDia
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(), "Security level not saved", Toast.LENGTH_SHORT).show();
-                Log.d("returnedSecurityLevel ", "no pattern returned");
             }
 
         }
