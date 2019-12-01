@@ -128,11 +128,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     Field[] allDrawablesfromRes_drawable = com.securevault19.securevault2019.R.drawable.class.getFields();
     ArrayList<Drawable> drawableResources = new ArrayList<>();
-    //ArrayList<Integer> drawableResourcesIDs = new ArrayList<>();
     int drawabaleID; //Default Icon(Secure Vault Black)
     String drawableName;
     int currentRecordDrawabaleID;
-    String currentRecordDrawableName;
+    Drawable currentRecordDrawable;
 
 
     @SuppressLint({"WrongViewCast", "RestrictedApi"})
@@ -243,17 +242,8 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         activityTitle.setTypeface(myFont);
 
 
-        //will be delivered to AsyncTask
-//        try { //DO NOT DELETE
-//            getDrawabalesFields();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
         //userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
         new getAllDrawablesResourcesAsyncTask().execute();
-
 
         //Getting all the EXTRAS from all the 'intent.puExtra()'s
         Bundle extras = getIntent().getExtras();
@@ -880,7 +870,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
     //Show or hide the password by clicking the eye icon
     public void showPass(View view) {
-        if (view == showPass || view == hidePass){
+        if (view == showPass || view == hidePass) {
 
 
             if (showPass.getVisibility() == View.VISIBLE) {
@@ -936,7 +926,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         userSecurityLevel = Integer.parseInt(CurrentUser.getInstance().getSecureLevel());
 //        Log.d("resultFromRecord","-> "+ "userSecurityLevel " + userSecurityLevel);
 //        Log.d("resultFromRecord","-> "+ "before if userSecureLevel > 2 ");
-        if(userSecurityLevel > 2) {         // currentUser is copy of user and not pointer
+        if (userSecurityLevel > 2) {         // currentUser is copy of user and not pointer
 //            Log.d("resultFromRecord","-> "+ "inside the if userSecureLevel > 2 ");
             intent.putExtra(EXTRA_ORIGIN, "AddNewRecord_Activity");
             intent.putExtra("CRYPTO_KEY", CRYPTO_KEY);
@@ -944,8 +934,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             startActivityForResult(intent, 3);
 //            Log.d("patternCheck1", "after startActivityForResult");
             //setEditMode(true);
-        }
-        else
+        } else
             setEditMode(true);
     }
 
@@ -1048,28 +1037,29 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
 
                 Log.d("icon", "found(.getConstantState()): " + drawables.getCurrent().getConstantState());
 
-                //get the needed drawable id
                 new getDrawableIDAsyncTask(drawables.getCurrent(), drawableResources).execute(); //Initializing 'drawableID' inside doInBackGround() method.
-
             }
 
         }
-
         mediaPlayer.start();
         listOfIcons.setVisibility(View.GONE);
     }
 
 
     public void addChooseIcon(View view) {  //Opens the option to choose icon & shows the current icon of the Record.
+        chooseIcon.setVisibility(View.VISIBLE);
+
+//        new getDrawableIDAsyncTask(currentRecordDrawable, drawableResources);
         try {
             drawableName = currentRecord.getIcon();
         } catch (Exception e) {
             e.printStackTrace();
         }
         Log.d("icon", "drawableName: " + drawableName);
+////        chooseIcon.setVisibility(View.VISIBLE);
         addChooseIconBtn.setVisibility(View.GONE);
 
-        chooseIcon.setVisibility(View.VISIBLE);
+
         try {
             Drawable drawable = getDrawable(currentRecordDrawabaleID);
             chooseIcon.setBackground(drawable);
@@ -1156,7 +1146,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                 if (field.getName().equals("logo_black")) {  //Initializing "logo_black" as default icon for a every Record
                     try {
                         drawabaleID = field.getInt(null);
-                        drawableName = field.getName();
+                        if(drawableName != null && drawableName.equals( "logo_black")) {
+                            drawableName = field.getName();
+                            Log.d("icon", "drawableName1 : " + drawableName);
+                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -1166,6 +1159,10 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                     if (field.getName().equals(currentRecord.getIcon())) {
                         try {
                             currentRecordDrawabaleID = field.getInt(null);
+                            currentRecordDrawable = getDrawable(currentRecordDrawabaleID);
+                            drawableName = field.getName();
+                            Log.d("icon", "currentRecordDrawable : " + currentRecordDrawable);
+                            Log.d("icon", "drawableName2 : " + drawableName);
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                         }
@@ -1174,6 +1171,13 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
             }
             return null;
         }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            chooseIcon.setBackground(currentRecordDrawable);
+//            chooseIcon.setVisibility(View.VISIBLE);
+//        }
     }
 
     public class getDrawableIDAsyncTask extends AsyncTask<Void, Void, String> {
@@ -1207,7 +1211,6 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
                         if ((currentDrawable.getConstantState().equals(d.getConstantState()))) {
                             Log.d("icon", "getName().....: " + field.getName());
                             drawableName = field.getName();
-
                         }
                     }
                 }
