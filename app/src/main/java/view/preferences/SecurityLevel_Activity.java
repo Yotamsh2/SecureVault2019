@@ -94,7 +94,12 @@ public class SecurityLevel_Activity extends AppCompatActivity {
 
         userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
-
+        TextView level1 = findViewById(R.id.level1_textView);
+        level1.setText("✘ Two steps authentication at entry via password and patternLock. \n ✘ Edit record must be verified by patternLock.");
+        TextView level2 = findViewById(R.id.level2_textView);
+        level2.setText("✔ Two steps authentication at entry via password and patternLock. \n ✘ Edit record must be verified by patternLock.");
+        TextView level3 = findViewById(R.id.level3_textView);
+        level3.setText("✔ Two steps authentication at entry via password and patternLock. \n ✔ Edit record must be verified by patternLock.");
     }
 
     public void back(View view) {
