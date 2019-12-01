@@ -112,4 +112,7 @@
     <string name="navigation_drawer_close">סגור תפריט</string>
     <string name="navigation_drawer_open">פתח תפריט</string>
     <string name="welcome">שלום</string>
+    <string name="secure_level_1">רמת אבטחה 1</string>
+    <string name="secure_level_2">רמת אבטחה 2</string>
+    <string name="secure_level_3">רמת אבטחה 3</string>
 </resources>

@@ -44,7 +44,7 @@
                 android:layout_marginTop="14dp"
                 android:layout_marginEnd="14dp"
                 android:background="@drawable/level2_logo"
-                android:onClick="openOptions" />
+                android:visibility="gone" />
         </RelativeLayout>
         <!--menu and search buttons-->
 
@@ -108,6 +108,15 @@
                     android:layout_height="100dp"
                     android:layout_marginStart="50dp"
                     android:background="@drawable/text_box_style"/>
+                <TextView
+                    android:id="@+id/level1_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="120dp"
+                    android:textColor="#fff"
+                    android:layout_centerVertical="true"
+                    android:text="@string/secure_level_1"
+                    />
                 <ImageView
                     android:id="@+id/level1_logo"
                     android:layout_width="100dp"
@@ -132,6 +141,16 @@
                     android:layout_height="100dp"
                     android:layout_marginStart="50dp"
                     android:background="@drawable/text_box_style"/>
+                <TextView
+                    android:id="@+id/level2_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="120dp"
+                    android:textColor="#fff"
+                    android:layout_centerVertical="true"
+                    android:text="@string/secure_level_2"
+                    />
+
                 <ImageView
                     android:id="@+id/level2_logo"
                     android:layout_width="100dp"
@@ -156,6 +175,15 @@
                     android:layout_height="100dp"
                     android:layout_marginStart="50dp"
                     android:background="@drawable/text_box_style"/>
+                <TextView
+                    android:id="@+id/level3_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="120dp"
+                    android:textColor="#fff"
+                    android:layout_centerVertical="true"
+                    android:text="@string/secure_level_3"
+                    />
                 <ImageView
                     android:id="@+id/level3_logo"
                     android:layout_width="100dp"

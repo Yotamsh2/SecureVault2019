@@ -97,17 +97,10 @@ public class SecurityLevel_Activity extends AppCompatActivity {
 
     }
 
-    public void openMenu(View view) {
-    }
-
-    public void openOptions(View view) {
-    }
-
     public void back(View view) {
         mediaPlayer.start();
         finish();
         Toast.makeText(SecurityLevel_Activity.this, "Not Saved", Toast.LENGTH_SHORT).show();
-
     }
 
     public void level_clicked(View view) {
