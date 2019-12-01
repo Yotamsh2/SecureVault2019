@@ -1,5 +1,6 @@
 package view.explorer;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -245,6 +246,7 @@ public class CategoryList_Activity extends AppCompatActivity {          // not r
 //        startActivityForResult(intent, ADD_RECORD_REQUEST);
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void search(View view) {                                             // on click method
         final Cryptography cryptography = new Cryptography();
         timer.cancel();
