@@ -1,11 +1,9 @@
 package com.securevault19.securevault2019.record;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 
 @Entity(tableName = "record_table")
@@ -14,16 +12,15 @@ public class Record implements Serializable {
     @PrimaryKey(autoGenerate = true)
     public int recordID;
 
-
     public String userTable;
     public String title = null;
     public String type = null;
-    public String dateCreated = null; //create dateCreated class and make a toString method.
-    public String lastModified = null; //create lastModified class and make a toString method.
+    public String dateCreated = null;
+    public String lastModified = null;
     public String password = null;
     public String email = null;
     public String website = null;
-    public String expiringDate = null; //addition to the class diagram
+    public String expiringDate = null;
     private String userName;
     private String accountNumber;
     private String IBAN;
@@ -38,27 +35,22 @@ public class Record implements Serializable {
     private String privateKey;
     private String walletGenerationSeed;
     private String licenceNumber;
-    private String serviceName; //email
+    private String serviceName;                 //email
     private String passportNumber;
     private String issuanceDate;
-    //to add expiring date
     private String issuancePlace;
-    private String secret_question;         // not in use at the record Activity... //
+    private String secret_question;
     private String note;
     private String expitingDateNote;
     private String tagsNote;
-    //    private String note;
     private String folder; //folder = category
     private boolean favorite;
 
     private String icon;
 
-
-
     public void setUserTable(String userTable) {
         this.userTable = userTable;
     }
-
 
     public void setIcon(String icon) {
         this.icon = icon;

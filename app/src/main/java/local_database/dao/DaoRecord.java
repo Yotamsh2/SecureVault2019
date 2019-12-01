@@ -34,7 +34,9 @@ public interface DaoRecord {
     LiveData<List<Record>> getSearchRecords(String searchString,String userEmail);
     @Query("SELECT * FROM record_table WHERE favorite LIKE '1' AND userTable =:userEmail")
     LiveData<List<Record>> getFavoritesRecords(String userEmail);
-    // dont think we need to add the userEmail here, because its drawing according to the record position in the List. so there is no way for errors and mixing with other users.
+    // the drawing happened with the help of the record position in the List.
+    // so we dont need to make sure which user is calling it.
+    // with the help of the record list, there is no way for one user see the other user's data.
     @Query("SELECT * FROM record_table WHERE recordID =:recordID")
     Record getRecordDetails(int recordID);
 

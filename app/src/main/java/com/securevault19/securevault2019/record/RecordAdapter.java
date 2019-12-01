@@ -7,12 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.securevault19.securevault2019.R;
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,8 +79,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.RecordHold
         this.records = records;
         notifyDataSetChanged();
     }
-
-
 
 
     class RecordHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

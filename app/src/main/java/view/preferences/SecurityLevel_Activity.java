@@ -94,12 +94,28 @@ public class SecurityLevel_Activity extends AppCompatActivity {
 
         userViewModel = ViewModelProviders.of(this).get(User_ViewModel.class);
 
+
+        // coloring the selected secure Level that was chosen by the user at the beginning
+        if (ORIGIN.equals("MainScreen")) {
+            String selectedLevel = CurrentUser.getInstance().getSecureLevel();
+            if (selectedLevel.equals("1")) {
+                level_clicked(level1);
+            } else if (selectedLevel.equals("2")) {
+                level_clicked(level2);
+            } else if (selectedLevel.equals("3")) {
+                level_clicked(level3);
+            } else {
+                // something went wrong
+            }
+        }
+
         TextView level1 = findViewById(R.id.level1_textView);
         level1.setText("✘ Two steps authentication at entry via password and patternLock. \n ✘ Edit record must be verified by patternLock.");
         TextView level2 = findViewById(R.id.level2_textView);
         level2.setText("✔ Two steps authentication at entry via password and patternLock. \n ✘ Edit record must be verified by patternLock.");
         TextView level3 = findViewById(R.id.level3_textView);
         level3.setText("✔ Two steps authentication at entry via password and patternLock. \n ✔ Edit record must be verified by patternLock.");
+
     }
 
     public void back(View view) {
@@ -165,26 +181,7 @@ public class SecurityLevel_Activity extends AppCompatActivity {
             securityLevel = "3";
 
         }
-//        if (view == level1){
-//            if (level1_logo.getDrawable() != level1_chosen){
-//                level1_logo.setImageResource(R.drawable.level1_logo_chosen);
-//                box_level1.setBackground(boxChosenStyle);
-//            }
-//            else{
-//                level1_logo.setImageResource(R.drawable.level1_logo);
-//                box_level1.setBackground(boxStyle);
-//                Toast.makeText(SecurityLevel_Activity.this, "Not Chosen", Toast.LENGTH_SHORT).show();
-//
-//            }
-//        }
-//        if (view == level2){
-//            if (level2_logo.getDrawable() != level2_chosen){
-//                level2_logo.setImageResource(R.drawable.level2_logo_chosen);
-//            }
-//            else{
-//                level2_logo.setImageResource(R.drawable.level2_logo);
-//            }
-//        }
+
     }
 
     public void chooseLevel(View view) {                // button onclick method

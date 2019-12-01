@@ -2,18 +2,16 @@ package com.securevault19.securevault2019.user;
 
 import android.util.Log;
 
+
+
+
+// this class in holding a copy of the Current User that using the app.
 public class CurrentUser {
-    public static String currentUserr;
     public static int secureLevel;
-
     private static CurrentUser currentUser = null;
-
     private static User user = null ;
 
     private CurrentUser(User user) {
-        //this.currentUserr = email;             // id of user
-        //Log.d("userr", "CurrentUser class:  "+currentUserr);
-
         this.user = user;
         secureLevel = Integer.parseInt(user.getSecureLevel());
         Log.d("CurrentUserTest","entered c'tor");

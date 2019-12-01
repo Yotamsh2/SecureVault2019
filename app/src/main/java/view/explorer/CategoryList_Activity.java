@@ -104,7 +104,7 @@ public class CategoryList_Activity extends AppCompatActivity {          // not r
         search_layout = findViewById(R.id.search_layout);
         search_btn = findViewById(R.id.search_btn);
         search_bar = findViewById(R.id.search_bar);
-        search_icon = findViewById(R.id.search_icon);
+       // search_icon = findViewById(R.id.search_icon);
         activityTitle = findViewById(R.id.activityTitle);
         clearSearch = findViewById(R.id.clearSearch);
 

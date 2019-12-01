@@ -1,10 +1,8 @@
 package local_database.dao;
 
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Ignore;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
