@@ -144,7 +144,7 @@ public class AddNewRecord_Activity extends AppCompatActivity implements DatePick
         Intent i = getIntent();
         currentRecord = (Record) i.getSerializableExtra("recordClassDB");
 
-
+        drawableName = "logo_black";
         viewModel = ViewModelProviders.of(this).get(Record_ViewModel.class);
         progressBar = findViewById(R.id.progressBar);
         listOfIcons = findViewById(R.id.listOfIcons);
